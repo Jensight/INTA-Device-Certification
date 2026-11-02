@@ -1,0 +1,11 @@
+<div *ngIf="serverDown" class="server-down-overlay">
+    <div class="server-down-loader">
+        <mat-spinner diameter="60"></mat-spinner>
+        <div class="server-down-message">
+            INTAF NodeJS Backend Server is not reachable, Please Contact your Admin.
+        </div>
+    </div>
+</div>
+<router-outlet></router-outlet>
+<ngx-spinner size="medium" color="#fff" type="ball-spin-clockwise" [fullScreen]="true"
+    [showSpinner]="loading"></ngx-spinner>
