@@ -1,0 +1,46 @@
+<div class="row">
+    <nav  class="col-md-5" aria-label="breadcrumb">
+   <ol class="breadcrumb" style="background-color:#fafafa; padding-top:0px;">
+     <li class="breadcrumb-item"><a href="#/pages/dashboard" style="color:red;text-decoration: none;font-size: medium;">Dashboard</a></li>
+     <li class="breadcrumb-item"><a href="#/pages/api-inventory/group" style="color:red;text-decoration: none;font-size: medium;">API Inventory</a></li>
+     <li class="breadcrumb-item active" style="color:rgba(0, 0, 0, 0.87);text-decoration: none;font-size: medium;">Add APIGroup</li>
+   </ol>
+ </nav>
+ </div>
+<app-title-display  ></app-title-display>
+<div class="card col-md-6 offset-md-3 text-center" style="border-radius: 4%">
+        <h3>
+            Add APIGroup
+        </h3>
+<div class="col-md-8 offset-md-2" style="margin-bottom: 20px">
+<form [formGroup]="apiGroupForm">
+
+            <mat-form-field  class=" col-md-12"  style="margin-bottom: 20px">
+                <mat-label>Enter API Group Name</mat-label>
+                <input matInput (change)="apiGroupNameValidate()" formControlName="name" required>
+                <mat-error *ngIf="apiGroupForm.get('name').hasError('required')">Api Group Name is Required</mat-error>
+                <mat-error *ngIf="apiGroupForm.get('name').hasError('duplicateName')">Api Group Already Registered</mat-error>
+            </mat-form-field>
+
+
+            <mat-form-field class=" col-md-12"  style="margin-bottom: 20px">
+                <mat-label>Enter Primary URL</mat-label>
+                <input matInput formControlName="primaryURL" required>
+                <mat-error *ngIf="apiGroupForm.get('primaryURL').hasError('required')">Primary URL is Required</mat-error>
+            </mat-form-field>
+
+            <mat-form-field class=" col-md-12"  style="margin-bottom: 20px">
+                <mat-label>Enter Secondary URL</mat-label>
+                <input matInput formControlName="secondaryURL" required>
+                <mat-error *ngIf="apiGroupForm.get('secondaryURL').hasError('required')">Secondary URL is Required</mat-error>
+            </mat-form-field>
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <button (click)="addAPIGroup()" [disabled]="apiGroupForm.invalid" class="ibutton" style="margin-right: 15px;">Add API Group</button>
+                    <button  routerLink="../" class="ibutton" style="height: 32px; width:70px">Cancel</button>
+                </div>
+            </div>
+
+</form>
+</div>
+</div>

@@ -1,0 +1,56 @@
+h3 {
+    margin: 20px;
+    font-size: 1.25rem !important;
+    font-family: Roboto, sans-serif !important;
+    font-weight: 500 !important;
+    line-height: 1.5rem !important;
+}
+
+.example-section {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    height: 60px;
+  }
+
+  .example-margin {
+    margin: 0 10px;
+  }
+
+::ng-deep .wide-dropdown-panel {
+  max-height: 250px !important;
+  overflow-x: auto !important;
+  overflow-y: auto !important;
+  width: max-content !important;
+  min-width: 300px !important;
+  max-width: 90vw !important;
+
+  &.mat-mdc-select-panel {
+    max-width: unset !important;
+  }
+
+  .mat-option,
+  .mat-mdc-option {
+    white-space: nowrap !important;
+    overflow: visible !important;
+    text-overflow: unset !important;
+    width: auto !important;
+    min-width: 100% !important;
+    height: auto !important;
+    min-height: 42px !important;
+    padding-top: 6px !important;
+    padding-bottom: 6px !important;
+  }
+
+  .mdc-list-item__primary-text {
+    white-space: nowrap !important;
+    overflow: visible !important;
+    text-overflow: unset !important;
+  }
+}
+
+::ng-deep .cdk-overlay-pane:has(.wide-dropdown-panel) {
+  min-width: max-content !important;
+  max-width: 90vw !important;
+  margin-top: -300px !important;
+}

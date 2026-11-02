@@ -1,0 +1,137 @@
+<div class="row">
+  <nav  class="col-md-5" aria-label="breadcrumb">
+ <ol class="breadcrumb" style="background-color:#fafafa; padding-top:0px;">
+   <li class="breadcrumb-item"><a href="#/pages/dashboard" style="color:red;text-decoration: none;font-size: medium;">Dashboard</a></li>
+   <li class="breadcrumb-item active" style="color:rgba(0, 0, 0, 0.87);text-decoration: none;font-size: medium;">About Us</li>
+ </ol>
+</nav>
+<app-title-display style="margin-top:12px;" titleName="About Us"></app-title-display></div>
+
+
+<div>
+  <div class="container">
+    <!--<div class="jumbotron">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="thumbnai polaride">
+            <img class="img-fluid" src="../../../assets/images/img2.jpeg"
+              style="float: left; border-radius: 100%; padding-right: 30px ;padding-left: 30px" alt="INFOSYS"
+              width="500" height="200">
+
+            <h1 style="text-align: right;padding-right: 50px;padding-top: 15px;padding-bottom: 15px; color:#11ad8a;"
+              class="display-6;">Ziggo Automation Framework</h1>
+            <div class="font-weight-normal" align="justify" style="line-height: 1.6;font-size: 15px !important" id="a">
+              &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; This Project is envisioned as Ziggo application that integrates with
+              cloud based automation
+              framework for network testing covering Voice, Data, voicemail, QoS, IP, UI, Trunking, UC, API
+              load and CPE interfaces. This Modular scalable architecture can be customized for new team,technology
+              and make it ready to use in short time interval by leveraging existing reusable components and
+              it's easy to integrate with existing 3rd party tools frameworksIt has user friendly Web UI with
+              LDAP authentication, NoSQL DB, testcase development via UI.
+            </div>
+            <div class="font-weight-normal" align="justify" style="line-height: 1.6;font-size: 15px !important" id="a">
+              &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;Integration with hardware test controllers like GL MAPS/Vquad,
+              Spectra, Rasberry Pi,
+              empirix, ixNetwork, ixChariot, ixVeriwave, Octoscope and network elements like IMS core, Broadsoft,
+              Voicemail, policy server, BACC, CMTS, R-Phy, IADs, SBC, IP-Phones, Smartphones etc is possible.
+              It is used to run, schedule test cases and update execution status in HP-ALM, send email report
+              and it is integreated with JIRA for test management. Json based interface used to CICD tools
+              for end to end text execution triggering and reporting.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr>
+    <div class="jumbotron" style="padding:2rem 2rem">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="thumbnai polaride">
+
+            <img class="img-fluid" src="../../../assets/images/img4.png" style="float: right;" alt="INFOSYS" 
+            width="400"
+              height="200" id="b">
+
+            <div class="font-weight-normal" align="justify"
+              style="padding-top:5%; line-height: 1.6;font-size: 15px !important">
+              &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;Infosys CPE test automation platform designed to scale across domains (Cable, Fiber, Voice, IMS, video, IOT, SDN, 5G, Web Apps, mobile Apps), technology (Java, TCL/Tk, Python, cloud containers, MEAN stack) and can automate various network devices at different lifecycle phases (Pre certification, Dev-ops, certification and production) of product / service and be integrated with multiple test drivers.  This platform takes care of the entire product/ service test life cycle such as configuration management, inventory, test script development, resource reservation, test scheduling, reporting and statistical analysis of test results.  This solution orchestrates the needs of testing allowing integration of required tools used in the process and provides required insight into real time updates on the ongoing testing encompassing lab management activities. Additionally, reporting being an important aspect, is part of the framework enabling access to live report and data which is also accessible from 3rd party tools.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr>-->
+    <div class="container">
+      <div class="jumbotron" style="padding:2rem 2rem" *ngFor="let co of aboutContent">
+        <div class="container-fluid" >
+          <div class="row">
+            <div class="thumbnai polaride">
+              <img *ngIf="co.image" class="img-fluid" [src]="co.image"
+                style="float: left; border-radius: 100%; padding-right: 30px ;padding-left: 30px" alt="INFOSYS"
+                width="400" height="200">
+              <div class="font-weight-normal" align="justify" style="line-height: 1.6;font-size: 15px !important" id="a">
+                <h4 *ngIf="co.title" style="text-align: right;padding-right: 50px;padding-top: 15px;padding-bottom: 15px; color:#11ad8a;"
+                class="display-6;">{{co.title}}</h4>
+                &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; {{co.description}}
+                <ul *ngIf="co.points && co.points.length">
+                  <li *ngFor="let bp of co.points">{{bp}}</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr>
+    </div>
+    <div style="height: 200px;" class="jumbotron">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="Footer-contacts col-sm-4">
+            Let’s talk.
+          </div>
+          <div class="col-sm-4" *ngFor="let contact of aboutContact">
+            <div style=" color:black;position:absoulte" >
+              <div class="row">
+                <h4 style="-webkit-text-fill-color: black; font-size: 20px">{{contact.contactName}}</h4>
+              </div>
+              <div class="top" style="font-size: 16px">
+                <a class="link hover-shadow hover-color" style="-webkit-text-fill-color: black"
+                  href="mailto:{{contact.contactEmail}}">
+                  <span>&#9993;{{contact.contactEmail}}</span>
+                </a>
+              </div>
+            </div>
+          </div>
+          <!--<div class="col-sm-3">
+            <div style="height:100px; color:black;position:absoulte">
+              <div class="row">
+                <h4 style="-webkit-text-fill-color: black">Basavaraj</h4>
+              </div>
+              <div class="top" style="font-size: 20px">
+                <a class="link hover-shadow hover-color" style="-webkit-text-fill-color: black"
+                  href="mailto:basu_vs@infosys.com">
+                  <span>&#9993;basu_vs@infosys.com</span>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-5">
+            <div style="height:100px; color:black;position:absoulte">
+              <div class="row">
+                <h4 style="-webkit-text-fill-color: black">Karthikeyan</h4>
+              </div>
+              <div style="font-size: 20px">
+                <a class="link hover-shadow hover-color" style="-webkit-text-fill-color: black"
+                  href="mailto:karthikeyan_e01@infosys.com">
+                  <span>&#9993; karthikeyan_e01@infosys.com</span>
+                </a>
+              </div>
+            </div>
+          </div>-->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

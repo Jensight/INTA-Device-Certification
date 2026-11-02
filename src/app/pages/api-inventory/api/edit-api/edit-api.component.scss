@@ -1,0 +1,149 @@
+#border {
+    padding: 0px;
+    border-radius: 6px;
+    border-style: solid;
+    border-color: #98979b;
+    min-height: 220px;
+    border-width: 1px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+}
+
+.header {
+    padding: 10px;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-top: 0px;
+    background-color: #b3d2ff;
+    border-radius: 4px;
+    color: black;
+}
+
+.divBody {
+    max-height: 265px;
+    min-height: 265px;
+    overflow-y: AUTO;
+    font-size: 11px;
+}
+.divBody1 {
+    max-height: 215px;
+    min-height: 215px;
+    overflow-y: AUTO;
+    font-size: 11px;
+}
+
+#profileName {
+    margin-top: 5px;
+    min-height: 30px;
+    line-height: 30px;
+    padding-left: 0px;
+    padding-right: 0px;
+    margin-left: 7px;
+    margin-right: 7px;
+    border-radius: 5px;
+    min-width: 92%;
+    display: block;
+}
+
+#overlay{
+    position: absolute;
+    margin-bottom: 79px;
+    margin-left: 0px;
+    width: 167%;
+    height: 100%;
+    z-index: 10;
+    opacity: 5;
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.profileEven {
+    text-align: center;
+    margin-top: 5px;
+    min-height: 30px;
+    // min-width: 95%;
+    line-height: 30px;
+    padding-left: 0px;
+    padding-right: 0px;
+    margin-left: 7px;
+    margin-right: 7px;
+    border-radius: 5px;
+    overflow: hidden;
+    border: 1px solid #98979b;
+    cursor: pointer;
+}
+
+.profileInvalid {
+    text-align: center;
+    margin-top: 5px;
+    min-height: 30px;
+    background-color: #a9a9a9;
+    width: 92%;
+    line-height: 30px;
+    padding-left: 0px;
+    padding-right: 0px;
+    margin-left: 7px;
+    margin-right: 7px;
+    border-radius: 5px;
+}
+
+.mat-list-icon {
+    color: rgba(0, 0, 0, 0.54);
+}
+
+.live__scroll {
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+}
+
+.live__scroll .row {
+    display: block;
+}
+
+.live__scroll .live__scroll--box {
+    display: inline-block;
+    float: none;
+}
+
+.backgroundOnSelect {
+    border-color: #9bef9b;
+    border-width: 2px;
+}
+
+h3 {
+    font-size: 1.25rem !important;
+    font-family: Roboto, sans-serif !important;
+    font-weight: 500 !important;
+    line-height: 1.5rem !important;
+}
+
+::ng-deep .mat-form-field > .mat-form-field-wrapper > .mat-form-field-flex > .mat-form-field-infix > 
+.mat-form-field-label-wrapper > .mat-form-field-label { 
+    font-size: 15px;
+    padding-bottom: 14px;
+    margin-bottom: 5px;
+ }
+
+ div {
+
+    ::-webkit-scrollbar {
+   
+       width: 8px !important;
+       height: 8px !important;
+     }
+   
+    ::-webkit-scrollbar-track {
+   
+       background: #dfdddd !important;
+   
+     }
+   
+     ::-webkit-scrollbar-thumb {
+   
+       background: #888787 !important;
+   
+       border-radius: 10px;
+   
+     }
+   
+   }

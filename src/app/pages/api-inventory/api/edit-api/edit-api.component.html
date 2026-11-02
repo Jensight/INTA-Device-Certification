@@ -1,0 +1,194 @@
+<div class="row">
+    <nav  class="col-md-5" aria-label="breadcrumb">
+   <ol class="breadcrumb" style="background-color:#fafafa; padding-top:0px;">
+     <li class="breadcrumb-item"><a href="#/pages/dashboard" style="color:red;text-decoration: none;font-size: medium;">Dashboard</a></li>
+     <li class="breadcrumb-item"><a href="#/pages/api-inventory/api" style="color:red;text-decoration: none;font-size: medium;">API Inventory</a></li>
+     <li class="breadcrumb-item active" style="color:rgba(0, 0, 0, 0.87);text-decoration: none;font-size: medium;">Edit API</li>
+   </ol>
+ </nav>
+<app-title-display style="margin-top:12px;" titleName="Edit API"></app-title-display></div>
+<div class="row text-center">
+    <!-- <div class="col-md-12 text-center" style="margin-bottom: 10px">
+        <h3>Edit API</h3>
+    </div> -->
+
+</div>
+
+<div class="row">
+    <form [formGroup]="apiForm" class="col-md-12" style="padding-right:0px">
+        <div class="card" style="text-align: center;margin-bottom:5px">
+            <div class="row">
+                <div class="col-md-4" style="padding:5px ">
+                    <mat-form-field style="padding: 5px;width: 250px;">
+                        <mat-label>API Group</mat-label>
+                        <mat-select formControlName="apiGroupId">
+                            <mat-option *ngFor="let apiGroup of allAPIGroup" [value]="apiGroup['_id']">
+                                {{apiGroup.name }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4" style="padding:5px ">
+                    <mat-form-field style="padding: 5px;width: 250px;">
+                        <!-- <input (keyup)="validateapiname()" formControlName="apiName" matInput placeholder="API Name">
+                        <mat-error *ngIf="apiForm.get('apiName').hasError('required')">
+                            Please Enter a Api Name
+                        </mat-error>
+                        <mat-error *ngIf="apiForm.get('apiName').hasError('unique')">
+                            API name Not Available. Try a different one.
+                        </mat-error> -->
+                        <mat-label>API Name</mat-label>
+                        <input formControlName="apiName" matInput (keyUp)="apiNameValidate()">
+                        <mat-error *ngIf="apiForm.get('apiName').hasError('duplicateName')">Api Name Already Exists</mat-error>
+                        <mat-error *ngIf="apiForm.get('apiName').hasError('required')">
+                            Please Enter a Api Name
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-2" style="padding:5px ">
+                    <mat-form-field style="padding: 5px;width: 100px;">
+                        <mat-label>Nodes Required</mat-label>
+                        <mat-select formControlName="nodesRequired">
+                            <mat-option  [value]="true">Yes</mat-option>
+                            <mat-option  [value]="false">No</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-2" style="padding:5px ">
+                    <mat-form-field style="padding: 5px;width: 115px;">
+                        <mat-label>API Time Out (mins)</mat-label>
+                        <input matInput type="number"  formControlName="apiTimeOut"
+                        [disabled] = "timeOutFlag" >
+                    </mat-form-field>
+                    <span ><i class="fa fa-pencil" style="font-size: 30px;" title="edit" (click) = "editTimeOut()"></i></span>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<div cdkDropListGroup class="row" style="margin-right:-30px">
+
+    <div class="col-md-5" style="padding-right: 0px;">
+        <div class="card" style="padding-top:13px; padding-bottom:13px; margin-bottom:0px">
+            <h3 class="text-center">Network Elements</h3>
+            <div class="row">
+                
+                <div class="col-md-6" style="padding-right:0px">
+                    <div id="border" style="margin-right:5px; height: 330px;">
+                        <div class="row header">
+                            <div class="col-md-11 text-center">Elements</div>
+                        </div>
+                        <div class="divBody">
+                            <div [ngClass]="selectedNodeIndex === i? 'backgroundOnSelect': ''" style="cursor:pointer" *ngFor="let item of allNodes; let i = index"
+                                (click)="getArgumentsOfSelectedNode(item,i)" class="profileEven" 
+                                [matTooltip]="item.nodeName">
+                                <div *ngIf="item.elementType===false else normalVal" style="font-weight: bold;">
+                                    {{item.nodeName | limitTo : 20}}
+                                </div>
+                                <ng-template #normalVal>
+                                    <div> {{item.nodeName | limitTo : 20}}</div>
+                                </ng-template>
+                            </div>
+                           
+<!--                            
+                                <div [ngClass]="selectedNodeIndex === -1? 'backgroundOnSelect': ''" style="cursor:pointer" (click)="loadGlobalVariables()"
+                                class="profileEven">Global</div> -->
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-md-6" style="padding-left:0px">
+                    <div id="border" style="height: 330px; width:205px;" cdkDropList (cdkDropListDropped)="removeVariableFromArguments($event)" [cdkDropListData]="selectedArguments">
+                        <div class="row header">
+                            <div class="col-md-11 text-center">Arguments</div>
+                        </div>
+                        <div *ngIf="selectedArguments.length>0" class="divBody">
+                            <div cdkDrag [cdkDragData]="item" *ngFor="let item of selectedArguments; let i = index" class="profileEven" style="cursor: all-scroll;">
+                                <div [matTooltip]="item.name">{{item.name | limitTo : 20}}</div>
+                            </div>
+                        </div>
+                        <div *ngIf="selectedArguments.length<1 && selectedNodeIndex === -1" class="divBody">
+                            <div cdkDrag [cdkDragData]="item" *ngFor="let item of testbedVariables; let i = index" class="profileEven"  >
+                                <div [matTooltip]="item.variableName">{{item.variableName | limitTo : 20}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-7" style="font-size: 8px;">
+            <div *ngIf="!TestCase" id="overlay"></div>
+        <form [formGroup]="apiForm" style="padding-left: 0px;padding-right: 0px;">
+            <div class="card" formArrayName="arguments" style=" margin-bottom:0px;">
+                
+                <div class="row" style="padding: 16px 0px 0px;">
+                    <div class="col-lg-8" >
+                        <h3 class="text-center" >API Argument(s)</h3>
+                        
+                    </div>
+                    <div class="col-lg-4" >
+                        <button (click)="addNewArgument()" class="ibutton"> + Add Argument </button>
+                    </div>
+                </div>
+                
+                <div class="live__scroll">
+                    <div class="row text-center">
+                        <div class="col-md-4 live__scroll--box" *ngFor="let arguments of apiForm.get('arguments')['controls']; let i = index">
+                            <div [formGroupName]="i">
+                                <mat-form-field style="padding:5px;width: 90%;padding-bottom: 10px;">
+                                    <mat-label>Argument{{i+1}} Label</mat-label>
+                                    <input formControlName="argumentName" style="font-size: 15px; padding-top: 10px;" matInput>
+                                    <mat-error *ngIf="arguments.get('argumentName').hasError('duplicateLabelName')">Label Name Should be unique</mat-error>
+                                </mat-form-field>
+                                <div *ngIf="apiForm.get('arguments')['controls']['length'] >1" style="width: 100%; text-align:right">
+                                    <span (click)="deleteArgument(i)" style="cursor: pointer;margin-top: -20px;" class="close" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </span>
+                                </div>
+                                <div  id="border" style="margin-right:5px; box-shadow: 1px 1px 10px 0 grey !important;">
+                                    <div class="row header">
+                                        <div class="col-md-11 text-center" style="font-size: 15px;">Values</div>
+                                    </div>
+                                    <div class="divBody1" cdkDropList (cdkDropListDropped)="addVaribaleToArguments($event,i)" [cdkDropListData]="arguments.get('argumentValue')['controls']">
+                                        <div cdkDrag [cdkDragData]="{indexI:i, indexJ:j}" *ngFor="let item of arguments.get('argumentValue')['controls']; let j = index"
+                                            class="profileEven">
+                                            <span *ngIf="!item.value.startsWith('MODEL') && !item.value.startsWith('ELEMENT')" [matTooltip]="((item.value.split(':')[0]|nameFromId:allNodes:'_id':'nodeName')+':'+(item.value.split(':')[1]|nameFromId:testbedVariables:'_id':'variableName'))">
+                                            {{((item.value.split(':')[0]|nameFromId:allNodes:'_id':'nodeName')+':'+(item.value.split(':')[1]|nameFromId:testbedVariables:'_id':'variableName'))|limitTo:"20"}}
+                                            </span>
+                                            <span *ngIf="item.value.startsWith('MODEL')" [matTooltip]="((((item.value.split(':')[0]).split('-')[1])|nameFromId:allNodes:'_id':'nodeName')+':'+(item.value.split(':')[1]|nameFromId:allVariables:'_id':'variableName'))">
+                                                {{('MODEL:'+ (item.value.split(':')[1]|nameFromId:allVariables:'_id':'variableName'))|limitTo:"20"}}
+                                            </span>
+                                            <span *ngIf="item.value.startsWith('ELEMENT')" [matTooltip]="((item.value.split(':')[1]|nameFromId:allNodes:'_id':'nodeName'))">
+                                             {{('ELEMENT:'+ (item.value.split(':')[1]|nameFromId:allNodes:'_id':'nodeName'))|limitTo:"20"}}
+                                             </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div style="margin-top: -550px;vertical-align: middle;" class="col-md-4 live__scroll--box">
+                            <button (click)="addNewArgument()"  nbButton status="info" size="tiny">Add Argument </button>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </form>
+
+
+    </div>
+    
+
+</div>
+
+<div class="row">
+    <div style="padding:10px;   " class="col-md-12 text-center">
+        <button  class="ibutton" style="margin-right:15px" [disabled]="apiForm.invalid" (click)="updateAPI()" >Update API</button>
+        <button routerLink="../" class="ibutton" style="height: 32px; width:70px">Cancel</button>
+    </div>
+</div>

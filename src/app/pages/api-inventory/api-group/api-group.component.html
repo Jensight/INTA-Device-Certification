@@ -1,0 +1,9 @@
+<div class="d-flex justify-content-end align-items-center mt-2 mr-3">
+    <button (click)="refresh()" title="Refresh API Status" class="ibutton" style="margin-right: 15px; height: 27px; width: 35px;"><i class="fa fa-refresh fa-lg"></i></button>
+    <button (click)="addGroup()" class="ibutton" [disabled]="permissionDenied" style="height: 27px; width: 100px;" > Add Group</button>
+</div>
+<div class="">
+    <div class="" style="padding:10px 15px 15px 15px;">
+        <angular2-smart-table (delete)="deleteGroupConfirmation($event)" (click)="setSortData()" (edit)="editAPIGroup($event)" [source]="source" [settings]="settings"></angular2-smart-table>
+    </div>
+</div>
