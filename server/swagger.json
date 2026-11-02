@@ -1,0 +1,14 @@
+{
+  "swaggerDefinition": {
+    "info": {
+      "version": "1.0.0",
+      "title": "Infosys CPE Automation Framework",
+      "description": "Framework API Informations",
+      "contact": {
+        "name": "Infosys "
+      },
+      "servers": ["http://localhost:4000"]
+    }
+  },
+  "apis": ["./swagger/*.js"]
+}
