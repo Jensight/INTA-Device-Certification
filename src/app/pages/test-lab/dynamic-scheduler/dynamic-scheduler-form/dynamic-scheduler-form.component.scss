@@ -1,0 +1,321 @@
+@import '../../../../../themes.scss';
+
+.header {
+    padding: 10px;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-top: 0px;
+    background-color: #ebebeb !important;
+    border-radius: 4px;
+    color: black;
+}
+
+#border {
+    padding: 0px;
+    border-radius: 6px;
+    min-height: 300px;
+    margin-bottom: 10px;
+}
+
+.overFlowDiv {
+    min-height: 180px;
+    max-height: 180px;
+    overflow-y: auto;
+}
+
+.divBody {
+    max-height: 350px;
+    min-height: 350px;
+    overflow-y: auto;
+}
+
+#profileName {
+    margin-top: 5px;
+    min-height: 30px;
+    line-height: 30px;
+    padding-left: 0px;
+    padding-right: 0px;
+    margin-left: 7px;
+    margin-right: 7px;
+    border-radius: 5px;
+    min-width: 92%;
+    display: block;
+}
+
+.profileEven {
+    text-align: center;
+    margin-top: 5px;
+    min-height: 30px;
+    width: 98%;
+    line-height: 30px;
+    padding-left: 0px;
+    padding-right: 0px;
+    margin-left: 7px;
+    margin-right: 7px;
+    border-radius: 5px;
+}
+
+.profileInvalid {
+    text-align: center;
+    margin-top: 5px;
+    min-height: 30px;
+    background-color: #a9a9a9;
+    width: 92%;
+    line-height: 30px;
+    padding-left: 0px;
+    padding-right: 0px;
+    margin-left: 7px;
+    margin-right: 7px;
+    border-radius: 5px;
+}
+
+.ne-btn-success {
+    background-color: #f4ffeb !important;
+    border: 1px solid #60af20 !important;
+    color: #60af20 !important;
+    height: 30px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    font-weight: bolder;
+    cursor: pointer;
+}
+
+.ne-btn-danger {
+    background-color: #fceeee !important;
+    border: 1px solid #ef0000 !important;
+    color: #ef0000 !important;
+    height: 30px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    font-weight: bolder;
+    cursor: pointer;
+}
+
+.ne-btn-primary {
+    background-color: #e8f4fd !important;
+    border: 1px solid #0495ee !important;
+    color: #0495ee !important;
+    height: 30px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    font-weight: bolder;
+    cursor: pointer;
+}
+
+.ne-btn-warning {
+    background-color: #fff0d7 !important;
+    border: 1px solid #ff9f05 !important;
+    color: #ff9f05 !important;
+    height: 30px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    font-weight: bolder;
+    cursor: pointer;
+}
+
+.ne-btn-info {
+    background-color: #fff0d7 !important;
+    border: 1px solid #ff9f05 !important;
+    color: #ff9f05 !important;
+    height: 30px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    font-weight: bolder;
+    cursor: pointer;
+}
+
+:host ::ng-deep .mat-checkbox-inner-container {
+    width: 15px;
+    height: 15px;
+    margin-top: 5px;
+}
+
+.dialogButton {
+    padding-top: 0px;
+    padding-right: 0px;
+    padding-left: 0px;
+    padding-bottom: 0px;
+    width: 29px;
+    height: 26px;
+    border-top-width: 0px;
+    border-bottom-width: 5px;
+    border-right-width: 0px;
+    border-left-width: 0px;
+    margin-top: 2px;
+}
+
+.dialogIcon {
+    font-size: 20px;
+    margin-top: 2px;
+}
+
+.animateDiv {
+    -webkit-transition: width 2s, height 4s;
+    transition: width 2s, height 4s;
+}
+
+.zero-radius {
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+.border-ts {
+    margin-top: 2px;
+    margin-left: 2px;
+    margin-right: 0px;
+    border: 1px solid grey;
+}
+
+.badge {
+    position: absolute;
+    top: -5px;
+    right: -1px;
+    font-size: .85em;
+}
+
+button.status-success {
+    background-color: rgba(96, 175, 32, 0.08) !important;
+    border-color: #60af20 !important;
+    color: #60af20 !important;
+}
+
+button.status-primary {
+    background-color: rgba(98, 0, 238, 0.08) !important;
+    border-color: #ef0000 !important;
+    color: #ef0000 !important;
+}
+
+button.status-info {
+    background-color: rgba(255, 159, 5, 0.08) !important;
+    border-color: #ff9f05 !important;
+    color: #ff9f05 !important;
+}
+
+button.status-warning {
+    background-color: rgba(255, 159, 5, 0.08) !important;
+    border-color: #ff9f05 !important;
+    color: #ff9f05 !important;
+}
+
+.appearance-filled.size-tiny.shape-rectangle.status-primary {
+    background-color: #ef0000 !important;
+    border-color: #ef0000 !important;
+    color: #ffffff !important;
+}
+
+.appearance-filled.size-tiny.shape-rectangle.status-primary:hover {
+    color: #ef0000 !important;
+    border: 1px solid #ef0000 !important;
+    background: #ffffff !important;
+}
+
+.appearance-ghost.size-medium.shape-rectangle.status-info {
+    background-color: #fff !important;
+    border-color: #fff !important;
+    color: #0495ee !important;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.scrollable-list {
+  &::-webkit-scrollbar {
+    width: 8px;
+    display: block;
+  }
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+  scrollbar-width: thin;
+  scrollbar-color: #888 #f1f1f1;
+}
+
+.listtb:hover {
+    cursor: pointer;
+    background-color: #a4abb35e;
+}
+
+.actionButton {
+    transition-duration: 0.4s;
+    border: none;
+    padding: 2px 4px;
+    background-color: inherit;
+    height: 15px;
+    text-align: center;
+    text-decoration: none;
+    color: #1c94da;
+}
+
+.mat-mdc-select {
+    position: relative !important;
+    top: 5px !important;
+}
+
+::ng-deep .sel-testSuite.mat-mdc-select-panel {
+    position: absolute !important;
+    min-width: 320px !important;
+    width: max-content !important;
+    max-width: 90vw !important;
+    transform: translateX(-12px) translateY(-25px) !important;
+}
+
+::ng-deep .sel-testSuite.mat-mdc-select-panel .mat-mdc-option .mdc-list-item__primary-text {
+    white-space: nowrap !important;
+}
+
+::ng-deep .select-testBed.mat-mdc-select-panel {
+    transform: translateX(0px) translateY(-25px) !important;
+}
+
+::ng-deep .select-testSet.mat-mdc-select-panel {
+    transform: translateX(-15px) translateY(-30px) !important;
+}
+
+::ng-deep .mat-mdc-option .mat-pseudo-checkbox-minimal {
+    margin-left: 0px !important;
+}
+
+::ng-deep .mat-mdc-option .mdc-list-item__primary-text {
+    white-space: normal !important;
+    overflow-wrap: break-word !important;
+    font-size: 12px !important;
+    line-height: 1.6 !important;
+}
+
+::ng-deep .form-inline .form-check-input {
+    margin-top: -10px !important;
+}
+
+::ng-deep .mat-internal-form-field>label {
+    white-space: nowrap;
+}
+
+::ng-deep .mat-mdc-text-field-wrapper {
+    height: 43px !important;
+}
+
+.mat-mdc-select-arrow svg {
+    position: relative !important;
+    top: 6px !important;
+}

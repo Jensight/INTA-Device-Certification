@@ -1,0 +1,77 @@
+@import '../../../../themes.scss';
+
+.history-refresh-btn {
+  position: absolute;
+  top: -8px;
+  right: 0;
+  z-index: 10;
+  background: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 16px;
+  color: #555;
+  transition: all 0.3s ease;
+
+  &:hover {
+    color: #da291c;
+    border-color: #da291c;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
+
+::ng-deep .mat-mdc-tab .mdc-tab__content {
+  text-transform: uppercase !important;
+}
+
+::ng-deep .mat-mdc-tab-group.mat-mdc-tab-group-stretch-tabs>.mat-mdc-tab-header .mat-mdc-tab {
+  flex-grow: 0 !important;
+}
+
+::ng-deep .mat-mdc-tab .mdc-tab__text-label {
+  margin-left: -6px !important;
+}
+
+:host ::ng-deep .mat-mdc-tab.mdc-tab--active .mdc-tab__text-label {
+  color: #ef0000 !important;
+  font-weight: bolder !important;
+  opacity: 1 !important;
+  font-size: 14px;
+  text-transform: uppercase !important;
+  font-family: "Roboto", sans-serif !important;
+}
+
+:host ::ng-deep {
+  mat-mdc-tab-group>.mat-mdc-tab-header>.mat-mdc-tab-label-container>.mat-mdc-tab-list>.mat-ink-bar {
+    display: none !important;
+  }
+
+  .mat-mdc-tab.mdc-tab--active .mdc-tab-indicator {
+    color: #ef0000 !important;
+    border-bottom: 5px solid #ef0000 !important;
+    border-top: none !important;
+    border-right: none !important;
+    border-left: none !important;
+    font-weight: bolder !important;
+    opacity: 1 !important;
+    font-size: 14px;
+    text-transform: uppercase !important;
+    font-family: "Roboto", sans-serif !important;
+  }
+
+  mat-mdc-tab-group>.mat-mdc-tab-header>.mat-mdc-tab-label-container>.mat-mdc-tab-list>.mat-mdc-tab-labels>.mat-mdc-tab {
+    font-weight: bolder !important;
+    font-size: 14px !important;
+    text-transform: uppercase !important;
+    font-family: "Roboto", sans-serif !important;
+  }
+
+  .mat-mdc-tab-labels {
+    border-bottom: none !important;
+  }
+}

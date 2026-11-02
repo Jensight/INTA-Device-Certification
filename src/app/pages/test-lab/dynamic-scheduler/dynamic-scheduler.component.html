@@ -1,0 +1,22 @@
+<div style="position: relative;">
+  <button *ngIf="selectedTabIndex === 1" class="history-refresh-btn" (click)="onRefreshHistory()" title="Refresh">
+    <i class="fa fa-refresh" [class.fa-spin]="historyComp?.loading"></i>
+  </button>
+  <mat-tab-group style="position: relative; bottom: 15px;" (selectedTabChange)="onTabChanged($event)" [selectedIndex]="selectedTabIndex">
+      <mat-tab label="Scheduler">
+          <div class="card">
+              <app-dynamic-scheduler-form *ngIf="selectedTabIndex === 0" #schedulerForm (scheduled)="onScheduled()"></app-dynamic-scheduler-form>
+          </div>
+      </mat-tab>
+      <mat-tab label="History">
+          <div class="card">
+              <app-dynamic-scheduler-history *ngIf="selectedTabIndex === 1" #historyComp></app-dynamic-scheduler-history>
+          </div>
+      </mat-tab>
+      <mat-tab label="Model - TC Matrix">
+          <div class="card">
+              <app-tc-metrics *ngIf="selectedTabIndex === 2"></app-tc-metrics>
+          </div>
+      </mat-tab>
+  </mat-tab-group>
+</div>

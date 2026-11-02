@@ -1,0 +1,30 @@
+@import '../../../../themes.scss';
+
+
+// nb-layout-column {
+//   padding: 0px !important;
+// }
+
+// ::ng-deep nb-tabset > ul > li > a {
+// padding-bottom: 9px !important;
+// }
+
+
+// ::ng-deep nb-tabset > ul  {
+//   background-color: nb-theme(card-header-basic-background-color) !important;
+// }
+
+
+// ::ng-deep nb-tab  {
+//   padding: 0px !important;
+//   overflow: hidden !important;
+// }
+.run-button{
+  position: fixed;
+  top: 10%;
+  left:74%;
+  z-index: 100;
+}
+
+
+

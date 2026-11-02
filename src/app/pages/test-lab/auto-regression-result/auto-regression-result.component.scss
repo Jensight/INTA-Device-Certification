@@ -1,0 +1,62 @@
+// Auto regression result table styles
+::ng-deep {
+  .ng2-smart-table {
+    table {
+      width: 100%;
+      table-layout: auto;
+    }
+    
+    td, th {
+      word-wrap: break-word;
+      word-break: break-word;
+      white-space: normal;
+      padding: 8px 4px;
+      vertical-align: top;
+      
+      // Ensure tooltip text displays properly
+      app-tooltip-display {
+        display: block;
+        width: 100%;
+        
+        span {
+          display: block;
+          word-wrap: break-word;
+          word-break: break-word;
+          white-space: normal;
+          line-height: 1.4;
+        }
+      }
+    }
+    
+    // Specific styling for columns that need more space
+    th[ng-reflect-ng-class*="TestSuites"],
+    td[ng-reflect-ng-class*="TestSuites"] {
+      min-width: 600px;
+    }
+    
+    th[ng-reflect-ng-class*="Remarks"],
+    td[ng-reflect-ng-class*="Remarks"] {
+      min-width: 350px;
+    }
+    
+    th[ng-reflect-ng-class*="Regression_Name"],
+    td[ng-reflect-ng-class*="Regression_Name"] {
+      min-width: 350px;
+    }
+    
+    th[ng-reflect-ng-class*="TestBed"],
+    td[ng-reflect-ng-class*="TestBed"] {
+      min-width: 400px;
+    }
+  }
+}
+
+// Ensure table container can scroll horizontally if needed
+.card {
+  overflow-x: auto;
+}
+
+// Additional styling for better readability
+.row {
+  margin-bottom: 10px;
+}

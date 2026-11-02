@@ -1,0 +1,86 @@
+<form [formGroup]="regDetailsForm" class="text-center" style="margin-top: 24px;">
+<div class="row">
+  <div class="col-md-11" style="margin-bottom: 20px">
+      <b>Regression Details</b>
+  </div>
+  <span class="col-md-1" style="margin-left: -35px;">
+      <span style="cursor:pointer" (click)="dialogRef.close()" class="close" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+      </span>
+  </span> 
+</div>
+<div class="row text-center">
+  <div class="col-md-12 text-center" style="margin-bottom: 20px">
+    <mat-form-field style="width:300px">
+      <mat-label>Please select Test Bed</mat-label>
+      <mat-select formControlName="testBed" (selectionChange)="onTestBedSelection($event);">
+        <input type="text" class="form-control"  placeholder="TestBed" (input)="filterTestBedOption($event)" (keydown)="handleInput($event)">
+        <ng-container *ngFor="let item of testbedListCopy">
+          <mat-option [value]="item['testBedName']">{{item['testBedName']}}</mat-option>
+        </ng-container>
+      </mat-select>
+      <mat-error *ngIf="regDetailsForm.get('testBed').hasError('required')">
+              Please select a Test Bed
+      </mat-error>
+      <mat-error *ngIf="regDetailsForm.get('testBed').hasError('duplicateName')">
+              Test Bed Already Exists
+      </mat-error>
+      <mat-error *ngIf="regDetailsForm.get('testBed').hasError('noMappedTestSuites')">
+        No Mapped TestSuites for selected Test Bed
+      </mat-error>
+    </mat-form-field>
+  </div>
+</div>
+<div class="row text-center">
+  <div class="col-md-12 text-center" style="margin-bottom: 20px">
+    <mat-form-field style="width:300px">
+      <mat-label>Please select TestSuites</mat-label>
+      <mat-select (openedChange)="openedChange($event)" [formControl]="selectFormControl" multiple [disabled]="!selectedTestBed">
+        <div class="select-container">
+        <mat-optgroup >
+      <mat-form-field style="width:100%;">
+        <mat-label>Search</mat-label>
+        <input #search autocomplete="off" aria-label="Search" matInput [formControl]="searchTextboxControl">
+        <button [disableRipple]="true" *ngIf="search.value" matSuffix mat-icon-button aria-label="Clear" (click)="clearSearch($event)">
+        <mat-icon >close</mat-icon>
+      </button>
+             </mat-form-field>
+        </mat-optgroup>
+     <mat-option (onSelectionChange)="selectionChange($event)" *ngFor="let option of filteredOptions | async" [value]="option.testSuiteName">
+            {{option.testSuiteName}}
+          </mat-option>
+    </div>
+    </mat-select>
+    <mat-error *ngIf="selectFormControl.hasError('required')">
+      Please select atleast one Test Suite
+  </mat-error>
+    </mat-form-field>
+  </div>
+</div>
+<div class="row text-center">
+  <div class="col-md-12 text-center" style="margin-bottom: 20px">
+    <mat-form-field style="width:300px" appearance="outline">
+      <mat-label>DUTName</mat-label>
+      <input matInput formControlName="dutName" [(ngModel)] = 'dutName' readonly>
+    </mat-form-field>
+  </div>
+</div>
+<div class="row text-center">
+  <div class="col-md-12 text-center" style="margin-bottom: 20px">
+    <mat-form-field style="width:300px"  appearance="outline">
+      <mat-label>FW_Community</mat-label>
+      <input matInput formControlName="fwCommunity" [(ngModel)] = 'fwCommunity' readonly>
+    </mat-form-field>
+  </div>
+</div>
+<mat-divider></mat-divider>
+<div class="row" style="height: 20px;">
+    <div class="col-lg-12"></div>
+</div>
+<div class="row text-center" style="padding-bottom: 15px;">  
+    <div class="col-md-12 ">
+      <button type="button" class="btn btn-primary" style="margin-right: 15px;" [disabled]= '!(regDetailsForm.valid && selectedValues.length > 0)' (click)="onCreate()">{{buttonTitle}}</button>
+      <button  type="button" class="btn btn-outline-danger" style="margin-left: 10px;" (click)="dialogRef.close()">Cancel</button>
+    </div>
+</div>
+</form>

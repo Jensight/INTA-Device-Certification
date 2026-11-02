@@ -1,0 +1,126 @@
+<div>
+    <div>
+        <mat-card >
+            <b>Running Jobs</b>
+            <span *ngIf="pollingList.length > 0">
+                <ul class="list-group">
+                    <li *ngFor="let pl of pollingList" class="list-group-item d-flex justify-content-between align-items-center" style="padding-top: 3px; padding-bottom: 3px;">
+                        {{pl}}
+
+                        <button type="button" class="btn btn-outline-danger btn-sm" (click)="confStopPolling(pl)"><i class="fa fa-stop-circle" aria-hidden="true"></i></button>
+                    </li>
+                  </ul> 
+            </span>
+            <div *ngIf="pollingList.length == 0" class="text-center">No Polling Jobs</div>
+        </mat-card>
+        <mat-card>
+            <b>Schedule Job</b>
+            <div class="row" style="padding:15px;margin-left: 0px;margin-right: 0px; ">
+                <div class="col-lg-6">
+                    <div class="row">
+                        <mat-form-field style="width: 80%;">
+                            <mat-label>Select Device</mat-label>
+                            <mat-select (valueChange)="deviceChanges($event)"
+                               [(value)]="selectedDevice"  >
+                                <mat-option *ngFor="let de of allDevices; let i = index" [value]="de" [disabled]="!de.available"> <!--[disabled]="testbedStatus[i]"-->
+                                    <span>
+                                        {{ de["deviceName"] }}
+                                    </span>
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="row">
+                        <mat-form-field style="width: 80%;">
+                            <mat-label>Model</mat-label>
+                            <input matInput [value]="selectedModel.modelName" readonly>  
+                            <!--<span *ngIf="selectedModel.modelName">{{selectedModel.modelName}}</span> -->
+                        </mat-form-field>
+                    </div>
+                    <div class="row">
+                        <mat-form-field style="width: 80%;">
+                            <mat-label>Select Firmware</mat-label>
+                            <mat-select
+                             [(ngModel)]="selectedFirmwareVer" >
+                                <mat-option *ngFor="let fe of firmware_version; let i = index" [value]="fe"> <!--[disabled]="testbedStatus[i]"-->
+                                    <span>
+                                        {{ fe }}
+                                    </span>
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <span *ngIf="selectedDevice && selectedModel.modelName && firmware_version.length == 0" style="color: red;">Please Add Firmware Version For Selected Module</span>
+                    </div>
+                </div>
+                <div class="col-lg-6" >
+                    <div class="row" >
+                        <mat-form-field style="width: 80%;">
+                            <mat-label>Select Polling Type </mat-label>
+                            <mat-select [(ngModel)]="polling_type">
+                                <mat-option *ngFor="let poTy of telemetry_options" [value]="poTy.value" (click)="polling_type_fu()">
+                                    {{poTy.name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <span class="row">
+                        <div class="col-lg-6" *ngIf=" polling_type && (polling_type == 'SNMP' || polling_type == 'Both' )" style="padding-right: 1px;
+                        padding-left: 1px;">
+                            <mat-form-field style="width: 80%;">
+                                <mat-label>snmp time interval</mat-label>
+                                <mat-select [(ngModel)]="snmp_time_interval">
+                                    <mat-option *ngFor="let tiOp of telemetry_time_option" [value]="tiOp.value" >
+                                        {{tiOp.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-lg-6" *ngIf=" polling_type && (polling_type == 'TR069' || polling_type == 'Both')" style="padding-right: 1px;
+                        padding-left: 1px;">
+                            <mat-form-field style="width: 80%;">
+                                <mat-label>Acs time interval</mat-label>
+                                <mat-select [(ngModel)]="acs_time_interval">
+                                    <mat-option *ngFor="let tiOp of telemetry_time_option" [value]="tiOp.value" >
+                                    {{tiOp.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </span>
+                    <div class="row" >
+                        <mat-form-field style="width: 80%;">
+                            <mat-label>Select Object</mat-label>
+                            <mat-select [(ngModel)]="telemetry_object" multiple>
+                                <mat-option *ngFor="let teOp of telemetry_object_option" [value]="teOp.value" required [disabled]="telemetry_object[0] == 'all' && teOp.value !== 'all'" (click)="selectedObject()">
+                                {{teOp.name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-error *ngIf="!telemetry_object || telemetry_object.length == 0" style="font-size: 11px;">Please Select Objects </mat-error>
+                    </div>
+                    <div class="row">
+                        <mat-form-field style="width: 80%;">
+                            <mat-label>Select time (hr)</mat-label>
+                            <mat-select
+                             [(ngModel)]="total_duration" >
+                                <mat-option *ngFor="let ti of stop_time_option; let i = index" [value]="ti"> <!--[disabled]="testbedStatus[i]"-->
+                                    <span>
+                                        {{ ti }} hr
+                                    </span>
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <span *ngIf="show_err == true" style="color: red; font-size: 12px;">
+                Required data is not available (deviceIp, deviceMac)
+            </span>
+            <div class="text-center">
+                <button type="button" class="btn btn-success" [disabled]="!selectedDevice || !selectedModel.modelName || firmware_version.length == 0 || !selectedFirmwareVer || telemetry_object.length == 0"
+                 (click)="onRunClicked()" title=""
+                    style="margin-right: 10px;">Schedule Now</button>
+            </div>
+        </mat-card>
+    </div>
+</div>

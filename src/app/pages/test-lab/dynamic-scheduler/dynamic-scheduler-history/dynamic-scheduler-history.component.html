@@ -1,0 +1,194 @@
+<div class="container-fluid history-container">
+  <!-- Loading spinner -->
+  <div *ngIf="loading" class="text-center" style="padding: 40px;">
+    <div class="lds-hourglass"></div>
+  </div>
+
+  <!-- No records -->
+  <div *ngIf="!loading && dataSource.data.length === 0" class="text-center" style="padding: 40px;">
+    <p style="font-size: 14px; color: #888;">No Dynamic Regression Found</p>
+  </div>
+
+  <!-- History Table -->
+  <div *ngIf="!loading && dataSource.data.length > 0" class="history-table-wrapper">
+    <table mat-table [dataSource]="dataSource" matSort multiTemplateDataRows class="history-table">
+
+      <!-- Dynamic Regression Name -->
+      <ng-container matColumnDef="dynamicRegressionTagName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Dynamic Regression Name</th>
+        <td mat-cell *matCellDef="let row" class="reg-name-cell" (click)="toggleRow(row)">{{ row.dynamicRegressionTagName }}</td>
+      </ng-container>
+
+      <!-- User -->
+      <ng-container matColumnDef="userId">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>User</th>
+        <td mat-cell *matCellDef="let row">{{ row.userId }}</td>
+      </ng-container>
+
+      <!-- Status -->
+      <ng-container matColumnDef="dynamicScheduleStatus">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+        <td mat-cell *matCellDef="let row">
+          <span class="status-badge" [ngClass]="getStatusClass(row.dynamicScheduleStatus)">
+            {{ row.dynamicScheduleStatus | uppercase }}
+          </span>
+        </td>
+      </ng-container>
+
+      <!-- DUT Count -->
+      <ng-container matColumnDef="dutCount">
+        <th mat-header-cell *matHeaderCellDef>DUT Count</th>
+        <td mat-cell *matCellDef="let row">
+          <div class="dut-count-badges">
+            <span class="badge badge-success" title="Completed">{{ row.completedCount }}</span>
+            <span class="badge badge-primary" title="In Progress">{{ row.inProgressCount }}</span>
+            <span class="badge badge-warning" title="In Queue" style="color: white;">{{ row.inQueueCount }}</span>
+            <span class="badge badge-danger" title="Stopped">{{ row.stoppedCount }}</span>
+            <span class="badge badge-aborted" title="Aborted">{{ row.abortedCount }}</span>
+            <span class="badge badge-cancelled" title="Cancelled">{{ row.cancelledCount }}</span>
+          </div>
+        </td>
+      </ng-container>
+
+      <!-- Client Count -->
+      <ng-container matColumnDef="clientCount">
+        <th mat-header-cell *matHeaderCellDef>Client Count</th>
+        <td mat-cell *matCellDef="let row">
+          <span class="client-count-val" (click)="onShowClients(row, $event)">{{ row.clientCountVal }}</span>
+        </td>
+      </ng-container>
+
+      <!-- Start Time -->
+      <ng-container matColumnDef="createdAt">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Start Time (UTC)</th>
+        <td mat-cell *matCellDef="let row">{{ row.createdAt | date:'dd, MMM, yyyy h:mm:ss a' }}</td>
+      </ng-container>
+
+      <!-- Actions -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let row">
+          <a class="action-icon action-add" [class.disabled-action]="!isActionEnabled(row)"
+            (click)="$event.stopPropagation(); isActionEnabled(row) && onAddDuts(row)"
+            title="Add DUTs">
+            <i class="fa fa-plus"></i>
+          </a>
+          <a class="action-icon action-cancel" [class.disabled-action]="!isActionEnabled(row)"
+            (click)="$event.stopPropagation(); isActionEnabled(row) && onCancelSchedule(row)"
+            title="Cancel Regression">
+            <i class="fa fa-times"></i>
+          </a>
+        </td>
+      </ng-container>
+
+      <!-- Filter Row Columns -->
+      <ng-container matColumnDef="filter-dynamicRegressionTagName">
+        <th mat-header-cell *matHeaderCellDef>
+          <input type="text" placeholder="Dynamic Regression Name" [value]="columnFilters['dynamicRegressionTagName'] || ''" (input)="applyColumnFilter('dynamicRegressionTagName', $event)" class="filter-input">
+        </th>
+      </ng-container>
+      <ng-container matColumnDef="filter-userId">
+        <th mat-header-cell *matHeaderCellDef>
+          <select (change)="applyColumnFilter('userId', $event)" class="filter-select">
+            <option value="" [selected]="!columnFilters['userId']">Select</option>
+            <option *ngFor="let user of uniqueUsers" [value]="user" [selected]="columnFilters['userId'] === user">{{ user }}</option>
+          </select>
+        </th>
+      </ng-container>
+      <ng-container matColumnDef="filter-dynamicScheduleStatus">
+        <th mat-header-cell *matHeaderCellDef>
+          <input type="text" placeholder="Status" [value]="columnFilters['dynamicScheduleStatus'] || ''" (input)="applyColumnFilter('dynamicScheduleStatus', $event)" class="filter-input">
+        </th>
+      </ng-container>
+      <ng-container matColumnDef="filter-dutCount">
+        <th mat-header-cell *matHeaderCellDef></th>
+      </ng-container>
+      <ng-container matColumnDef="filter-clientCount">
+        <th mat-header-cell *matHeaderCellDef></th>
+      </ng-container>
+      <ng-container matColumnDef="filter-createdAt">
+        <th mat-header-cell *matHeaderCellDef>
+          <input type="text" placeholder="Start Time (UTC)" [value]="columnFilters['createdAt'] || ''" (input)="applyColumnFilter('createdAt', $event)" class="filter-input">
+        </th>
+      </ng-container>
+      <ng-container matColumnDef="filter-actions">
+        <th mat-header-cell *matHeaderCellDef></th>
+      </ng-container>
+
+      <!-- Expanded Detail Row -->
+      <ng-container matColumnDef="expandedDetail">
+        <td mat-cell *matCellDef="let row" [attr.colspan]="displayedColumns.length">
+          <div class="expanded-detail" [@detailExpand]="row === expandedRow ? 'expanded' : 'collapsed'">
+            <div class="inner-table-wrapper" *ngIf="row === expandedRow && row.duts && row.duts.length > 0">
+              <table class="inner-table">
+                <thead>
+                  <tr>
+                    <th>Regression Tag Name</th>
+                    <th>DUT Name</th>
+                    <th>Client Name</th>
+                    <th>User</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let dut of innerDataSource.connect() | async; let i = index" [class.inner-row-alt]="i % 2 !== 0">
+                    <td>
+                      <span *ngIf="isDutRegressionNavigable(dut); else plainTagName"
+                            class="reg-name-cell" (click)="navigateToRegression(dut)">
+                        {{ dut.tagName || row.dynamicRegressionTagName }}
+                      </span>
+                      <ng-template #plainTagName>{{ dut.tagName || row.dynamicRegressionTagName }}</ng-template>
+                    </td>
+                    <td>
+                      <span *ngIf="isDutHtmlLogEnabled(dut); else plainDutName"
+                            class="reg-name-cell"
+                            (click)="openDutHtmlLogs(dut)"
+                            title="View HTML Logs">
+                        {{ dut.deviceName }}
+                      </span>
+                      <ng-template #plainDutName>{{ dut.deviceName }}</ng-template>
+                    </td>
+                    <td>{{ dut.clientName }}</td>
+                    <td>{{ dut.userId }}</td>
+                    <td>
+                      <span class="status-badge" [ngClass]="getDutStatusClass(dut.runStatus)">
+                        {{ dut.runStatus | uppercase }}
+                      </span>
+                    </td>
+                    <td>
+                      <a class="action-icon action-cancel" [class.disabled-action]="!isDutActionEnabled(dut)"
+                        (click)="onStopSingleDut(row, dut)"
+                        [title]="getDutActionTooltip(dut)">
+                        <i class="fa fa-times"></i>
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <mat-paginator #innerPaginator [pageSizeOptions]="[5, 10, 15]" [pageSize]="5" showFirstLastButtons></mat-paginator>
+            </div>
+            <div *ngIf="row === expandedRow && (!row.duts || row.duts.length === 0)" style="padding: 10px; text-align: center; color: #888;">
+              No DUT details available.
+            </div>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-header-row *matHeaderRowDef="filterColumns" class="filter-row"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="history-row"
+          [class.expanded-row]="row === expandedRow"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
+
+      <!-- No filtered data row -->
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" [attr.colspan]="displayedColumns.length" style="text-align: center; padding: 20px; font-size: 14px; color: #888;">
+          No Dynamic Regression Found
+        </td>
+      </tr>
+    </table>
+
+    <mat-paginator #paginator [pageSizeOptions]="[10, 15, 20]" showFirstLastButtons></mat-paginator>
+  </div>
+</div>

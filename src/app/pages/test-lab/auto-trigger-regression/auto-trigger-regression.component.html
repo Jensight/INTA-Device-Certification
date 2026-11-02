@@ -1,0 +1,40 @@
+<div class="w-100 d-flex justify-content-center align-items-center">
+    <app-title-display titleName="Auto Regression"></app-title-display>
+</div>
+<mat-tab-group style="position: relative; bottom: 15px;">
+    <mat-tab label="Test Config Data">
+        <div class="card">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="d-flex justify-content-end align-items-center mt-2 mr-3" style="padding-bottom: 10px;">
+                        <span (click)="download()" class="infoLog"
+                            style="font-size: 16px; margin-right: 15px; cursor: pointer !important;">Existing Server
+                            Copy</span>
+                        <button (click)="addTestBed(null, null)" class="ibutton"
+                            style="width:110px; margin-right: 15px;"> Add Row</button>
+                        <button (click)="save()" class="ibutton" style="width:110px;" [disabled]='!hasUnSavedData'>
+                            Save</button>
+                    </div>
+                    <div (retry)="updateTestSuites($event)"></div>
+                    <angular2-smart-table [settings]="settings" (custom)="onCustom($event)"
+                        [source]="source"></angular2-smart-table>
+                </div>
+            </div>
+        </div>
+    </mat-tab>
+    <mat-tab label="Regression Result">
+        <div class="card">
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- <div class="d-flex justify-content-end align-items-center mt-2 mr-3" style="padding-bottom: 10px;">
+
+                    </div> -->
+                    <!-- <div (retry)="updateTestSuites($event)"></div> -->
+                    <!-- <ng2-smart-table [settings]="settings" (custom)="onCustom($event)"
+                        [source]="source"></ng2-smart-table> -->
+                        <app-auto-regression-result></app-auto-regression-result>
+                </div>
+            </div>
+        </div>
+    </mat-tab>
+</mat-tab-group>

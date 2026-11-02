@@ -1,0 +1,27 @@
+<div class="row text-center">
+    <div class="col-md-11 text-center" style="margin-bottom: 20px">
+        <h3>Variable Value</h3>
+    </div>
+    <span class="col-md-1">
+        <span (click)="dialogRef.close()" style="cursor: pointer" class="close" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </span>
+    </span>
+</div>
+
+<div style="max-height: 260px; overflow-y: auto;padding-left: 10px;">
+    <table *ngIf="data['variables'] && data['variables'].length > 0" class="table table-bordered">
+        <tbody>
+            <tr *ngFor="let variable of data['variables']">
+                <td>{{variable['variableId']|nameFromId:(dataService.getTestbedVariables()|async):'_id':'variableName'}}</td>
+                <td>{{variable['variableValue']}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="text-center" style="margin:20px" *ngIf="data['variables'] && data['variables'].length == 0">
+            No Variables for Selected Testbed
+    </div>
+</div>
+<div style="text-align: center;">
+    <button class="btn btn-warning btn-demo" (click)="dialogRef.close()">Close</button>
+</div>

@@ -1,0 +1,35 @@
+<div class="row text-center">
+    <div class="col-md-11 text-center" style="margin-bottom: 20px">
+        <h3>Device Detail</h3>
+    </div>
+    <span class="col-md-1">
+        <span (click)="dialogRef.close()" style="cursor: pointer" class="close" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </span>
+    </span>
+</div>
+
+<div style="max-height: 260px; overflow-y: auto; overflow-x:hidden; padding-left: 10px;">
+    <table style="width: 652px !important;"  class="table table-bordered">
+        <tbody>
+            <tr *ngFor="let detail of selectedDeviceKeys">
+                <td>{{detail}}</td>
+                <td style="word-break: break-all;">{{selectedDevice[detail]}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div *ngIf="noDeviceMapped" style="max-height: 260px; overflow-y: auto;padding-left: 10px;">
+    <div class="row" style="margin: 0px;">
+        <div style="padding-bottom: 15px" class="col-md-12 text-center">
+            No details Found
+        </div>
+    </div>
+</div>
+<div style="height: 20px;"></div>
+<div style="text-align: center;display: flex; flex-direction: row;
+flex-wrap: wrap; justify-content: center;">
+    <div><button class="btn btn-warning btn-demo" (click)="dialogRef.close()">Close</button> &nbsp;&nbsp;&nbsp; 
+        <button class="btn btn-danger btn-demo" [disabled]="disableunlockButton == false" (click)="unlockDevice()">unlock Device</button></div>
+</div>

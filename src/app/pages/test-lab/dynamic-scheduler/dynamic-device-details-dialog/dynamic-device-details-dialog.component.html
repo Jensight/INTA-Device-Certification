@@ -1,0 +1,36 @@
+<div style="position: relative; padding: 10px 15px;">
+  <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 5px;">
+    <h4 style="flex: 1; text-align: center; margin: 0; font-weight: bold;">Device Details</h4>
+    <button type="button" class="btn btn-dark btn-sm" (click)="onClose()" style="margin-right: 10px;">Back</button>
+    <span (click)="onClose()" style="cursor: pointer; font-size: 22px; line-height: 1;" aria-label="Close">&times;</span>
+  </div>
+  <div class="device-scroll-area">
+    <div *ngFor="let item of deviceList; let i = index;" class="device-row">
+      <span style="display: flex; align-items: center; padding: 20px 10px 15px 10px;">
+        <h6 style="color: red; margin: 0; margin-right: 5px; font-size: 15px; font-weight: bold;">{{ item.neName }}{{ item.device ? ' : ' + item.device.deviceName : '' }}</h6>
+        <button type="button" class="btn btn-sm" *ngIf="!item.showContent"
+          (click)="item.showContent = !item.showContent" style="padding: 0 5px;">
+          <i class="fa fa-angle-down" aria-hidden="true" style="color: red"></i>
+        </button>
+        <button type="button" class="btn btn-sm" *ngIf="item.showContent"
+          (click)="item.showContent = !item.showContent" style="padding: 0 5px;">
+          <i class="fa fa-angle-up" aria-hidden="true" style="color: red"></i>
+        </button>
+      </span>
+      <span *ngIf="item.showContent" style="padding: 0 10px 15px 10px;">
+        <div *ngIf="item.device">
+          <div *ngFor="let key of getDeviceKeys(item.device);">
+            <p style="margin-bottom: 6px;"><strong>{{ key }} :</strong> {{ formatValue(item.device[key]) }}</p>
+          </div>
+        </div>
+        <div *ngIf="!item.device">
+          <p style="color: #999;">No device details found.</p>
+        </div>
+      </span>
+      <hr style="margin: 0; border-top: 1px solid #e0e0e0;">
+    </div>
+    <div *ngIf="deviceList.length === 0">
+      <p style="color: #999; text-align: center; padding: 20px;">No devices found.</p>
+    </div>
+  </div>
+</div>

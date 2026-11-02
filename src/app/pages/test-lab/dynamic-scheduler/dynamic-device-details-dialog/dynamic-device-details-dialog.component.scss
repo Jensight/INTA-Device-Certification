@@ -1,0 +1,26 @@
+.device-scroll-area {
+    max-height: 600px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #888 transparent;
+
+    &::-webkit-scrollbar {
+        width: 8px;
+    }
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: #888;
+        border-radius: 4px;
+    }
+    &::-webkit-scrollbar-button {
+        display: none;
+    }
+}
+
+.device-row {
+    &:last-child hr {
+        display: none;
+    }
+}

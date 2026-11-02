@@ -1,0 +1,133 @@
+@import '../../../../themes.scss';
+
+
+// nb-layout-column {
+//   padding: 0px !important;
+// }
+
+// ::ng-deep nb-tabset > ul > li > a {
+// padding-bottom: 9px !important;
+// }
+
+
+// ::ng-deep nb-tabset > ul  {
+//   border-bottom: solid 1px #ef0000 !important;
+//   background-color: nb-theme(card-header-basic-background-color) !important;
+// }
+
+
+// ::ng-deep nb-tab  {
+//   padding: 0px !important;
+//   overflow: hidden !important;
+// }
+.run-button{
+  position: fixed;
+  top: 10%;
+  left:74%;
+  z-index: 100;
+}
+.appearance-filled.size-tiny.shape-rectangle.status-success {
+  color: #ffffff !important;
+  border-color: #60af20 !important;
+  background: #60af20 !important;
+}
+.appearance-filled.size-tiny.shape-rectangle.status-success:hover {
+  color: #ffffff !important;
+  border-color: #8fcf50!important;
+  background: #8fcf50!important;
+}
+.appearance-filled.size-tiny.shape-rectangle.status-warning{
+  color: #ffffff !important;
+  border-color: #ff9f05 !important;
+  background: #ff9f05 !important;
+}
+.appearance-filled.size-tiny.shape-rectangle.status-warning:hover {
+  color: #ffffff !important;
+  border-color: #ffbe43!important;
+  background: #ffbe43!important;
+}
+.appearance-filled.size-tiny.shape-rectangle.status-success,  .appearance-filled.size-small.shape-rectangle.status-success{
+  color: #ffffff !important;
+  border-color: #60af20 !important;
+  background: #60af20 !important;
+}
+.appearance-filled.size-tiny.shape-rectangle.status-success:hover, .appearance-filled.size-small.shape-rectangle.status-success:hover {
+  color: #ffffff !important;
+  border-color: #8fcf50!important;
+  background: #8fcf50!important;
+}
+.appearance-filled.size-tiny.shape-rectangle.status-warning, .appearance-filled.size-small.shape-rectangle.status-warning{
+  color: #ffffff !important;
+  border-color: #ff9f05 !important;
+  background: #ff9f05 !important;
+}
+.appearance-filled.size-tiny.shape-rectangle.status-warning:hover, .appearance-filled.size-small.shape-rectangle.status-warning:hover {
+  color: #ffffff !important;
+  border-color: #ffbe43!important;
+  background: #ffbe43!important;
+}
+
+
+.appearance-filled.size-small.shape-rectangle.status-success[disabled] {
+
+    background-color: rgba(131, 131, 131, 0.24) !important;
+    border-color: rgba(131, 131, 131, 0.24) !important;
+    color: rgba(131, 131, 131, 0.48) !important;
+    }
+  
+  .appearance-filled.size-small.shape-rectangle.status-info {
+  
+      background-color: #0495ee !important; 
+      border-color: #0495ee !important; 
+      color: #ffffff !important;
+    
+    }
+    
+    
+  .appearance-filled.size-small.shape-rectangle.status-info:hover {
+    
+      background-color: #319bec85 !important;  
+      border-color: #319bec85 !important;
+      color: #ffffff !important;
+    
+    }
+    
+  
+  .appearance-filled.size-small.shape-rectangle.status-info[disabled] {
+    
+      background-color: rgba(131, 131, 131, 0.24) !important; 
+      border-color: rgba(131, 131, 131, 0.24) !important; 
+      color: rgba(131, 131, 131, 0.48) !important;
+    
+    }
+
+// ::ng-deep nb-tabset > ul > li.active {
+//   border-top: solid 2px #ef0000;
+//   border-left: solid 2px #ef0000;
+//   border-right: solid 2px #ef0000;
+//   border-bottom: solid 1px #ebebeb;
+//   border-radius: 3px;
+// }
+
+// ::ng-deep nb-tabset > ul > li:hover {
+//   border-top: solid 2px #903df4;
+//   border-left: solid 2px #903df4;
+//   border-right: solid 2px #903df4;
+//   border-bottom: solid 1px #ebebeb;
+//   border-radius: 3px;
+// }
+
+// ::ng-deep nb-badge.status-danger {
+//   color: #b00020 !important; 
+//   background-color: transparent !important;
+// }
+
+// ::ng-deep nb-badge.status-success {
+//   color: #60af20 !important;
+//   background-color: transparent !important;
+// }
+
+// ::ng-deep nb-tabset > ul > li > a::before{
+//   display: none !important;
+// }
+

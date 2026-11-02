@@ -1,0 +1,106 @@
+<div class="tc-metrics-container">
+  <div class="filters-row">
+    <mat-form-field class="testsuite-selector">
+      <mat-label>Select Test Suite</mat-label>
+      <mat-select [(value)]="selectedTestsuiteId" (selectionChange)="onTestsuiteSelected($event.value)">
+        <div class="input-group input-group-sm px-2 py-1">
+          <input type="text" class="form-control" placeholder="Search Test Suite"
+                 (input)="filterTestsuites($event.target.value)"
+                 (keydown)="$event.stopPropagation()">
+        </div>
+        <mat-option *ngFor="let ts of filteredTestsuites; trackBy: trackByTestsuiteId" [value]="ts._id">
+          {{ ts.testSuiteName }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="model-selector"
+                    *ngIf="selectedTestsuiteId && availableModels.length > 0">
+      <mat-label>Select Models</mat-label>
+      <mat-select [(value)]="selectedModels" multiple
+                  (selectionChange)="onModelsSelectionChange()">
+        <div class="input-group input-group-sm px-2 py-1">
+          <input type="text" class="form-control" placeholder="Search Model"
+                 (input)="filterModels($event.target.value)"
+                 (keydown)="$event.stopPropagation()">
+        </div>
+        <div class="select-all-row">
+          <mat-checkbox class="select-all-checkbox"
+                        [checked]="isAllModelsSelected"
+                        [indeterminate]="isSomeModelsSelected"
+                        (change)="toggleSelectAllModels()"
+                        (click)="$event.stopPropagation()">
+            Select All
+          </mat-checkbox>
+        </div>
+        <mat-option *ngFor="let model of filteredAvailableModels; trackBy: trackByModel" [value]="model">
+          {{ model }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button mat-stroked-button class="matrix-update-btn"
+            *ngIf="isSysAdmin"
+            [disabled]="isSaving"
+            (click)="saveMatrix()">
+      {{ isSaving ? 'SAVING...' : 'UPDATE' }}
+    </button>
+  </div>
+
+  <div *ngIf="selectedTestsuiteId && selectedModels.length > 0 && selectedTestcases.length > 0"
+       class="tc-metrics-table-wrapper">
+    <table class="tc-metrics-table">
+      <thead>
+        <tr>
+          <th>TC ID</th>
+          <th>TC Description</th>
+          <th *ngFor="let model of selectedModels; trackBy: trackByModel" class="model-col">
+            <div class="model-col-header">
+              <span class="model-name">{{ model }}</span>
+              <input type="checkbox" class="tc-cell-checkbox column-select-all"
+                     [checked]="columnAllChecked[model]"
+                     [indeterminate]="columnIndeterminate[model]"
+                     [disabled]="!isSysAdmin"
+                     (change)="toggleColumn(model, $any($event.target).checked)"
+                     [attr.title]="'Select / Unselect all rows for ' + model">
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let tc of selectedTestcases; trackBy: trackByTestcase">
+          <td>{{ tc.tcId || tc.jiraKey || '-' }}</td>
+          <td>{{ tc.tcName || '-' }}</td>
+          <td *ngFor="let model of selectedModels; trackBy: trackByModel" class="model-cell">
+            <input type="checkbox" class="tc-cell-checkbox"
+                   [checked]="isCellChecked(tc, model)"
+                   [disabled]="!isSysAdmin"
+                   (change)="toggleCell(tc, model, $any($event.target).checked)">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="selectedTestsuiteId && selectedModels.length > 0 && selectedTestcases.length === 0"
+       class="empty-state">
+    No test cases found in the selected test suite.
+  </div>
+
+  <div *ngIf="!selectedTestsuiteId && validTestsuites.length === 0" class="empty-state">
+    No test suites are mapped to DUT-enabled testbeds.
+  </div>
+
+  <div *ngIf="!selectedTestsuiteId && validTestsuites.length > 0" class="empty-state">
+    Please select a test suite to view the test case Matrix.
+  </div>
+
+  <div *ngIf="selectedTestsuiteId && availableModels.length === 0" class="empty-state">
+    No DUT-enabled models are associated with the selected test suite.
+  </div>
+
+  <div *ngIf="selectedTestsuiteId && availableModels.length > 0 && selectedModels.length === 0"
+       class="empty-state">
+    Please select one or more models to view the test case Matrix.
+  </div>
+</div>

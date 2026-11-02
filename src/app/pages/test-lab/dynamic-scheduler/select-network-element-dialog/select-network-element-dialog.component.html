@@ -1,0 +1,126 @@
+<!-- DIALOG HEADER -->
+<div class="row text-center" style="margin-top: 22px;">
+  <div class="col-md-11 text-center" style="margin-bottom: 20px">
+    <h3>Select DUTs</h3>
+  </div>
+  <span class="col-md-1" style="margin-left: -35px;">
+    <span (click)="onCancel()" style="cursor: pointer" class="close" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </span>
+  </span>
+</div>
+
+<!-- DUT Multi-Select Dropdown -->
+<div class="text-center" style="padding: 0 25px;">
+  <mat-form-field style="width: 100%; font-size: 12px;">
+    <mat-label>Select DUT Devices</mat-label>
+    <mat-select #dutSelect
+      panelClass="select-testBed"
+      (openedChange)="openedChange($event)"
+      (selectionChange)="selectionChange($event)"
+      [formControl]="selectFormControl"
+      [compareWith]="compareDuts"
+      multiple>
+      <mat-select-trigger>
+        {{ triggerDisplayText }}
+      </mat-select-trigger>
+      <div class="input-group input-group-sm px-2 py-1" style="margin-bottom: 8px;">
+        <input type="text"
+          #search
+          autocomplete="off"
+          placeholder="Search"
+          aria-label="Search"
+          [formControl]="searchTextboxControl"
+          class="form-control"
+          aria-label="Small"
+          aria-describedby="inputGroup-sizing-sm"
+          (keydown)="handleInput($event)">
+      </div>
+      <mat-option (click)="toggleSelectAll()" [value]="'selectAll'">
+        <span style="font-weight: bold;">Select All</span>
+      </mat-option>
+      <mat-option *ngFor="let device of filteredDevices | async"
+        [value]="device"
+        [disabled]="isLocked(device) || isInUse(device)"
+        style="height: auto; overflow-wrap: break-word; word-break: break-word;">
+        <span [style.color]="isInUse(device) ? '#888' : isUnmapped(device) ? 'red' : 'inherit'"
+              [title]="isInUse(device) ? 'Currently in use' : isUnmapped(device) ? 'No TC matrix configured for this model' : ''">
+          {{ device.deviceName }}<span *ngIf="isInUse(device)" style="font-style: italic; font-size: 11px;"> - in use</span>
+        </span>
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <!-- Selected DUT List -->
+  <div *ngIf="selectedDUTs && selectedDUTs.length > 0" style="margin-top: 5px; text-align: left;">
+    <div style="font-size: 12px; font-weight: bold; margin-bottom: 5px;">Selected DUTs ({{selectedDUTs.length}}):</div>
+    <div style="max-height: 200px; overflow-y: auto;">
+      <ul style="list-style: none; padding-left: 0;">
+        <li *ngFor="let dut of selectedDUTs" style="font-size: 12px; padding: 4px 0; display: flex; align-items: center; justify-content: space-between;">
+          <ng-container *ngIf="data.enableDutMatrixLinks && !isLocked(dut); else plainDut">
+            <a href="javascript:void(0)"
+               [matTooltip]="data.selectionMode !== 'modelTcMatrix' ? ('View Test Cases for ' + dut.deviceName) : (hasDutMatrix(dut) ? ('View Model-TC Matrix for ' + dut.deviceName) : ('No test cases mapped for ' + dut.deviceName + ' model. Configure in Model - TC Matrix tab.'))"
+               (click)="openDutTcMatrixPreview(dut)"
+               [ngStyle]="{'color': (data.selectionMode !== 'modelTcMatrix' || hasDutMatrix(dut)) ? '#1c94da' : 'red', 'text-decoration': 'underline', 'cursor': 'pointer'}">
+              {{ dut.deviceName }}
+            </a>
+            <span *ngIf="isInUse(dut)" style="font-style: italic; font-size: 11px; color: #888;"> - in use</span>
+          </ng-container>
+          <ng-template #plainDut>
+            <span [style.color]="isLocked(dut) ? '#888' : isUnmapped(dut) ? 'red' : 'green'">
+              {{ dut.deviceName }}<span *ngIf="isInUse(dut)" style="font-style: italic; font-size: 11px; color: #888;"> - in use</span>
+            </span>
+          </ng-template>
+          <button *ngIf="!isLocked(dut)" (click)="removeDevice(dut)" matTooltip="Remove" class="ibutton2" style="border: none; background: none; cursor: pointer;">
+            <i class="fa fa-trash-o"></i>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div *ngIf="dutDevices.length === 0" style="color: #888; font-size: 12px; margin: 10px 0;">
+    No DUT devices available for this testbed profile.
+  </div>
+</div>
+
+<!-- BUTTONS -->
+<div class="text-center" style="margin-bottom: 18px; margin-top: 15px;">
+  <button class="ibutton" style="margin-right: 15px; height: 32px; width: 80px;"
+    [disabled]="selectedDUTs.length === 0" (click)="onUpdate()">UPDATE</button>
+  <button class="ibutton" style="height: 32px; width: 80px" (click)="onCancel()">CANCEL</button>
+</div>
+
+<!-- DUT Model - TC Matrix preview modal -->
+<div *ngIf="showDutMatrixModal" class="modal" style="display: block;">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="border-right border-bottom">
+        <div class="modal-header">
+          <h5 class="modal-title" style="font-size: 16px; margin-bottom: 1px;">
+            <span>{{ dutMatrixModalTitle }}</span>
+          </h5>
+          <button type="button" class="close" aria-label="Close" (click)="closeDutMatrixModal()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <ng-container *ngIf="dutMatrixItems.length > 0; else noSuitesConfigured">
+            <ngx-treeview [config]="dutMatrixConfig" [items]="dutMatrixItems"
+              (selectedChange)="onDutMatrixSelectionChange($event)">
+            </ngx-treeview>
+          </ng-container>
+          <ng-template #noSuitesConfigured>
+            <div style="text-align: center; padding: 20px; color: #888;">
+              <i class="fa fa-exclamation-circle" style="font-size: 24px; margin-bottom: 8px;"></i>
+              <p style="margin: 0; font-size: 14px;">{{ data.selectionMode === 'modelTcMatrix' ? 'Configure the test suites for the DUT in model matrix' : 'No test cases found for this test suite.' }}</p>
+            </div>
+          </ng-template>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeDutMatrixModal()">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

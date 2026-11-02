@@ -1,0 +1,87 @@
+<div class="card" style="margin: 20px;max-width: 600px">
+    <div style="font-size: .9375rem !important; padding: 20px; font-weight: 400; line-height: 1.25rem;">
+        <form [formGroup]="reservationForm">
+            <div *ngIf="reservationForm.get('type')?.value ==='once'">
+                <div class="row">
+                    <div style="padding-top: 15px" class="col-md-3">Regression Tag Name</div>
+                    <div class="col-md-9">
+                        <div class="form-group hass-error" style="margin-bottom:0px">
+                            <input [ngClass]="reservationForm.get('reservationName').invalid && (reservationForm.get('reservationName').touched  || formSubmitted) ?'form-control-danger':''" formControlName="reservationName" placeholder="Optional" type="text" class="form-control">
+                            <div *ngIf="reservationForm.get('reservationName').hasError('duplicate')" class="form-control-error" style="margin-top: 9px;"> <b>Reservation Already Exists</b></div>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top:15px; padding-right: 20px;" class="row">
+                    <div style="padding-top: 15px" class="col-md-3">Trigger At</div>
+                    <div class="col-md-6">
+                        <span *ngIf="daysFlag == 'single'">
+                            <input  [ngClass]=" reservationForm.get('reserveAt').invalid && (reservationForm.get('reserveAt').touched || formSubmitted) ?'form-control-danger':''"
+                            formControlName="reserveTime" [min]="date" class="form-control" [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" placeholder="Date Time">
+                            <owl-date-time  #dt1></owl-date-time>
+                        </span> 
+                        <span *ngIf="daysFlag == 'multiple'">
+                            <input style="display: block; width: 100%; height: calc(1.5em + .75rem + 2px); padding: .375rem .75rem; font-size: 1rem; font-weight: 400;
+                             line-height: 1.5; color: #495057; background-color: #fff; background-clip: padding-box; border: 1px solid #ced4da; border-radius: .25rem;"
+                             [min]="startDate" [max]="endDate" [owlDateTime]="dt1" formControlName="daterangeTime" [selectMode]="'range'" [owlDateTimeTrigger]="dt1" placeholder="Date Time" (ngModelChange)="onChange($event)">
+                            <owl-date-time #dt1></owl-date-time>
+                            <span *ngIf="selectdateerr == true"  style="color: red; font-size: 11px;">Select Start and End date</span>
+                        </span>
+                    </div>
+
+                    <div class="col-md-3" style="padding-top: 10px;">
+                        <button (click)="checkAvailibility()" class="btn btn-success btn-demo" style="height: 30px;padding-top: 0px;padding-bottom: 0px;padding-right: 10px;padding-left: 10px;font-size: 14px;">Check</button>
+                        <button type="button" (click)="daysFlag = 'multiple'; changeDaysSel()" style="font-size: 12px; margin-top: 10px; height: 20px; white-space: nowrap;" class="btn btn-link btn-sm">
+                            <i class="fa fa-refresh" aria-hidden="true"></i> Make Recurring
+                        </button>
+                    </div>
+                </div>
+                <div class="row text-center" *ngIf="showerr == true">
+                    <span  style="color: red; font-size: 11px;">Not possible to scheduled Regression</span>
+                </div>
+            </div>
+            
+            <div *ngIf="checkFlag" style="padding-top: 20px;" class="row justify-content-center">
+                <div *ngIf="daysFlag == 'single'" id="spinner-template" class="text-center">
+                    <div style="width:15px;height:15px;" class="spinner-container">
+                        <svg  version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                            xml:space="preserve" x="0px" y="0px" viewBox="0, 0, 100, 100">
+                            <g>
+                                <g class="spinner">
+                                    <circle #path class="path" fill="none" stroke="#7DB0D5" stroke-width="7" stroke-miterlimit="10" stroke-linecap="round" cx="50"
+                                        cy="50" r="44" />
+                                </g>
+                                <polyline #check class="check" fill="none" stroke="#7DB0D5" stroke-width="8" stroke-linecap="round" stroke-miterlimit="10" stroke-linejoin="round"
+                                    points="70,35 45,65 30,52" />
+                                <path #cross class="cross" fill="none" stroke="#7DB0D5" stroke-width="16" stroke-linecap="round" stroke-miterlimit="10" d="M70,30 l-40,40 M70,70 l-40,-40"
+                                />
+                            </g>
+                        </svg>
+                    </div>
+                </div>
+                <div *ngIf="daysFlag == 'single'" class="" style="padding-left: 5px">
+                    {{loadingText}}
+                </div>
+                <span *ngIf="daysFlag == 'multiple'">
+                    <span *ngFor="let ab of multySchedularData_res">
+                        <div class="" style="padding-left: 5px; font-size: 12px;">
+                            <!--<i *ngIf="!ab.available" class="fa fa-spinner" aria-hidden="true"></i>-->
+                            <i *ngIf="ab.available == true" style="color: green;" class="fa fa-check-circle" aria-hidden="true"></i>
+                            <i *ngIf="ab.available == false" style="color: red;" class="fa fa-times-circle" aria-hidden="true"></i>
+                           {{ab.name}}
+                        </div>
+                    </span>
+                </span>
+            </div>
+        </form>
+    </div>
+    <div *ngIf="checkFlag && testbedAvailable" class="row">
+        <div style="padding:15px;" class="col-lg-5 text-left">
+        <span *ngIf="updateJira"  >
+            <B> FYI., This Regression attempts to update results in Jira</B>
+          </span>
+    </div>
+    <div style="padding:15px; background-color: #fff;" class=" col-lg-7 text-right">
+        <button (click)="sheduledResrvedDevice()" class="btn btn-success btn-demo " style="height: 30px;padding-top: 0px;padding-bottom: 0px;padding-right: 10px;padding-left: 10px;font-size: 14px;"><i *ngIf="createJiraFl == true" style="font-size: 16px;" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i> Schedule</button> &nbsp;
+        <button (click)="close()" class="btn btn-danger btn-demo" style="height: 30px;padding-top: 0px;padding-bottom: 0px;padding-right: 10px;padding-left: 10px;font-size: 14px;">Cancel</button>
+    </div>
+</div>

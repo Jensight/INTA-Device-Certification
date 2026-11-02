@@ -1,0 +1,24 @@
+<div class="row" style="padding-top: 10px">
+    <div class="col-sm-11 ms-auto text-end"
+        style="display: flex; align-items: center; justify-content: flex-end; margin-left: 15px;">
+        <span style="margin-right: 10px;" *ngIf="!consolidatedResult">FW Upgraded</span>
+        <select *ngIf="!consolidatedResult" class="form-control" style="width: 130px; padding:5px; height: 35px; margin-right: 15px;"
+            [(ngModel)]="fwUpgradedFilter" (change)="onFWUpgradedFilterChange()">
+            <option value="ALL">All</option>
+            <option value="YES">Yes</option>
+            <option value="NO">No</option>
+            <option value="FAILED">Failed</option>
+        </select>
+        <mat-slide-toggle color="primary" [(ngModel)]="consolidatedResult" style="margin-left: 10px;">
+            Show Result Summary
+        </mat-slide-toggle>
+    </div>
+</div>
+<div class="card" style="overflow-x: auto;">
+    <div class="row">
+        <div class="col-md-12">
+            <angular2-smart-table *ngIf="!consolidatedResult" [settings]="settings" [source]="source"></angular2-smart-table>
+            <angular2-smart-table *ngIf="consolidatedResult" [settings]="consolidatedSettings" [source]="consolidatedSource"></angular2-smart-table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,413 @@
+<div style="margin: 0px" class="row">
+  <!-- Left Panel -->
+  <div class="col-5 border-right border-bottom border-top border-left">
+    <div class="row">
+      <div class="col-md-12" style="height: 180px; overflow-y: auto">
+        <div class="row flex-nowrap" style="align-items: center;">
+          <div class="col-md-5 text-center" style="min-width: 0;">
+            <!-- Select Testbed (only dynamic-enabled testbeds) -->
+            <mat-form-field style="width: 95%; font-size: 12px; margin-top: 15px; float: left">
+              <mat-label>Select Testbed</mat-label>
+              <mat-select style="height: 25px;" panelClass="select-testBed"
+                #profileSel
+                (openedChange)="openedChange($event)"
+                [formControl]="profileFormControl"
+                [panelWidth]="400"
+                (selectionChange)="onProfileSelected($event)">
+                <mat-select-trigger>
+                  <span [matTooltip]="selectedTestbed?.testBedName">
+                    {{ selectedTestbed?.testBedName }}
+                  </span>
+                </mat-select-trigger>
+                <div class="input-group input-group-sm px-2 py-1" style="margin-bottom: 8px;">
+                  <input type="text"
+                    #search
+                    autocomplete="off"
+                    placeholder="Search"
+                    aria-label="Search"
+                    [formControl]="searchTextboxControl"
+                    class="form-control"
+                    aria-label="Small"
+                    aria-describedby="inputGroup-sizing-sm"
+                    (keydown)="handleInput($event)">
+                </div>
+                <mat-option *ngFor="let tb of filteredTestbeds | async"
+                  [value]="tb"
+                  style="height: auto; overflow-wrap: break-word; word-break: break-word;">
+                  {{ tb["testBedName"] }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <!-- Select Network Element Button (same position & style as Change Devices) -->
+          <div *ngIf="selectedTestbed" class="text-center" style="margin-top: 15px; padding-right: 5px; flex-shrink: 0;">
+            <button
+              style="margin-top: 10px; white-space: nowrap;"
+              class="btn-round"
+              (click)="onSelectClients()"
+              [title]="clientsLabel + ' for selected testbed'">
+              {{ clientsLabel }}
+            </button>
+          </div>
+          <div *ngIf="selectedTestbed" class="text-center" style="margin-top: 15px; padding-right: 5px; flex-shrink: 0;">
+            <button
+              style="margin-top: 10px; white-space: nowrap;"
+              class="btn-round"
+              (click)="onSelectNetworkElement()"
+              title="Select DUTs for selected testbed">
+              Select DUTs
+            </button>
+          </div>
+        </div>
+
+        <!-- Selected DUTs and Applicable Clients Display (side by side) -->
+        <div *ngIf="selectedTestbed" class="row">
+          <!-- Applicable Clients -->
+          <div class="col-md-6">
+            <div style="font-size: 12px;">
+              <span>{{ clientsLabel }} ({{selectedClientDevices?.length || 0}}):</span>
+            </div>
+            <ul *ngIf="selectedClientDevices?.length > 0" class="scrollable-list" style="list-style: none; padding-left: 15px; margin-bottom: 0; max-height: 80px; overflow-y: auto;">
+              <li *ngFor="let client of selectedClientDevices" style="font-size: 11px; color: blue;">
+                {{ client.deviceName }}
+              </li>
+            </ul>
+          </div>
+          <!-- Selected DUTs -->
+          <div class="col-md-6">
+            <div style="font-size: 12px;">
+              <span>Selected DUTs ({{selectedDUTDevices.length}}):</span>
+            </div>
+            <ul class="scrollable-list" style="list-style: none; padding-left: 15px; margin-bottom: 0; max-height: 80px; overflow-y: auto;">
+              <li *ngFor="let dut of selectedDUTDevices" style="font-size: 11px; color: green;">
+                <ng-container *ngIf="selectionMode === 'modelTcMatrix'; else plainDut">
+                  <a href="javascript:void(0)"
+                     [matTooltip]="hasDutMatrix(dut) ? ('View Model-TC Matrix for ' + dut.deviceName) : ('No test cases mapped for ' + dut.deviceName + ' model. Configure in Model - TC Matrix tab.')"
+                     (click)="openDutTcMatrixPreview(dut)"
+                     [ngStyle]="{ 'color': hasDutMatrix(dut) ? '#1c94da' : 'red', 'text-decoration': 'underline', 'cursor': 'pointer' }">
+                    {{ dut.deviceName }}
+                  </a>
+                </ng-container>
+                <ng-template #plainDut>{{ dut.deviceName }}</ng-template>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Environment Selection -->
+      <div *ngIf="enable_environment_type_selection == true" class="col-md-6">
+        <mat-form-field style="width:80%;font-size: 12px; float: left">
+          <mat-label>Select environment</mat-label>
+          <mat-select [(value)]="selected_environment">
+            <mat-option *ngFor="let fr of environment_type; let i = index" [value]="fr">
+              {{fr}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <!-- Test Set / Test Suite Selection -->
+    <div *ngIf="selectedProfile" class="row border-top" style="margin-left: -15px; margin-right: -15px;">
+      <div class="col-md-12" style="overflow-y: hidden">
+        <!-- Selection Mode Radio Buttons -->
+        <div class="row" style="padding-top: 10px; padding-left: 10px;">
+          <mat-radio-group [(ngModel)]="selectionMode" (change)="onSelectionModeChange()" style="font-size: 12px;">
+            <mat-radio-button value="modelTcMatrix" style="margin-right: 20px;">
+              Use Model - TC Matrix
+            </mat-radio-button>
+            <mat-radio-button value="testSuite">
+              Test Suite Selection
+            </mat-radio-button>
+          </mat-radio-group>
+        </div>
+
+        
+
+        <ng-container *ngIf="selectionMode === 'testSuite'">
+        <div class="row">
+          <div *ngIf="test_set_filter" class="col-md-8 text-center">
+            <mat-form-field style="width: 70%; font-size: 12px; margin-top: 10px; float: left; margin-left: -3px;">
+              <mat-label>Select TestSet</mat-label>
+              <mat-select [panelWidth]="250" panelClass="select-testSet"
+                (selectionChange)="getTestSuitesOfModule($event)"
+                [(value)]="selectedModule"
+                [disabled]="disabledTestSet">
+                <mat-option *ngFor="let tm of testSets" [value]="tm">
+                  {{ tm["moduleName"] }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <span *ngIf="disabledTestSet" style="color: #ef0000; padding-left: 10px;">
+            No Test Set mapped.
+          </span>
+        </div>
+        <div class="row">
+          <div class="col-md-8 text-center">
+            <mat-form-field style="width: 70%; font-size: 12px; margin-top: 10px; float: left; margin-left: -3px;">
+              <mat-label>Select TestSuite</mat-label>
+              <mat-select panelClass="sel-testSuite"
+                (selectionChange)="addTestcaseFromTestsuite($event); calculateTime()"
+                [(value)]="selectedTestsuite"
+                (openedChange)="openedTestSuiteChange($event)"
+                [disabled]="!enableTestSuites">
+                <div class="input-group input-group-sm px-2 py-1">
+                  <input type="text" class="form-control" placeholder="Search TestSuite"
+                    [(ngModel)]="search_test_suite"
+                    aria-label="Small" aria-describedby="inputGroup-sizing-sm"
+                    (keydown)="handleInput($event)">
+                </div>
+                <mat-option *ngFor="let item of testSuites | searchtestsuite : search_test_suite; let i = index"
+                  [value]="item"
+                  (click)="loadTreeForTs(item, checkedTestsuiteStatus[i], i)">
+                  {{ item["testSuiteName"] }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div *ngIf="!showMessage" class="col-md-4 d-flex justify-content-end align-items-center">
+            <span *ngIf="selectedTS!=undefined||selectedTS!=null">
+              <button matTooltip="Select based on test group" (click)="openTestSuiteSelectonModal()" class="actionButton">
+                <i class="fa fa-list fa-lg" style="color: #1c94da;"></i>
+              </button>
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <span *ngIf="showMessage" style="color: #ef0000; padding-left: 10px;">
+            No Common Test Suites for selected Testbeds.
+          </span>
+        </div>
+        </ng-container>
+
+        <!-- Options (No Iterations dropdown) -->
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="row" style="padding-top: 50px;">
+              <!-- Iterations dropdown REMOVED as per requirement -->
+                     <!-- CMTS Network Element firmware version (configured in Settings > Regression Config) -->
+        <div class="row" *ngIf="cmtsFirmwareVersion" style="padding: 15px 10px 0 30px; margin-bottom: 10px;">
+          <span style="font-size: 14px; font-weight: 700;">CMTS Firmware Version: <span style="font-weight: 400;">{{ cmtsFirmwareVersion }}</span></span>
+        </div>
+              <div class="col-lg-12" style="position: relative; bottom: 3px; margin-bottom: -20px; padding-left: 6px;">
+                <mat-checkbox [(ngModel)]="rerunStaus">Rerun on Fail</mat-checkbox>
+              </div>
+       
+              <div class="col-lg-12" *ngIf="telemetry_option_flag == true" style="padding-left: 6px;">
+                <mat-checkbox [(ngModel)]="cpuGraph" (click)="checkTelementory()">CPE-Telemetry</mat-checkbox>
+              </div>
+
+              <div class="col-lg-12 row" *ngIf="telemetry_option_flag == true && cpuGraph == true">
+                <div class="col-lg-3" *ngIf="telemetry_option_flag == true && cpuGraph == true">
+                  <mat-form-field style="width: 90%;">
+                    <mat-label>Select Polling Type</mat-label>
+                    <mat-select [(ngModel)]="polling_type">
+                      <mat-option *ngFor="let poTy of telemetry_options" [value]="poTy.value" (click)="polling_type_fu()">
+                        {{poTy.name}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-lg-3"
+                  *ngIf="telemetry_option_flag == true && cpuGraph == true && polling_type && (polling_type == 'SNMP' || polling_type == 'Both')">
+                  <mat-form-field style="width: 90%;">
+                    <mat-label>snmp time interval</mat-label>
+                    <mat-select [(ngModel)]="snmp_time_interval">
+                      <mat-option *ngFor="let tiOp of telemetry_time_option" [value]="tiOp.value">
+                        {{tiOp.name}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-lg-3"
+                  *ngIf="telemetry_option_flag == true && cpuGraph == true && polling_type && (polling_type == 'TR069' || polling_type == 'Both')">
+                  <mat-form-field style="width: 90%;">
+                    <mat-label>Acs time interval</mat-label>
+                    <mat-select [(ngModel)]="acs_time_interval">
+                      <mat-option *ngFor="let tiOp of telemetry_time_option" [value]="tiOp.value">
+                        {{tiOp.name}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-lg-3" *ngIf="telemetry_option_flag == true && cpuGraph == true">
+                  <mat-form-field style="width: 90%;">
+                    <mat-label>Select Object</mat-label>
+                    <mat-select [(ngModel)]="telemetory_object" multiple>
+                      <mat-option *ngFor="let teOp of telemetory_object_option" [value]="teOp.value" required
+                        [disabled]="telemetory_object[0] == 'all' && teOp.value !== 'all'"
+                        (click)="selectedObject()">
+                        {{teOp.name}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-error *ngIf="!telemetory_object || telemetory_object.length == 0" style="font-size: 11px;">
+                    Please Select Objects
+                  </mat-error>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Panel - Test Cases Table -->
+  <div class="col-7 border-right border-bottom border-top"
+    [style.opacity]="selectionMode === 'modelTcMatrix' ? 0.5 : 1"
+    [style.pointer-events]="selectionMode === 'modelTcMatrix' ? 'none' : 'auto'">
+    <div class="row">
+      <div class="col-md-12" id="border" style="padding: 8px;">
+        <div style="border-bottom-left-radius: 0px; border-bottom-right-radius: 0px;"
+          class="row header zero-radius">
+          <div class="col-md-6 text-left">Total Test Cases:
+            <span style="color:'green'">{{selectedTestcase.length}}</span>
+          </div>
+          <div class="col-md-6 text-right">Test Suite Estimated Time:
+            <span style="color:'green'">{{totalTime}}</span>
+          </div>
+        </div>
+        <div class="divBody border-bottom border-right border-left">
+          <div class="table-responsive">
+            <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
+              <table item-width="100%" class="table table-hover"
+                style="font-size: 12px; overflow: hidden; margin-bottom: 0">
+                <thead id="tableHead">
+                  <tr style="border-bottom: 0px solid #ccc;">
+                    <th style="text-align: center;" [ngStyle]="{'width': col1}">ID
+                      <i class="fa fa-sort" *ngIf="!sortFlag1 && selectedTestcase.length > 0" style="cursor: pointer;"
+                        aria-hidden="true" (click)="sortByTcId()"></i>
+                      <i class="fa fa-sort-asc" *ngIf="sortFlag1 == 'Dess'" style="cursor: pointer;"
+                        aria-hidden="true" (click)="sortByTcId()"></i>
+                      <i class="fa fa-sort-desc" *ngIf="sortFlag1 == 'Acc'" style="cursor: pointer;"
+                        aria-hidden="true" (click)="sortByTcId()"></i>
+                    </th>
+                    <th style="text-align: center;" [ngStyle]="{'width': col2}">Name</th>
+                    <th *ngIf="priority_flag2 == true" style="text-align: center; width: 20%">Priority
+                      <i class="fa fa-sort" *ngIf="!sortFlag && selectedTestcase.length > 0" style="cursor: pointer;"
+                        aria-hidden="true" (click)="sorttestcases()"></i>
+                      <i class="fa fa-sort-asc" *ngIf="sortFlag == 'Dess'" style="cursor: pointer;"
+                        aria-hidden="true" (click)="sorttestcases()"></i>
+                      <i class="fa fa-sort-desc" *ngIf="sortFlag == 'Acc'" style="cursor: pointer;"
+                        aria-hidden="true" (click)="sorttestcases()"></i>
+                    </th>
+                    <th style="text-align: center;" [ngStyle]="{'width': col1}">Delete</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let tc of selectedTestcase; let i = index" cdkDrag class="example-box"
+                    style="text-align: center;">
+                    <td style="vertical-align: middle;" [matTooltip]="tc['jiraKey']">
+                      {{ tc.jiraKey ? tc.jiraKey : tc.tcId }}
+                    </td>
+                    <td style="text-align: center; padding: 2px; width: 60%; word-wrap: break-word; vertical-align: middle;"
+                      [matTooltip]="tc['tcName']">
+                      {{ tc["tcName"] | limitTo: "50" }}
+                    </td>
+                    <td *ngIf="priority_flag2 == true"
+                      style="vertical-align: middle; text-align: center;">
+                      {{tc['tcPrioritytwo']}}
+                    </td>
+                    <td>
+                      <button (click)="deleteTestcaseFromFinalList(tc); calculateTime()" matTooltip="Delete"
+                        class="ibutton2">
+                        <i class="fa fa-trash-o fa-lg"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bottom Action Buttons -->
+<div class="row" style="padding: 15px;">
+  <div class="col-lg-5">
+    <div class="row">
+      <div class="col-lg-12">
+        <mat-checkbox *ngIf="automated_mail_flag == true" style="margin-right: 20px" [(ngModel)]="automatedMail">
+          Automated Mail
+        </mat-checkbox>
+        <mat-checkbox *ngIf="jira_option_flag == true" [(ngModel)]="updateJira" style="margin-right: 10px">
+          Update Jira Test Execution
+        </mat-checkbox>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-7 text-right">
+    <button type="button" class="btn btn-success" [disabled]="!disableScheduleButton" (click)="scheduleNow()"
+      title="Execute tests for selected setup" style="margin-right: 10px;">Schedule</button>
+    <button type="button" class="btn btn-warning" routerLink="/pages/dashboard" title="Return to Dashboard"
+      style="margin-right: 10px;">Cancel</button>
+  </div>
+</div>
+
+<!-- Test Suite Group Modal -->
+<div *ngIf="showModal" class="modal" style="display: block;">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="border-right border-bottom">
+        <div class="modal-header">
+          <h5 class="modal-title" style="font-size: 16px; margin-bottom: 1px;">
+            <span>Test Suite Group</span>
+          </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="close()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <ngx-treeview #treeViewCompT [config]="config" [items]="items"
+            (selectedChange)="updateSelectedTestCase($event)">
+          </ngx-treeview>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="close()">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DUT Model-TC Matrix Modal -->
+<div *ngIf="showDutMatrixModal" class="modal" style="display: block;">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="border-right border-bottom">
+        <div class="modal-header">
+          <h5 class="modal-title" style="font-size: 16px; margin-bottom: 1px;">
+            <span>{{ dutMatrixModalTitle }}</span>
+          </h5>
+          <button type="button" class="close" aria-label="Close" (click)="closeDutMatrixModal()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <ng-container *ngIf="dutMatrixItems.length > 0; else noSuitesConfigured">
+            <ngx-treeview [config]="dutMatrixConfig" [items]="dutMatrixItems"
+              (selectedChange)="onDutMatrixSelectionChange($event)">
+            </ngx-treeview>
+          </ng-container>
+          <ng-template #noSuitesConfigured>
+            <div style="text-align: center; padding: 20px; color: #888;">
+              <i class="fa fa-exclamation-circle" style="font-size: 24px; margin-bottom: 8px;"></i>
+              <p style="margin: 0; font-size: 14px;">Configure the test suites for the DUT in model matrix</p>
+            </div>
+          </ng-template>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeDutMatrixModal()">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

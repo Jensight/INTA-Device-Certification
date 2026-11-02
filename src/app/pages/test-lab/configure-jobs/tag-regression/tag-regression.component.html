@@ -1,0 +1,28 @@
+<div style="padding: 10px;">
+    <div class="row" style="padding-top: 5px; padding-left: 25px;">
+        
+        <div class="col-lg-12">
+            <div>
+                <mat-form-field  style="width:450px !important;">
+                    <mat-label>Regression Tag Name</mat-label>
+                    <input matInput [(ngModel)]="data.name" name="tagname">
+                </mat-form-field>
+            </div>
+
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-5 text-left" style="padding-left: 25px;">
+      <span *ngIf="data.updateJira"  >
+        <B> FYI., This Regression attempts to update results in Jira</B>
+      </span>
+    </div>
+    <div class="col-lg-7 text-right">
+
+      <button (click)="reserveTag()" class="btn btn-success btn-demo ">Apply Tag</button> &nbsp;
+      <button (click)="close()" class="btn btn-danger btn-demo">No Tag</button>
+    </div>
+
+  </div>
+
+</div>

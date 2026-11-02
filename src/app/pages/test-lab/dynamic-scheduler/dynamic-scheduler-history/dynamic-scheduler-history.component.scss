@@ -1,0 +1,276 @@
+/* History tab styles */
+
+.history-container {
+  padding: 15px;
+}
+
+.history-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.history-table {
+  width: 100%;
+  border: 1px solid #0000001f;
+  box-shadow: none !important;
+}
+
+::ng-deep .history-table {
+  thead tr {
+    background-image: linear-gradient(to right bottom, #da291c, #d43c30, #cd4b41, #c45750, #b9635e) !important;
+
+    th.mat-mdc-header-cell {
+      color: #ffffff !important;
+      text-align: center !important;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 0.875rem 0.25rem !important;
+      border-right: 1px solid rgba(255, 255, 255, 0.2);
+      word-break: break-all;
+    }
+
+    th .mat-sort-header-container {
+      justify-content: center !important;
+    }
+
+    th .mat-sort-header-arrow {
+      color: #ebebeb !important;
+    }
+  }
+
+  thead tr.filter-row {
+    background-image: none !important;
+    background-color: #ffffff !important;
+
+    th.mat-mdc-header-cell {
+      color: #424242 !important;
+      padding: 4px 5px !important;
+      border-right: 1px solid #ebebeb;
+      border-bottom: 1px solid #ebebeb;
+    }
+  }
+
+  tbody {
+    tr td.mat-mdc-cell {
+      text-align: center;
+      font-size: 12px;
+      padding: 0px 5px;
+      border-right: 1px solid #ebebeb;
+      word-break: break-all;
+    }
+
+    tr.history-row:nth-child(4n+1) {
+      background-color: transparent;
+    }
+
+    tr.history-row:nth-child(4n+3) {
+      background-color: #ebebeb;
+    }
+  }
+}
+
+.status-badge {
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.status-completed {
+  color: #28a745;
+}
+
+.status-inprogress {
+  color: #007bff;
+}
+
+.status-scheduled {
+  color: #ff8c00;
+}
+
+.status-inqueue {
+  color: #ff8c00;
+}
+
+.status-failed {
+  color: #dc3545;
+}
+
+.status-stopped {
+  color: #dc3545;
+}
+
+.status-aborted {
+  color: #e65100;
+}
+
+.status-not-executed {
+  color: #6c757d;
+}
+
+.dut-count-badges {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+
+  .badge {
+    font-size: 13px;
+    min-width: 24px;
+    padding: 3px 6px;
+    border-radius: 4px;
+  }
+
+  .badge-not-executed {
+    background-color: #6c757d;
+    color: #ffffff;
+  }
+
+  .badge-cancelled {
+    background-color: #8e44ad;
+    color: #ffffff;
+  }
+
+  .badge-aborted {
+    background-color: #e65100;
+    color: #ffffff;
+  }
+}
+
+::ng-deep .mat-mdc-paginator {
+  border: 1px solid #0000001f;
+  border-top: none;
+}
+
+// Expandable row styles
+tr.detail-row {
+  height: 0 !important;
+}
+
+tr.history-row {
+  cursor: default;
+}
+
+tr.history-row:hover {
+  background-color: #f5f5f5 !important;
+}
+
+.reg-name-cell {
+  cursor: pointer;
+  color: #424242;
+}
+
+.filter-input {
+  width: 100%;
+  border: 1px solid #e4e9f2;
+  padding: 4px 8px;
+  font-size: 12px;
+  height: auto;
+  outline: none;
+  box-sizing: border-box;
+
+  &:focus {
+    border-color: #da291c;
+  }
+}
+
+.filter-select {
+  width: 100%;
+  border: 1px solid #e4e9f2;
+  padding: 4px 8px;
+  font-size: 12px;
+  height: auto;
+  outline: none;
+  box-sizing: border-box;
+  background: #fff;
+  margin-top: 13px;
+
+  &:focus {
+    border-color: #da291c;
+  }
+}
+
+.expanded-detail {
+  overflow: hidden;
+}
+
+.inner-table-wrapper {
+  padding: 10px 20px 15px;
+}
+
+.inner-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #ebebeb;
+  margin: 5px 0;
+
+  thead tr {
+    background-image: linear-gradient(to right bottom, #da291c, #d43c30, #cd4b41, #c45750, #b9635e);
+
+    th {
+      color: #ffffff;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 8px 12px;
+      border-right: 1px solid rgba(255, 255, 255, 0.2);
+    }
+  }
+
+  tbody {
+    tr {
+      td {
+        text-align: center;
+        font-size: 12px;
+        padding: 8px 12px;
+        border-right: 1px solid #ebebeb;
+        border-bottom: 1px solid #ebebeb;
+      }
+    }
+
+    tr.inner-row-alt {
+      background-color: #f1f1f1;
+    }
+  }
+}
+
+.inner-table-wrapper ::ng-deep .mat-mdc-paginator {
+  border: 1px solid #ebebeb;
+  border-top: none;
+}
+
+::ng-deep td.mat-column-actions {
+  white-space: nowrap !important;
+}
+
+.action-icon {
+  text-decoration: none !important;
+  padding-left: 5px !important;
+  padding-right: 5px !important;
+  cursor: pointer;
+  font-size: 14px;
+
+  &.action-add {
+    color: #1a73e8;
+
+    &:hover {
+      color: #0d47a1;
+    }
+  }
+
+  &.action-cancel {
+    color: #dc3545;
+
+    &:hover {
+      color: #a71d2a;
+    }
+  }
+
+  &.disabled-action {
+    color: #cccccc !important;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}
+
+.client-count-val {
+  cursor: pointer;
+  font-size: 12px;
+}

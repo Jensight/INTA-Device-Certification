@@ -1,0 +1,79 @@
+<!-- DIALOG HEADER -->
+<div class="row text-center" style="margin-top: 22px;">
+  <div class="col-md-11 text-center" style="margin-bottom: 20px">
+    <h3>{{ dialogTitle }}</h3>
+  </div>
+  <span class="col-md-1" style="margin-left: -35px;">
+    <span (click)="onCancel()" style="cursor: pointer" class="close" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </span>
+  </span>
+</div>
+
+<!-- Client Multi-Select Dropdown -->
+<div class="text-center" style="padding: 0 25px;">
+  <mat-form-field style="width: 100%; font-size: 12px;">
+    <mat-label>Select Client Devices</mat-label>
+    <mat-select #clientSelect
+      panelClass="select-testBed"
+      (openedChange)="openedChange($event)"
+      (selectionChange)="selectionChange($event)"
+      [formControl]="selectFormControl"
+      [compareWith]="compareDevices"
+      multiple>
+      <mat-select-trigger>
+        {{ triggerDisplayText }}
+      </mat-select-trigger>
+      <div class="input-group input-group-sm px-2 py-1" style="margin-bottom: 8px;">
+        <input type="text"
+          #search
+          autocomplete="off"
+          placeholder="Search"
+          aria-label="Search"
+          [formControl]="searchTextboxControl"
+          class="form-control"
+          aria-label="Small"
+          aria-describedby="inputGroup-sizing-sm"
+          (keydown)="handleInput($event)">
+      </div>
+      <mat-option (click)="toggleSelectAll()" [value]="'selectAll'">
+        <span style="font-weight: bold;">Select All</span>
+      </mat-option>
+      <mat-option *ngFor="let device of filteredDevices | async"
+        [value]="device"
+        [disabled]="isInUse(device)"
+        style="height: auto; overflow-wrap: break-word; word-break: break-word;">
+        <span [style.color]="isInUse(device) ? '#888' : 'inherit'"
+              [title]="isInUse(device) ? 'Currently in use' : ''">
+          {{ device.deviceName }}<span *ngIf="isInUse(device)" style="font-style: italic; font-size: 11px;"> - in use</span>
+        </span>
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <!-- Selected Client List -->
+  <div *ngIf="selectedClients && selectedClients.length > 0" style="margin-top: 5px; text-align: left;">
+    <div style="font-size: 12px; font-weight: bold; margin-bottom: 5px;">{{ dialogTitle }} ({{selectedClients.length}}):</div>
+    <div style="max-height: 200px; overflow-y: auto;">
+      <ul style="list-style: none; padding-left: 0;">
+        <li *ngFor="let client of selectedClients" style="font-size: 12px; padding: 4px 0; display: flex; align-items: center; justify-content: space-between;">
+          <span style="color: blue;">{{ client.deviceName }}</span>
+          <button (click)="removeDevice(client)" matTooltip="Remove" class="ibutton2" style="border: none; background: none; cursor: pointer;">
+            <i class="fa fa-trash-o"></i>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div *ngIf="clientDevices.length === 0" style="color: #888; font-size: 12px; margin: 10px 0;">
+    No client devices available for this testbed profile.
+  </div>
+</div>
+
+<!-- BUTTONS -->
+<div class="text-center" style="margin-bottom: 18px; margin-top: 15px;">
+  <button class="ibutton" style="margin-right: 15px; height: 32px; width: 80px;"
+    [disabled]="selectedClients.length === 0" (click)="onUpdate()">UPDATE</button>
+  <button class="ibutton" style="height: 32px; width: 80px" (click)="onCancel()">CANCEL</button>
+</div>

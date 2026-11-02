@@ -1,0 +1,42 @@
+<div class="container-fluid">
+  <div class="card">
+
+  
+        <app-select-testbeds [activeTab]="activeTab" [selectedTestbeds]="selectedTestbeds" [jiraUpdate] ="updateJira"
+          [selectedDevices]="selectedDevices" [jobIndex]="0" (isValid)="isValid($event)" #selectTestBeds>
+        </app-select-testbeds>
+
+
+    <div class="row" style="padding:15px;">
+      <div class="col-lg-5">
+        <div class="row">
+          <div class="col-lg-12">
+            <mat-checkbox *ngIf="automated_mail_flag == true" style="margin-right: 20px" [(ngModel)]="automatedMail">Automated Mail</mat-checkbox>
+            <mat-checkbox *ngIf="jira_option_flag == true" [(ngModel)]="updateJira" style="margin-right: 10px">Update Jira Test Execution</mat-checkbox>
+          </div>
+          <!-- <div class="col-lg-12" *ngIf="jira_option_flag == true">
+            <mat-checkbox [(ngModel)]="updateJira" style="margin-right: 10px">Update Jira Test Execution</mat-checkbox>
+            <span *ngIf="updateJira == true" [style.visibility]="!updateJira ? 'hidden': 'visible'">
+               <mat-form-field appearance="outline" style="width:300px !important; font-size:12px;">
+                 <input matInput  placeholder="JIRA Execution Id"  [(ngModel)]="executionIdUpdate" />
+              </mat-form-field>
+            </span><br>
+            <span *ngIf="jira_project_id_flag == false && updateJira == true" style="color: red; font-size:12px">
+              Project ID is not added for this Team, Please check system config in setting.
+            </span>
+          </div> -->
+          </div>
+      </div>
+      <div class="col-lg-7 text-right">
+        <button type="button" class="btn btn-success" [disabled]="disableRegressionButton == false" (click)="scheduleNow()" title="Execute tests for selected setup"
+          style="margin-right: 10px;">Schedule Now</button>
+
+        <button type="button" class="btn btn-info" [disabled]="disableScheduleLater == false" (click)="scheduleLater()" title="Schedule at different time"
+          style="margin-right: 10px;">Schedule Later</button>
+
+        <button type="button" class="btn btn-warning" routerLink="/pages/dashboard" title="Return to Dashboard"
+          style="margin-right: 10px;">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
