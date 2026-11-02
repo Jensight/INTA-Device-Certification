@@ -1,0 +1,143 @@
+<app-title-display [breadcrumbs]="breadcrumbs" titleName="Server Monitor Page"></app-title-display>
+<div class="card">
+    <mat-tab-group (selectedTabChange)="tabChange($event)">
+        <mat-tab *ngFor="let server of serverList; let i = index" [label]="i">
+            <ng-template mat-tab-label>
+                <span [matTooltip]="server.name" matTooltipPosition="above" matTooltipShowDelay="200"
+                    style="cursor: pointer;">
+                    {{ server.id }}
+                </span>
+                <!-- <span class="badge" style="color: black; left: '25%';"> {{server?.name}} </span> -->
+            </ng-template>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div style="padding: 10px; margin-left: -30px;" class="col text-center">
+                                <h6 style=" font-size: 1.125rem !important;
+                        font-family: Roboto, sans-serif !important;
+                        font-weight: 700 !important;
+                        line-height: 1.5rem !important;">Latest Details</h6>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-center align-items-center">
+                            <div echarts [options]="chartInput" class="echart" style="height: 500px;"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="row">
+                            <div style="padding: 10px; margin-left: -30px;" class="col text-center">
+                                <h6 style=" font-size: 1.125rem !important;
+                        font-family: Roboto, sans-serif !important;
+                        font-weight: 700 !important;
+                        line-height: 1.5rem !important;">Most Recent Detail</h6>
+                                <p><b>(Pulled Every 30 Minutes)</b></p>
+                            </div>
+                        </div>
+                        <div class="table" style="padding-left: 20px; padding-top: 15%; ">
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td colspan="2" style="background-color: #f3eeee; font-size: 14px !important;">
+                                            <b>Timestamp : </b>{{chartDetails?.time}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" style="background-color: #f3eeee; font-size: 14px !important;">
+                                            <b>Memory</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Free</b></td>
+                                        <td>{{this.latestChartData.memory.free_memory}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Used</b></td>
+                                        <td>{{this.latestChartData.memory.used_memory}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Total Value</b></td>
+                                        <td>{{this.latestChartData.memory.total_memory}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" style="background-color: #f3eeee; font-size: 14px !important;">
+                                            <b>Disk Utilization</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Free</b></td>
+                                        <td>{{this.latestChartData.diskutilization.disk_free}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Used</b></td>
+                                        <td>{{this.latestChartData.diskutilization.disk_used}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Total Value</b></td>
+                                        <td>{{this.latestChartData.diskutilization.disk_total}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="">
+                    <h2 class="text-center">Stacked Line Chart</h2>
+                    <div class="d-flex justify-content-between">
+                        <mat-form-field [formGroup]="dateForm">
+                            <mat-label>Choose a date</mat-label>
+                            <input matInput [matDatepicker]="picker" formControlName="date"
+                                (dateChange)="setLineChartData(selectedTabIndex)">
+                            <mat-hint>MM/DD/YYYY</mat-hint>
+                            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker
+                                (selectedChanged)="setLineChartData(selectedTabIndex)"></mat-datepicker>
+                        </mat-form-field>
+                        <!-- Info Logs -->
+                        <div class="text-right">
+                            <span (click)="openAPIPlugin()" class="infoLog"
+                                style="font-size: 16px; margin-right: 15px; cursor: pointer !important;">API
+                                Plugin</span>
+                            <!-- <span (click)="openInfoLogs()" class="infoLog" style="font-size: 16px; margin-right: 15px; cursor: pointer !important;">Get Info Logs</span> -->
+                            <!-- <span style="font-size: 16px; cursor: pointer !important;">Info Logs: </span> -->
+                            <span style="font-size: 16px; margin-right: 15px; cursor: pointer !important;">
+                                <mat-form-field>
+                                    <mat-label>Info Logs</mat-label>
+                                    <mat-select (selectionChange)="openInfoLogs()" [(ngModel)]="infoLogIndex">
+                                        <mat-option [value]="0">Latest</mat-option>
+                                        <mat-option [value]="1">Latest but one</mat-option>
+                                        <mat-option [value]="2">Latest but two</mat-option>
+                                        <mat-option [value]="3">Latest but three</mat-option>
+                                        <mat-option [value]="4">Latest but four</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </span>
+                            <!-- <span style="font-size: 16px; cursor: pointer !important;">Error Logs: </span> -->
+                            <span style="font-size: 16px; margin-right: 15px; cursor: pointer !important;">
+                                <mat-form-field>
+                                    <mat-label>Error Logs</mat-label>
+                                    <mat-select (selectionChange)="openErrorLogs()" [(ngModel)]="errorLogIndex">
+                                        <mat-option [value]="0">Latest</mat-option>
+                                        <mat-option [value]="1">Latest but one</mat-option>
+                                        <mat-option [value]="2">Latest but two</mat-option>
+                                        <mat-option [value]="3">Latest but three</mat-option>
+                                        <mat-option [value]="4">Latest but four</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </span>
+                            <!-- <span (click)="openErrorLogs()" class="infoLog" style="font-size: 16px; cursor: pointer !important;">Get Error Logs</span> -->
+                            <!-- <span (click)="DownloadInfoLogs()" class="infoLog" style="font-size: 16px;">Download Info Logs</span> -->
+                        </div>
+                    </div>
+                    <div>
+                        <div echarts [options]="lineChartInput" class="" style="width: 100%;"></div>
+                        <div class="text-center">
+                            <label for="" style="font-size: 12px; color: grey; ">Time In UTC</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+</div>
+
+<!-- <div #chart echarts (chartInit)="onChartInit($event)" [options]="chartInput" class="echart"></div> -->

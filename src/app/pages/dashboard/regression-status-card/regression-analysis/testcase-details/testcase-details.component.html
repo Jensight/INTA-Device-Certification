@@ -1,0 +1,35 @@
+<div *ngIf=" currentData && currentData.length >0  && !(dataService.regressionNoData | async)" class="row col-sm-12" style="padding-top:0px">
+    <div class="col-sm-9">
+        <div class="row col-sm-12">
+            <div style="padding:10px" class="col text-center"><h6>Test Case Summary</h6></div>
+        </div>
+        <div class="row col-sm-12">
+            <div echarts [options]="chartInput" style="width: 150%"
+                (chartInit)="onChartInit($event)" class="echart"></div>
+        </div>
+    </div>
+    <div class="col-sm-3" style="padding-top: 70px;">
+        <div class="row col-sm-12">
+            <div style="padding:2px; padding-left: 0px;">
+                <h6>Testcase Detail</h6>
+            </div>
+        </div>
+        <br />
+        <div class="row col-sm-12">
+            <table>
+                <tbody>
+                    <tr><td style="font-weight:bold;">Date Range</td> <td>{{source[0].dateRange}}</td></tr>
+                    <tr><td style="font-weight:bold;">Total TC</td> <td>{{source[0].totalTC}}</td></tr>
+                    <tr><td style="font-weight:bold;">Pass TC</td> <td>{{source[0].passTC}}</td></tr>
+                    <tr><td style="font-weight:bold;">Fail TC</td><td>{{source[0].failTC}}</td></tr>
+                    <tr *ngIf="showNoRun" ><td style="font-weight:bold;">No Run TC</td>  <td>{{source[0].norunTC}}</td></tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+<div *ngIf="!currentData && !(dataService.regressionNoData | async)" style="padding-right:20px; padding-left:25px;position:relative; height:400px">
+    <div *ngIf="loading" style="position: absolute;top: 40%;left: 50%;" class="lds-hourglass"></div>
+</div>
+

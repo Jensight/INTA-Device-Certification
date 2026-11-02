@@ -1,0 +1,35 @@
+<div *ngIf="tableData && tableData.length >0 && currentData && currentData.length >0 && !(dataService.regressionNoData | async)" class="row"
+    style="padding-top:0px">
+    <div class="col-md-12" >
+        <div class="row">
+            <div class="col-12">
+                <div class="float-right" style = "padding-top: 10px; padding-right: 15px;" [style.visibility]="currentData.length!=0 ? 'visible' : 'hidden'"> 
+                    <button  class="btn btn-danger btn-icon fixed-button"   (click)="capture()" title="Download  PDF Report" >
+                        <i class="fa fa-file-pdf-o" ></i>
+                    </button>
+                    &nbsp;&nbsp;
+                    <button (click)="excelSheet()" title="Download Excel"  class="btn btn-success btn-icon fixed-button">
+                        <i class="fa fa-file-excel-o"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="row" >
+            <div class="col-md-12 text-center">
+                <h6>Regression has highest Fail TestCase</h6>
+                <div style="padding-left: 10%;">
+                    <div echarts [options]="chartInput" style="width: 90%;"
+                        (chartInit)="onChartInit($event)" class="echart">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <angular2-smart-table  [source]="source"  [settings]="settings"></angular2-smart-table>
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="!currentData && !(dataService.regressionNoData | async)"
+    style="padding-right:20px; padding-left:25px;position:relative; height:400px">
+    <div *ngIf="loading" style="position: absolute;top: 40%;left: 50%;" class="lds-hourglass"></div>
+</div>

@@ -1,0 +1,86 @@
+@import '../../../../../themes.scss';
+  .mat-button-toggle-appearance-legacy {
+    background-color: #ffffff;
+    color: rgb(27, 26, 26);
+  }
+
+  .mat-button-toggle-checked {
+    background-color: rgb(24, 23, 23);
+    color: white;
+  }
+
+  .lds-hourglass {
+    display: inline-block;
+    position: relative;
+    width: 64px;
+    height: 64px;
+  }
+
+    .lds-hourglass:after {
+        content: " ";
+        display: block;
+        border-radius: 50%;
+        width: 0;
+        height: 0;
+        margin: 6px;
+        box-sizing: border-box;
+        border: 26px solid  #0495ee;
+        border-color:  #0495ee  transparent  #0495ee  transparent;
+        animation: lds-hourglass 1.2s infinite;
+      }
+
+  @keyframes lds-hourglass {
+    0% {
+      transform: rotate(0);
+      animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+    }
+    50% {
+      transform: rotate(900deg);
+      animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    }
+    100% {
+      transform: rotate(1800deg);
+    }
+  }
+
+  .toggle-btn-group {
+    width:100%;
+    // border: 1px solid rgb(18, 17, 17);
+    border-radius: 5px;
+    overflow-x: auto;
+  }
+
+  .toggle-btn-group::-webkit-scrollbar {
+    display: block;
+    height: 3px;
+  }
+
+  .toggle-btn-group::-webkit-scrollbar-thumb {
+    background-color: #a4a4a4;
+    border-radius: 25px;
+  }
+
+  .mat-form-field {
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    height: 36px;
+    padding: 2px 5px;
+    margin-top: 7px;
+  }
+
+  :host ::ng-deep mat-form-field > .mat-form-field-wrapper > .mat-form-field-flex > .mat-form-field-infix {
+    padding: 0;
+    border: none;
+    margin-top: 7px;
+  }
+
+  :host ::ng-deep mat-form-field >.mat-form-field-wrapper > .mat-form-field-underline {
+    display: none;
+  }
+
+  h6{
+    font-family: Roboto,sans-serif;
+    font-size: .9375rem;
+    font-weight: 600;
+    line-height: 1.5rem;
+  }

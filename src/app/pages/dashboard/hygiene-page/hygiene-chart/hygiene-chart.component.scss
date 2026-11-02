@@ -1,0 +1,74 @@
+.echart {
+  width: 100%;
+  height: 500px;
+}
+
+:host ::ng-deep mat-form-field .mat-form-field-wrapper .mat-form-field-flex .mat-form-field-infix {
+  display: flex;
+  width: 150px;
+}
+
+.infoLog {
+  color: #007bff !important;
+}
+
+.infoLog:hover {
+  text-decoration: underline;
+}
+
+table {
+  width:70%;
+  height: 150%;
+  border:1px solid #666363;
+  
+  border: collapse 1;;
+  padding:11px;
+}
+table th {
+  border:1px solid #dbd5d5;
+  padding:11px;
+
+ 
+  color: #313030;
+}
+table td {
+  border:1px solid #dbd5d5;
+  border:1px solid ;
+  text-align:center;
+  padding:11px;
+  background: #ffffff;
+  color: #313030;
+}
+
+.badge {
+  position: absolute;
+  bottom: 0;
+  font-size: 9px;
+  line-height: 13px;
+  width: 13px;
+  height: 13px;
+  text-align: center;
+  text-transform: capitalize;
+  font-weight: 700;
+  top: 28px;
+}
+
+:host ::ng-deep {
+  .mat-mdc-tab .mdc-tab__text-label{
+    margin-left: -6px !important;
+  }
+
+  .mat-mdc-tab-group.mat-mdc-tab-group-stretch-tabs>.mat-mdc-tab-header .mat-mdc-tab {
+    flex-grow: 0 !important;
+  }
+
+  .mat-mdc-tab.mdc-tab--active .mdc-tab-indicator {
+    color: #ef0000 !important;
+    border-bottom: 5px solid #ef0000 !important;
+  }
+
+  .mat-mdc-tab.mdc-tab--active .mdc-tab__text-label {
+    color: #ef0000 !important;
+    font-weight: bolder !important;
+  }
+}

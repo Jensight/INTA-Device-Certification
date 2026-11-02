@@ -1,0 +1,123 @@
+<div>
+    <app-title-display [breadcrumbs]="breadcrumbs" titleName="Monthly Ops KPI "></app-title-display>
+    <mat-card style="padding-top:0px;min-height: 500px">
+        <div class="d-flex justify-content-between align-items-center pt-2">
+            <!-- <div class="col-sm-12" style="padding-top:20px; display:flex ;flex-direction: row;"> -->
+                <!-- <div class="col-sm-2" style="padding-top: 0.5%;"><h6> User:</h6> </div>   
+                <div class="col-sm-2">
+                <select (change)="filterBasedOnUser();" [(ngModel)]="selectedUser"
+                    style="padding:5px; height: 35px;width: 150%;" class="form-control" class="form-control">
+                    <option [ngValue]="1">All</option>
+                    <option *ngFor="let user of allUserNames" [ngValue]="user.value">{{user.title}}</option>
+                </select>
+                </div> -->
+                <div class="d-flex justify-content-between" style="position: relative; left: 17px;">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Enter a date range</mat-label>
+                        <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+                            <input matStartDate formControlName="start" placeholder="Start date">
+                            <input matEndDate formControlName="end" placeholder="End date">
+                            <mat-date-range-picker #picker>
+                                <mat-date-range-picker-actions>
+                                    <button mat-button matDateRangePickerCancel>Cancel</button>
+                                    <button (click)="onSave()" mat-raised-button color="primary"
+                                        matDateRangePickerApply>Apply</button>
+                                </mat-date-range-picker-actions>
+                            </mat-date-range-picker>
+                        </mat-date-range-input>
+                        <!-- <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint> -->
+                    </mat-form-field>
+                    <div>
+                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-date-range-picker #picker></mat-date-range-picker>
+                    </div>
+                </div>
+                <div class="" >
+                    <mat-form-field appearance="fill">
+                        <mat-label> Availabe Device Types</mat-label>
+                        <mat-select (selectionChange)="filterBasedonVendor();" [(ngModel)]="selectedVendor">
+                            <mat-option *ngFor="let vendor of defaultVendor" [value]="vendor">
+                                {{ vendor }}
+                            </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                </div>
+                <div class="" >
+                <mat-form-field appearance="fill">
+                    <mat-label> Availabe Models</mat-label>
+                    <mat-select  (selectionChange)="filterBasedOnModel();"  [(ngModel)]="selectedModel"> 
+                        <mat-option [value]="1">All </mat-option>
+                        <mat-option *ngFor="let model of allModels" [value]="model"> 
+                            {{ model }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="" [style.visibility]="check == true ? 'hidden' : 'visible'">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Available firmware</mat-label>
+                        <mat-select (selectionChange)="filterBasedonFirmWare();" [(ngModel)]="selectedFirmware">
+                            <mat-option [value]="1">All </mat-option>
+                            <mat-option *ngFor="let firm of firmwareVersion" [value]="firm">
+                                {{firm}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <!-- <select (change)=" filterBasedonFirmWare();" [(ngModel)]="selectedFirmware" style="padding:5px; height: 35px; width: 150%;"
+                        class="form-control">
+                        <option [ngValue]="1">All</option>
+                        <option *ngFor="let firm of firmwareVersion"   [value]="firm">
+                        {{ firm }}</option>
+                    </select> -->
+                </div> 
+            <!-- </div> -->
+        </div>
+        <!-- <div class="row">
+        <div class="col-sm-12" style="padding-top:20px; display:flex ;flex-direction: row;padding-left: 28%">
+            <div style="padding-top: 0.5%;">
+                <h6>Date Range:</h6>
+            </div>
+            <div>
+                <div style =" padding-right: 0.5%">
+                    <mat-button-toggle-group appearance="legacy" [ngModel]="selectedDateRange" (change)="onDateRangeSelected($event)"
+                        style="width:100%;border: 1px solid rgb(18, 17, 17);border-radius: 5px;" aria-label="Font Style">
+                        <span *ngFor="let dtRange of dateRangeArray"
+                            [ngClass]="selectedDateRange === dtRange.label ? 'mat-button-toggle-checked' : 'mat-button-toggle-appearance-legacy'">
+                                <mat-button-toggle style="width:100%;" value="{{dtRange.label}}">{{dtRange.label}}</mat-button-toggle>
+                        </span>
+                    </mat-button-toggle-group>
+                </div>
+            </div>
+        </div>
+    </div> -->
+        <mat-card-content>
+            <div>
+                <div class="card"> 
+                    <div style="overflow: hidden;">
+                        <div *ngIf="formattedData.length != 0">
+                            <div>
+                                <!-- <app-week-regressions-data #regression></app-week-regressions-data> -->
+                                <app-monthly-ops-chart  [showNoDataTxt]="showNoDataTxt"></app-monthly-ops-chart>
+                            </div>
+                            <div style="padding-top:20px;">
+                                <!-- <app-logs-display></app-logs-display> -->
+                                <!-- <app-testcase-details #testCase></app-testcase-details> -->
+                            </div>
+                        </div>
+                        <div *ngIf="showNoDataTxt" style="padding-right:20px; padding-left:25px;position:relative; height:400px">
+                            <div style="position: absolute;top: 40%;width:100%" class="text-center">
+                                <h4>No Data Available. Run Regressions and Come Back !!</h4>
+                                <br>
+                                <button routerLink="/pages/dashboard" title="Home"
+                                    style="cursor: pointer;padding-bottom: 5px;padding-top:5px;padding-right:8px;padding-left:8px"
+                                    class="btn btn-info btn-tiny">
+                                    Home
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

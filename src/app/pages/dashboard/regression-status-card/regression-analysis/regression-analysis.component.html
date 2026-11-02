@@ -1,0 +1,105 @@
+<app-title-display [breadcrumbs]="breadcrumbs" titleName="Regression Analysis"></app-title-display>
+<mat-card style="padding-top:0px;min-height: 500px">
+    <div class="row py-3">
+        <div class="col-sm-10 d-flex justify-content-between align-items-center">
+            <div class="" style="position: relative; left: 11px;">
+                <label class="font-weight-bold" for="User">User:</label>
+                <select (change)="filterBasedOnUser();" [(ngModel)]="selectedUser"
+                    style="padding:5px; height: 35px;" class="form-control" class="form-control">
+                    <option [ngValue]="1">All</option>
+                    <option *ngFor="let user of allUserNames" [ngValue]="user.value">{{user.title}}</option>
+                </select>
+            </div>
+
+            <div class="">
+                <label class="font-weight-bold" for="Availabe Device Type">Availabe Device Type:</label>
+                <select (change)="filterBasedOnVendor();" [(ngModel)]="selectedVendor"
+                    style="padding:5px; height: 35px;" class="form-control" class="form-control">
+                    <option *ngFor="let vendor of defaultVendor" [value]="vendor">{{vendor}}</option>
+                </select>
+            </div>
+
+            <div class="">
+                <label class="font-weight-bold" for="Models">Models:</label>
+                <select (change)="filterBasedOnModel();" [(ngModel)]="selectedModel"
+                    style="padding:5px; height: 35px;" class="form-control">
+                    <option  [ngValue]="1">All</option>                  
+                    <option *ngFor="let model of allModels" [value]="model.modelName">
+                        {{ model.modelName }}</option>
+                </select>
+            </div>
+
+            <div class="d-flex flex-column" style="position: relative; top: 10px;">
+                <mat-label class="font-weight-bold">Select Regression Status:</mat-label>
+                <mat-form-field style="position: relative; bottom: 15px;">
+                    <mat-select (openedChange)="triggerEvent($event)" [formControl]="selectRegFormControl" multiple>            
+                      <mat-option *ngFor="let status of regStatus"
+                        [value]="status" [disabled]="selectedRegStatus.length == 1 && selectedRegStatus[0] == status"
+                        (onSelectionChange)="filterBasedOnRegStatus()">
+                        {{ status }}
+                      </mat-option>
+                      <span *ngIf="showError" class="text-danger px-3" style="font-size: 12px;">Atleast one item need to be selected</span>
+                    </mat-select>
+                </mat-form-field>
+            </div>            
+        </div>
+        <div class="col-sm-2" *ngIf="!showNoDataTxt">
+            <button (click)="capture('excel')" title="Download Excel Report"  class="btn btn-success btn-icon fixed-button" style="margin-left:5px;z-index: 100; height: 40px; float: right; width:40px">
+                <i class="fa fa-file-excel-o"></i>
+            </button>
+            &nbsp;&nbsp;
+            <button class="ibutton" (click)="capture('pdf')" title="Download PDF Report" style="z-index: 100; height: 40px; float: right; width:40px;  " class="btn btn-danger btn-icon fixed-button" >
+                <i class="fa fa-file-pdf-o fa-lg" ></i>
+             </button>
+        </div>
+    </div>
+    <div class="row">
+        <!-- <div style="padding-top: 0.5%;">
+            <h6>Date Range:</h6>
+        </div> -->
+        <div class="col-12">
+            <mat-button-toggle-group appearance="legacy" [ngModel]="selectedDateRange" (change)="onDateRangeSelected($event)"
+                class="toggle-btn-group mt-2" aria-label="Font Style">
+                <span *ngFor="let dtRange of dateRangeArray"
+                        [ngClass]="selectedDateRange === dtRange.label ? 'mat-button-toggle-checked' : 'mat-button-toggle-appearance-legacy'">
+                    <mat-button-toggle style="width:100%;" value="{{dtRange.label}}">{{dtRange.label}}</mat-button-toggle>
+                </span>
+            </mat-button-toggle-group>
+        </div>
+    </div>
+    <mat-card-content>
+        <div style="margin-top:30px">
+        </div>
+        <div>
+              <div class="card">
+                <h6 class="card-header">{{selectedDateRangeTxt}} - {{startDate.toDateString()}} - {{endDate.toDateString()}}</h6>
+                <div  #screen>
+                <div *ngIf="formattedData.length != 0">
+                    <div style="padding-top:20px;">
+                        <app-week-regressions-data #regression [showNoRunFlag] = 'showNoRun' [selectedRegStatus]="selectedRegStatus"></app-week-regressions-data>
+                    </div>
+                    <div style="padding-top:20px;">
+                        <app-testcase-details #testCase [showNoRunFlag] = 'showNoRun' [selectedRegStatus]="selectedRegStatus"></app-testcase-details>
+                    </div>
+                </div>
+                <div *ngIf="showNoDataTxt" style="padding-right:20px; padding-left:25px;position:relative; height:400px">
+                    <div style="position: absolute;top: 40%;width:100%" class="text-center">
+                     <h4>No Data Available. Run Regressions and Come Back !!</h4>
+                     <br>
+                     <button routerLink="/pages/dashboard"  title="Home" style="cursor: pointer;padding-bottom: 5px;padding-top:5px;padding-right:8px;padding-left:8px"
+                     class="btn btn-info btn-tiny">
+                        Home
+                    </button>
+                    </div>
+                </div>
+                <div *ngIf="!subscribedData" style="padding-right:20px; padding-left:25px;position:relative; height:400px">
+                    <div *ngIf="loading" style="position: absolute;top: 40%;left: 50%;" class="lds-hourglass"></div>
+                </div>
+                </div>
+            </div>
+            
+            </div>
+           
+    
+    </mat-card-content>
+</mat-card>

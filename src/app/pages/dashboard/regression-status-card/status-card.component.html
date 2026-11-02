@@ -1,0 +1,25 @@
+<div class="card" style="cursor: move;">
+    <div class="card-body">
+      <div class="slide-num">
+  
+        <div id="carouselExampleSlidesOnly" class="carousel" data-ride="carousel">
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <h3 style="padding-top: 20px;">{{regressionCount}}</h3>
+              <p>Total Unique Regression Runs</p>
+            </div>
+  
+          </div>
+        </div>
+      </div>
+      <a routerLink="/pages/dashboard/regression-analysis" class="card-btn">All Regressions <strong><i class="fa fa-chevron-right"
+            aria-hidden="true"></i></strong></a>
+    </div>
+    <div *ngIf="isEnableLatestInfo" class="card-foot">
+      <p>Last Regressions <strong><i class="fa fa-chevron-up" aria-hidden="true"></i>
+        </strong></p>
+      <span *ngIf="lastRegression">{{(startTime | date:'MMM dd y h:mm a')}}</span>
+      <span *ngIf="!lastRegression">NA</span>
+    </div>
+  </div>
+  
