@@ -1,0 +1,31 @@
+{
+    "content": [
+        {
+            "title": "Ziggo Automation Framework",
+            "image": "http://localhost:4000/public/about1.jpeg",
+            "description": "This Project is envisioned as Ziggo application that integrates with cloud based automation framework for network testing covering Voice, Data, voicemail, QoS, IP, UI, Trunking, UC, API load and CPE interfaces. This Modular scalable architecture can be customized for new team,technology and make it ready to use in short time interval by leveraging existing reusable components and it's easy to integrate with existing 3rd party tools frameworksIt has user friendly Web UI with LDAP authentication, NoSQL DB, testcase development via UI. Integration with hardware test controllers like GL MAPS/Vquad, Spectra, Rasberry Pi, empirix, ixNetwork, ixChariot, ixVeriwave, Octoscope and network elements like IMS core, Broadsoft, Voicemail, policy server, BACC, CMTS, R-Phy, IADs, SBC, IP-Phones, Smartphones etc is possible. It is used to run, schedule test cases and update execution status in HP-ALM, send email report and it is integreated with JIRA for test management. Json based interface used to CICD tools for end to end text execution triggering and reporting."
+        },
+        {
+            "title": "",
+            "image": "http://localhost:4000/public/about2.png",
+            "description": " Ziggo Automation can be integrated with hardware test controller - VQuad which is used to automate sending and recording voice, video and data traffic from four different types of network i.e. Wireless, VOIP , TDM and Analog. The VQuad with any of the above hardware allows to test variety of networks, including Wireless (Bluetooth, Wi-Fi, 3G, 4G, LTE, PTT), VoIP, Analog, and TDM, practically allowing any end-point interfaces to be tested for voice, data, and video quality. This can be integrated with hardware test controllers like raspberry pi where we can automate testing on any IOT device."
+        },
+        {
+            "title": "",
+            "image": "http://localhost:4000/public/about3.jpg",
+            "description": "Ziggo can be used to automate service assurance testing and monitoring equipment for IP-based communications network such as VoIP, IP Multimedia subsystem based next generation networks. ICNA along with ixChariot can be used for performance assessment of complex networks in pre and post deployment. IxChariot is the industry's leading pre-deployment and live network performance testing tools and application assessment tool. It includes test system integration, test automation, wireless product development, RF design, embedded software and test."
+        }
+    ],
+    "contacts":[
+        {
+            "contactName":"Basavaraj",
+            "contactEmail":"basu_vs@infosys.com",
+            "contactPhone" : "1234567890"
+        },
+        {
+            "contactName":"Karthikeyan",
+            "contactEmail":"karthikeyan_e01@infosys.com",
+            "contactPhone" : "1234567890"
+        }
+    ]
+}

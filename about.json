@@ -1,0 +1,29 @@
+{
+    "content": [
+        {
+            "title": "Infosys CPE Test Automation Framework",
+            "image": "../../../assets/images/img2.jpeg",
+            "description": "Infosys Network test automation framework is cloud native platform that allows the accelerated automation of networking test suites in OEM and MSOs labs.  This solution enables tester to develop automation scripts easily, plan and schedule test cases, generate live reports and dashboard with various analysis to fit an organization needs. This solution also allows seamless integration of third-party test tools, test management software to facilitate a tester to have a single window solution."
+        },
+        {
+            "title": "",
+            "image": "../../../assets/images/img4.png",
+            "description": " This Infosys Network test automation framework which is cloud native solution is designed to scale across labs, domains (Cable, Fiber, Voice, IMS, video, IOT, SDN, 5G, Web Apps, mobile Apps), technology (Java, TCL/Tk, Python, cloud containers, MEAN stack) and can automate various network devices at different lifecycle phases (Precertification, Dev-ops, certification, and production) of product / service and be integrated with multiple test drivers."
+        },
+        {
+            "title": "",
+            "image": "",
+            "description": "Infosys Network, CPEs test automation framework is an ideal automation platform with capability to drive specialized test tools (e.g., ixia, Spirent, octoscope), devices (e.g., gateway, CMTS, IP Phone), test management systems (e.g., JIRA, ALM) and reporting engines (e.g., Kibana) providing end use an ease-of-use single place to achieve his/her needs like test planning, development, execution, and reporting. Below are the possible commercial application areas of this platform.  Accelerated automation onboarding:  With the ready to use platform and plugins it is easy to start new automation program up and running in very short time. Very minimal customizations needed to suite any new lab, device type, technology. Scalability: Fully scalable architecture, easy to expand test suite, lab, tool, team, user etc. CICD: Provides inbuilt CICD capability, scheduling, and integration with 3rd party tools, eliminates need of CICD infrastructure. Lab management: Provide all lab management capability, single solution for automation and lab management. Test reporting and test data analytics: Support test reporting in various formats and styles as per typical requirement by test management, release management teams, support various data analytics charts (e.g., CPE utilization, test case utilization, ROI).",
+            "points":["Accelerated automation onboarding:  With the ready to use platform and plugins it is easy to start new automation program up and running in very short time. Very minimal customizations needed to suite any new lab, device type, technology.",
+                "Scalability: Fully scalable architecture, easy to expand test suite, lab, tool, team, user etc. CICD: Provides inbuilt CICD capability, scheduling, and integration with 3rd party tools, eliminates need of CICD infrastructure.",
+                "Lab management: Provide all lab management capability, single solution for automation and lab management.",
+                "Test reporting and test data analytics: Support test reporting in various formats and styles as per typical requirement by test management, release management teams, support various data analytics charts (e.g., CPE utilization, test case utilization, ROI)."]
+        }
+    ],
+    "contact":[
+        {
+            "contactName":"Basavaraj Somawagol",
+            "contactEmail":"basu_vs@infosys.com"
+        }
+    ]
+}
