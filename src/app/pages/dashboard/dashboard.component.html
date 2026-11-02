@@ -1,0 +1,24 @@
+<div class="example-container" cdkDropListGroup>
+    <ng-container *ngFor="let item of sidebar;let i=index">
+    	<div cdkDropList [cdkDropListData]="{item:item,index:i}"  cdkDropListOrientation="horizontal"
+            class="example-list" (cdkDropListDropped)="drop($event)" >
+	        <div cdkDrag class="example-box" cdkDragBoundary=".example-container" >
+                <div *cdkDragPlaceholder></div>
+                <app-regression-status-card *ngIf="item === 0" [data]="regData"></app-regression-status-card>
+                <app-tc-execution-status-card *ngIf="item === 1" [data]="regData"></app-tc-execution-status-card>
+                <!-- <app-tc-analysis-status-card *ngIf="item === 2" [data]="tcData"></app-tc-analysis-status-card> -->
+                <app-compare-reg-status-card *ngIf="item === 2" [data]="compareData"></app-compare-reg-status-card>
+                <app-cpe-regression-status-card *ngIf="item === 3" [data]="cpeData"></app-cpe-regression-status-card>
+                <!-- <app-monthly-ops-kpi *ngIf="item === 2" [data]="modelFWCount"></app-monthly-ops-kpi> -->
+                <!-- <app-cpe-status-card *ngIf="item === 5" [data]="cpeData"></app-cpe-status-card> -->
+                <app-build-type-status-card *ngIf="item === 5 && enable_environment_type_selection == true" [data]="tcData">
+                </app-build-type-status-card>
+                <!-- <app-hygiene-page *ngIf="item === 5"></app-hygiene-page> -->
+            </div>
+        </div>
+        <!-- <div class="col-md-4">
+            <app-cpe-status-card *ngIf="item === 0" [data]="cpeData"></app-cpe-status-card>
+        </div> -->
+    </ng-container>
+<div>
+    
