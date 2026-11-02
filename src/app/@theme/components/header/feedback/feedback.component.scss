@@ -1,0 +1,20 @@
+form {
+  margin: 20px;
+}
+
+button.btn-primary {
+    background: #fff !important;
+    border:1px solid #da291c !important;
+    color: #da291c !important;
+  }
+  button.btn-primary:hover {
+    color: #fff !important;
+    border:1px solid #da291c !important;
+    background: #da291c !important;
+  }
+  button.btn-primary:disabled,
+  button.btn-primary[disabled]{
+    border: 1px solid hsla(0,0%,51.4%,.24) !important;
+    background-color: hsla(0,0%,51.4%,.24) !important;
+    color: hsla(0,0%,51.4%,.48) !important;
+  }

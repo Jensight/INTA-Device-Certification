@@ -1,0 +1,136 @@
+// @import 'bootstrap/scss/mixins/breakpoints';
+
+
+  // display: flex;
+  // justify-content: space-between;
+  // width: 100%;
+
+  // .logo-container {
+  //   display: flex;
+  //   align-items: center;
+  //   width: calc(#{nb-theme(sidebar-width)} - #{nb-theme(header-padding)});
+  // }
+
+  // nb-action {
+  //   height: auto;
+  //   display: flex;
+  //   align-content: center;
+  // }
+
+  // nb-user {
+  //   cursor: pointer;
+  // }
+
+  // ::ng-deep nb-search button {
+  //   padding: 0!important;
+  // }
+
+  .header-container {
+    display: flex;
+    align-items: center;
+    width: auto;
+
+    .sidebar-toggle {
+    //  @include nb-ltr(margin-right, 1.25rem);
+    //  @include nb-rtl(margin-left, 1.25rem);
+      text-decoration: none;
+    //  color: nb-theme(text-hint-color);
+      // nb-icon {
+      //   font-size: 1.75rem;
+      // }
+    }
+    .icon-a {
+      color: #fff;
+  } 
+
+  }
+
+  // @include media-breakpoint-down(sm) {
+    .control-item {
+      display: none;
+    }
+    .user-action {
+      border: none;
+      padding: 0;
+    }
+  // }
+
+  // @include media-breakpoint-down(is) {
+  //   nb-select {
+  //     display: none;
+  //   }
+  // }
+
+  .text-select {
+    margin: auto;
+    text-align: end;
+    position: relative;
+    width: 100%;
+    padding-right: 0px;
+    padding-left: 0px;
+  }
+
+  .team-select {
+
+    margin: auto;
+    position: relative;
+    width: 100%;
+    padding-right: 0px;
+    padding-left: 10px;
+
+    select {
+      background: var(--unnamed-color-ffffff) 0% 0% no-repeat padding-box;
+      background: #FFFFFF 0% 0% no-repeat padding-box;
+      opacity: 0.2;
+      height: 38px;
+      width: 150px;
+    }
+  }
+
+  .comment-svg {
+    padding-left: 0px;
+    text-align: center;
+  }
+.form-select
+{
+  background-color: rgba(255, 255, 255, 0.2);
+  width: 100%;
+  border: none;
+  color: #fff;
+  padding: 3px;
+  box-shadow: none;
+  height: 30px;
+  font-size: 13px;
+}
+.form-select option{
+  color: #000;
+}
+.user-container .user-picture{
+  height: 2rem !important;
+  width: 2rem !important;
+}
+// .nb-theme-material-light .size-small{
+//   padding: 0;
+// }
+.user-action{
+  padding: 0;
+}
+.form-inline
+{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.badge {
+  position: absolute;
+  padding: -12px -4px -6px -12px;
+  top: -5px;
+  color: #ffffff;
+  left: 34px;
+  border-radius: 100%;
+  font-size: 10px;
+  background-color: red;
+  box-shadow: -0.8px 0.5px #d0caca;
+  border: auto;
+}
