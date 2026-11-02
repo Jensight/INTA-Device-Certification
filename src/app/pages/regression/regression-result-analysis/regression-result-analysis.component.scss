@@ -1,0 +1,57 @@
+ :host ::ng-deep angular2-smart-table .angular2-smart-actions a.angular2-smart-action {
+    font-size : 10px !important;
+    padding: 2px;
+}
+
+:host ::ng-deep angular2-st-tbody-custom a.angular2-smart-action.angular2-smart-action-custom-custom {
+    display: inline-block ;
+    width: 43px;
+    text-align: center;
+    font-size: 1.5em ;
+    padding-top:6px;
+    color: #5e37c1;
+  }   
+
+:host ::ng-deep angular2-smart-table > table > thead > tr.angular2-smart-titles {
+    th.angular2-smart-th > angular2-st-column-title > div > angular2-smart-table-title > a.sort::after {
+        color: #fff !important;
+        position: static !important;
+    }
+    th.angular2-smart-th > angular2-st-column-title > div > angular2-smart-table-title > a.sort.asc::after,a.sort.desc::after {
+        color: #fff !important;
+        border-bottom-color: #fff !important;
+        position: static !important;
+    }
+}
+
+:host ::ng-deep angular2-smart-table svg {
+    position: relative;
+    right: 34px;
+  }
+
+  :host ::ng-deep angular2-smart-table .sort.ng-star-inserted:after {
+    right: 1rem;
+  }
+
+//   :host ::ng-deep angular2-smart-table th.angular2-smart-th > angular2-st-column-title > div > angular2-smart-table-title > a {
+//     white-space: nowrap;
+//   }
+.custom-blue-icon {
+  color: #007bff; 
+}
+::ng-deep .custom-list-icon .fa-list {
+     display: inline-block ;
+    width: 43px;
+    text-align: center;
+    font-size: 1.5em ;
+    padding-top:6px;
+  color: blueviolet !important;
+}
+::ng-deep .custom-edit-icon .fa-pencil {
+     display: inline-block ;
+    width: 43px;
+    text-align: center;
+    font-size: 1.5em ;
+    padding-top:6px;
+  color: #5b5b5b !important;
+}

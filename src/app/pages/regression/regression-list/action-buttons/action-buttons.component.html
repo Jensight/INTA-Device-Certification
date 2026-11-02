@@ -1,0 +1,27 @@
+<div style="text-align:left">
+    <button (click)="viewDetails()" matTooltip="View Regression Job1 Log" class="actionButton"
+        style="padding-top: 12px; padding-bottom: 25px;" [disabled]="!showReRunForPass || !isScheduledRegression || isnoRunRegression" >
+        <mat-icon [ngStyle]="{'color': showReRunForPass ? '#1c94da' : '#8c8c8c'}">list</mat-icon></button>
+    <button  (click)="downloadLog()" matTooltip="Download Log"
+        class="actionButton" style="padding-top:17px; padding-bottom: 25px;" [disabled]="!showReRunForPass || !isScheduledRegression || isnoRunRegression"><i class="fa fa-download fa-lg"
+            style="font-size: 18px; padding-right: 10px;padding-left: 10px;"
+            [ngStyle]="{'color': showReRunForPass ? '#ef0000' : '#8c8c8c'}"></i></button>
+    <button *ngIf="deleteRegressionValue"  
+        (click)="deleteRegressionevent()" matTooltip="Delete" class="actionButton" [disabled]="!showReRunForPass || !isScheduledRegression || isnoRunRegression"
+        style="padding-top:17px; padding-bottom: 25px;"><i class="fa fa-trash-o fa-lg"
+            style="font-size: 19px; padding-right: 10px;padding-left: 10px;"
+            [ngStyle]="{'color': showReRunForPass ? '#922018' : '#8c8c8c'}"></i></button>
+    <button *ngIf="showReRunForPass" matTooltip="{{isDynamicRegression ? 'Rerun disabled for dynamic regressions' : 'Rerun All TC'}}" (click)="reRunJob = true; rerunRegression()"
+        class="actionButton" style="padding-top:17px; padding-bottom: 25px;" [disabled]="isDynamicRegression"><i class="fa fa-play-circle-o fa-lg"
+            [ngStyle]="{'color': isDynamicRegression ? '#8c8c8c' : 'green'}" style="font-size: 20px; padding-right: 10px;padding-left: 10px;"></i></button>
+    <button *ngIf="showReRun" matTooltip="{{isDynamicRegression ? 'Rerun disabled for dynamic regressions' : 'Rerun Failed TC'}}" (click)="reRunJob = false; rerunRegression()"
+        class="actionButton" style="padding-top:17px; padding-bottom: 25px;" [disabled]="isDynamicRegression"><i class="fa fa-play-circle-o fa-lg"
+            [ngStyle]="{'color': isDynamicRegression ? '#8c8c8c' : '#ef0000'}" style="font-size: 20px; padding-right: 10px;padding-left: 10px;"></i></button>
+    <button *ngIf="showReRun && rowData && rowData.excludedTC > 0"  matTooltip="{{isDynamicRegression ? 'Rerun disabled for dynamic regressions' : 'Rerun Excluded TC'}}"  (click)="rerunExcludedRegression()" 
+        class="actionButton" style="padding-top:17px; padding-bottom: 25px;" [disabled]="isDynamicRegression"><i class="fa fa-play-circle-o fa-lg" 
+        [ngStyle]="{'color': isDynamicRegression ? '#8c8c8c' : '#ff9f05'}" style="font-size: 20px; padding-right: 10px;padding-left: 10px;"></i></button>
+ <!-- Added new button for no run regression -->
+     <!-- <button *ngIf="isnoRunRegression" matTooltip="Rerun All TC" (click)="runNotExecutedRegression()"
+        class="actionButton" style="padding-top:17px; padding-bottom: 25px;"><i class="fa fa-play-circle-o fa-lg"
+            style="color: green; font-size: 20px; padding-right: 10px;padding-left: 10px;"></i></button> -->
+</div>

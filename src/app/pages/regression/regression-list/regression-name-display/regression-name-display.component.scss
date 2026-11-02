@@ -1,0 +1,8 @@
+::ng-deep .regression-tooltip {
+    white-space: normal !important;
+    max-width: 400px !important;
+    word-break: break-all !important;
+    text-align: left;
+    line-height: 1.4;
+    transform: translateX(50px) !important;
+}

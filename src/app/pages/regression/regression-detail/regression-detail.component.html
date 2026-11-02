@@ -1,0 +1,41 @@
+
+<div class="row">
+    <div class="col-lg-12">
+        <nav  class="col-md-12" aria-label="breadcrumb">
+            <ol class="breadcrumb" style="background-color:#fafafa; padding-top:0px;">
+              <li class="breadcrumb-item"><a href="#/pages/dashboard" style="color:red;text-decoration: none;font-size: medium;">Dashboard</a></li>
+            <li class="breadcrumb-item">
+                <a *ngIf="fromScreen === 'view'" href="#/pages/regression/list"
+                    style="color:red;text-decoration: none;font-size: medium;">
+                    Regression List
+                </a>
+                <a *ngIf="fromScreen === 'analysis'" href="#/pages/regression/analysis"
+                    style="color:red;text-decoration: none;font-size: medium;">
+                    Regression Result Analysis
+                </a>
+                <a *ngIf="fromScreen === 'dynamicHistory'" href="#/pages/test-scheduler/dynamicScheduler?tab=history"
+                    style="color:red;text-decoration: none;font-size: medium;">
+                    History
+                </a>
+            </li>
+              <!-- <li class="breadcrumb-item"><a href="#/pages/regression/list" style="color:red;text-decoration: none;font-size: medium;">Regression List</a></li> -->
+              <li class="breadcrumb-item active" style="color:rgba(0, 0, 0, 0.87);text-decoration: none;font-size: medium;">Regression Details</li>
+            </ol>
+           </nav>
+    </div>
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="row">
+                <div *ngIf="selectedRegression && selectedRegression['job']" class="col-lg-12">
+                    <mat-tab-group>
+                        <mat-tab *ngFor="let job of selectedRegressionJob;let i = index" [label]="'Job-' + (i+1)">
+                            <app-regression-tab [regEditFlag]="enable_edit_reg_status" [selectedRegression]="selectedRegression" [jobData]="job"> </app-regression-tab>
+                        </mat-tab>
+                    </mat-tab-group>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+<!-- <app-title-display style="margin-top:12px;" titleName="Regression Details"></app-title-display></div> -->
+

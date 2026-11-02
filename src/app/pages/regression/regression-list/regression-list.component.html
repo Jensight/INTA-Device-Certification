@@ -1,0 +1,38 @@
+<div class="row">
+  <nav  class="col-md-4 px-0" aria-label="breadcrumb">
+    <ol class="breadcrumb" style="background-color:#fafafa; padding-top:0px;">
+      <li class="breadcrumb-item"><a href="#/pages/dashboard" style="color:red;text-decoration: none;font-size: medium;">Dashboard</a></li>
+      <li class="breadcrumb-item active" style="color:rgba(0, 0, 0, 0.87);text-decoration: none;font-size: medium;">Regression List</li>
+    </ol>
+  </nav>
+  <div class="col-md-3">
+    <div class="d-flex">
+      <app-title-display titleName="Regression List">
+      </app-title-display>
+      <app-help-display class="pl-3"  style="margin-top: -5px;" matTooltip="View the list of regressions executed by the user along with various options like view regression, Download Logs, Delete, Rerun failed TestCase. Click here to download the regression detail report" docName="view-regression"></app-help-display>
+    </div>
+  </div>
+  <div class="col-md-5 d-flex justify-content-end">
+    <div class="d-flex flex-column align-items-end">
+      <div class="d-flex align-items-center" style="margin-bottom: 5px;">
+        <span style="padding-right: 10px; white-space: nowrap;">Timeframe</span>
+        <select style="padding: 5px; height: 35px; width: auto; min-width: 120px;" [(ngModel)]="selectedTimeFrame" (change)="onTimeFrameChange()" class="form-control">
+          <option value="current">Current Year</option>
+          <option *ngFor="let year of allYears" [value]="year">{{year}}</option>
+        </select>
+      </div>
+      <div class="scheduled-count-display">
+        <span class="scheduled-count-label">Scheduled regression count: <span class="badge rounded-pill bg-danger" style="font-size:20px; color: white;">{{scheduledRegressionCount}}</span></span>
+      </div>
+    </div>
+  </div>
+</div>
+<div class ="d-flex justify-content-end align-items-center mt-2 mr-3" style="padding-bottom: 3px;">
+  <button  *ngIf = 'showMultiDelButton && selectedRows && selectedRows.length > 0' (click)="onMultiDelete()" class="ibutton"> Delete </button>
+</div>
+<div class="row" style="margin-bottom:10px">
+    <div style="margin-left: 12px;padding: 0px;" class="col-lg-12">
+        <angular2-smart-table style="font-size:15px" [source]="source" (click)="setSortData()" [settings]="settings"
+        (userRowSelect)="onRowSelect($event)"></angular2-smart-table>
+    </div>
+</div>

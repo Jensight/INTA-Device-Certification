@@ -1,0 +1,108 @@
+<form [formGroup]="regDetailsForm" class="text-center">
+    <div class="row" style="margin-top: 18px;">
+      <div class="col-md-11" style="margin-bottom: 30px">
+          <b>Regression Details</b>
+      </div>
+      <span class="col-md-1" style="margin-left: -35px;">
+          <span style="cursor:pointer" (click)="dialogRef.close()" class="close" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+          </span>
+      </span> 
+    </div>
+    <div class="row text-center">
+        <div class="col-md-6 text-center" style="margin-bottom: 10px; margin-left: 10px;">
+          <mat-form-field style="width:300px" appearance="outline">
+            <mat-label>Regression Name</mat-label>
+            <input matInput formControlName="regName" [(ngModel)] = 'regName' style="padding-left: 16px;" readonly>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6 text-center" style="margin-bottom: 10px; margin-left: -18px">
+            <mat-form-field style="width:300px" appearance="outline">
+              <mat-label>Triggered By</mat-label>
+              <input matInput formControlName="user" [(ngModel)] = 'user' style="padding-left: 16px;" readonly>
+            </mat-form-field>
+          </div>
+    </div>
+    <div class="row text-center">
+        <div class="col-md-6 text-center" style="margin-bottom: 10px; margin-left: 10px;">
+          <mat-form-field style="width:300px" appearance="outline">
+            <mat-label>Status</mat-label>
+            <input matInput formControlName="status" [(ngModel)] = 'status' style="padding-left: 16px;" readonly>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6 text-center" style="margin-bottom: 10px; margin-left: -18px">
+            <mat-form-field style="width:300px" appearance="outline">
+              <mat-label>Reviewed By</mat-label>
+              <input matInput formControlName="reviewer" [(ngModel)] = 'reviewer' style="padding-left: 16px;" readonly>
+            </mat-form-field>
+          </div>
+    </div>
+
+    <div class="row text-center">
+        <div class="col-md-6 text-center" style="margin-bottom: 10px; margin-left: 10px;">
+          <mat-form-field style="width:300px" appearance="outline">
+            <mat-label>Reviewed On</mat-label>
+            <input matInput formControlName="reviewedOn" [(ngModel)] = 'reviewedOn' style="padding-left: 16px;" readonly>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6 text-center" style="margin-bottom: 10px; margin-left: -18px">
+            <mat-form-field style="width:300px">
+              <mat-label>Please Select Failure Category</mat-label>
+              <mat-select (openedChange)="openedChange($event)"  [formControl]="selectFormControl" multiple>
+                <div class="select-container">
+                <mat-optgroup >
+              <mat-form-field style="width:100%;">
+                <input #search autocomplete="off" placeholder="Search" aria-label="Search" matInput [formControl]="searchTextboxControl">
+                <button [disableRipple]="true" *ngIf="search.value" matSuffix mat-icon-button aria-label="Clear" (click)="clearSearch($event)">
+                <mat-icon >close</mat-icon>
+              </button>
+                     </mat-form-field>
+                </mat-optgroup>
+             <mat-option (onSelectionChange)="selectionChange($event)" *ngFor="let option of filteredOptions | async" [value]="option.value">
+                    {{option.title}}
+                  </mat-option>
+            </div>
+            </mat-select>
+            <mat-error *ngIf="selectFormControl.hasError('required')">
+              Please select atleast one Failure Category
+          </mat-error>
+            </mat-form-field>
+          </div>
+    </div>
+ 
+    <div class="row text-center">
+      <div class="col-md-12 text-center" style="margin-bottom: 10px">
+        <mat-form-field style="width:600px !important" appearance="outline" hintLabel="Max 300 characters">
+          <mat-label>Remarks</mat-label>
+          <textarea matInput placeholder="Remarks" formControlName="remarks" [maxLength]="300" style="padding-left: 16px;" [(ngModel)] = 'remarks'></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row text-center">
+      <div class="col-md-12 text-center" style="margin-bottom: -20px">
+        <div class="col-md-6 text-center" style="display: flex; padding-left: 45px;">
+          <label style="margin: 4px; padding-top: 12px;">Review Completed?</label>
+          <div style="padding-left: 5px;">
+            <mat-checkbox formControlName="reviewComplete" style="padding:2px; padding-top: 8px;" [(ngModel)] = 'yes' (change)="check('yes')">
+              <label style="margin-top: -2px;">Yes</label>
+            </mat-checkbox>
+            <mat-checkbox formControlName="reviewNotComplete" style="padding:2px; padding-top: 8px;" [(ngModel)] = 'no' (change)="check('no')">
+              <label style="margin-top: -2px;">No</label>
+            </mat-checkbox>
+          </div>
+        </div>
+        <div class="col-md-6 text-center"></div>
+    </div>
+    </div>
+
+    <mat-divider></mat-divider>
+    <div class="row" style="height: 10px;">
+        <div class="col-lg-12"></div>
+    </div>
+    <div class="row text-center">  
+        <div class="col-md-12 ">
+          <button type="button" class="btn btn-primary" style="margin-right: 15px;"  [disabled]= '!(regDetailsForm.valid && selectedValues.length > 0)' (click)="onUpdate()">Update</button>
+          <button  type="button" class="btn btn-outline-danger" style="margin-left: 10px;" (click)="dialogRef.close()">Cancel</button>
+        </div>
+    </div>
+    </form>

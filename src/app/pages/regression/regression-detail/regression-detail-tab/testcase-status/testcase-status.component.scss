@@ -1,0 +1,162 @@
+.status-success  {
+
+    color: #ffffff !important;
+  
+    border-color: #60af20 !important;
+  
+    background: #60af20 !important;
+  
+  }
+  
+  .status-success:hover {
+  
+    color: #ffffff !important;
+  
+    border-color: #8fcf50 !important;
+  
+    background: #8fcf50 !important;
+  
+  }
+  
+  .status-info{
+  
+    color: #ffffff !important;
+  
+    border-color: #0495ee !important;
+  
+    background: #0495ee!important;
+  
+  }
+  
+  .status-info:hover {
+  
+    color: #ffffff !important;
+  
+    border-color: #40bbf4 !important;
+  
+    background: #40bbf4 !important;
+  
+  }
+  
+  .status-danger{
+  
+    color: #ffffff !important;
+  
+    border-color: #b00020 !important;
+  
+    background: #b00020 !important;
+  
+  }
+  
+  .status-danger:hover {
+  
+    color: #ffffff !important;
+  
+    border-color: #cf3341 !important;
+  
+    background: #cf3341 !important;
+  
+  }
+  
+ .status-primary{
+  
+    color: #ffffff !important;
+  
+    border-color: #ff9f05 !important;
+  
+    background: #ff9f05 !important;
+  
+  }
+
+  .status-primary :disabled{
+  
+    color: #ffffff !important;
+  
+    border-color: #faa721 !important;
+  
+    background: #faa721 !important;
+  
+  }
+  
+  .status-primary :hover {
+  
+    color: #ffffff !important;
+  
+    border-color: #ffbe43!important;
+  
+    background: #ffbe43!important;
+  
+  }
+
+  
+  .status-warn{
+  
+    color: #ffffff !important;
+  
+    border-color: #c76b20 !important;
+  
+    background: #c76b20 !important;
+  
+  }
+
+  .status-warn :disabled{
+  
+    color: #ffffff !important;
+  
+    border-color: #c76b20 !important;
+  
+    background: #c76b20 !important;
+  
+  }
+  
+  .status-warn :hover {
+  
+    color: #ffffff !important;
+  
+    border-color: #c76b20!important;
+  
+    background: #c76b20!important;
+  
+  }
+
+  .status-abort{
+  
+    color: #ffffff !important;
+  
+    border-color: #fa4d56 !important;
+  
+    background: #fa4d56  !important;
+  
+  }
+
+  .status-abort :disabled{
+  
+    color: #ffffff !important;
+  
+    border-color: #fa4d56  !important;
+  
+    background: #fa4d56  !important;
+  
+  }
+  
+  .status-abort :hover {
+  
+    color: #ffffff !important;
+  
+    border-color: #fa4d56 !important;
+  
+    background: #fa4d56  !important;
+  
+  }
+
+  .status-btn {
+    height: 25px;
+    width: 60px;
+    border-radius: 4px;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 10px;
+    font-weight: 700;
+    box-shadow: none;
+    border:1px solid;
+  }

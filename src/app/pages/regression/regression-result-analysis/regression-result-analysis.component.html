@@ -1,0 +1,43 @@
+<div class="row">
+    <nav  class="col-md-4 px-0" aria-label="breadcrumb">
+      <ol class="breadcrumb" style="background-color:#fafafa; padding-top:0px;">
+        <li class="breadcrumb-item"><a href="#/pages/dashboard" style="color:red;text-decoration: none;font-size: medium;">Dashboard</a></li>
+        <li class="breadcrumb-item active" style="color:rgba(0, 0, 0, 0.87);text-decoration: none;font-size: medium;">Regression Analysis</li>
+      </ol>
+    </nav>
+    <div class="col-md-4">
+      <div class="d-flex">
+        <app-title-display titleName="Regression Result Analysis">
+        </app-title-display>
+        <!-- <app-help-display class="pl-3"  style="margin-top: -5px;" matTooltip="View the list of regressions executed by the user along with various options like view regression, Download Logs, Delete, Rerun failed TestCase. Click here to download the regression detail report" docName="view-regression"></app-help-display> -->
+      </div>
+    </div>
+</div>
+<div class="row">
+    <!-- <div class="col-md-3"> -->
+      <div class="col-sm-6" style="padding-top: 10px;"></div>
+        <div class="col-sm-1" style="padding-top: 10px;">Timeframe</div>
+        <div class="col-sm-2" style="padding-left: 10px;padding-right: 10px;">
+          <select  style="padding:5px; height: 35px;  "  [(ngModel)]="selectedTimeFrame" (change)="onTimeFrameChange()"
+            class="form-control" >
+            <option value="current">Current Year</option>
+            <option *ngFor="let year of allYears" [value]="year">{{year}}</option>
+          </select>
+        </div>
+        <div class="col-sm-1" style="padding-top: 10px;">Reviewed</div>
+        <div class="col-sm-2" style="padding-left: 10px;padding-right: 10px;">
+          <select  style="padding:5px; height: 35px;  "  [(ngModel)]="selectedStatus" (change)="onTimeFrameChange()"
+            class="form-control" >
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+            <option value="All">All</option>
+          </select>
+        </div>
+    </div>
+  <div class="row" style="margin-bottom:10px; padding-top: 10px;">
+      <div style="margin-left: 12px;padding: 0px;" class="col-lg-12">
+          <angular2-smart-table style="font-size:15px" [source]="source" (click)="setSortData()" [settings]="settings"
+         (custom)="onCustom($event)"></angular2-smart-table>
+      </div>
+  </div>
+  

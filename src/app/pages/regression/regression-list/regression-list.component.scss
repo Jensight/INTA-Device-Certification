@@ -1,0 +1,93 @@
+:host ::ng-deep angular2-smart-table table tbody tr td angular2-smart-table-cell table-cell-view-mode div div {
+    font-size: 12px !important;
+    display: flex !important;
+    justify-content: initial !important;
+}
+
+:host ::ng-deep angular2-smart-table > table > tbody > tr:nth-child(even)> td > angular2-smart-table-cell > table-cell-view-mode {
+    color: #424242 !important;
+    background-color: #ebebeb;
+}
+
+:host ::ng-deep angular2-smart-table table tbody tr td {
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+    input {
+        height: auto;
+    }
+}
+
+:host
+    ::ng-deep
+    angular2-smart-table
+    table
+    tbody
+    tr
+    td
+    angular2-smart-table-cell
+    table-cell-view-mode
+    div
+    custom-view-component
+    app-tooltip-display
+    span {
+    font-size: 12px !important;
+}
+
+:host
+    ::ng-deep
+    angular2-smart-table
+    table
+    tbody
+    tr
+    td
+    angular2-smart-table-cell
+    table-cell-view-mode
+    div
+    custom-view-component
+    app-regression-name-display
+    span {
+    font-size: 12px !important;
+}
+
+
+:host
+::ng-deep angular2-smart-table  table  tbody  tr td:nth-child(3) {
+    text-align: center !important;
+ }
+ ::ng-deep tr.angular2-smart-row > td:nth-child(1) {
+    text-align : left;
+  }
+ 
+::ng-deep tr.angular2-smart-row > td:nth-child(4) {
+    text-align : left;
+  }
+
+.scheduled-count-display {
+    font-size: 19px;
+    color: #302f2f;
+    // padding: 5px 10px;
+    white-space: nowrap;
+    // overflow: hidden;
+    // text-overflow: ellipsis;
+}
+
+.scheduled-count-label {
+    font-weight: 500;
+    white-space: nowrap;
+    display: inline-block;
+}
+
+.scheduled-count-label strong {
+    color: #ef0000;
+    font-weight: 900;
+    font-size: 17px;
+}
+strong {
+    font-size: 15.5px !important;
+}
+
+:host ::ng-deep th.angular2-smart-th.user .angular2-smart-filter {
+    padding-top: 12.5px !important;
+}

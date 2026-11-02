@@ -1,0 +1,241 @@
+:host ::ng-deep angular2-smart-table table tbody tr td angular2-smart-table-cell table-cell-view-mode div div {
+    font-size: 12px !important;
+}
+
+:host ::ng-deep angular2-smart-table table tbody tr td {
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+}
+
+:host ::ng-deep angular2-smart-table table tbody tr td angular2-smart-table-cell table-cell-view-mode div custom-view-component app-tooltip-display span {
+    font-size: 12px !important;
+}
+
+:host ::ng-deep angular2-smart-table table tbody tr td angular2-smart-table-cell table-cell-view-mode div custom-view-component app-regression-name-display span {
+    font-size: 12px !important;
+}
+
+:host ::ng-deep angular2-smart-table table thead tr th angular2-st-column-title div angular2-smart-table-title a {
+    font-size: 12px !important;
+}
+
+:host ::ng-deep angular2-smart-table table thead tr th angular2-st-column-title div angular2-smart-table-title span {
+    font-size: 12px !important;
+}
+
+:host ::ng-deep angular2-smart-table table thead tr th {
+    padding: 5px !important;
+}
+
+:host ::ng-deep angular2-smart-table table tbody tr td {
+    padding: 5px !important;
+    font-size: 12px;
+}
+
+:host ::ng-deep angular2-smart-table-pager nav {
+    margin-top: 5px !important;
+}
+
+:host ::ng-deep angular2-smart-table-pager nav ul li a {
+    padding: 10px !important;
+    font-size: 12px !important;
+}
+
+:host ::ng-deep angular2-smart-table angular2-smart-table-pager nav ul li span {
+    padding: 10px !important;
+    font-size: 12px !important;
+}
+:host ::ng-deep angular2-st-tbody-custom a.angular2-smart-action.angular2-smart-action-custom-custom {
+
+    display: inline-block ;
+
+    width: 43px;
+
+    text-align: center;
+
+    font-size: 1.5em ;
+
+    padding-top:6px;
+
+    color: #424242;
+
+  }
+
+  :host ::ng-deep angular2-st-tbody-custom a.angular2-smart-action:not(:last-child) {
+
+    border-right: 1px solid #ebebeb !important;
+
+  }
+
+  ::ng-deep tr.angular2-smart-row > td:nth-child(1) {
+
+    text-align : left;
+
+    word-break: break-all !important;
+
+  }
+
+  :host ::ng-deep tr.angular2-smart-row > td:nth-child(2) {
+
+    text-align : left;
+
+    word-break: break-all !important;
+
+  }
+
+  :host ::ng-deep .angular2-smart-actions angular2-st-tbody-edit-delete{
+
+    display: none !important;
+
+  }
+
+
+.log {
+     border: 1px;
+    border-color: darkgrey;
+    border-style: solid;
+    border-radius: 4px;
+    margin-left: 20px;
+    min-height: 275px;
+    margin-bottom: 20px;
+}
+
+:host ::ng-deep angular2-smart-table table thead tr {
+    background-color: #a4abb3 !important;
+}
+
+:host ::ng-deep li .active {
+    background-color: #c3ef97 !important;
+}
+
+:host ::ng-deep angular2-smart-table-title>a,
+:host ::ng-deep angular2-smart-table-title>span {
+    color: black !important;
+}
+
+#borderChart {
+    // border-color: rgb(179, 184, 189);
+    // border-style: solid;
+    // border-width: 1px;
+    margin-left: -8px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    // border-radius: 5px;
+}
+
+.btn-actions {
+    border-color: transparent !important;
+    padding-right: 5px !important;
+    padding-left: 5px !important;
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+    height: 35px !important;
+    width: 35px !important;
+}
+
+// :host ::ng-deep ngx-sample-layout nb-layout div div div div div nb-layout-column {
+//     padding-left: 10px !important;
+//     // padding-right: 45px !important;
+// }
+.fixed-button {
+    padding: 0px !important;
+    height: 27px;
+    position: fixed;
+    bottom: 450px;
+    right: 20px;
+    font-size: 20px;
+    width: 30px;
+    -webkit-transition: -webkit-transform 0.8s ease-in-out;
+    transition: transform 0.8s ease-in-out;
+}
+
+.fixed-button:hover {
+    // padding: 5px;
+    // padding-top: 3px;
+    // padding-bottom: 0px;
+    height: 27px;
+    position: fixed;
+    bottom: 450px;
+    right: 20px;
+    font-size: 20px;
+    width: 30px;
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+}
+
+.table .thead-dark th {
+    color: #35005d;
+    background-color: #a4abb3;
+    border-color: #a4abb3;
+    width: 40%;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-weight: 500;
+    text-align: center;
+}
+
+button.status-warning {
+
+    color : #ffffff !important;
+
+    background-color : #ff9f05 !important;
+
+    border : 1px solid transparent !important;
+
+  }
+
+button.status-primary {
+
+    color : #ffffff !important;
+
+    background-color : #ef0000 !important;
+
+    border : 1px solid transparent !important;
+
+  }
+
+button.status-danger {
+
+    color : #ffffff !important;
+
+    background-color : #b00020 !important;
+
+    border : 1px solid transparent !important;
+
+  }
+
+
+
+button.status-danger[disabled] {
+
+    color : rgba(131, 131, 131, 0.48) !important;
+
+   background-color : rgba(131, 131, 131, 0.24) !important;
+
+   border : 1px solid transparent !important;
+
+}
+
+button.status-success {
+
+    color : #ffffff !important;
+
+    background-color : green !important;
+
+    border : 1px solid transparent !important;
+
+  }
+
+  button.status-success[disabled] {
+
+    color : rgba(131, 131, 131, 0.48) !important;
+
+   background-color : rgba(131, 131, 131, 0.24) !important;
+
+   border : 1px solid transparent !important;
+
+  }  
+  

@@ -1,0 +1,18 @@
+<!-- <button *ngIf="value==='completed'" style="padding: 8px;padding-top:0px;padding-bottom:0px;height: 27px;font-size:10px;pointer-events:none;"
+    class="btn btn-primary btn-sm">
+    Completed</button> -->
+<!-- <button *ngIf="value !=='completed'" style="padding: 8px;padding-top:0px;padding-bottom:0px;height: 27px;font-size:10px;pointer-events: none;"
+    class="btn btn-success btn-sm">
+    In Progress</button> -->
+
+
+<button *ngIf="value ==='completed'" style="color: green; cursor: default;">Completed</button>
+<button *ngIf="value !=='completed' && value !=='Scheduled' && value !=='stopped' && value !=='aborted' && value !=='partial'  && value !=='NotExecuted'"
+                (click)="handleClick()" style="color: rgb(16, 105, 206); background: none; border: none;">
+    In Progress
+</button>
+<button *ngIf="value ==='Scheduled'" style="color: rgb(209, 148, 15); cursor: default;">Scheduled</button>
+<button *ngIf="value ==='stopped'" style="color: #da291c; cursor: default;">Stopped</button>
+<button *ngIf="value ==='aborted'" style="color: #da291c; cursor: default;">Aborted</button>
+<button *ngIf="value ==='partial'" style="color: #ff9f05; cursor: default;">Partial</button>
+<button *ngIf="value ==='NotExecuted'" style="color: #da291c; cursor: default;">Not Executed</button>

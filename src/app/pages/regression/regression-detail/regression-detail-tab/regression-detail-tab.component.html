@@ -1,0 +1,387 @@
+
+<div style="margin-left: 0px;margin-right: 0px;" class="row">
+    <div class="col-md-4" style="border-width: 0px;border-top-width: 0px;border-style: solid;border-color: #ebeef2;" >
+        <div class="row">
+            <div class="col-md-8 text-center">
+                <h5 style="padding:10px">Job Summary</h5>
+            </div>
+            <div class="col-md-4 text-center">
+                <mat-slide-toggle [(ngModel)]="barChart" style="padding-top:13px">
+                    Bar Chart
+                </mat-slide-toggle>
+            </div>
+        </div>
+        <div id="borderChart" *ngIf="!barChart" class="row">
+            <div class="col-md-12" style="padding-left: 0px;">
+                <app-pie-chart-summary [data]="chartData"></app-pie-chart-summary>
+            </div>
+        </div>
+        <div id="borderChart" *ngIf="barChart" class="row">
+            <div class="col-md-12">
+                <app-bar-chart-summary [data]="chartData"></app-bar-chart-summary>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12" *ngIf="!liveLogs">
+                <table style="margin-left:10px; margin-right:10px; table-layout: fixed;" class="table table-bordered" >
+                    <tbody style="font-size:12px; font-weight:bold">
+                        <tr>
+                            <td width="40%" style="padding-top: 5px;padding-bottom: 5px;">TestBed Name</td>
+                            <td style="padding-top: 5px;padding-bottom: 5px;">{{jobData['testbed']['testBedName']}}</td>
+                        </tr>
+                        <tr>
+                            <td width="40%" style="padding-top: 5px;padding-bottom: 5px;">DUT</td>
+                            <td style="padding-top: 5px;padding-bottom: 5px;">{{getDutName()}}</td>
+                        </tr>
+                        <tr>
+                            <td width="40%" style="padding-top: 5px;padding-bottom: 5px;">Network Elements</td>
+                            <td style="padding-top: 5px;padding-bottom: 5px; word-break: break-word;">{{getNetworkElements()}}</td>
+                        </tr>
+                        <tr>
+                            <td width="40%" style="padding-top: 5px;padding-bottom: 5px;">Test Suites</td>
+                            <td style="padding-top: 5px;padding-bottom: 5px; word-break: break-word;">{{getTestSuiteList()}}</td>
+                        </tr>
+                        <tr>
+                            <td width="40%" style="padding-top: 5px;padding-bottom: 5px;">CMTS Device</td>
+                            <td style="padding-top: 5px;padding-bottom: 5px; word-break: break-word;">{{jobData['cmtsDeviceName']}}</td>
+                        </tr>
+                        <tr>
+                            <td width="40%" style="padding-top: 5px;padding-bottom: 5px;">CMTS Version</td>
+                            <td style="padding-top: 5px;padding-bottom: 5px; word-break: break-word;">{{jobData['cmtsFirmwareVersion']}}</td>
+                        </tr>
+                        <tr *ngIf="jobData.environment_type">
+                            <td style="padding-top: 5px;padding-bottom: 5px;">{{jobData['compeletedIteration'] ? jobData['compeletedIteration'] : 0 }}/{{jobData['numOfIteration']}}</td>
+                        </tr>
+
+                        <tr>
+                            <td width="40%" style="padding-top: 5px;padding-bottom: 5px;">Total TC</td>
+                            <td style="padding-top: 5px;padding-bottom: 5px;">{{jobData['totalTC']}}</td>
+                        </tr>
+                        <tr>
+                            <td width="40%" style="padding-top: 5px;padding-bottom: 5px;">Pass Count</td>
+                            <td style="padding-top: 5px;padding-bottom: 5px;">{{jobData['passTC']}}</td>
+                        </tr>
+                        <tr>
+                            <td width="40%" style="padding-top: 5px;padding-bottom: 5px;">Fail Count</td>
+                            <td style="padding-top: 5px;padding-bottom: 5px;">{{jobData['failTC']}}</td>
+                        </tr>
+                        <tr>
+                            <td width="40%" style="padding-top: 5px;padding-bottom: 5px; font-weight:bold;">Excluded Count</td>
+                            <td style="padding-top: 5px;padding-bottom: 5px;">{{jobData['excludedTC']}}</td>
+                        </tr>
+                        <tr>
+                            <td width="40%" style="padding-top: 5px;padding-bottom: 5px;">No Run Count</td>
+                            <td style="padding-top: 5px;padding-bottom: 5px;">{{jobData['norunTC']}}</td>
+                        </tr>
+                        <tr>
+                            <td width="40%" style="padding-top: 5px;padding-bottom: 5px;">Warning Count</td>
+                            <td style="padding-top: 5px;padding-bottom: 5px;">{{jobData['warnTC']}}</td>
+                        </tr>
+                        <tr>
+                            <td width="40%" style="padding-top: 5px;padding-bottom: 5px;">Abort Count</td>
+                            <td style="padding-top: 5px;padding-bottom: 5px;">{{jobData['abortTC']}}</td>
+                        </tr>
+                        <tr>
+                            <td width="40%" style="padding-top: 5px;padding-bottom: 5px;">Start Time</td>
+                            <td style="padding-top: 5px;padding-bottom: 5px;">{{jobData['jobStartTime']? getDateFormatting(jobData['jobStartTime']):'NA'}}</td>
+                        </tr>
+                        <tr>
+                            <td width="40%" style="padding-top: 5px;padding-bottom: 5px;">End Time</td>
+                            <td style="padding-top: 5px;padding-bottom: 5px;">
+                                <ng-container *ngIf="jobData['jobEndTime']; else estimatedEnd">
+                                    {{ getDateFormatting(jobData['jobEndTime']) }}
+                                </ng-container>
+                                <ng-template #estimatedEnd>
+                                    {{jobData['estimatedEndTime'] ? getDateFormatting(jobData['estimatedEndTime']): 'NA' }} (assessed)
+                                </ng-template>
+                            </td>                  </tr>
+                        <tr>
+                            <td item-width="80%" style="padding-top: 5px;padding-bottom: 5px;">Time Duration</td>
+                            <td style="padding-top: 5px;padding-bottom: 5px;">{{ jobData['jobEndTime'] &&
+                                jobData['jobStartTime'] ?
+                                getTimeDifference(jobData['jobEndTime'],jobData['jobStartTime']):'NA'}}</td>
+                        </tr>
+                        <tr style="word-wrap:break-word">
+                            <td width="40%" style="padding-top: 5px;padding-bottom: 5px; font-weight:bold;">Firmware Version (DUT)</td>
+                            <td style="padding-top: 5px;padding-bottom: 5px;">{{jobData['firmwareVersion']?jobData['firmwareVersion']:'NA'}}</td>
+                        </tr>
+                        <tr *ngIf="tfwFirmwareVersionsString && tfwFirmwareVersionsString !== 'NA'">
+                            <td width="40%" style="padding-top: 5px; padding-bottom: 5px; font-weight: bold;">Firmware Version (Endpoints)</td>
+                            <td style="padding-top: 5px; padding-bottom: 5px;">
+                              {{ tfwFirmwareVersionsString }}
+                            </td>
+                          </tr>
+                        <tr *ngIf="getOntModelValue()">
+                            <td width="40%" style="padding-top: 5px; padding-bottom: 5px; font-weight: bold;">ONT Model</td>
+                            <td style="padding-top: 5px; padding-bottom: 5px;">
+                              {{ getOntModelValue() }}
+                            </td>
+                          </tr>
+                        <tr *ngIf="jobData.jira && jobData.jira.update && jobData.jira.key">
+                            <td width="40%" style="padding-top: 5px;padding-bottom: 5px; font-weight:bold;">Jira Execution Cycle Id</td>
+                            <td style="padding-top: 5px;padding-bottom: 5px;"><a [href]="jira_domain+'/browse/'+jobData['jira']['key']" target="_blank">
+                                {{jobData.jira.key}}</a></td>
+                        </tr>
+                        <tr *ngIf="jobData['jira'] && jobData['jira']['jiraUnreachable']">
+                            <td width="40%" style="padding-top: 5px;padding-bottom: 5px; font-weight:bold;">Jira Remarks</td>
+                            <td style="padding-top: 5px;padding-bottom: 5px; color: Red;"> {{jobData['jira']['jiraRemarks'] ? jobData['jira']['jiraRemarks'] : 'Jira Not Reachable'}} </td>
+                        </tr>
+                        <tr *ngIf="jobData['comment']">
+                            <td width="40%" style="padding-top: 5px;padding-bottom: 5px; font-weight:bold;">Comments</td>
+                            <td style="padding-top: 5px;padding-bottom: 5px; color: Red;"> {{jobData['comment']}} </td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="row">
+            <div style="margin-top:10px; max-width: 97%;" class="col-md-12">
+                <angular2-smart-table style="font-size:15px" (edit)="editRegressionDetails($event)" (custom)="onCustom($event)" [source]="source" [settings]="settings" ></angular2-smart-table>
+            </div>
+        </div>
+
+        <div style="padding-top:10px;" class="row">
+            <div class="col-md-12">
+                <app-live-logs *ngIf="!liveLogs" [jobId]="jobData['job_id']"></app-live-logs>
+                <table *ngIf="liveLogs" class="table table-bordered" style="table-layout: fixed;">
+                    <thead class="thead-dark">
+                        <tr>
+                          <th colspan="2" scope="col">Regression Summary</th>
+                        </tr>
+                      </thead>
+                    <tbody style="font-size:12px;">
+                        <tr>
+                            <td width="40%" style="padding-top: 5px;padding-bottom: 5px; font-weight:bold;">TestBed Name</td>
+                            <td style="padding-top: 5px;padding-bottom: 5px;">{{jobData['testbed']['testBedName']}}</td>
+                        </tr>
+                        <tr>
+                            <td width="40%" style="padding-top: 5px;padding-bottom: 5px; font-weight:bold;">DUT</td>
+                            <td style="padding-top: 5px;padding-bottom: 5px;">{{getDutName()}}</td>
+                        </tr>
+                        <tr>
+                            <td width="40%" style="padding-top: 5px;padding-bottom: 5px; font-weight:bold;">Network Elements</td>
+                            <td style="padding-top: 5px;padding-bottom: 5px; word-break: break-word;">{{getNetworkElements()}}</td>
+                        </tr>
+                        <tr>
+                            <td width="40%" style="padding-top: 5px;padding-bottom: 5px; font-weight:bold;">Test Suites</td>
+                            <td style="padding-top: 5px;padding-bottom: 5px; word-break: break-word;">{{getTestSuiteList()}}</td>
+                        </tr>
+                        <tr>
+                            <td width="40%" style="padding-top: 5px;padding-bottom: 5px; font-weight:bold;">CMTS Device</td>
+                            <td style="padding-top: 5px;padding-bottom: 5px; word-break: break-word;">{{jobData['cmtsDeviceName']}}</td>
+                        </tr>
+                        <tr>
+                            <td width="40%" style="padding-top: 5px;padding-bottom: 5px; font-weight:bold;">CMTS Version</td>
+                            <td style="padding-top: 5px;padding-bottom: 5px; word-break: break-word;">{{jobData['cmtsFirmwareVersion']}}</td>
+                        </tr>
+                        <tr *ngIf="jobData.environment_type">
+                            <td style="padding-top: 5px;padding-bottom: 5px;">{{jobData['compeletedIteration'] ? jobData['compeletedIteration'] :jobData['numOfIteration'] }}/{{jobData['numOfIteration']}}</td>
+                        </tr>
+                        <tr>
+                            <td width="40%" style="padding-top: 5px;padding-bottom: 5px; font-weight:bold;">Total TC</td>
+                            <td style="padding-top: 5px;padding-bottom: 5px;">{{jobData['totalTC']}}</td>
+                        </tr>
+                        <tr>
+                            <td width="40%" style="padding-top: 5px;padding-bottom: 5px; font-weight:bold;">Pass Count</td>
+                            <td style="padding-top: 5px;padding-bottom: 5px;">{{jobData['passTC']}}</td>
+                        </tr>
+                        <tr>
+                            <td width="40%" style="padding-top: 5px;padding-bottom: 5px; font-weight:bold;">Fail Count</td>
+                            <td style="padding-top: 5px;padding-bottom: 5px;">{{jobData['failTC']}}</td>
+                        </tr>
+                        <tr>
+                            <td width="40%" style="padding-top: 5px;padding-bottom: 5px; font-weight:bold;">Excluded Count</td>
+                            <td style="padding-top: 5px;padding-bottom: 5px;">{{jobData['excludedTC']}}</td>
+                        </tr>
+                        <tr>
+                            <td width="40%" style="padding-top: 5px;padding-bottom: 5px; font-weight:bold;">No Run Count</td>
+                            <td style="padding-top: 5px;padding-bottom: 5px;">{{jobData['norunTC']}}</td>
+                        </tr>
+                        <tr>
+                            <td width="40%" style="padding-top: 5px;padding-bottom: 5px; font-weight:bold;">Warning Count</td>
+                            <td style="padding-top: 5px;padding-bottom: 5px;">{{jobData['warnTC']}}</td>
+                        </tr>
+                        <tr>
+                            <td width="40%" style="padding-top: 5px;padding-bottom: 5px; font-weight:bold;">Abort Count</td>
+                            <td style="padding-top: 5px;padding-bottom: 5px;">{{jobData['abortTC']}}</td>
+                        </tr>
+                        <tr>
+                            <td width="40%" style="padding-top: 5px;padding-bottom: 5px; font-weight:bold;">Start Time</td>
+                            <td style="padding-top: 5px;padding-bottom: 5px;">{{jobData['jobStartTime']?getDateFormatting(jobData['jobStartTime']):'NA'}}</td>
+                        </tr>
+                        <tr>
+                            <td width="40%" style="padding-top: 5px;padding-bottom: 5px; font-weight:bold;">End Time</td>
+                            <td style="padding-top: 5px;padding-bottom: 5px;">
+                                <ng-container *ngIf="jobData['jobEndTime']; else estimatedEnd">
+                                    {{ getDateFormatting(jobData['jobEndTime']) }}
+                                </ng-container>
+                                <ng-template #estimatedEnd>
+                                    {{ jobData['estimatedEndTime'] ? getDateFormatting(jobData['estimatedEndTime']) : 'NA' }} (assessed)
+                                </ng-template>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td item-width="80%" style="padding-top: 5px;padding-bottom: 5px; font-weight:bold;">Time Duration</td>
+                            <td style="padding-top: 5px;padding-bottom: 5px;">{{ jobData['jobEndTime'] &&
+                                jobData['jobStartTime'] ?
+                                getTimeDifference(jobData['jobEndTime'],jobData['jobStartTime']):'NA'}}</td>
+                        </tr>
+                        <tr style="word-wrap:break-word">
+                            <td width="40%" style="padding-top: 5px;padding-bottom: 5px; font-weight:bold;">Firmware Version (DUT)</td>
+                            <td style="padding-top: 5px;padding-bottom: 5px;">{{jobData['firmwareVersion']?jobData['firmwareVersion']:'NA'}}</td>
+                        </tr>
+                         <tr *ngIf="tfwFirmwareVersionsString && tfwFirmwareVersionsString !== 'NA'">
+                            <td width="40%" style="padding-top: 5px; padding-bottom: 5px; font-weight: bold;">Firmware Version (Endpoints)</td>
+                            <td style="padding-top: 5px; padding-bottom: 5px;">
+                              {{ tfwFirmwareVersionsString }}
+                            </td>
+                          </tr>
+                        <tr *ngIf="getOntModelValue()">
+                            <td width="40%" style="padding-top: 5px; padding-bottom: 5px; font-weight: bold;">ONT Model</td>
+                            <td style="padding-top: 5px; padding-bottom: 5px;">{{ getOntModelValue() }}</td>
+                        </tr>
+                        <tr *ngIf="jobData['jira'] && jobData['jira']['update'] && jobData['jira']['key']">
+                            <td width="40%" style="padding-top: 5px;padding-bottom: 5px; font-weight:bold;">Jira Execution Cycle Id</td>
+                            <td style="padding-top: 5px;padding-bottom: 5px;"><a [href]="jira_domain+'/browse/'+jobData['jira']['key']" target="_blank">
+                                {{jobData['jira']['key']}}</a></td>
+                        </tr>
+                        <tr *ngIf="jobData['jira'] && jobData['jira']['jiraUnreachable']">
+                            <td width="40%" style="padding-top: 5px;padding-bottom: 5px; font-weight:bold;">Jira Remarks</td>
+                            <td style="padding-top: 5px;padding-bottom: 5px; color: Red;"> {{jobData['jira']['jiraRemarks'] ? jobData['jira']['jiraRemarks'] : 'Jira Not Reachable'}} </td>
+                        </tr>
+                        <tr *ngIf="jobData['comment']">
+                            <td width="40%" style="padding-top: 5px;padding-bottom: 5px; font-weight:bold;">Comments</td>
+                            <td style="padding-top: 5px;padding-bottom: 5px; color: Red;"> {{jobData['comment']}} </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div style="padding-left: 10px;">
+    <button [disabled]="duplicateRegression['regStatus'] != 'in progress'" (click)="stopRegressionPopUp();stopDisable = true;" 
+    style="bottom:415px; background-color:#990000; color:whitesmoke" title="Stop" class="btn btn-icon fixed-button">
+    <b>
+        <div style="font-size:17px">
+            <i class="fa fa-times-circle-o"></i>
+        </div>
+     </b>
+</button>
+    
+    <button (click)="sendEmailReport()" [disabled]="duplicateRegression['regStatus'] == 'in progress' " title="Email" 
+    style="bottom:380px; background-color:#ff0000; color:whitesmoke" class="btn btn-icon fixed-button">
+         <b>
+            <div style="font-size:17px">
+                <i class="fa fa-envelope"></i>
+            </div>
+         </b>
+    </button>
+    
+    
+    <button   (click)="downloadJobLogs()" [disabled]="duplicateRegression['regStatus'] == 'in progress' " title="Download Logs" style="bottom:345px" class="btn btn-warning btn-icon fixed-button">
+        <b>
+            <div style="font-size:17px">
+                <i class="fa fa-download"></i>
+            </div>
+        </b>
+    </button>
+    
+    <button  (click)="downloadJobExcel()" [disabled]="duplicateRegression['regStatus'] == 'in progress' " title="Download Excel" style="bottom:310px" class="btn btn-success btn-icon fixed-button">
+        <b>
+            <div style="font-size:17px">
+                <i class="fa fa-file-excel-o"></i>
+            </div>
+        </b>
+    </button>
+    
+    <button  (click)="viewHtmlLogs()" [disabled]="duplicateRegression['regStatus'] == 'in progress' " title="View HTML Logs" style="bottom:275px" class="btn btn-primary btn-icon fixed-button">
+        <b>
+            <div style="font-size:17px">
+                <i class="fa fa-html5"></i>
+            </div>
+        </b>
+    </button>
+    <button (click)="copyHtmlUrl()" [disabled]="duplicateRegression['regStatus'] == 'in progress' " title="Copy HTML Logs Url" style="bottom:240px" class="btn btn-info btn-icon fixed-button">
+        <b>
+            <div style="font-size:17px">
+                <i class="fa fa-copy"></i>
+            </div>
+        </b>
+    </button>
+
+    <button *ngIf="duplicateRegression['regStatus'] !== 'in progress' " [disabled]="duplicateRegression['regStatus'] == 'in progress'  || !hasFailedTestCases || duplicateRegression['regStatus'] == 'stopped' || duplicateRegression['regStatus'] == 'aborted' || duplicateRegression['dynamicTagName']" (click)="rerunRegression(reRunJob = false)" title="{{duplicateRegression['dynamicTagName'] ? 'Rerun disabled for dynamic regressions' : 'Rerun Failed TC'}}"
+    style="bottom:170px; background-color:#990000; color:whitesmoke" class="btn btn-icon fixed-button">
+    <b>
+        <div style="font-size:17px">
+            <i class="fa fa-play-circle-o"></i>
+        </div>
+    </b>
+    </button>
+    
+    <button *ngIf="duplicateRegression['regStatus'] !== 'in progress' " [disabled]="duplicateRegression['regStatus'] == 'in progress' || duplicateRegression['dynamicTagName']" (click)="rerunRegression(reRunJob = true)" title="{{duplicateRegression['dynamicTagName'] ? 'Rerun disabled for dynamic regressions' : 'Rerun All TC'}}"
+    style="bottom:205px; background-color:#004d00; color:whitesmoke" class="btn btn-icon fixed-button">
+        <b>
+            <div style="font-size:17px">
+                <i class="fa fa-play-circle-o"></i>
+            </div>
+        </b>
+    </button>
+    <button *ngIf="duplicateRegression['regStatus'] !== 'in progress' " [disabled]="duplicateRegression['regStatus'] == 'in progress' || duplicateRegression['dynamicTagName']" (click)="rerunExcludedRegression()" title="{{duplicateRegression['dynamicTagName'] ? 'Rerun disabled for dynamic regressions' : 'Rerun Excluded TC'}}"
+        style="bottom:135px; background-color:#ff9f05; color:whitesmoke" class="btn btn-icon fixed-button">
+        <b>
+            <div style="font-size:17px">
+                <i class="fa fa-play-circle-o"></i>
+            </div>
+        </b>
+    </button>
+    <button *ngIf="duplicateRegression['regStatus'] !== 'in progress' " (click)="openScheduledLater()"  title="Schedule Later For All TC" class="btn btn-warning btn-icon fixed-button" style="bottom: 105px;">
+        <b>
+            <div style="font-size:17px">
+                <i class="fa fa-calendar-plus-o" aria-hidden="true"></i>
+            </div>
+        </b>
+    </button>
+    <button *ngIf="duplicateRegression['regStatus'] !== 'in progress' "  [disabled]="duplicateRegression['regStatus'] == 'in progress'  || !hasFailedTestCases || duplicateRegression['regStatus'] == 'stopped' || duplicateRegression['regStatus'] == 'aborted'" (click)="openScheduledLaterForFail()"  title="Schedule Later For Failed TC" class="btn btn-danger btn-icon fixed-button" 
+        style="bottom: 75px;">
+        <b>
+            <div style="font-size:17px">
+                <i class="fa fa-calendar-plus-o" aria-hidden="true"></i>
+            </div>
+        </b>
+    </button>
+</div>
+
+<div class="modal " id="myModal" [style.display]="showModal ? 'block' : 'none'">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="border-right border-bottom">
+                <div class="modal-header" *ngIf="editFlagObj && editFlagObj.data && editFlagObj.data.tcName">
+                    <h5 class="modal-title" id="exampleModalLabel" style="font-size: 16px;
+                        margin-bottom: 1px;">{{editFlagObj.data.tcName}}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="close()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <mat-form-field style="width: 64%; font-size: 12px; margin-left: 13px;" *ngIf="editFlagObj && editFlagObj.data && editFlagObj.data.tcStatus">
+                        <mat-label>Select Status</mat-label>
+                        <mat-select [(value)]="selectedStatus">
+                            <mat-option *ngFor="let tm of regresStatusList" [value]="tm.value" [disabled]="tm.value == editFlagObj.data.tcStatus"> <!--(selectionChange)="getTestStatus()"-->
+                                {{ tm.key }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <button type="button" style="margin-left: 10px;" class="btn btn-primary" data-dismiss="modal" (click)="getTestStatus()" [disabled]="loading"><i *ngIf="loading == true" style="font-size: 16px;" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>Submit</button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" [disabled]="loading" (click)="close()">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

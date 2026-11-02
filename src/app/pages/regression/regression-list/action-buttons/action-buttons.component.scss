@@ -1,0 +1,29 @@
+  button.status-success {
+    color : #ef0000 !important;
+    background-color : transparent !important;
+    border : 1px solid transparent !important;
+  }
+  button.status-info {
+    color : #0495ee !important;
+    background-color : transparent !important;
+    border : 1px solid transparent !important;
+  }
+  button.status-primary {
+    color : #ef0000 !important;
+    background-color : transparent !important;
+    border : 1px solid transparent !important;
+  }
+  button.status-danger {
+    color : #b00020 !important;
+    background-color : transparent !important;
+    border : 1px solid transparent !important;
+  }
+  .actionButton {
+    transition-duration: 0.4s;
+    border: none; 
+    padding: 2px 4px;
+    background-color: inherit;
+    height: 15px;
+    text-align: center;
+    text-decoration: none;
+  }

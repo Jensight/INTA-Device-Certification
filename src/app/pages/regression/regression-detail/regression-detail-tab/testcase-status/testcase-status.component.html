@@ -1,0 +1,24 @@
+<button class="status-btn status-success" (click)="showLogs()" *ngIf="(renderValue==='completed' || pass) && !fail && !warning" [disabled]="false">
+    Passed</button>
+
+<button class="status-btn status-info" style="width:90px" (click)="showLogs()" *ngIf="rowData['tcStatus']==='in progress' && regStatus !=='stopped' && !pass && !fail && !warning" [disabled]="true" >
+    In Progress</button>
+
+<button class="status-btn status-primary" (click)="showLogs()" *ngIf="renderValue==='queued' && (regStatus !=='stopped' && regStatus !=='aborted' ) && rowData['tcStatus'] !='in progress'   && !pass && !fail && !warning" [disabled]="true" >
+    In Que</button>
+<button class="status-btn status-primary" (click)="showLogs()" *ngIf="((regStatus ==='stopped') && !pass && !fail && !excluded && !warning && rowData['tcStatus'] !== 'Aborted')
+|| ( (value ==='NoExec' || value === 'No Exec') && (rowData['tcStatus'] === 'NoExec' || rowData['tcStatus'] === 'No Exec'))
+|| ((value ==='NoExec' || value === 'No Exec') && regStatus === 'in progress' && !pass && !fail && !excluded && !warning && rowData['tcStatus'] !== 'Aborted') " [disabled]="true" >
+    No Run</button>   
+<button class="status-btn status-danger" (click)="showLogs()" *ngIf="fail && !pass && !warning" [disabled]="false" >
+Failed</button>
+
+<button class="status-btn status-primary" (click)="showLogs()" *ngIf="rowData['tcStatus'] === 'Excluded'" [disabled]="false" >
+    Exclude</button>
+
+<button class="status-btn status-warn" (click)="showLogs()" *ngIf= "rowData['tcStatus'] === 'Warning'" [disabled]="false" >
+        WARNING </button>
+
+<button class="status-btn status-abort" (click)="showLogs()" *ngIf= "rowData['tcStatus'] === 'Aborted'" [disabled]="false" >
+        ABORTED </button>
+<!--<button *ngIf="editFlag == true" class="status-btn status-info">Show Dropdown</button>-->
