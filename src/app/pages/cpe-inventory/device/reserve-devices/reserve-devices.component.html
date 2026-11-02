@@ -1,0 +1,76 @@
+<div class="card" style="position: relative; top: -22px; left: -14px; min-height: 300px">
+    <div style="font-size: .9375rem !important; padding-left: 20px; padding-top: 10px; padding-bottom: 10px; padding-right: 10px; font-weight: 400; line-height: 1.25rem;">
+      <div *ngIf="disableForm" style="color: red; font-size: small;">{{sharedDevices.toString()}} - Shared device(s) </div>
+        <form [formGroup]="reservationForm">
+            <!-- <div class="row">
+                <div style="padding-top: 12px" class="col-md-4">Reservation Type</div>
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <select formControlName="type" style="padding: 7px;height: 42px;" class="form-control">
+                            <option value="once">Once</option>
+                            <option disabled value="repeat">Repeat</option>
+                        </select>
+                    </div>
+                </div>
+            </div> -->
+            <div *ngIf="reservationForm.get('type').value ==='once'">
+                <div style="margin-top:13px" class="row">
+                    <div style="padding-top: 15px" class="col-md-4">Reservation Name</div>
+                    <div class="col-md-8">
+                        <div class="form-group hass-error" style="margin-bottom:0px">
+                            <input  [ngClass]="reservationForm.get('reservationName').invalid && (reservationForm.get('reservationName').touched  || formSubmitted) ?'form-control-danger':''" formControlName="reservationName" placeholder="Reservation Name" type="text" class="form-control">
+                            <div *ngIf="reservationForm.get('reservationName').hasError('duplicate')" class="form-control-error"> <b>Reservation Already Exists</b></div>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top:0px" class="row">
+                    <div style="padding-top: 25px" class="col-md-4">Accessible Users</div>
+                    <div class="col-md-8">
+                        <div class="input-group">
+                            <ngx-select-dropdown [ngClass]="reservationForm.get('users').invalid && (reservationForm.get('users').touched || formSubmitted) ?'form-control-select':''"  class="col-md-12" [multiple]="true" formControlName="users" [config]="config"
+                            [ngStyle]="{'top': '1px'}" [options]="dropdownOptions"></ngx-select-dropdown>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top:15px" class="row">
+                    <div style="padding-top: 15px" class="col-md-4">Reserve At</div>
+                    <div class="col-md-3">
+                        <div class="demo-radio col-sm-12">
+                            <label class="custom-control custom-radio"  style="padding-left: 0px; padding-right: 0px;">
+                                <input formControlName="reserveAt" value="now" class="custom-control-input" type="radio">
+                                <span class="custom-control-indicator"></span>
+                                <span class="custom-control-description">Now</span>
+                            </label>
+                            <label class="custom-control custom-radio" style="padding-left: 0px; padding-right: 0px;">
+                                <input formControlName="reserveAt" value="later" class="custom-control-input" type="radio">
+                                <span class="custom-control-indicator"></span>
+                                <span class="custom-control-description">Later</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <span *ngIf="reservationForm.get('reserveAt').value === 'later'">
+                            <input [ngClass]=" reservationForm.get('reserveAt').invalid && (reservationForm.get('reserveAt').touched || formSubmitted) ?'form-control-danger':''" formControlName="reserveTime" [min]="date" class="form-control" [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" placeholder="Date Time">
+                            <owl-date-time #dt1></owl-date-time>
+                        </span>
+                    </div>
+                </div>
+
+                <div style="margin-top:15px" class="row">
+                    <div style="padding-top: 15px" class="col-md-4">Release At</div>
+                    <div class="col-md-8">
+                        <div class="input-group">
+                            <input [ngClass]=" reservationForm.get('releaseAt').invalid && (reservationForm.get('releaseAt').touched || formSubmitted) ?'form-control-danger':''" formControlName="releaseAt" [min]="reservationForm.get('reserveTime').value" class="form-control" [owlDateTime]="dt2"
+                                [owlDateTimeTrigger]="dt2" placeholder="Date Time">
+                            <owl-date-time #dt2></owl-date-time>
+                        </div>
+                    </div>
+                </div>
+                </div>
+        </form>
+    </div>
+    <div class="text-right"  style="padding:15px; background-color: #fff;">
+        <button (click)="reserveDevices()" class="btn btn-success btn-demo " [disabled] = "disableForm">Reserve</button> &nbsp;
+        <button (click)="close()" class="btn btn-danger btn-demo" [disabled] = "disableForm">Cancel</button>
+    </div>
+</div>

@@ -1,0 +1,124 @@
+<div class="row">
+    <div class="col text-right">
+        <button [disabled]="selectedTestbeds.length === 0" (click)="reserveDevices()" class="btn btn-success btn-sm p-1 m-1" style="cursor:pointer;">
+            Reserve({{selectedTestbeds.length}})
+        </button>
+    </div>
+</div>
+<div class="row">
+    <div style="padding-left:0px" class="col-md-5 border">
+        <div class="row" style="margin-top:10px">
+            <div class="col-md-6" style="padding-left: 0px;padding-right: 0px;">
+                <mat-form-field style="margin-left:15px; margin-top: -8px;" class="example-full-width">
+                    <mat-label>Search Testbed</mat-label>
+                    <input (keyup)="testbedSearch.next(testbedSearchValue);" [(ngModel)]="testbedSearchValue" matInput>
+                </mat-form-field>
+                <button title="Clear search" (click)="testbedSearch.next('');testbedSearchValue = ''" type="button"
+                    class="close button-config" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div style="margin-top:15px" class="col-md-2">
+                <button (click)="clearAllFilters()" class="btn btn-warning btn-sm" style="cursor: pointer; width: 45px; padding: 8px; padding-top: 0px; padding-bottom: 0px; height: 27px; font-size: 10px">
+                    Clear
+                </button>
+            </div>
+            <div style="margin-top:15px;padding-left:0px" class="col-md-3">
+                <button (click)="selectReservedTestbed()" class="btn btn-primary  btn-sm" style="margin-bottom:10px;cursor:pointer; width: 130px;padding: 8px;padding-top:0px;padding-bottom:0px;height: 27px;font-size:10px;">
+                    Select Reserved({{reservedTestbedCount}})
+                </button>
+                <mat-checkbox [(ngModel)]="onlyAvailable" class="no-break">
+                    <label class="mdc-label" for="mat-mdc-checkbox-2-input" style="padding-top: 6px; margin-left: -10px;">Available Only</label>               
+                </mat-checkbox>
+            </div>
+        </div>
+        <div class="row" style="margin-top:10px;min-height: 380px;">
+            <div cdkDropList #deviceList="cdkDropList" [cdkDropListData]="allTestbedDuplicate" [cdkDropListConnectedTo]="selectedTestbedList" style="padding-top:10px;padding-bottom:10px" class="col-md-12 border  over-flow-main" (cdkDropListDropped)="drop($event)">
+                    <div  style="position:relative;margin-bottom:10px;padding:0px"  *ngFor="let device of allTestbedDuplicate|testbedSearch:testbedSearchPipe:onlyAvailable; let i = index;" cdkDrag>
+                <mat-card style="position:relative;margin-bottom:10px;padding:0px" >
+                    <div class="row">
+                        <div *ngIf="device.available === false" class="use-badge">In Use</div>
+                        <div class="circle" style="margin-top:12px;margin-bottom:9px;margin-left:10px" [ngClass]="className[i%4]" >
+                            <span class="label">{{device.testBedName.slice(0,1).toUpperCase()}}</span>
+                        </div>
+                        <div [matTooltip]="device.testBedName" style="margin-top:14px" class="col">
+                                <span style="font-size:14px !important;font-weight: 500">{{ device.testBedName | slice:0:32 }}{{ device.testBedName.length > 32 ? '...' : ''}}</span>
+                                <br>
+                                <span [matTooltip]="device.model" style="font-weight: normal;font-size: 12px;">Node Count:{{device.nodes.length}}</span>
+                            </div>
+                        <!-- <mat-card-title style="word-break: break-all" [matTooltip]="device.testBedName">{{ device.testBedName | slice:0:32 }}{{ device.testBedName.length > 32 ? '...' : ''}}</mat-card-title>
+                        <mat-card-subtitle>Node Count:{{device.nodes.length}}</mat-card-subtitle> -->
+                        <div class="close view-details">
+                            <button (click)="selectedTestbed = device" class="btn btn-danger btn-icon fixed-button" style="margin-top: 5px;padding:5px;font-size:15px;"
+                                title="View Details">
+                                <b class="fa fa-bars"></b>
+                            </button>
+                            <br>
+                            <button (click)="addDevice({dragData:{from:'source', data: device}})" class="btn btn-info btn-icon fixed-button" disable="true" style="margin-top:-15px;padding:5px;font-size:15px;" title="Reserve">
+                                <b class="fa fa-arrow-right"></b>
+                            </button>
+                        </div>
+                    </div>
+                </mat-card>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div cdkDropList #selectedTestbedList="cdkDropList" [cdkDropListData]="selectedTestbeds" [cdkDropListConnectedTo]="[deviceList]" style="padding:0px" class="col border" (cdkDropListDropped)="drop($event)">
+        <div class="row">
+            <div class="col text-center border">
+                <h6 style="margin-top:7px;    font-size: 1.125rem;
+                font-family: Roboto, sans-serif;
+                font-weight: 700;
+                line-height: 1.5rem;">Selected Testbed</h6>
+            </div>
+        </div>
+        <div class="row">
+            <div style="padding-top:10px;padding-bottom:10px; overflow-x: hidden; max-height: 460px;" class="col">
+                <mat-card   *ngFor="let device of selectedTestbeds;let i = index;"
+                    style="position:relative;margin-bottom:10px;padding:0px" cdkDrag>
+
+                   <div class="row">
+                        <div *ngIf="device.available === false" class="use-badge">In Use</div>
+                        <div  [ngClass]="className[i%4]" class="circle" style="margin-top:12px;margin-bottom:9px;margin-left:10px">
+                            <span class="label">{{device.testBedName.slice(0,1).toUpperCase()}}</span>
+                        </div>
+                        <div [matTooltip]="device.deviceName" style="margin-top:14px" class="col">
+                                <span style="font-size:14px !important;font-weight: 500">{{ device.testBedName | slice:0:19 }}{{ device.testBedName.length > 19 ? '...' : ''}}</span>
+                                <br>
+                                <span [matTooltip]="device.model" style="font-weight: normal;font-size: 12px;">Node Count:{{device.nodes.length}}</span>
+                            </div>
+                        <!-- <mat-card-title  style="word-break: break-all" [matTooltip]="device.testBedName">{{ device.testBedName | slice:0:19 }}{{ device.testBedName.length > 19 ? '...' : ''}}</mat-card-title>
+                        <mat-card-subtitle>Node Count:{{device.nodes.length}}</mat-card-subtitle> -->
+                        <div class="close view-details">
+                            <button (click)="selectedTestbed = device" class="btn btn-danger btn-icon fixed-button" style="margin-top: 5px;padding:5px;font-size:15px;"
+                                title="View Details">
+                                <b class="fa fa-bars"></b>
+                            </button>
+                            <br>
+                            <button  (click)="removeDevice({dragData:{from:'destination', data: device}})" class="btn btn-info btn-icon fixed-button" disable="true" style="margin-top:-15px;padding:5px;font-size:15px;" title="Reserve">
+                                <b class="fa fa-arrow-left"></b>
+                            </button>
+                        </div>
+                    </div>
+                </mat-card>
+            </div>
+
+        </div>
+    </div>
+    <div style="padding:0px" class="col border">
+        <div class="row">
+            <div class="col text-center border">
+                <h6 style="margin-top:7px;     font-size: 1.125rem;
+                font-family: Roboto, sans-serif;
+                font-weight: 700;
+                line-height: 1.5rem;">Testbed Details</h6>
+                <button *ngIf="selectedTestbed" (click)="selectedTestbed = null" title="Clear search" style="margin-top:-27px;outline:none"
+                    type="button" class="close" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+        <app-view-testbed-details [allVariables]="allVariables" [allNodes]="allNodes" [allDevices]="allDevices" [testbedData]="selectedTestbed"></app-view-testbed-details>
+    </div>
+</div>

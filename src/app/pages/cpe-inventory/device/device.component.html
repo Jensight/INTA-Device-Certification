@@ -1,0 +1,195 @@
+<div class="row justify-content-end align-items-center">
+    <div class="">
+            <button [title]="selectedDevices.length === 0 ? 'Select atleast 1 device to reserve': 'Reserve Devices'" [disabled]="selectedDevices.length === 0" (click)="reserveDevices()" class="btn btn-success btn-sm p-1 m-1" style="cursor:pointer;">
+                    Reserve({{selectedDevices.length}})
+            </button>
+    </div>
+    <div class="">
+        <button [title]="dataService.getCurrentUser().role !== 'admin'?'Contact Admin to Release': 'Select atleast 1 device to unreserve'" [disabled]="selectedDevices.length === 0 || dataService.getCurrentUser().role !== 'admin'" (click)="releaseConfirmation()" class="btn btn-danger btn-sm p-1 m-1" style="cursor:pointer;">
+                UnReserve({{getUnavailableCount()}})
+        </button>
+    </div>
+</div>
+<div class="row">
+    <div style="padding-left:0px" class="col-md-6 border">
+        <div class="row" style="margin-top:10px">
+            <div class="col-md-6 pl-0">
+                <mat-form-field style="margin-left:15px; margin-top: -8px;" class="example-full-width">
+                    <mat-label>Search Devices</mat-label>
+                    <input (keyup)="deviceSearch.next(deviceSearchValue);" [(ngModel)]="deviceSearchValue" matInput>
+                </mat-form-field>
+                <button title="Clear search" (click)="deviceSearch.next('');deviceSearchValue = ''" type="button"
+                    class="position-absolute close button-config" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div style="margin-top:15px" class="col-md-3">
+                <button (click)="clearAllFilters()" class="btn btn-warning  btn-sm" style="cursor:pointer; width: 90px; padding: 8px; padding-top:0px; padding-bottom:0px; height: 27px; font-size:10px;">
+                    Clear Filters
+                </button>
+            </div>
+            <div style="margin-top:15px;padding-left:0px" class="col-md-2">
+
+                <button (click)="selectReserved()" class="btn btn-primary btn-sm" style="margin-bottom:10px;cursor:pointer; width: 120px;padding: 8px;padding-top:0px;padding-bottom:0px;height: 27px;font-size:10px;">
+                    Select Reserved({{reservedDeviceCount}})
+                </button>
+                 <mat-checkbox [(ngModel)]="onlyAvailable" class="no-break">
+                    <label class="mdc-label" for="mat-mdc-checkbox-2-input" style="padding-top: 6px; margin-left: -10px;">Available Only</label>               
+                </mat-checkbox>
+            </div>
+        </div>
+        <div class="row" style="margin-top:10px">
+            <div style="padding:0px" class="col-md-5 border">
+                <div class="row border">
+                    <div style="padding-left: 10px; padding-right: 0px;" class="col-md-3">
+                        <h6 style="margin-top:10px; margin-bottom:3px;font-size:12.5px !important;
+                        font-family: Roboto, sans-serif;
+                        font-weight: 750;
+                        line-height: 1.5rem;">Vendor</h6>
+                    </div>
+                    <div style="padding-top:5px;padding-bottom:5px;padding-right:0px" class="col-md-7">
+                        <div style="margin:0px" class="form-group">
+                            <input [(ngModel)]="vendorSearch" placeholder=" Search" style="padding:0px" type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-md-1" style="padding-right: 0px;margin-left: 5px;">
+                        <button (click)="vendorSearch = ''; clearVendors()" type="button" class="close button-config" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 over-flow" style="white-space: nowrap;">
+                        <div *ngFor="let vendor of allVendors|filter:vendorSearch" style="height:20px">
+                            <span style="margin-top:15px">
+                                <mat-checkbox [matTooltip]="vendor"[checked]="selectedVendors.indexOf(vendor) > -1" #vendorBox (change)="checkVendor($event, vendor)">
+                                   <label style="margin-left: -8px; margin-top: 5px;"> {{ vendor | slice:0:20 }}{{ vendor.length > 20 ? '...' : ''}} </label>
+                                </mat-checkbox>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row border">
+                    <div style="padding-left: 10px; padding-right: 0px;" class="col-md-3">
+                        <h6 style="margin-top:10px; margin-bottom:3px;font-size:12.5px !important;
+                        font-family: Roboto, sans-serif;
+                        font-weight: 750;
+                        line-height: 1.5rem;">Model</h6>
+                    </div>
+                    <div style="padding-top:5px;padding-bottom:5px;padding-right:0px" class="col-md-7">
+                        <div style="margin:0px" class="form-group">
+                            <input [(ngModel)]="modelSearch" placeholder=" Search" style="padding:0px" type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-md-1" style="padding-right: 0px;margin-left: 5px;">
+                        <button (click)="modelSearch = '';clearModels()" type="button" class="close button-config" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 over-flow" style="white-space: nowrap;">
+                        <div *ngFor="let model of allModels|filterBy:modelSearch:'modelName'" style="height:20px">
+                            <span style="margin-top:15px">
+                                <mat-checkbox [matTooltip]="model.modelName" [checked]="selectedVendors.indexOf(model.modelName) > -1" #modelBox (change)="checkModel($event, model.modelName)"> 
+                                    <label style="margin-left: -8px; margin-top: 5px;">{{ model.modelName | slice:0:20 }}{{ model.modelName.length > 20 ? '...' : ''}}</label>
+                                </mat-checkbox>
+
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div cdkDropList #deviceList="cdkDropList" [cdkDropListData]="allDevicesDuplicate" [cdkDropListConnectedTo]="selectedDeviceList"
+                (cdkDropListDropped)="drop($event)" style="padding-top:10px;padding-bottom:10px" class="col-md-7 border over-flow-main">
+                <div  style="position:relative;margin-bottom:10px;padding:0px" *ngFor="let device of allDevicesDuplicate|deviceSearchPipe:selectedVendors:selectedModels:deviceSearchPipe:onlyAvailable;let i = index;"
+                    cdkDrag>
+                    <mat-card style="position:relative;margin-bottom:10px;padding:0px">
+                            <div  class="row">
+                            <div *ngIf="!device.available" class="use-badge">In Use</div>
+                            <div class="circle" [ngClass]="className[i%4]" style="margin-top:12px;margin-bottom:9px;margin-left:10px">
+                                {{device.deviceName.slice(0,1).toUpperCase()}}
+                            </div>
+                            <div [matTooltip]="device.deviceName" style="margin-top:14px" class="col">
+                                <span style="font-size:14px !important;font-weight: 500">{{ device.deviceName | slice:0:19 }}{{ device.deviceName.length > 19 ? '...' : ''}}</span>
+                                <br>
+                                <span [matTooltip]="device.model" style="font-weight: normal;font-size: 12px;">{{ device.model | slice:0:19 }}{{ device.model.length > 19 ? '...' : ''}}</span>
+                            </div>
+                            <!-- <mat-card-title style="word-break: break-all" [matTooltip]="device.deviceName" >{{ device.deviceName | slice:0:19 }}{{ device.deviceName.length > 19 ? '...' : ''}}</mat-card-title>
+                        <mat-card-subtitle [matTooltip]="device.model" >{{ device.model | slice:0:19 }}{{ device.model.length > 19 ? '...' : ''}}</mat-card-subtitle> -->
+                            <div class="close view-details">
+                                <button (click)="selectedDevice = device" class="btn btn-danger btn-icon fixed-button" style="margin-top: 5px;padding:5px;font-size:15px;"
+                                    title="View Details">
+                                    <b class="fa fa-bars"></b>
+                                </button>
+                                <br>
+                                <button (click)="addDevice({dragData:{from:'source', data: device}})" class="btn btn-info btn-icon fixed-button" disable="true"
+                                    style="margin-top:-15px;padding:5px;font-size:15px;" title="Reserve">
+                                    <b class="fa fa-arrow-right"></b>
+                                </button>
+                            </div>
+                            </div>
+                    </mat-card>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div cdkDropList #selectedDeviceList="cdkDropList" [cdkDropListData]="selectedDevices" [cdkDropListConnectedTo]="[deviceList]"
+        style="padding:0px" class="col border" (cdkDropListDropped)="drop($event)">
+        <div class="row">
+            <div class="col text-center border">
+                <h6 style="margin-top:7px; font-size: 17px; color: #424242; font-family: Roboto, sans-serif;
+                font-weight: 700;">Selected Devices</h6>
+            </div>
+        </div>
+        <div class="row">
+            <div style="padding-top:10px;padding-bottom:10px; overflow-x: hidden; max-height: 468px;" class="col">
+                <mat-card *ngFor="let device of selectedDevices;let i = index;" style="position:relative;margin-bottom:10px;padding:0px"
+                    cdkDrag>
+
+                    <div  class="row">
+                        <div *ngIf="!device.available" class="use-badge">In Use</div>
+                        <div [ngClass]="className[i%4]" class="circle" style="margin-top:12px;margin-bottom:9px;margin-left:10px">
+                            {{device.deviceName.slice(0,1).toUpperCase()}}
+                        </div>
+                        <div [matTooltip]="device.deviceName" style="margin-top:14px" class="col">
+                                <span style="font-size:14px !important;font-weight: 500">{{ device.deviceName | slice:0:15 }}{{ device.deviceName.length > 15 ? '...' : ''}}</span>
+                                <br>
+                                <span [matTooltip]="device.model" style="font-weight: normal;font-size: 12px;">{{ device.model | slice:0:15 }}{{ device.model.length > 15 ? '...' : ''}}</span>
+                            </div>
+                        <!-- <mat-card-title style="word-break: break-all" [matTooltip]="device.deviceName">{{ device.deviceName | slice:0:15 }}{{ device.deviceName.length > 15 ? '...' : ''}}</mat-card-title>
+                        <mat-card-subtitle [matTooltip]="device.model">{{ device.model | slice:0:15 }}{{ device.model.length > 15 ? '...' : ''}}</mat-card-subtitle> -->
+                        <div class="close view-details">
+                            <button (click)="selectedDevice = device" class="btn btn-danger btn-icon fixed-button" style="margin-top: 5px;padding:5px;font-size:15px;"
+                                title="View Details">
+                                <b class="fa fa-bars"></b>
+                            </button>
+                            <br>
+                            <button (click)="removeDevice({dragData:{from:'destination', data: device}})" class="btn btn-info btn-icon fixed-button"
+                                disable="true" style="margin-top:-15px;padding:5px;font-size:15px;" title="Reserve">
+                                <b class="fa fa-arrow-left"></b>
+                            </button>
+                        </div>
+                   </div>
+                </mat-card>
+            </div>
+
+        </div>
+    </div>
+    <div style="padding:0px" class="col border">
+        <div class="row">
+            <div class="col text-center border">
+                <h6 style="margin-top:7px; font-size: 17px; color: #424242; font-family: Roboto, sans-serif;
+                font-weight: 700;">Devices Details</h6>
+                <button *ngIf="selectedDevice" (click)="selectedDevice = null" title="Clear search" style="margin-top:-27px;outline:none"
+                    type="button" class="close" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+        <div style="max-height: 450px; overflow:auto">
+            <app-view-device-details [deviceData]="selectedDevice"></app-view-device-details>
+        </div>
+
+    </div>
+</div>

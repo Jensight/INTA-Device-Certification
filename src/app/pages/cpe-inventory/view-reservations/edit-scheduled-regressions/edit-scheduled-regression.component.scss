@@ -1,0 +1,253 @@
+@import "../../../../../themes.scss";
+
+
+  .form-control-select {
+    border-radius: 2.38px !important;
+    border-style: solid !important;
+    border-width: 2px !important;
+    border-color: #0495ee !important;
+  }
+
+  .form-control-error {
+    color: #ef0000 !important;
+    font-size: 12px;
+  }
+
+  :host ::ng-deep .mat-dialog-container {
+  padding: 0px !important;
+}
+
+:host ::ng-deep ngx-select-dropdown > div > button {
+  border-color: red;
+  height: 42px !important;
+}
+
+ngx-select-dropdown {
+  padding: 0px;
+  margin-top: 15px;
+}
+
+:host ::ng-deep ngx-select-dropdown > div > div > ul.available-items {
+  max-height: 100px !important;
+  overflow-y: auto !important;
+}
+
+.spinner-explainer {
+	margin:30px auto;
+	width:600px;
+	font-family: Arial, sans-serif;
+}
+
+.spinner-container {
+    margin: 0 auto;
+}
+
+.path {
+    stroke-dasharray: 275;
+    stroke-dashoffset: 0;
+    -webkit-animation: load 1.75s ease-in-out infinite;
+    -moz-animation: load 1.75s ease-in-out infinite;
+    -o-animation: load 1.75s ease-in-out infinite;
+    animation: load 1.75s ease-in-out infinite;
+    -webkit-transform-origin: 50% 50%;
+    -ms-transform-origin: 50% 50%;
+    -o-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+    -moz-transform-origin: 50px 50px; /* There is a percentage bug in Firefox that requires a special over-definition using the vendor prefix, see https://bugzilla.mozilla.org/show_bug.cgi?id=923193 */
+    /* It may seem counter-intuitive (because it is :P), but the fixed offset for transform-origin in Firefox *does* in fact scale with the svg element. */
+    /* NOTE: Anything that you want to perform a transform on MUST be inside of an svg <g> tag, since this seems to reset things for Firefox and allow the pixel origin offset to work its magic. */
+}
+
+.spinner {
+    -webkit-animation: spin 1.75s linear infinite;
+    -moz-animation: spin 1.75s linear infinite;
+    -o-animation: spin 1.75s linear infinite;
+    animation: spin 1.75s linear infinite;
+    -webkit-transform-origin: 50% 50%;
+    -ms-transform-origin: 50% 50%;
+    -o-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+    -moz-transform-origin: 50px 50px;
+}
+
+// .spinner-complete, .path-complete {
+//     /*-webkit-animation-play-state: paused;
+//     -moz-animation-play-state: paused;
+//     -o-animation-play-state: paused;
+//     animation-play-state: paused;*/
+// }
+
+.path-complete {
+    stroke-dasharray: 800;
+    stroke-dashoffset: 0;
+    -moz-transition: all 2.75s ease-out;
+    -o-transition: all 2.75s ease-out;
+    -webkit-transition: all 2.75s ease-out;
+    transition: all 2.75s ease-out;
+    /*-webkit-animation-fill-mode: backwards;
+    -moz-animation-fill-mode: backwards;
+    -o-animation-fill-mode: backwards;
+    animation-fill-mode: backwards;*/
+}
+
+.check, .cross
+{
+	stroke-dasharray: 110;
+	stroke-dashoffset: 110;
+	stroke-width: 0;
+}
+
+.check-complete, .cross-complete {
+    -webkit-animation: check 1s ease-in forwards;
+    -moz-animation: check 1s ease-in forwards;
+    -o-animation: check 1s ease-in forwards;
+    animation: check 1s ease-in forwards;
+    stroke-width: 15;
+    stroke-dashoffset: 0;
+}
+
+/*#region keyframes load*/
+@-webkit-keyframes load {
+    0% {
+        stroke-dashoffset: 273;
+    }
+    50% {
+        stroke-dashoffset: 68.25;
+        -webkit-transform: rotate(135deg);
+        transform: rotate(135deg);
+    }
+    100% {
+        stroke-dashoffset: 273;
+        -webkit-transform: rotate(450deg);
+        transform: rotate(450deg);
+    }
+}
+@-moz-keyframes load {
+    0% {
+        stroke-dashoffset: 273;
+    }
+    50% {
+        stroke-dashoffset: 68.25;
+        -moz-transform: rotate(135deg);
+        transform: rotate(135deg);
+    }
+    100% {
+        stroke-dashoffset: 273;
+        -moz-transform: rotate(450deg);
+        transform: rotate(450deg);
+    }
+}
+@keyframes load {
+    0% {
+        stroke-dashoffset: 273;
+    }
+    50% {
+        stroke-dashoffset: 68.25;
+        -moz-transform: rotate(135deg);
+        -ms-transform: rotate(135deg);
+        -o-transform: rotate(135deg);
+        -webkit-transform: rotate(135deg);
+        transform: rotate(135deg);
+    }
+    100% {
+        stroke-dashoffset: 273;
+        -moz-transform: rotate(450deg);
+        -ms-transform: rotate(450deg);
+        -o-transform: rotate(450deg);
+        -webkit-transform: rotate(450deg);
+        transform: rotate(450deg);
+    }
+}
+/*#endregion*/
+
+/*#region keyframes check*/
+@-webkit-keyframes check {
+    0% {
+        stroke-dashoffset: -110;
+    }
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+@-moz-keyframes check {
+    0% {
+        stroke-dashoffset: -110;
+    }
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+@keyframes check {
+    0% {
+        stroke-dashoffset: -110;
+    }
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+/*#endregion*/
+
+/*#region keyframes spin */
+
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(270deg);
+    }
+}
+
+@-moz-keyframes spin {
+    0% {
+        -moz-transform: rotate(0deg);
+    }
+
+    100% {
+        -moz-transform: rotate(270deg);
+    }
+}
+
+@keyframes spin {
+    0% {
+        -moz-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+
+    100% {
+        -moz-transform: rotate(270deg);
+        -ms-transform: rotate(270deg);
+        -o-transform: rotate(270deg);
+        -webkit-transform: rotate(270deg);
+        transform: rotate(270deg);
+    }
+}
+
+
+
+.success, .danger {
+    stroke: #009900;
+    -moz-transition: stroke .6s;
+    -o-transition: stroke .6s;
+    -webkit-transition: stroke .6s;
+    transition: stroke .6s;
+}
+.danger {
+    stroke: #B00;
+}
+
+.modal-loading-overlay {
+    padding: 12px;
+    background-color: rgba(255, 255, 255, .9);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: none;
+    top: 0;
+    left: 0;
+    z-index: 10;
+}

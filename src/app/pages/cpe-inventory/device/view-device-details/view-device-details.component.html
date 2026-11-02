@@ -1,0 +1,33 @@
+<div *ngIf="!deviceData" class="row">
+    <div class="col text-center">
+        <div class="select-device">
+            <span style="padding-top: 13px;" class="fa fa-mobile fa-6"></span>
+        </div>
+    </div>
+</div>
+<div *ngIf="!deviceData" style="margin-top:15px" class="row">
+    <div class="col text-center">
+        <h6 style="font-size: 1.125rem;
+        font-family: Roboto, sans-serif;
+        font-weight: 700;
+        line-height: 1.5rem;">Select a Device to View Details</h6>
+    </div>
+</div>
+
+<div *ngIf="deviceData" class="row">
+    <div style="width: 100%;margin-top: 10px;">
+        <div class="text-center">
+            <h6  [matTooltip]="deviceData['deviceName']" >{{deviceData['deviceName']| slice:0:20 }}{{ deviceData['deviceName'].length > 20 ? '...' : ''}}</h6>
+        </div>
+    </div>
+    <div style="max-height: 500px;min-width: 98%;overflow-y: auto;padding-left: 10px;">
+        <table class="table table-bordered">
+            <tbody>
+                <tr *ngFor="let detail of deviceDataKeys">
+                    <td width="75px">{{detail}}</td>
+                    <td>{{deviceData[detail] === false || deviceData[detail] ?deviceData[detail]:'Unavailable'}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

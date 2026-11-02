@@ -1,0 +1,39 @@
+<div *ngIf="!testbedData" class="row">
+    <div class="col text-center">
+        <div class="select-device">
+            <span style="padding-top: 13px;" class="fa fa-recycle fa-6"></span>
+        </div>
+    </div>
+</div>
+<div *ngIf="!testbedData" style="margin-top:15px" class="row">
+    <div class="col text-center">
+        <h6 style="    font-size: 1.125rem;
+        font-family: Roboto, sans-serif;
+        font-weight: 700;
+        line-height: 1.5rem;">Select a Testbed to View Details</h6>
+    </div>
+</div>
+
+<div *ngIf="testbedData" class="row">
+    <div style="width: 100%;margin-top: 10px;">
+        <div class="text-center">
+            <h6  style="    font-size: 1.125rem;
+            font-family: Roboto, sans-serif;
+            font-weight: 700;
+            line-height: 1.5rem;" [matTooltip]="testbedData['testBedName']" >{{ testbedData['testBedName'] | slice:0:40 }}{{ testbedData['testBedName'].length > 40 ? '...' : ''}}</h6>
+        </div>
+    </div>
+    <div style="max-height: 450px;min-width: 98%;overflow-y: auto;padding-left: 10px;">
+        <table class="table table-bordered">
+            <tbody>
+                <tr *ngFor="let detail of testbedDataKeys">
+                    <td >{{detail}}</td>
+                    <td>{{finalObj[detail] === false || finalObj[detail] ?finalObj[detail]:'Unavailable'}}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <app-view-device-details *ngFor="let key of deviceNames" [deviceData]="deviceDetailObj[key]"></app-view-device-details>
+    </div>
+</div>
+

@@ -1,0 +1,30 @@
+<div class="card" style="margin-bottom: 0px; border:10px">
+    <h6 class="card-header">
+        Reservations Overlapping. Please Check Availabile Time.
+    </h6>
+    <div>
+        <table>
+            <tbody class="table table-bordered">
+                <tr>
+                    <td>Possible Reserve Time</td>
+                    <td>{{data.nextPossibleReservation}}</td>
+                </tr>
+                <tr>
+                    <td>Overlapping Reservation Count</td>
+                    <td>{{data.reservationNames.length}}</td>
+                </tr>
+                <tr>
+                    <td>Overlapping Reservation Names</td>
+                    <td>{{data.reservationNames}}</td>
+                </tr>
+                <tr>
+                    <td>Reserved By</td>
+                    <td>{{data.reservedUser}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div style="padding:5px" class="text-right">
+        <button (click)="close()"  class="btn btn-danger btn-demo">Close</button>
+    </div>
+</div>

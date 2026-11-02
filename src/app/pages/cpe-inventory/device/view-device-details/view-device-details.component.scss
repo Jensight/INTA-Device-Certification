@@ -1,0 +1,25 @@
+@import '../../../../../themes.scss';
+
+
+    .select-device {
+        margin-top: 48%;
+        font-size: 100px;
+        background: #60af20;
+        width: 10vw;
+        height: 10vw;
+        border-radius: 50%;
+        color: white;
+        margin-left: 23%;
+        padding-top: 5px;
+    }
+
+
+
+table {
+    width: 90%;
+    margin: 4%;
+}
+
+td {
+    word-break: break-all;
+}

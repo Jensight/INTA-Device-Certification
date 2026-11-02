@@ -1,0 +1,52 @@
+<!---div style="padding:10px 15px 15px 15px" class="col-md-12">
+    <div style="padding-bottom: 13px" class="row">
+        <mat-radio-group (change)="valueChange()"  [(ngModel)]="filterType">
+            <mat-radio-button style="padding-left: 10px;padding-right: 15px" value='all'>All</mat-radio-button>
+            <mat-radio-button  style="padding-right: 15px" value="device">Device</mat-radio-button>
+            <mat-radio-button  style="padding-right: 15px" value="testbed">Testbed</mat-radio-button>
+            <mat-radio-button  style="padding-right: 15px" value="regression">Regression</mat-radio-button>
+        </mat-radio-group>
+    </div --->
+    <div class="row">
+        <nav class="col-md-5 px-0" aria-label="breadcrumb">
+            <ol class="breadcrumb" style="background-color:#fafafa; padding-top:0px;">
+            <li class="breadcrumb-item"><a href="#/pages/dashboard" style="color:red;text-decoration: none;font-size: medium;">Dashboard</a></li>
+            <li class="breadcrumb-item active" style="color:rgba(0, 0, 0, 0.87);text-decoration: none;font-size: medium;">Reservation List</li>
+            </ol>
+        </nav>
+        <div class="col-md-6">
+            <div class="d-flex">
+                <app-title-display titleName="Reservation List"></app-title-display>
+            </div>
+        </div>    
+    </div>
+
+<div class="d-flex justify-content-end align-items-center mt-2 mr-3" >
+    <section style="padding-right: 25px">
+        <mat-slide-toggle color="primary" [(ngModel)]="toggleValue" (change)="valueChange()" checked>Active-Reservations</mat-slide-toggle>
+    </section>
+    <mat-form-field style="padding: 5px;width: 300px;">
+        <mat-label>Search Device</mat-label>
+        <input matInput type="search" (keyup.enter)="filterSearchResults(searchValue)" [formControl]="searchFormControl" name="searchValue" [(ngModel)]="searchValue" [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let device of filteredDevices | async" [value]="device.deviceName" (click)="filterSearchResults(device.deviceName)">
+              {{device.deviceName}}
+            </mat-option>
+        </mat-autocomplete>
+        <button mat-button mat-icon-button matSuffix (click)="clearSearchField()" *ngIf="searchValue" style="padding-top: 17px;">
+            <mat-icon>clear</mat-icon>
+        </button>
+    </mat-form-field>
+    <button class="primary" type="button" mat-button matSuffix mat-icon-button (click)="filterSearchResults(searchValue)">
+        <mat-icon>search</mat-icon>
+    </button>
+</div>
+<div *ngIf="toggleValue">
+    <angular2-smart-table (userRowSelect)="rowClicked($event)" (edit)="editResevation($event)" (delete)="cancelReservationConfirmation($event)"
+    [source]="source" [settings]="settings"></angular2-smart-table>
+</div>
+<div *ngIf="!toggleValue">
+    <angular2-smart-table (userRowSelect)="rowClicked($event)" (edit)="editResevation($event)" (delete)="cancelReservationConfirmation($event)"
+    [source]="source" [settings]="settings2"></angular2-smart-table>
+</div>
+<!---/div--->

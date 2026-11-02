@@ -1,0 +1,55 @@
+<div class="card" style="margin: 20px;max-width: 600px">
+          <div>
+              <form [formGroup]="reservationForm">
+                  <div *ngIf="reservationForm.get('type').value ==='once'">
+                      <div class="row">
+                          <div style="padding-top: 15px" class="col-md-4">Reservation Name</div>
+                          <div class="col-md-8">
+                              <div class="form-group hass-error" style="margin-bottom:0px">
+                                  <input  [ngClass]="reservationForm.get('reservationName').invalid && (reservationForm.get('reservationName').touched  || formSubmitted) ?'form-control-danger':''" formControlName="reservationName" placeholder="Reservation Name" type="text" class="form-control">
+                                  <div *ngIf="reservationForm.get('reservationName').hasError('duplicate')" class="form-control-error"> <b>Reservation Already Exists</b></div>
+                              </div>
+                          </div>
+                      </div>
+                      <div style="margin-top:15px" class="row">
+                          <div style="padding-top: 15px" class="col-md-4">Trigger At</div>
+                          <div class="col-md-6">
+                              <input [ngClass]=" reservationForm.get('reserveAt').invalid && (reservationForm.get('reserveAt').touched || formSubmitted) ?'form-control-danger':''"
+                                  formControlName="reserveTime" [min]="date" class="form-control" [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" placeholder="Date Time">
+                              <owl-date-time #dt1></owl-date-time>
+                          </div>
+                          <div class="col-md-2" style="padding: 10px">
+                              <button (click)="checkAvailibility()" class="btn btn-success btn-demo" style="height: 30px;padding-top: 0px;padding-bottom: 0px;padding-right: 10px;padding-left: 10px;font-size: 14px;">Check</button>
+                          </div>
+                      </div>
+                  </div>
+                  <div *ngIf="checkFlag" style="padding-top: 20px;" class="row justify-content-center">
+                      <div id="spinner-template" class="text-center">
+                          <div style="width:15px;height:15px;padding-top:2px" class="spinner-container">
+                              <svg  version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                  xml:space="preserve" x="0px" y="0px" viewBox="0, 0, 100, 100">
+                                  <g>
+                                      <g class="spinner">
+                                          <circle #path class="path" fill="none" stroke="#7DB0D5" stroke-width="7" stroke-miterlimit="10" stroke-linecap="round" cx="50"
+                                              cy="50" r="44" />
+                                      </g>
+                                      <polyline #check class="check" fill="none" stroke="#7DB0D5" stroke-width="8" stroke-linecap="round" stroke-miterlimit="10" stroke-linejoin="round"
+                                          points="70,35 45,65 30,52" />
+                                      <path #cross class="cross" fill="none" stroke="#7DB0D5" stroke-width="16" stroke-linecap="round" stroke-miterlimit="10" d="M70,30 l-40,40 M70,70 l-40,-40"
+                                      />
+                                  </g>
+                              </svg>
+                          </div>
+                      </div>
+                      <div class="" style="padding-left: 5px">
+                         {{loadingText}}
+                      </div>
+
+                  </div>
+              </form>
+            </div>
+          <div class="card-footer text-right"  *ngIf="checkFlag && testbedAvailable" style="padding:10px">
+              <button (click)="reserveDevices()" class="btn btn-success btn-demo " style="height: 30px;padding-top: 0px;padding-bottom: 0px;padding-right: 10px;padding-left: 10px;font-size: 14px;">Schedule</button> &nbsp;
+              <button (click)="close()" class="btn btn-danger btn-demo" style="height: 30px;padding-top: 0px;padding-bottom: 0px;padding-right: 10px;padding-left: 10px;font-size: 14px;">Cancel</button>
+          </div>
+        </div>

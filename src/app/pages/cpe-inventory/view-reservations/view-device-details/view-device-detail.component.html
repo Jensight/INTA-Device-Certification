@@ -1,0 +1,147 @@
+<!-- <app-title-display [breadcrumbs]="breadcrumbs" titleName="View Device"></app-title-display> -->
+<div class="row">
+    <nav class="col-md-5 px-0" aria-label="breadcrumb">
+        <ol class="breadcrumb px-0" style="background-color:#fafafa; padding-top:0px;">
+            <li class="breadcrumb-item"><a href="#/pages/dashboard" style="color:red;text-decoration: none;font-size: medium;">Dashboard</a></li>
+            <li class="breadcrumb-item active" style="color:rgba(0, 0, 0, 0.87);text-decoration: none;font-size: medium;">
+                <a *ngIf="fromScreen === 'reserve'" href="#pages/reserve/view" style="color:red;text-decoration: none;font-size: medium;">Reserve Devices</a>
+                <a *ngIf="fromScreen === 'view'" href="#pages/regression/list" style="color:red;text-decoration: none;font-size: medium;">Regression List</a>
+            </li>
+            <li class="breadcrumb-item active" style="color:rgba(0, 0, 0, 0.87);text-decoration: none;font-size: medium;">View Device</li>
+        </ol>
+    </nav>
+    <div class="col-md-6">
+        <div class="d-flex">
+            <app-title-display titleName="View Device"></app-title-display>
+        </div>
+    </div>
+</div>
+<div class="card" *ngIf="selectedReservation">
+    <div style="min-height:500px" class="row">
+        <div class="col-md-4 border">
+            <div  class="row align-items-center">
+                <div class="col-md-4">
+                    <button *ngIf="fromScreen === 'reserve'" routerLink="/pages/reserve/view" class="btn btn-info btn-demo ng-star-inserted"
+                        style="width: 66px;                   padding: 8px;
+                                            padding-top: 0px;
+                                            padding-bottom: 0px;
+                                            height: 27px;
+                                            font-size: 10px;
+                                            margin-bottom: 10px;margin-top:5px"> Back</button>
+                    <button *ngIf="fromScreen === 'view'" routerLink="/pages/regression/list" class="btn btn-info btn-demo ng-star-inserted"
+                        style="width: 66px;                   padding: 8px;
+                                            padding-top: 0px;
+                                            padding-bottom: 0px;
+                                            height: 27px;
+                                            font-size: 10px;
+                                            margin-bottom: 10px;margin-top:5px"> Back</button>
+                     <button  *ngIf="selectedReservation.active && selectedReservation.reservedUser == this.dataService.getCurrentUser().username"  class="btn btn-info btn-demo ng-star-inserted" style="width: 66px;                   padding: 8px;
+                     padding-top: 0px;
+                     padding-bottom: 0px;
+                     height: 27px;
+                     font-size: 10px;
+                     margin-bottom: 10px;margin-top:5px" (click)="cancelReservationConfirmation($event)"> Cancel</button>
+                </div>
+                <div class="col text-left">
+                    <h6> Reservation Details</h6>
+                </div>
+            </div>
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <td>Name</td>
+                        <td [matTooltip]="selectedReservation.reservationName">{{selectedReservation.reservationName | limitTo : 15}}</td>
+                    </tr>
+                    <tr>
+                        <td>Reservation Type</td>
+                        <td [matTooltip]="selectedReservation.reservationType" style="position: relative;">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <span>{{selectedReservation.reservationType | limitTo : 20}}</span>
+                                <button *ngIf="selectedReservation.reservationType === 'REGRESSION'" type="button" class="btn btn-outline-link btn-sm" title="Testcase/TestSuite Details" style="padding: 5px 10px; border: none;" (click)="showTestCaseDetails()">
+                                    <i class="fa fa-info-circle fa-lg" aria-hidden="true" style="color: #ce4848"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <ng-template [ngIf]="selectedReservation.reservationType == 'TESTBED' || selectedReservation.reservationType == 'REGRESSION' ">
+                    <tr>
+                        <td >Selected Testbed(s)</td>
+                        <td>{{selectedReservation.tbName.join(', ')}}</td>
+                    </tr>
+                </ng-template>
+                    <tr>
+                        <td>Frequency</td>
+                        <td>{{selectedReservation.type}}</td>
+                    </tr>
+                    <tr>
+                        <td>Accessible Users</td>
+                        <td [matTooltip]="selectedReservation.users">{{selectedReservation.users | limitTo : 20}}</td>
+                    </tr>
+                    <tr>
+                        <td>Created Time</td>
+                        <td>{{selectedReservation.createdAt}}</td>
+                    </tr>
+                    <tr>
+                        <td>Start Time</td>
+                        <td>{{selectedReservation.reserveTime}}</td>
+                    </tr>
+                    <tr>
+                        <td>End Time</td>
+                        <td>{{selectedReservation.releaseAt}}</td>
+                    </tr>
+                    <tr>
+                        <td>Current Status</td>
+                        <td>{{selectedReservation.status}}</td>
+                    </tr>
+                    <tr>
+                        <td>Reservation Owner</td>
+                        <td [matTooltip]="selectedReservation.reservedUser">{{selectedReservation.reservedUser | limitTo :20}}</td>
+                    </tr>
+                    <tr *ngIf="selectedReservation.failReason">
+                        <td>Failure Reason</td>
+                        <td>{{selectedReservation.failReason}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-4 border">
+            <div style="margin-top: 10px" class="row">
+                <div class="col text-center">
+                    <h6> Devices</h6>
+                </div>
+            </div>
+            <div class="p-3 over-flow-main">
+                <mat-card @simpleFadeAnimation *ngFor="let device of reservedDevices;let i = index"
+                    style="position:relative;margin-bottom:10px;padding:0px">
+                    <mat-card-header style="padding-left: 20px;padding-top: 10px;">
+                        <div *ngIf="!device.available" class="use-badge">In Use</div>
+                        <div mat-card-avatar [ngClass]="className[i%4]" class="example-header-image">
+                            <span class="label" style="padding-top: 10px; padding-left: 2px;">{{device.deviceName.slice(0,1).toUpperCase()}}</span>
+                        </div>
+                        <mat-card-title style="word-break: break-all" [matTooltip]="device.deviceName">{{device.deviceName | slice:0:20 }}{{ device.deviceName.length > 20 ? '...' : ''}}</mat-card-title>
+                        <mat-card-subtitle [matTooltip]="device.model">{{device.model | slice:0:10 }}{{ device.model.length > 10 ? '...' : ''}}</mat-card-subtitle>
+                        <div class="close view-details">
+                            <button (click)="selectedDevice = device" class="btn btn-danger btn-icon fixed-button" style="margin-top: 5px;padding:5px;font-size:15px;"
+                                title="View Details">
+                                <b class="fa fa-bars"></b>
+                            </button>
+                            <br>
+                        </div>
+                    </mat-card-header>
+                </mat-card>
+            </div>
+        </div>
+        <div class="col-md-4 border">
+            <div class="row">
+                <div class="col text-center ">
+                    <h6 style="margin-top:7px">Devices Details</h6>
+                    <button *ngIf="selectedDevice" (click)="selectedDevice = null" title="Clear search" style="margin-top:-27px;outline:none"
+                        type="button" class="close" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+            <app-view-device-details [deviceData]="selectedDevice"></app-view-device-details>
+        </div>
+    </div>
+</div>
