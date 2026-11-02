@@ -1,0 +1,22 @@
+
+h3 {
+    font-size: 1.25rem !important;
+    font-family: Roboto, sans-serif !important;
+    font-weight: 500 !important;
+    line-height: 1.5rem !important;
+}
+
+.password-style {
+    width: 250px;
+    float: left;
+    padding: 0px 48px;
+}
+.example-section {
+    margin: 5px 5px;
+    display: flex;
+    text-align: center !important;
+  }
+  
+  .mat-radio-button ~ .mat-radio-button {
+    padding-right: 16px;
+  }

@@ -1,0 +1,157 @@
+<h6 class="text-center" style="padding-top: 25px;"><span *ngIf="editFlag == false">Add</span><span *ngIf="editFlag == true">Edit</span> Rack</h6>
+<mat-card>
+    <form [formGroup]="add_lab_setup" class="text-left">
+        <div class="row form-section">  
+            <mat-form-field style="width: 100%; padding: 2px;">
+                <mat-label>Rack Name</mat-label>
+                <input matInput formControlName="rackName" [(ngModel)]="labSetUp.rackName">
+                <mat-error *ngIf="add_lab_setup.get('rackName').hasError('duplicateName')">Rack Name Already Exists</mat-error>
+                <mat-error *ngIf="add_lab_setup.get('rackName').hasError('required')">Please Enter a Rack Name</mat-error>
+            </mat-form-field> 
+        </div>
+         <div class="row form-section">  
+            <mat-form-field style="width: 100%; padding: 2px;">
+                <mat-label>Rack ID</mat-label>
+                <input matInput formControlName="rackId" [(ngModel)]="labSetUp.rackId" [readonly]="true">
+            </mat-form-field> 
+        </div>
+        <div class="form-section">
+            <mat-radio-group formControlName="rackFor" (change)="selectRackFor()" style="width: 100%;" [(ngModel)]="labSetUp.rackFor" [disabled]="editFlag">
+                <mat-radio-button value="Chamber" style="padding-right: 10px;">Chamber</mat-radio-button>
+                <mat-radio-button value="Data">Data</mat-radio-button>
+            </mat-radio-group>
+        </div>
+          <div *ngIf="labSetUp.rackFor && labSetUp.rackFor == 'Chamber'">
+                        <div class="row form-section">
+                            <div class="col-md-6" style="max-width: 120px;">
+                                <mat-form-field style="width: 100%;">
+                                    <mat-label>Chamber</mat-label>
+                                    <mat-select placeholder="Select Chamber" formControlName="NoChamber" [(ngModel)]="labSetUp.NoChamber"
+                                        (selectionChange)="ctrSyncShelfDetails($event.value)">
+                                        <mat-option *ngFor="let fe of shelfDownValue; let i = index" [value]="fe"
+                                            [disabled]="editFlag && fe < originalShelfValue">
+                                            <span>{{ fe }}</span>
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="labSetUp.rackFor && labSetUp.rackFor == 'Data'">
+                        <div class="row form-section">
+                            <div class="col-md-6">
+                                <mat-form-field style="width: 100%;">
+                                    <mat-label>Shelf</mat-label>
+                                    <mat-select placeholder="Select Shelf" formControlName="Shelf" [(ngModel)]="labSetUp.Shelf"
+                                        (selectionChange)="syncShelfDetails($event.value)">
+                                        <mat-option *ngFor="let fe of shelfDownValue; let i = index" [value]="fe" 
+                                            [disabled]="editFlag && fe < originalShelfValue">
+                                            <span>{{ fe }}</span>
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+    </form>
+     <div *ngIf="labSetUp.NoChamber && labSetUp.NoChamber > 0 && labSetUp.chamberDetails" class="shelf-details-section">
+               <div class="row">
+                   <div class="col-md-6"></div>
+                   <div class="col-md-6" style="padding-left: 30px; margin-bottom: -10px;"><strong style="margin-left: -81px; font-size: 10px !important; color: rgba(0,0,0,0.6);">Column</strong></div>
+               </div>
+               <div *ngFor ="let chamberDetail of labSetUp.chamberDetails; let i = index" class="row">
+                <div class="col-md-6" style="max-width: 120px;">
+                    <mat-form-field style="width: 100%;">
+                        <input matInput [(ngModel)]="chamberDetail.chamberName" [readonly]="true" > 
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field style="max-width: 110px;">
+                        <mat-select [(ngModel)]="chamberDetail.column" >
+                        <mat-option *ngFor="let fe of columnDownValue; let j = index" [value]="fe"> 
+                            <span>
+                                {{ fe }}
+                            </span>
+                        </mat-option>
+                    </mat-select>
+                    </mat-form-field>
+                </div>
+                <!-- <mat-form-field style="width: 40%; padding: 2px;" class="col-lg-4">
+                    <mat-select placeholder="Client" 
+                 [(ngModel)]="shelfDetail.Client" >
+                    <mat-option *ngFor="let fe of clientDownValue; let k = index" [value]="fe"> [disabled]="testbedStatus[i]"
+                        <span>
+                            {{ fe }}
+                        </span>
+                    </mat-option>
+                </mat-select>
+                </mat-form-field> -->
+             
+               </div>
+        </div>
+    <div *ngIf="labSetUp.Shelf && labSetUp.Shelf > 0 && labSetUp.shelfDetails" class="shelf-details-section">
+               <div class="row" style="margin-bottom: -10px;">
+                   <div class="col-md-6"></div>
+                   <div class="col-md-6" style="padding-left: 30px;"><strong style="margin-left: -81px; font-size: 10px !important; color: rgba(0,0,0,0.6);">Column</strong></div>
+               </div>
+               <div *ngFor ="let shelfDetail of labSetUp.shelfDetails; let i = index" class="row" style="margin-bottom: 10px;">
+                <div class="col-md-6" style="max-width: 120px;">
+                    <mat-form-field style="width: 100%;">
+                        <input matInput [(ngModel)]="shelfDetail.shelfName" [readonly]="true" > 
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field style="max-width: 110px;">
+                        <mat-select [(ngModel)]="shelfDetail.column" >
+                        <mat-option *ngFor="let fe of columnDownValue; let j = index" [value]="fe"> 
+                            <span>
+                                {{ fe }}
+                            </span>
+                        </mat-option>
+                    </mat-select>
+                    </mat-form-field>
+                </div>
+                <!-- <mat-form-field style="width: 40%; padding: 2px;" class="col-lg-4">
+                    <mat-select placeholder="Client" 
+                 [(ngModel)]="shelfDetail.Client" >
+                    <mat-option *ngFor="let fe of clientDownValue; let k = index" [value]="fe"> [disabled]="testbedStatus[i]"
+                        <span>
+                            {{ fe }}
+                        </span>
+                    </mat-option>
+                </mat-select>
+                </mat-form-field> -->
+             
+               </div>
+        </div>
+           <div class="form-group col-md-offset-1 col-md-10">
+        <label for="team">
+            <strong style="padding-left: 22px;">Teams</strong>
+        </label>
+        <br>
+        <div class="teams-section">
+            <div class="row text-left">
+                <div class="col-md-6" *ngFor="let item of teamListNames; let i = index">
+                    <mat-checkbox
+                        [checked]="add_lab_setup.get('teams').value?.includes(item.name)"
+                        (change)="teamSelect(item.name, $event.checked)">
+                        {{item.name}}
+                    </mat-checkbox>
+                </div>
+            </div>
+        </div>
+        <mat-error
+            *ngIf="add_lab_setup.get('teams').invalid && (add_lab_setup.get('teams').dirty || add_lab_setup.get('teams').touched)">
+            Teams is required.
+        </mat-error>
+      </div>
+      <div>
+        <div class="text-center" *ngIf="editFlag == false">
+            <button class="add-user-button" class="ibutton" [disabled]="add_lab_setup.invalid || !isTeamSelected" size="small" (click)="addRack()">Submit</button>
+        </div>
+        <div class="text-center" *ngIf="editFlag == true">
+            <button class="add-user-button" class="ibutton" [disabled]="add_lab_setup.invalid || !isTeamSelected" size="small" (click)="updateConformation($event)">Submit</button>
+        </div>
+      </div>
+    
+</mat-card>

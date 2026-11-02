@@ -1,0 +1,71 @@
+<div class="row">
+  <nav  class="col-md-5" aria-label="breadcrumb">
+ <ol class="breadcrumb" style="background-color:#fafafa; padding-top:0px;">
+   <li class="breadcrumb-item"><a href="#/pages/dashboard" style="color:red;text-decoration: none;font-size: medium;">Dashboard</a></li>
+   <li class="breadcrumb-item active" style="color:rgba(0, 0, 0, 0.87);text-decoration: none;font-size: medium;">Add Team</li>
+ </ol>
+</nav>
+</div>
+<app-title-display ></app-title-display>
+<div class="card col-md-9 offset-md-1 text-center" style="border-radius: 4%">
+  <h3 style="margin:20px">
+    Add Team
+  </h3>
+  <div style="margin-bottom: 20px">
+    <form [formGroup]="addTeamForm" class="text-center">
+      <mat-form-field style="width:300px;margin-right: 40px;margin-left: 40px">
+        <mat-label>Team Name*</mat-label>
+        <input (keyup)="validateTeamName()"
+        class="input-user"
+         (blur)="validateTeamName()"
+          matInput formControlName='name'>
+        <mat-error *ngIf="addTeamForm.get('name').hasError('required')">
+          Please Enter a Team Name
+        </mat-error>
+        <mat-error *ngIf="addTeamForm.get('name').hasError('unique')">
+          Team Already Registered.
+        </mat-error>
+      </mat-form-field>
+
+
+      <!--<mat-form-field style="width:300px;margin-right: 40px;margin-left: 40px">
+        <mat-select formControlName="status" placeholder="Status*">
+          <mat-option value="A">Activated</mat-option>
+          <mat-option value="D">Deactivated</mat-option>
+        </mat-select>
+        <mat-error *ngIf="addTeamForm.get('status').hasError('required')">
+          Please select a Status
+        </mat-error>
+      </mat-form-field>
+
+      <span formArrayName="leadMailIds"
+        *ngFor="let email of addTeamForm['controls']['leadMailIds']['controls'];let i = index;">
+        <mat-form-field style="width:240px;margin-left: 40px">
+          <input matInput [formControl]='email' [placeholder]="'Lead Mail Id - ' + (i+1) ">
+          <mat-error *ngIf="email.hasError('email') ">
+            Please Enter valid Email Id
+          </mat-error>
+
+        </mat-form-field>
+        <span style="margin-left:15px;margin-right: 27px;display: inline-block;min-width: 58px">
+          <button (click)="addNewLeadMail()" title="Add Mail"
+            *ngIf="i == addTeamForm['controls']['leadMailIds']['length'] -1" nbButton ghost status="primary"
+            size="small">
+            <nb-icon icon="plus-circle-outline"></nb-icon>
+          </button>
+          <button (click)="removeLeadMail(i)" title="Remove Mail"
+            *ngIf="addTeamForm['controls']['leadMailIds']['length'] > 1" class="ibutton2" size="small">
+             <i class="fa fa-trash-o fa-lg"></i>
+          </button>
+        </span>
+      </span>-->
+
+      <div class="text-center" style="padding-top: 3px;">
+        <button [disabled]="!addTeamForm.valid" (click)="addTeam()" class="ibutton"
+          style="margin-right: 15px; height: 32px; width:50px;">Add</button>
+        <button routerLink="/pages/settings/team/view" style="height: 32px; width:70px" class="ibutton">Cancel</button>
+      </div>
+    </form>
+
+  </div>
+</div>

@@ -1,0 +1,108 @@
+table {
+    width: 100%;
+  }
+  
+  tr.example-detail-row {
+    height: 0;
+  }
+  
+  // tr.example-element-row:not(.example-expanded-row):hover {
+  //   background: #777;
+  // }
+  
+  tr.example-element-row:not(.example-expanded-row):active {
+    background: #efefef;
+  }
+  
+  .example-element-row td {
+    border-bottom-width: 0;
+    align-items: center;
+  }
+  
+  .example-element-detail {
+    overflow: hidden;
+    display: flex;
+  }
+  
+  .example-element-diagram {
+    min-width: 80px;
+    border: 2px solid black;
+    padding: 8px;
+    font-weight: lighter;
+    margin: 8px 0;
+    height: 104px;
+  }
+  
+  .example-element-symbol {
+    font-weight: bold;
+    font-size: 40px;
+    line-height: normal;
+  }
+  
+  .example-element-description {
+    padding: 16px;
+  }
+  
+  .example-element-description-attribution {
+    opacity: 0.5;
+  }
+  
+  .inner-table {
+    width: 100%;
+  }
+  
+  .inner-table mat-form-field {
+    margin-top: 15px;
+    width: 100%;
+  }
+  
+   ::ng-deep table.mat-mdc-table {
+    text-align: center !important;
+    border: 1px solid #0000001f;
+    box-shadow: none !important;
+    thead {
+      tr {
+        word-break: break-all;
+        background-image: linear-gradient(to right bottom,#da291c,#da291c,#da291c,#da291c,#da291c) !important;
+        th.mat-mdc-header-cell {
+          color: #FFFFFF !important;
+          text-align: center !important;
+        }
+        th.mat-mdc-header-cell:not(:last-child) {
+          border-right: 1px solid #ebebeb !important;
+        }
+        th .mat-sort-header-container {
+          justify-content: center !important;
+        }
+        th .mat-sort-header-arrow {
+          color: #ebebeb !important;
+        }
+      }
+      tr.innerTableRow {
+        th:first-child {
+         width: 250px !important;
+      }
+    }
+  }
+    tbody {
+      tr {
+        td:not(:last-child) {
+          border-right: 1px solid #ebebeb !important;
+        }
+      }
+      tr.alternate-bg:nth-child(2n+1) {
+        background-color: transparent !important;
+      }
+      tr.alternate-bg:not(:nth-child(4n+1)) {
+        background-color: #ebebeb !important;
+      }
+      tr.innerTableRow:nth-child(2n) {
+        background-color: #f1f1f1 !important;
+      }
+      tr.innerTableRow {
+        td:first-child {
+         width: 250px !important;
+      }
+    }
+    }
+  }

@@ -1,0 +1,21 @@
+:host ::ng-deep angular2-smart-table > table > thead > tr.angular2-smart-titles > th.angular2-smart-actions {
+    width: 100px !important;
+    padding: 0;
+}
+
+// .custom-smart-table .angular2-smart-actions {
+//     width: 150px !important; /* Adjust the width as needed */
+//   }
+  
+//   .custom-smart-table .angular2-smart-actions-title {
+//     width: 150px !important; /* Adjust the width as needed */
+//   }
+:host ::ng-deep th.angular2-smart-actions {
+      min-width: 125px !important;
+    }
+
+    :host ::ng-deep th.angular2-smart-titles {
+        min-width: 200px !important;
+      }
+    
+  

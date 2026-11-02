@@ -1,0 +1,111 @@
+<mat-card>
+    <div class="form-container">
+      <form [formGroup]="myForm">
+        <!-- Header -->
+        <div class="form-header">
+          <h2>Device Type</h2>
+          <span class="close-btn" (click)="dialogRef.close()" aria-label="Close">&times;</span>
+        </div>
+        
+        <!-- Top Row: Device Category + Display Dashboard + Add Criteria -->
+        <div class="form-row top-row">
+          <div style="flex: 0 0 300px; display: flex; align-items: center;">
+            <mat-form-field>
+              <mat-label>Device Category filter name</mat-label>
+              <input matInput formControlName="DeviceType">
+              <mat-error *ngIf="myForm.get('DeviceType')?.hasError('required')">
+                Device Type is required
+              </mat-error>
+              <mat-error *ngIf="myForm.get('DeviceType')?.hasError('duplicate')">
+                Device Type cannot be duplicate
+              </mat-error>
+            </mat-form-field>
+          </div>
+          
+          <div class="field-group" style="flex: 1; display: flex; align-items: center;">
+            <mat-label>Display in Dashboard:</mat-label>
+            <mat-radio-group formControlName="Status">
+              <mat-radio-button value="active">Yes</mat-radio-button>
+              <mat-radio-button value="in-active">No</mat-radio-button>
+            </mat-radio-group>
+          </div>
+          
+          <div style="flex: 0 0 auto; display: flex; align-items: center;">
+            <button type="button" class="add-criteria-btn" (click)="getNewLabel()">ADD CRITERIA</button>
+          </div>
+        </div>
+        <!-- Model Type Row -->
+        <div class="form-row">
+          <div class="field-group">
+            <mat-label>Model Type:</mat-label>
+            <mat-radio-group formControlName="ModelType">
+              <mat-radio-button value="ALL">XGSPON & DOCSIS</mat-radio-button>
+              <mat-radio-button value="XGSPON">XGSPON</mat-radio-button>
+              <mat-radio-button value="DOCSIS">DOCSIS</mat-radio-button>
+              <mat-radio-button value="Interop">INTEROP(IOS & ANDROID)</mat-radio-button>
+            </mat-radio-group>
+          </div>
+        </div>
+        
+        <!-- ONT Model Filter Row -->
+        <div class="form-row" 
+        *ngIf="myForm.get('ModelType').value === 'XGSPON' || myForm.get('ModelType').value === 'ALL'">
+          <div class="field-group">
+            <mat-radio-group formControlName="ONTModelPosition">
+              <mat-radio-button value="ONTPriorModel">ONT Model Filter prior Device Model</mat-radio-button>
+              <mat-radio-button value="ONTAfterModel">ONT Model Filter after Device Model</mat-radio-button>
+              <mat-radio-button value="noONT">No ONT Model Filter</mat-radio-button>
+            </mat-radio-group>
+          </div>
+        </div>
+        <!-- Vendor Array -->
+        <div formArrayName="vendorArray"> 
+          <div *ngFor="let a of myForm['controls']['vendorArray']['controls']; let i = index">
+            <div [formGroupName]="i" class="vendor-row">
+              <div class="vendor-field">
+                <mat-form-field>
+                  <mat-label>Vendor</mat-label>
+                  <mat-select formControlName="Vendor">
+                    <mat-option *ngFor="let vendor of allVendors" [value]="vendor">{{vendor}}</mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="myForm.get('vendorArray')?.hasError('required')">
+                    Vendor is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              
+              <div class="checkbox-group">    
+                <mat-checkbox formControlName="DUT">DUT</mat-checkbox>
+              </div>
+              
+              <div class="checkbox-group">
+                <mat-checkbox formControlName="TFW">TFW</mat-checkbox>
+              </div>
+              
+              <div class="checkbox-group">
+                <button class="delete-btn" (click)="deleteVendor(i)">
+                  <i class="fa fa-trash-o"></i>
+                </button>
+              </div>
+            </div>
+            
+            <p *ngIf="showErrorMessage && vendorArrayLength === 1" class="text-danger">
+              At least one vendor must be present.
+            </p>
+          </div>
+          
+          <mat-error *ngIf="myForm.get('vendorArray')?.hasError('duplicate')">
+            Vendor cannot be a duplicate
+          </mat-error>
+        </div>
+      </form>
+      
+      <!-- Form Actions -->
+      <div class="form-actions">
+        <button type="button" class="btn btn-primary" (click)="onSubmit()"
+         [disabled]="myForm.invalid || myForm.get('vendorArray')?.hasError('duplicate')">{{buttonTitle}}</button>
+        <button type="button" class="btn btn-outline-danger" (click)="dialogRef.close()">Cancel</button>
+      </div>
+    </div>
+</mat-card>
+

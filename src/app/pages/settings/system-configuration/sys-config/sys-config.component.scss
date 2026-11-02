@@ -1,0 +1,12 @@
+.underlineremove ::ng-deep mat-form-field .mat-form-field-wrapper .mat-form-field-underline {
+    background-color: transparent !important;
+  }
+
+  .hideunderlineonclick::ng-deep .mat-form-field-underline {
+    display: none;
+  }
+
+  .readonly-input {
+    pointer-events: none;
+    // background-color: #f0f0f0; 
+  }

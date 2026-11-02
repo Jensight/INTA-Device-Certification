@@ -1,0 +1,93 @@
+
+// This file contains the styles for the DashboardConfigComponent
+  .navbar {
+    display: flex;
+    position: sticky;
+    align-items: center;
+    justify-content: space-between;
+    top: 0px;
+    margin-top: 15px;
+    background: #da291c;
+    background-blend-mode: darken;
+    background-size: cover;
+    color: white;
+    padding-bottom: 0px;
+    padding-top: 15px;
+}
+
+.nav-list {
+    display: flex;
+    list-style: none;
+}
+
+.nav-list li {
+    margin-right: 20px;
+}
+
+.nav-list li:last-child {
+    margin-right: 0;
+}
+
+.nav-list li button{
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+    transition: color 0.3s ease-in-out;
+    border: none;
+    border-radius: 0;
+    background: none;
+    cursor: pointer;
+}
+.nav-list li button:hover {
+    color: #f0f0f0;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #da291c !important;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1000;
+}
+
+/* Dropdown button */
+.dropdown .dropbtn {
+  font-size: 16px;
+  border: none;
+  outline: none;
+  color: white;
+//  padding: 14px 16px;
+  background-color: inherit;
+  font-family: inherit;
+  margin: 0; 
+}
+
+.dropdown-content button {
+  // float: none;
+  color: white !important;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+  border: none;
+  border-radius: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.dropdown-content button:hover {
+  background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.underlineremove ::ng-deep mat-form-field .mat-form-field-wrapper .mat-form-field-underline {
+  background-color: transparent !important;
+}
+
+.hideunderlineonclick::ng-deep .mat-form-field-underline {
+  display: none;
+}

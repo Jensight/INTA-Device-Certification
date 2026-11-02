@@ -1,0 +1,35 @@
+<div class="row">
+    <nav  class="col-md-5 px-0" aria-label="breadcrumb">
+        <ol class="breadcrumb" style="background-color:#fafafa; padding-top:0px;">
+            <li class="breadcrumb-item"><a href="#/pages/dashboard" style="color:red;text-decoration: none;font-size: medium;">Dashboard</a></li>
+            <li class="breadcrumb-item active" style="color:rgba(0, 0, 0, 0.87);text-decoration: none;font-size: medium;">View Feedback</li>
+        </ol>
+    </nav>
+    <div class="col-md-6">
+        <div class="d-flex">
+            <app-title-display titleName="View Feedback"></app-title-display>
+            <div style="padding-left: 25px; margin-top: -3px;">
+                <span>
+                    <i class="fa fa-question-circle-o" matTooltip="Admin can able to view list of feedback and able to manage." 
+                    style="font-size: 17px; color:#8e97a0; margin-left: -6px;"></i>
+                </span>
+            </div>
+        </div>
+    </div> 
+</div>
+<div class="col-lg-12">
+    <div class="card">
+        <div style="font-size: .9375rem !important; padding-top: 40px; padding-bottom: 10px; padding-right: 10px; margin-right: -25px; font-weight: 400; line-height: 1.25rem; position: relative; left: 20px;">    
+            <button mat-button color="warn" class="float-right" (click) ="saveFeedbackToExcel()" title="Download CSV Report For Feedback" style="font-size: 1.3333333333em; color: #da291c;
+                background-color: white; border: none; position: relative; bottom: 35px; right: 48px;">
+                <i class="fa fa-download fa-1x" aria-hidden="true"></i>
+            </button>
+            <angular2-smart-table
+            [settings]="settings"
+            [source]="source"
+            (delete)="deleteFeedbackConfirmation($event)"
+            (edit)="editFeedback($event)">
+            </angular2-smart-table>
+        </div>
+    </div>
+</div>

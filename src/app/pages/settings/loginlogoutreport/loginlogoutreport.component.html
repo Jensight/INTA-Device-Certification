@@ -1,0 +1,170 @@
+<div class="row">
+    <nav  class="col-md-5" aria-label="breadcrumb">
+        <ol class="breadcrumb" style="background-color:#fafafa; padding-top:0px;">
+            <li class="breadcrumb-item"><a href="#/pages/dashboard" style="color:red;text-decoration: none;font-size: medium;">Dashboard</a></li>
+            <li class="breadcrumb-item active" style="color:rgba(0, 0, 0, 0.87);text-decoration: none;font-size: medium;">Login Logout Analysis</li>
+        </ol>
+    </nav>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <mat-card class="text-right" style="margin: 10px;">
+            <b style="font-size: 12px;" *ngIf="lastloginData.logintime && lastloginData.team">You are last login {{lastloginData.logintime | date: 'dd/MM/yyyy hh:mm a' }} in {{lastloginData.team}} Team</b>
+            <b *ngIf="!lastloginData.logintime || !lastloginData.team">Welcome </b>
+        </mat-card>
+    </div>
+    <div class="col-md-12">
+        <mat-card style="background-color: rgb(234, 226, 228); margin: 10px;" class="row">
+            <div class="col-md-12">
+                <div style="padding:10px; position: inline;" class=" text-center row">
+                    <h5 class="col-10">Currently Login User's in Framework</h5> 
+                    <span class="col-2">
+                        <button class="btn btn-danger btn-demo " (click)="getcurrentLoginUserData()"><i class="fa fa-refresh" aria-hidden="true"></i></button>
+                    </span>
+                </div>
+            </div>
+            <div class="text-center" *ngIf="loading == true">
+                <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+                <span class="sr-only">Loading...</span>
+            </div>
+            <span *ngIf="allData && allData.currentloginuser && allData.currentloginuser.length > 0">
+                <span *ngFor="let cr of allData.currentloginuser">
+                    <div class="col-sm-6" style="margin: 3px;">
+                        <i class="fa fa-circle" style="color: green;" aria-hidden="true"></i> | <b>{{cr.username}}</b> | <i class="fa fa-users" aria-hidden="true" style="color: orange;"></i> currently working in <b> {{cr.team}} </b> Team <!--| <b> <i class="fa fa-clock-o" style="color: red;" aria-hidden="true"></i> {{cr.logintime | date: 'dd/MM/yyyy hh:mm a'}}</b>-->
+                    </div>
+                </span>
+            </span>
+        </mat-card>
+    </div>
+    
+    <div class="col-md-12">
+        <mat-card  style="margin: 10px;">
+            <div class="row">
+                <div style="padding:10px" class="col text-center"><h5>Anyalsis For Selected Date Range <span *ngIf="selectTeam">in {{this.selectTeam}} Team</span></h5></div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12" style="padding-top:10px;padding-bottom:10px; display:flex ;flex-direction: row;">
+                    <!--<div style="padding-top: 0.5%;">
+                        <b>Date Range:</b>
+                    </div>-->
+                    <div>
+                        <div style="padding-left: 0.5%; padding-right: 0.5%">
+                            <mat-button-toggle-group appearance="legacy" [ngModel]="selectedDateRange" (change)="onDateRangeSelected($event)"
+                                style="width:100%;border: 1px solid rgb(18, 17, 17);border-radius: 5px;" aria-label="Font Style">
+                                <span *ngFor="let dtRange of dateRangeArray"
+                                    [ngClass]="selectedDateRange === dtRange.label ? 'mat-button-toggle-checked' : 'mat-button-toggle-appearance-legacy'">
+                                        <mat-button-toggle style="width:100%;" value="{{dtRange.label}}">{{dtRange.label}}</mat-button-toggle>
+                                </span>
+                            </mat-button-toggle-group>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" >
+                <span class="col-md-6 row" style="padding-left: 35px;">
+                    <span class="col-sm-6">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>From Date</mat-label>
+                            <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker" [(ngModel)]="startDate">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                    </span>
+                    <span class="col-sm-6" style="padding-left: 35px;">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>To Date</mat-label>
+                            <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker1" [(ngModel)]="endDate">
+                            <mat-datepicker-toggle matSuffix [for]="picker1" style="margin-left: -22px;"></mat-datepicker-toggle>
+                            <mat-datepicker #picker1></mat-datepicker>
+                        </mat-form-field>
+                    </span>
+                </span>
+                <span class="col-md-6 row">
+                    <span class="col-sm-6" style="padding-top: 3px; padding-left: 55px;">
+                        <mat-form-field style="width: 80%;" >
+                            <mat-label>Select Team</mat-label>
+                            <mat-select [(ngModel)]="selectTeam" >
+                                <mat-option *ngFor="let fe of teamlist; let i = index" [value]="fe.name"> <!--[disabled]="testbedStatus[i]"-->
+                                    <span>
+                                        {{ fe.name }}
+                                    </span>
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <i class="fa fa-times-circle" aria-hidden="true" style="color: red; padding-left: 10px; cursor: pointer;" (click)="close()"></i>
+                    </span>
+                    <span class="col-sm-6">
+                        <button  class="btn btn-success btn-demo" (click)="getDataByDateRange(startDate, endDate)" [disabled]="!startDate && !endDate">submit</button>
+                        
+                    </span>
+                </span>
+                
+                <span class="col-12" style="color: red; font-size: 12px;" *ngIf="err == true">{{showErr}}</span>
+                <div class="text-center col-md-12" *ngIf="loading1 == true">
+                    <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <div
+                echarts
+                [options]="echartsOptionsForDateRange"
+                style="width: 100%;"
+                (chartInit)="onChartInit($event)"
+                class="echart"
+            ></div>
+            <div
+                echarts
+                [options]="lineChartOptions"
+                style="width: 100%; margin-top: 10px;"
+                (chartInit)="onChartInit($event)"
+                class="echart"
+            ></div>
+            </div>
+        </mat-card>   
+    </div>
+
+    <div class="col-md-12">
+        <mat-card style="margin: 10px;" class="row">
+            <div class="col-md-12 text-center">
+                <h5>Last Login Time & Team of Users</h5> 
+            </div>
+            <div class="col-md-12">
+                <angular2-smart-table [settings]="settings" [source]="source"></angular2-smart-table>
+            </div>
+        </mat-card>
+    </div>
+
+    <!--<div class="col-md-12">
+        <mat-card style="background-color: rgb(234, 226, 228); margin: 10px;">
+            <div echarts [options]="eChartOption" style="width: 100%;" class="echart"></div>
+        </mat-card>
+    </div>-->
+    <!--<div class="col-md-12" >
+        <mat-card style="background-color: rgb(234, 226, 228); margin: 10px;">
+            <div class="row">
+                <div style="padding:10px" class="col text-center"><h4>Daily Anyalsis in {{this.selectTeam}} Team</h4></div>
+            </div>
+            <div
+                echarts
+                [options]="echartsOptions"
+                style="width: 100%;"
+                (chartInit)="onChartInit($event)"
+                class="echart"
+            ></div>
+        </mat-card>
+    </div>
+
+    <div class="col-md-12">
+        <mat-card style="margin: 10px">
+            <div class="row">
+                <div style="padding:10px" class="col text-center"><h4>Monthly Anyalsis in {{this.selectTeam}} Team</h4></div>
+            </div>
+            <div
+                echarts
+                [options]="echartsOptionsMonth"
+                style="width: 100%;"
+                (chartInit)="onChartInit($event)"
+                class="echart"
+            ></div>
+        </mat-card>
+    </div>-->
+</div>

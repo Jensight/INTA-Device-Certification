@@ -1,0 +1,59 @@
+.db-wrapper {
+  display: flex;
+  // flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  .db-radio-group {
+    display: flex;
+    align-items: baseline;
+    position: relative;
+    .db-table-button {
+      position: absolute;
+      right: 0px;
+      bottom: 28px;
+      left: 100%;
+    }
+  }
+}
+
+.collection-radio-group {
+  display: flex;
+  flex-direction: row;
+  margin: 20px 0;
+  align-items: center;
+}
+
+.collection-radio-button {
+  margin: 8px;
+}
+
+.iconAct {
+  -webkit-text-fill-color: rgb(50, 164, 251);
+}
+
+.icon {
+  -webkit-text-fill-color: rgb(0, 0, 0);
+}
+
+table {
+  width: 100%;
+}
+
+td, th {
+  width: 25%;
+}
+
+.mat-column-select {
+  width: 10%;
+}
+
+::ng-deep .mat-mdc-icon-button .mdc-button__label,
+::ng-deep .mat-mdc-icon-button .mat-icon {
+  z-index: 1;
+  position: relative;
+  right: 15px;
+}
+
+::ng-deep .mat-internal-form-field > label {
+  padding-top: 7px;
+}

@@ -1,0 +1,55 @@
+<div class="row">
+  <nav  class="col-md-5" aria-label="breadcrumb">
+ <ol class="breadcrumb" style="background-color:#fafafa; padding-top:0px;">
+   <li class="breadcrumb-item"><a href="#/pages/dashboard" style="color:red;text-decoration: none;font-size: medium;">Dashboard</a></li>
+   <li class="breadcrumb-item active" style="color:rgba(0, 0, 0, 0.87);text-decoration: none;font-size: medium;">System Configuration</li>
+ </ol>
+</nav>
+</div>
+<!--<app-title-display style="margin-top:12px;" titleName="System Configuration"></app-title-display>-->
+<div class="col-lg-12 text-center">
+  <mat-tab-group>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <span class="tab-text">System</span>
+        <span class="tab-text">Configuration</span>
+      </ng-template>
+      <app-sys-config></app-sys-config>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <span class="tab-text">Test Scheduler</span>
+        <span class="tab-text">Configuration</span>
+      </ng-template>
+        <app-other-config (getErrorCodesData)="getSettingsData()"></app-other-config>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <span class="tab-text">Lab Setup</span>
+          <span class="tab-text">Configuration</span>
+        </ng-template>
+        <app-lab-set-up-config></app-lab-set-up-config>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <span class="tab-text">Team Database</span>
+          <span class="tab-text">Management</span>
+        </ng-template>
+        <app-db-management></app-db-management>
+      </mat-tab>
+      <mat-tab *ngIf="isAddErrorCode">
+        <ng-template mat-tab-label>
+          <span class="tab-text">Add Error</span>
+          <span class="tab-text">Codes</span>
+        </ng-template>
+        <app-add-error-codes></app-add-error-codes>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <span class="tab-text">Team Specific</span>
+          <span class="tab-text">Configuration</span>
+        </ng-template>
+        <app-dashboard-config></app-dashboard-config>
+      </mat-tab>
+    </mat-tab-group>    
+  </div>

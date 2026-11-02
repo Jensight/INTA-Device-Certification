@@ -1,0 +1,90 @@
+<div class="col-lg-12 text-center" style="padding: 0.1px;">
+  <mat-card>
+    <div class="col-md-2"></div>
+    <div class="col-md-8 offset-md-2" style="margin-bottom: 20px; font-size: 14px;">
+      <form [formGroup]="system_config" (ngSubmit)="setConfig()" style="margin-top: 12px;">
+        <mat-form-field class="col-md-12">
+          <mat-label>Xray end point Url</mat-label>
+          <input matInput formControlName="XrayUrl">
+          <mat-error *ngIf="system_config.get('XrayUrl').hasError('required')">
+            Please Enter a xray url
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-md-12">
+          <mat-label>Xray end point port</mat-label>
+          <input matInput formControlName="xrayPort" >
+          <mat-error *ngIf="system_config.get('xrayPort').hasError('required')">
+            Please Enter a xray port
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-md-12">
+          <mat-label>Email exchange server IP</mat-label>
+          <input matInput formControlName="emailserverIP">
+          <mat-error *ngIf="system_config.get('emailserverIP').hasError('required')">
+            Please Enter email server Ip
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-md-12">
+          <mat-label>Email exchange server port</mat-label>
+          <input matInput formControlName="emailserverPort">
+          <mat-error *ngIf="system_config.get('emailserverPort').hasError('required')">
+            Please Enter a email server port
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-md-12">
+          <mat-label>Email</mat-label>
+          <input matInput  formControlName="fromemailID">
+          <mat-error
+            *ngIf="system_config.get('fromemailID').hasError('email') && !system_config.get('fromemailID').hasError('required') ">
+            Please enter a valid email address
+          </mat-error>
+          <mat-error *ngIf="system_config.get('fromemailID').hasError('required')">
+            Please enter an email address
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="col-md-12">
+          <mat-label>kibana server email ip</mat-label>
+          <input matInput formControlName="kibanaserverIP">
+          <mat-error *ngIf="system_config.get('kibanaserverIP').hasError('required')">
+            Please Enter Kibana email server Ip
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-md-12">
+          <mat-label>kibana server email port</mat-label>
+          <input matInput formControlName="kibanaserverPort">
+          <mat-error *ngIf="system_config.get('kibanaserverPort').hasError('required')">
+            Please Enter a kibana email server port
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="col-md-12">
+          <mat-label>Session Logout Time in mins (To never auto logout, set to 0)</mat-label>
+          <input matInput formControlName="enable_30mins_session_logout">
+          <mat-error *ngIf="system_config.get('enable_30mins_session_logout').hasError('required')">
+            Please Enter Session Logout Time
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-md-12">
+          <mat-label>Disk Utilization Warning Value (in %)</mat-label>
+          <input matInput formControlName="server_monitor_page_warning_value">
+          <mat-error *ngIf="system_config.get('server_monitor_page_warning_value').hasError('required')">
+            Please Enter Disk Utilization Warning Value (in %)
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="col-md-12">
+          <mat-label>language</mat-label>
+          <mat-select formControlName="language">
+            <mat-option value="English">English</mat-option>
+            <mat-option value="Dutch">Dutch</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <div class="col-md-12" style="text-align: center" *ngIf="flagUserCanUpdate == true">
+          <button class="ibutton" style="margin-right: 15px; width:100px;"> Save Config </button>
+        </div>
+      </form>
+    </div>
+    <div class="col-md-2"></div>
+  </mat-card>
+</div>

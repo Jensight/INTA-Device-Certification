@@ -1,0 +1,75 @@
+
+:host ::ng-deep {
+  mat-mdc-tab-group > .mat-mdc-tab-header > .mat-mdc-tab-label-container > .mat-mdc-tab-list > .mdc-tab-indicator {
+    display: block !important;
+  }
+ .mat-mdc-tab-label-active {
+      border-bottom: none !important;
+      font-size: 12px !important;
+ }
+ .mat-mdc-tab-labels {
+    border-bottom: 2px solid #ef0000 !important;
+    background-color: #ebebeb !important;
+ }
+ .mat-mdc-tab.mdc-tab--active .mdc-tab-indicator {
+    background-color: transparent !important;
+    box-sizing: border-box !important;
+    border-top: 2px solid #ef0000 !important;
+    border-left: 2px solid #ef0000 !important;
+    border-right: 2px solid #ef0000 !important;
+    border-bottom: 3px solid #fafafa !important;
+    border-top-left-radius: 3px!important;
+    border-top-right-radius: 3px !important;
+    height: 50px !important;
+  //  width: 150px !important;
+ }
+ .mat-mdc-tab-nav-bar, .mat-mdc-tab-header {
+   border-bottom: none !important;
+ }
+  mat-mdc-tab-group > .mat-mdc-tab-header > .mat-mdc-tab-label-container > .mat-mdc-tab-list > .mat-mdc-tab-labels > .mat-mdc-focus-indicator:hover {
+    color: #ef0000 !important;
+    border-bottom: none !important;
+ }
+ mat-mdc-tab-group > .mat-mdc-tab-header > .mat-mdc-tab-label-container > .mat-mdc-tab-list > .mat-mdc-tab-labels > .mat-mdc-focus-indicator{
+   min-width: 150px !important;
+   padding: 5px;
+   font-size: 12px !important;
+ }
+}
+
+::ng-deep .mat-mdc-tab.mdc-tab--active .mdc-tab__text-label {
+  color: #ef0000 !important;
+  border-bottom: none !important;
+}
+
+::ng-deep .mat-mdc-tab .mdc-tab__text-label {
+  font-size: 12px !important;
+  text-transform: uppercase;
+  font-weight: bolder !important;
+}
+
+::ng-deep .mat-mdc-tab-header-pagination-controls-enabled .mat-mdc-tab-header-pagination {
+  display: none !important;
+}
+
+
+::ng-deep .mat-mdc-tab{
+  flex:auto !important;
+  // min-width: 160px !important;
+   padding: 5px;
+   font-size: 12px !important;
+}
+
+::ng-deep .mat-mdc-tab .mdc-tab__text-label {
+  flex-wrap: wrap !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  text-align: center !important;
+}
+  
+::ng-deep .mat-mdc-tab .mdc-tab__text-label span {
+  display: block !important;
+  width: 100% !important;
+  text-align: center !important;
+}

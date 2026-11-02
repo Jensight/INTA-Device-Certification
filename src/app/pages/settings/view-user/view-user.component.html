@@ -1,0 +1,39 @@
+<div class="row">
+    <nav  class="col-md-5 px-0" aria-label="breadcrumb">
+        <ol class="breadcrumb" style="background-color:#fafafa; padding-top:0px;">
+            <li class="breadcrumb-item"><a href="#/pages/dashboard" style="color:red;text-decoration: none;font-size: medium;">Dashboard</a></li>
+            <li class="breadcrumb-item active" style="color:rgba(0, 0, 0, 0.87);text-decoration: none;font-size: medium;">View User</li>
+        </ol>
+    </nav>
+    <div class="col-md-6">
+        <div class="d-flex">
+            <app-title-display titleName="View User"></app-title-display>
+            <div style="padding-left: 25px; margin-top: -3px;">
+                <span>
+                    <i class="fa fa-question-circle-o" matTooltip="Available Users listed under the module and Admin can able to manage Users." 
+                    style="font-size: 17px; color:#8e97a0; margin-left: -6px;"></i>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card">
+    <div style="font-size: .9375rem !important; padding-left: 20px; padding-top: 10px; padding-bottom: 10px; padding-right: 10px; font-weight: 400; line-height: 1.25rem;">
+        <div class="row" >
+            <div class="col-lg-12">
+                <div>
+                <button routerLink="/pages/settings/user/add" class="add-user-button mr-0 ibutton" style="margin-top: 7px;"> Add User</button>
+                </div>
+                <div  class="add-user-button mr-0">
+                    <section style="margin-left: -70px; display: flex; padding-top: 5px;">
+                        <mat-slide-toggle color="primary" [(ngModel)] = toggleFlag (change)="toggleButtonChange()" checked>
+                            <label class="mdc-label" for="mat-mdc-slide-toggle-2-button" id="mat-mdc-slide-toggle-2-label" style="position: relative; top: 8px;">Active-Users</label>
+                        </mat-slide-toggle>
+                    </section>
+                </div>
+            </div>
+        </div>
+        <angular2-smart-table (edit)="editUser($event)" (click)="setSortData()" [settings]="settings" [source]="source">
+        </angular2-smart-table>
+    </div>
+</div>

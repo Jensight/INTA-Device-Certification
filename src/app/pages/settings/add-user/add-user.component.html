@@ -1,0 +1,114 @@
+<div class="row">
+  <nav  class="col-md-5" aria-label="breadcrumb">
+ <ol class="breadcrumb" style="background-color:#fafafa; padding-top:0px;">
+   <li class="breadcrumb-item"><a href="#/pages/dashboard" style="color:red;text-decoration: none;font-size: medium;">Dashboard</a></li>
+   <li class="breadcrumb-item active" style="color:rgba(0, 0, 0, 0.87);text-decoration: none;font-size: medium;">Add User</li>
+ </ol>
+</nav>
+</div>
+<app-title-display ></app-title-display>
+<div class="card col-md-6 offset-md-3 text-center" style="border-radius: 4%">
+  <h3>
+    Add User
+  </h3>
+  <div class="col-md-8 offset-md-2" style="margin-bottom: 20px">
+    <form [formGroup]="addUserForm" (ngSubmit)="addUser()">
+      <mat-form-field class=" col-md-12">
+        <mat-label> Your Name </mat-label>
+        <input #name matInput formControlName="name">
+        <mat-error *ngIf="addUserForm.get('name').hasError('required')">
+          Please Enter Your Name
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class=" col-md-12">
+        <mat-label> Username </mat-label>
+        <input #userName (keyup)="validateUsername()" matInput formControlName="username">
+        <mat-error *ngIf="addUserForm.get('username').hasError('required')">
+          Please Enter a User Name
+        </mat-error>
+        <mat-error *ngIf="addUserForm.get('username').hasError('unique')">
+          Username Not Available. Try a different one.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class=" col-md-12">
+        <mat-label> Email </mat-label>
+        <input matInput formControlName="email">
+        <mat-error
+          *ngIf="addUserForm.get('email').hasError('email') && !addUserForm.get('email').hasError('required') ">
+          Please enter a valid email address
+        </mat-error>
+        <mat-error *ngIf="addUserForm.get('email').hasError('required')">
+          Please enter an email address
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="col-md-12">
+        <mat-label> Role </mat-label>
+        <mat-select formControlName="role">
+          <mat-option value="admin">Admin</mat-option>
+          <mat-option value="lead">Lead</mat-option>
+          <mat-option value="user">User</mat-option>
+          <mat-option value="guest">Guest</mat-option>
+          <mat-option value="ThirdPartyUser">Third Party User</mat-option>
+        </mat-select>
+        <mat-error *ngIf="addUserForm.get('role').hasError('required')">
+          Please select a desired role
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class=" col-md-12">
+        <mat-label> Password </mat-label>
+        <input matInput  formControlName="password">
+      </mat-form-field>
+  <div style="height: 70px;">
+    <label for="status" 
+      style="padding-top: 0px; padding-left: 4px; padding-bottom: 11px;" 
+      class="example-section">
+      <strong>Status:</strong>
+    </label>
+  
+    <div style="margin-top: 0px; margin-left: 28px; margin-top: -57px;">
+      <mat-radio-group formControlName="status">
+        <mat-radio-button value="active" style="padding-right: 10px;">
+          <label class="mdc-label" for="mat-radio-5-input" style="position: relative; top: 5px;">Active</label>
+        </mat-radio-button>
+        <mat-radio-button value="in-active">
+          <label class="mdc-label" for="mat-radio-5-input" style="position: relative; top: 5px;">In-Active</label>
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
+  </div>
+
+      <!-- <form class="example-section">
+        <label for="status" style="padding-top: 7px; padding-left: 4px;">
+          <strong>Status:</strong> 
+        </label>
+        <input type="radio" formControlName="status" id="active" name="status" value="active" style="margin-left: 10px;" checked>
+        <label for="active" style="padding-top: 7px; padding-left: 4px;">Active</label>
+        <input type="radio"  formControlName="status" id="in-active" name="status" value="in-active" style="margin-left: 10px;">
+        <label for="in-active" style="padding-top: 7px; padding-left: 4px;">In-active</label>
+      </form> -->
+      
+      <div class="form-group col-md-offset-1 col-md-10">
+        <label for="team">
+          <strong>Teams</strong>
+        </label>
+        <br>
+        <div class="row text-left" style="margin-right: -60px;">
+          <mat-checkbox class="col-md-6" *ngFor="let item of teamListNames;let i=index" [value]="item"
+            (change)="item.status=!item.status;teamSelect(item.name,item.status)">
+            <label class="mdc-label" for="mat-mdc-checkbox-10-input" style="position: relative; top: 5px; right: 7px;"> {{item.name}}</label>
+            </mat-checkbox>
+        </div>
+      </div>
+
+      <div class="col-md-12" style="text-align: center">
+        <button [disabled]="(!addUserForm.valid || duplicateCheck)" class="ibutton"
+          style="margin-right: 15px; width:80px;">Add
+          User </button>
+        <button routerLink="/pages/settings/user/view" class="ibutton" style="width: 80px;">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>

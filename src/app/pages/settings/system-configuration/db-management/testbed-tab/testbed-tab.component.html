@@ -1,0 +1,169 @@
+<mat-tab-group (selectedTabChange)="tableOption($event)">
+    <mat-tab label="Network Element">
+        <div class="mat-elevation-z8" *ngIf="tab=='Network Element'">
+            <div>
+              <mat-form-field *ngFor="let filter of filterSelectObj" style="margin-left: 15px;">
+                <mat-label>{{filter.name}}</mat-label>
+                  <input matInput (keyup)="applyFilter($event.target.value)" (focus)="setupFilter(filter.columnProp)" #input />       
+              </mat-form-field>
+            </div>
+            <table mat-table [dataSource]="dataSource" matSort>                
+              <ng-container matColumnDef="select">
+                <th mat-header-cell *matHeaderCellDef>
+                  <mat-checkbox
+                    (change)="$event ? toggleAllRows() : null"
+                    [checked]="selection.hasValue() && isAllSelected()"
+                    [indeterminate]="selection.hasValue() && !isAllSelected()"
+                    [aria-label]="checkboxLabel()"
+                  >
+                  </mat-checkbox>
+                </th>
+                <td mat-cell *matCellDef="let row" align="left">
+                  <mat-checkbox
+                    (click)="$event.stopPropagation()"
+                    (change)="$event ?[selection.toggle(row),logSelection()] : null"
+                    [checked]="selection.isSelected(row)"
+                    [aria-label]="checkboxLabel(row)"
+                  >
+                  </mat-checkbox>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="nodeName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Network Elements</th>
+                <td mat-cell *matCellDef="let row" align="left">{{row.nodeName}}</td>
+              </ng-container>
+    
+              <ng-container matColumnDef="profileName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Device Profile</th>
+                <td mat-cell *matCellDef="let row" align="left">{{row.profileName}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="count">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Testbed Count</th>
+                <td mat-cell *matCellDef="let row" align="left">{{row.count}}</td>
+              </ng-container>
+          
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          
+              <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="4">
+                  No data
+                </td>
+              </tr>
+            </table>     
+          </div>
+    </mat-tab>
+    <mat-tab label="Testbed Profile">
+        <div class="mat-elevation-z8" *ngIf="tab=='Testbed Profile'">
+            <div>
+              <mat-form-field *ngFor="let filter of filterSelectObj" style="margin-left: 15px;">
+                <mat-label>{{filter.name}}</mat-label>
+                  <input matInput (keyup)="applyFilter($event.target.value)" (focus)="setupFilter(filter.columnProp)" #input />       
+              </mat-form-field>
+            </div>
+            <table mat-table [dataSource]="dataSource" matSort>                
+              <ng-container matColumnDef="select">
+                <th mat-header-cell *matHeaderCellDef>
+                  <mat-checkbox
+                    (change)="$event ? toggleAllRows() : null"
+                    [checked]="selection.hasValue() && isAllSelected()"
+                    [indeterminate]="selection.hasValue() && !isAllSelected()"
+                    [aria-label]="checkboxLabel()"
+                  >
+                  </mat-checkbox>
+                </th>
+                <td mat-cell *matCellDef="let row" align="left">
+                  <mat-checkbox
+                    (click)="$event.stopPropagation()"
+                    (change)="$event ?[selection.toggle(row),logSelection()] : null"
+                    [checked]="selection.isSelected(row)"
+                    [aria-label]="checkboxLabel(row)"
+                  >
+                  </mat-checkbox>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="testBedProfileName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Testbed Profile</th>
+                <td mat-cell *matCellDef="let row" align="left">{{row.testBedProfileName}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="count">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Count</th>
+                <td mat-cell *matCellDef="let row" align="left">{{row.count}}</td>
+              </ng-container>
+          
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          
+              <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="4">
+                  No data 
+                </td>
+              </tr>
+            </table>     
+          </div>
+    </mat-tab>
+    <mat-tab label="Testbed">
+        <div class="mat-elevation-z8" *ngIf="tab=='Testbed'">
+            <div>
+              <mat-form-field *ngFor="let filter of filterSelectObj" style="margin-left: 15px;">
+                <mat-label>{{filter.name}}</mat-label>
+                  <input matInput (keyup)="applyFilter($event.target.value)" (focus)="setupFilter(filter.columnProp)" #input />       
+              </mat-form-field>
+            </div>
+            <table mat-table [dataSource]="dataSource" matSort>
+              <ng-container matColumnDef="select">
+                <th mat-header-cell *matHeaderCellDef>
+                  <mat-checkbox
+                    (change)="$event ? toggleAllRows() : null"
+                    [checked]="selection.hasValue() && isAllSelected()"
+                    [indeterminate]="selection.hasValue() && !isAllSelected()"
+                    [aria-label]="checkboxLabel()"
+                  >
+                  </mat-checkbox>
+                </th>
+                <td mat-cell *matCellDef="let row" align="left">
+                  <mat-checkbox
+                    (click)="$event.stopPropagation()"
+                    (change)="$event ? selection.toggle(row) : null"
+                    [checked]="selection.isSelected(row)"
+                    [aria-label]="checkboxLabel(row)"
+                  >
+                  </mat-checkbox>
+                </td>
+              </ng-container>
+    
+              <ng-container matColumnDef="testBedName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Testbed Name</th>
+                <td mat-cell *matCellDef="let row" align="left">{{row.testBedName}}</td>
+              </ng-container>
+  
+              <ng-container matColumnDef="profileName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>TestBed Profile</th>
+                <td mat-cell *matCellDef="let row" align="left">{{row.profileName}}</td>
+              </ng-container>
+          
+              <ng-container matColumnDef="networkElements" align="left">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Network Elements</th>
+                <td mat-cell *matCellDef="let row" align="left">{{row.networkElements}}</td>
+              </ng-container>
+          
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          
+              <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="4">
+                  No data 
+                </td>
+              </tr>
+            </table>
+        </div>
+    </mat-tab>
+</mat-tab-group>
+<div class="mat-elevation-z8">
+    <mat-paginator
+    [pageSizeOptions]="[5, 10, 25, 100]"
+    aria-label="Select page of users"
+  ></mat-paginator>
+  </div>

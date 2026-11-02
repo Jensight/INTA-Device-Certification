@@ -1,0 +1,346 @@
+
+// Internal nav bar css
+  .navbar {
+    display: flex;
+    position: sticky;
+    align-items: center;
+    justify-content: space-between;
+    top: 0px;
+    background: #da291c;
+    background-blend-mode: darken;
+    background-size: cover;
+    color: white;
+    padding: 8px 16px;
+    min-height: 48px;
+}
+
+.nav-list {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+}
+
+.nav-list li {
+    margin-right: 20px;
+}
+
+.nav-list li:last-child {
+    margin-right: 0;
+}
+
+.nav-list li button{
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+    transition: color 0.3s ease-in-out;
+    border: none;
+    border-radius: 0;
+    background: none;
+    cursor: pointer;
+}
+.nav-list li button:hover {
+    color: #f0f0f0;
+}
+
+.navbar-actions {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.navbar-actions .add-user-button {
+    background-color: #ffffff;
+    border: 1px solid #da291c;
+    color: #da291c;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    min-width: 100px;
+    text-align: center;
+    line-height: 1.2;
+}
+
+.navbar-actions .add-user-button:hover {
+    background-color: #da291c;
+    border-color: #da291c;
+    color: #ffffff;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #da291c !important;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1000;
+}
+
+/* Dropdown button */
+.dropdown .dropbtn {
+  font-size: 16px;
+  border: none;
+  outline: none;
+  color: white;
+//  padding: 14px 16px;
+  background-color: inherit;
+  font-family: inherit;
+  margin: 0; 
+}
+
+.dropdown-content button {
+  // float: none;
+  color: white !important;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+  border: none;
+  border-radius: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.dropdown-content button:hover {
+  background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.underlineremove ::ng-deep mat-form-field .mat-form-field-wrapper .mat-form-field-underline {
+  background-color: transparent !important;
+}
+
+.hideunderlineonclick::ng-deep .mat-form-field-underline {
+  display: none;
+}
+
+table {
+    width: 100%;
+  }
+  
+  tr.example-detail-row {
+    height: 0;
+  }
+  
+  // tr.example-element-row:not(.example-expanded-row):hover {
+  //   background: #777;
+  // }
+  
+  tr.example-element-row:not(.example-expanded-row):active {
+    background: inherit !important;
+  }
+  
+  // Override any default Material Table row backgrounds for DTR
+  tr.example-element-row:nth-child(odd) {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+  }
+  
+  tr.example-element-row:nth-child(even) {
+    background: #ebebeb !important;
+    background-color: #ebebeb !important;
+  }
+  
+  .example-element-row td {
+    border-bottom-width: 0;
+    align-items: center;
+  }
+  
+  .example-element-detail {
+    overflow: hidden;
+    display: flex;
+  }
+  
+  .example-element-diagram {
+    min-width: 80px;
+    border: 2px solid black;
+    padding: 8px;
+    font-weight: lighter;
+    margin: 8px 0;
+    height: 104px;
+  }
+  
+  .example-element-symbol {
+    font-weight: bold;
+    font-size: 40px;
+    line-height: normal;
+  }
+  
+  .example-element-description {
+    padding: 16px;
+  }
+  
+  .example-element-description-attribution {
+    opacity: 0.5;
+  }
+  
+  .inner-table {
+    width: 100%;
+  }
+  
+  .inner-table mat-form-field {
+    margin-top: 15px;
+    width: 100%;
+  }
+  
+  ::ng-deep table.mat-mdc-table {
+    text-align: center !important;
+    border: 1px solid #0000001f;
+    box-shadow: none !important;
+    
+    thead {
+      tr {
+        word-break: break-all;
+        background-image: linear-gradient(to right bottom,#da291c,#d43c30,#cd4b41,#c45750,#b9635e) !important;
+        
+        th.mat-mdc-header-cell {
+          color: #FFFFFF !important;
+          text-align: center !important;
+          border-right: 1px solid #ffffff !important;
+        }
+        
+        th.mat-mdc-header-cell:last-child {
+          border-right: none !important;
+        }
+        
+        th .mat-sort-header-container {
+          justify-content: center !important;
+        }
+        
+        th .mat-sort-header-arrow {
+          color: #ebebeb !important;
+        }
+      }
+      
+      tr.innerTableRow {
+        th:first-child {
+          width: 250px !important;
+        }
+      }
+    }
+    
+    tbody {
+      tr {
+        td {
+          text-align: center !important;
+          border-right: 1px solid #ebebeb !important;
+        }
+        
+        td:last-child {
+          border-right: none !important;
+        }
+      }
+      
+      // Alternating row colors
+      tr:nth-child(odd),
+      tr.mat-mdc-row:nth-child(odd),
+      tr.alternate-bg:nth-child(odd),
+      tr.example-element-row:nth-child(odd) {
+        background-color: #ffffff !important;
+      }
+      
+      tr:nth-child(even),
+      tr.mat-mdc-row:nth-child(even),
+      tr.alternate-bg:nth-child(even),
+      tr.example-element-row:nth-child(even) {
+        background-color: #ebebeb !important;
+      }
+      
+      tr.innerTableRow:nth-child(odd) {
+        background-color: #ffffff !important;
+      }
+      
+      tr.innerTableRow:nth-child(even) {
+        background-color: #f1f1f1 !important;
+      }
+      
+      tr.innerTableRow {
+        td:first-child {
+          width: 250px !important;
+        }
+      }
+    }
+  }
+
+
+// CTR Table specific alternating row colors
+::ng-deep .ctr-table table.mat-mdc-table tbody {
+  tr.mat-mdc-row:nth-child(odd),
+  tr.alternate-bg:nth-child(odd) {
+    background-color: #ffffff !important;
+  }
+  tr.mat-mdc-row:nth-child(even),
+  tr.alternate-bg:nth-child(even) {
+    background-color: #ebebeb !important;
+  }
+}
+
+// DTR Table - Use data source attribute to target specifically
+::ng-deep table[ng-reflect-data-source*="main"] tbody tr:nth-child(odd),
+::ng-deep table[ng-reflect-data-source*="main"] tbody tr.mat-mdc-row:nth-child(odd),
+::ng-deep table[ng-reflect-data-source*="main"] tbody tr.alternate-bg:nth-child(odd) {
+  background-color: #ffffff !important;
+}
+
+::ng-deep table[ng-reflect-data-source*="main"] tbody tr:nth-child(even),
+::ng-deep table[ng-reflect-data-source*="main"] tbody tr.mat-mdc-row:nth-child(even),
+::ng-deep table[ng-reflect-data-source*="main"] tbody tr.alternate-bg:nth-child(even) {
+  background-color: #ebebeb !important;
+}
+
+// Alternative DTR targeting using div structure
+::ng-deep div[ng-reflect-selected-view="DTR"] table tbody tr:nth-child(odd) {
+  background-color: #ffffff !important;
+}
+
+::ng-deep div[ng-reflect-selected-view="DTR"] table tbody tr:nth-child(even) {
+  background-color: #ebebeb !important;
+}
+
+// DTR uses multiTemplateDataRows so rows are: data, detail, data, detail...
+// Use 4n+1 (1st, 5th, 9th = white) and 4n+3 (3rd, 7th, 11th = grey) to alternate data rows
+ ::ng-deep .dtr-table table.mat-table tbody {
+  // 1st data row (white), 5th, 9th...
+  tr.mat-mdc-row:nth-child(4n+1) td,
+  tr.mat-mdc-row:nth-child(4n+1) .mat-cell,
+  tr.alternate-bg:nth-child(4n+1) td {
+    background-color: #ffffff !important;
+  }
+  // 3rd data row (grey), 7th, 11th...
+  tr.mat-mdc-row:nth-child(4n+3) td,
+  tr.mat-mdc-row:nth-child(4n+3) .mat-cell,
+  tr.alternate-bg:nth-child(4n+3) td {
+    background-color: #ebebeb !important;
+  }
+  // Detail rows stay transparent/white
+  tr.example-detail-row td {
+    background-color: transparent !important;
+  }
+}
+
+// Inner DTR sub-table rows
+::ng-deep .dtr-table .inner-table tr.mat-mdc-row:nth-child(odd) td {
+  background-color: #ffffff !important;
+}
+ ::ng-deep .dtr-table .inner-table tr.mat-mdc-row:nth-child(even) td {
+  background-color: #f1f1f1 !important;
+}
+
+// Handle expanded rows for DTR
+::ng-deep .dtr-table tr.example-expanded-row,
+::ng-deep table[ng-reflect-data-source*="main"] tr.example-expanded-row {
+  background-color: inherit !important;
+}
+
+::ng-deep .dtr-table tr.example-detail-row,
+::ng-deep table[ng-reflect-data-source*="main"] tr.example-detail-row {
+  background-color: #f9f9f9 !important;
+}
+  

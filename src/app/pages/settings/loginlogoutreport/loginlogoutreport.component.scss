@@ -1,0 +1,32 @@
+@import '../../../../themes.scss';
+
+.mat-button-toggle-appearance-legacy {
+  background-color: white;
+  color: rgb(7, 4, 4);
+}
+
+.mat-button-toggle-checked {
+  background-color: rgb(24, 23, 23);
+  color: white;
+}
+  
+.toggle-btn-group {
+  width:100%;
+  // border: 1px solid rgb(18, 17, 17);
+  border-radius: 5px;
+  overflow-x: auto;
+}
+
+.toggle-btn-group::-webkit-scrollbar {
+  display: block;
+  height: 3px;
+}
+
+.toggle-btn-group::-webkit-scrollbar-thumb {
+  background-color: #a4a4a4;
+  border-radius: 25px;
+}
+
+::ng-deep .mat-button-toggle-label-content {
+  padding: 0px 15px !important;
+}

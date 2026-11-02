@@ -1,0 +1,131 @@
+
+<div>
+    <mat-tab-group  (selectedTabChange)="tableOption($event)" >
+      <mat-tab label="API Group">
+        <div class="mat-elevation-z8" *ngIf="tab=='API Group'">
+            <div>
+              <mat-form-field *ngFor="let filter of filterSelectObj" style="margin-left: 15px;">
+                <mat-label>{{filter.name}}</mat-label>
+                  <input matInput (keyup)="applyFilter($event.target.value)" (focus)="setupFilter(filter.columnProp)" #input />       
+              </mat-form-field>
+            </div>
+            <table mat-table [dataSource]="dataSource" matSort>                
+              <ng-container matColumnDef="select">
+                <th mat-header-cell *matHeaderCellDef>
+                  <mat-checkbox
+                    (change)="$event ? toggleAllRows() : null"
+                    [checked]="selection.hasValue() && isAllSelected()"
+                    [indeterminate]="selection.hasValue() && !isAllSelected()"
+                    [aria-label]="checkboxLabel()"
+                  >
+                  </mat-checkbox>
+                </th>
+                <td mat-cell *matCellDef="let row" align="left">
+                  <mat-checkbox
+                    (click)="$event.stopPropagation()"
+                    (change)="$event ?[selection.toggle(row),logSelection()] : null"
+                    [checked]="selection.isSelected(row)"
+                    [aria-label]="checkboxLabel(row)"
+                  >
+                  </mat-checkbox>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>API Group</th>
+                <td mat-cell *matCellDef="let row" align="left">{{row.name}}</td>
+              </ng-container>
+    
+              <ng-container matColumnDef="primaryURL">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Primary URL</th>
+                <td mat-cell *matCellDef="let row" align="left">{{row.primaryURL}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="secondaryURL">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Secondary URL</th>
+                <td mat-cell *matCellDef="let row" align="left">{{row.primaryURL}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="counter">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Counter</th>
+                <td mat-cell *matCellDef="let row" align="left">{{row.counter}}</td>
+              </ng-container>
+          
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          
+              <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="4">
+                  No data 
+                </td>
+              </tr>
+            </table>     
+              <!-- <mat-paginator
+              [pageSizeOptions]="[5, 10, 25, 100]"
+              aria-label="Select page of users"
+            ></mat-paginator> -->
+          </div>
+      </mat-tab>
+      <mat-tab label="API">
+    <div class="mat-elevation-z8" *ngIf="tab=='API'">
+        <div>
+            <mat-form-field *ngFor="let filter of filterSelectObj" style="margin-left: 15px;">
+              <mat-label>{{filter.name}}</mat-label>
+                <input matInput (keyup)="applyFilter($event.target.value)" (focus)="setupFilter(filter.columnProp)" #input />       
+            </mat-form-field>
+          </div>
+          <table mat-table [dataSource]="dataSource" matSort>                
+            <ng-container matColumnDef="select">
+              <th mat-header-cell *matHeaderCellDef>
+                <mat-checkbox
+                  (change)="$event ? toggleAllRows() : null"
+                  [checked]="selection.hasValue() && isAllSelected()"
+                  [indeterminate]="selection.hasValue() && !isAllSelected()"
+                  [aria-label]="checkboxLabel()"
+                >
+                </mat-checkbox>
+              </th>
+              <td mat-cell *matCellDef="let row" align="left">
+                <mat-checkbox
+                  (click)="$event.stopPropagation()"
+                  (change)="$event ?[selection.toggle(row),logSelection()] : null"
+                  [checked]="selection.isSelected(row)"
+                  [aria-label]="checkboxLabel(row)"
+                >
+                </mat-checkbox>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="apiName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>API</th>
+                <td mat-cell *matCellDef="let row" align="left">{{row.apiName}}</td>
+              </ng-container>
+
+            <ng-container matColumnDef="grpName">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>API Group</th>
+              <td mat-cell *matCellDef="let row" align="left">{{row.grpName}}</td>
+            </ng-container>
+  
+            <ng-container matColumnDef="varName">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Arguments</th>
+              <td mat-cell *matCellDef="let row" align="left"><div style="width: 442px;word-wrap: break-word;">{{row.varName}}</div></td>
+            </ng-container>
+        
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="4">
+                No data 
+              </td>
+            </tr>
+          </table>  
+    </div>
+      </mat-tab>
+    </mat-tab-group>
+    <div class="mat-elevation-z8">
+        <mat-paginator
+        [pageSizeOptions]="[5, 10, 25, 100]"
+        aria-label="Select page of users"
+      ></mat-paginator>
+      </div>
+</div>

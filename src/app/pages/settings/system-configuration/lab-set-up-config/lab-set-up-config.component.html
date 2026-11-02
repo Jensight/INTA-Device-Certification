@@ -1,0 +1,294 @@
+<div class="col-lg-12 text-center" style="padding: 0.1px;">
+  <!-- Loading Spinner -->
+  <div class="text-center" *ngIf="loading" style="padding: 50px 20px;">
+    <i class="fa fa-spinner fa-pulse fa-3x fa-fw" style="color: #b71c1c;"></i>
+    <p style="margin-top: 10px; color: #666;">Loading...</p>
+  </div>
+
+  <mat-card *ngIf="!loading" style="padding: 15px 0px;">
+     <!-- <div class="row">
+      <div class="col-lg-6 text-right" style="padding-top: 10px;">
+        <button class="add-user-button mb-1 ibutton" (click)="addRack()" style="width:85px "> Add Rack</button>
+      </div>
+    </div> -->
+    <nav class="navbar">
+      <ul class="nav-list">
+        <li><button (click)="setView('CTR')"
+            [ngStyle]="{'color': selectedView === 'CTR' ? 'black' : 'white', 'font-weight': selectedView === 'CTR' ? 'bold' : 'normal'}">
+            CTR</button> </li>
+        <li><button (click)="setView('DTR')"
+            [ngStyle]="{'color': selectedView === 'DTR' ? 'black' : 'white', 'font-weight': selectedView === 'DTR' ? 'bold' : 'normal'}">
+            DTR</button> </li>
+        <li><button (click)="setView('Config')"
+            [ngStyle]="{'color': selectedView === 'Config' ? 'black' : 'white', 'font-weight': selectedView === 'Config' ? 'bold' : 'normal'}">
+            Config</button> </li>
+      </ul>
+      <div class="navbar-actions">
+        <button class="add-user-button mb-1 ibutton" (click)="addRack()">Add Rack</button>
+      </div>
+    </nav>
+    
+<!-- <div *ngIf="selectedView === 'CTR'">
+  <div class="card ctr-table" style="padding-top: 20px;">
+    <h2 *ngIf="ctrDataSource?.data?.length" style="font-weight: bolder; padding: 10px;">CTR Configuration</h2>
+
+    <div *ngIf="!ctrDataSource?.data?.length" style="text-align: center; padding: 50px 20px; color: #888; font-size: 16px;">
+      No Data Available, Please Add Racks
+    </div>
+
+    <table *ngIf="ctrDataSource?.data?.length" mat-table #outerSort="matSort" [dataSource]="ctrDataSource" multiTemplateDataRows class="mat-elevation-z8" matSort>
+
+      
+<ng-container matColumnDef="rackName">
+  <th mat-header-cell *matHeaderCellDef>Rack Name</th>
+  <td mat-cell *matCellDef="let element">
+    <ng-container *ngIf="!element._editing; else editRackName">
+      {{element.rackName}}
+    </ng-container>
+  </td>
+</ng-container>
+
+
+      <ng-container matColumnDef="rackFor">
+        <th mat-header-cell *matHeaderCellDef>Type</th>
+        <td mat-cell *matCellDef="let element">
+          <ng-container *ngIf="!element._editing; else editRackFor">
+            {{element.rackFor}}
+          </ng-container>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="NoChamber">
+        <th mat-header-cell *matHeaderCellDef>No of Chamber</th>
+        <td mat-cell *matCellDef="let element">
+          <ng-container *ngIf="!element._editing; else editNoChamber">
+            {{element.NoChamber}}
+          </ng-container>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="teams">
+        <th mat-header-cell *matHeaderCellDef>Teams</th>
+        <td mat-cell *matCellDef="let element">
+          <ng-container *ngIf="!element._editing; else editTeams">
+            <span>{{ (element.teams || []).join(', ') || '-' }}</span>
+          </ng-container>
+          <ng-template #editTeams>
+            <mat-form-field appearance="outline">
+              <mat-select multiple [(ngModel)]="element._tempData.teams" placeholder="Select Teams">
+                <mat-option *ngFor="let t of teamListNames" [value]="t.name">{{ t.name }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </ng-template>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let element">
+          <ng-container *ngIf="!element._editing">
+            <button mat-icon-button (click)="enableEdit(element)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button (click)="deleteUserConfirmation(element)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </ng-container>
+          <ng-container *ngIf="element._editing">
+            <button mat-icon-button (click)="saveEdit(element)" [disabled]="
+                !element._tempData.teams || element._tempData.teams.length === 0 ||
+                !element._tempData.NoChamber
+              ">
+              <mat-icon>save</mat-icon>
+            </button>
+            <button mat-icon-button (click)="cancelEdit(element)">
+              <mat-icon>close</mat-icon>
+            </button>
+          </ng-container>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="ctrDisplayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: ctrDisplayedColumns;" class="alternate-bg"></tr>
+
+    </table>
+  </div>
+</div> -->
+
+<div *ngIf="selectedView === 'CTR'">
+      <div class="card dtr-table" style="padding-top: 20px;">
+        <h2 *ngIf="ctrDataSource?.data?.length" style="font-weight: bolder; padding: 10px;"> CTR Configuration</h2>
+
+        <div *ngIf="!ctrDataSource?.data?.length" style="text-align: center; padding: 50px 20px; color: #888; font-size: 16px;">
+          No Data Available, Please Add Racks
+        </div>
+
+        <table *ngIf="ctrDataSource?.data?.length" mat-table #outerSort="matSort" [dataSource]="ctrDataSource" multiTemplateDataRows class="mat-elevation-z8" matSort>
+            <ng-container matColumnDef="rackName">
+                <th mat-header-cell *matHeaderCellDef>Rack Name</th>
+                <td mat-cell *matCellDef="let element">{{element.rackName}}</td>
+              </ng-container>
+              <ng-container matColumnDef="rackFor">
+                <th mat-header-cell *matHeaderCellDef>Type</th>
+                <td mat-cell *matCellDef="let element">{{element.rackFor}}</td>
+              </ng-container>
+              <ng-container matColumnDef="NoChamber">
+                <th mat-header-cell *matHeaderCellDef>Chamber</th>
+                <td mat-cell *matCellDef="let element">{{element.NoChamber}}</td>
+              </ng-container>
+              <ng-container matColumnDef="teams">
+                <th mat-header-cell *matHeaderCellDef>Teams</th>
+                <td mat-cell *matCellDef="let element">               
+                  {{ (element.teams || []).join(', ') || '-' }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="Actions">
+                <th mat-header-cell *matHeaderCellDef>Actions</th>
+                <td mat-cell *matCellDef="let element;">
+                  <button mat-icon-button (click)="editRack(element)">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                <!-- Delete button hidden as per requirement
+                <button mat-icon-button (click)="deleteUserConfirmation(element)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+                -->
+                </td>
+              </ng-container>
+            
+            <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+            <ng-container matColumnDef="expandedDetail">
+                <td mat-cell *matCellDef="let element" [attr.colspan]="ctrDisplayedColumns.length">
+                    <div class="example-element-detail" *ngIf="!(element.edit)" [@detailExpand]="element == ctrExpandedRow ? 'expanded' : 'collapsed'">
+                        <div class="inner-table mat-elevation-z8" *ngIf="ctrExpandedRow === element">
+                  <!-- <table style="margin: 10px 0; border: 1px solid #ebebeb;"  #innerTables mat-table #innerSort="matSort" [dataSource]="element.chamberDetails" matSort>
+                    <ng-container matColumnDef="{{innerColumn}}" *ngFor="let innerColumn of ctrSubTableColumns">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> {{innerColumn}} </th>
+                      <td mat-cell style="word-break: break-all !important;" *matCellDef="let element"> {{element[innerColumn]}} </td>
+                    </ng-container>
+                    <tr mat-header-row class="innerTableRow" *matHeaderRowDef="ctrSubTableColumns"></tr>
+                    <tr mat-row class="innerTableRow" *matRowDef="let row; columns: ctrSubTableColumns;"></tr>
+                    </table> -->
+                    <table mat-table [dataSource]="element.chamberDetails">
+                      <ng-container matColumnDef="chamberName">
+                        <th mat-header-cell *matHeaderCellDef>Chamber Name</th>
+                        <td mat-cell *matCellDef="let detail">{{detail.chamberName}}</td>
+                      </ng-container>
+                      <ng-container matColumnDef="column">
+                        <th mat-header-cell *matHeaderCellDef>Column</th>
+                        <td mat-cell *matCellDef="let detail">{{detail.column}}</td>
+                      </ng-container>
+                      <tr mat-header-row *matHeaderRowDef="ctrSubTableColumns"></tr>
+                      <tr mat-row *matRowDef="let row; columns: ctrSubTableColumns;"></tr>
+                    </table>
+                    <!-- <div *ngIf="element.subTableColumns.data.length > 5"> <mat-paginator #paginator1 [pageSizeOptions]="[5, 10, 15, 20]"></mat-paginator> </div> -->
+                        </div>
+                    </div>
+                </td>
+            </ng-container> 
+         
+            <tr mat-header-row *matHeaderRowDef="ctrDisplayedColumns"></tr>
+            <tr mat-row *matRowDef="let element; columns: ctrDisplayedColumns;"
+             [class.example-expanded-row]="ctrExpandedRow === element" class="alternate-bg" (click)="ctrToggleRow(element)">
+            </tr>
+            <tr mat-row *matRowDef="let row; columns: ['expandedDetail']; let i = index;" class="example-detail-row"></tr>
+        </table>
+    </div>
+    </div>
+
+    <div *ngIf="selectedView === 'DTR'">
+      <div class="card dtr-table" style="padding-top: 20px;">
+        <h2 *ngIf="mainDataSource?.data?.length" style="font-weight: bolder; padding: 10px;"> DTR Configuration</h2>
+
+        <div *ngIf="!mainDataSource?.data?.length" style="text-align: center; padding: 50px 20px; color: #888; font-size: 16px;">
+          No Data Available, Please Add Racks
+        </div>
+
+        <table *ngIf="mainDataSource?.data?.length" mat-table #outerSort="matSort" [dataSource]="mainDataSource" multiTemplateDataRows class="mat-elevation-z8" matSort>
+            <ng-container matColumnDef="rackName">
+                <th mat-header-cell *matHeaderCellDef>Rack Name</th>
+                <td mat-cell *matCellDef="let element">{{element.rackName}}</td>
+              </ng-container>
+              <ng-container matColumnDef="rackFor">
+                <th mat-header-cell *matHeaderCellDef>Type</th>
+                <td mat-cell *matCellDef="let element">{{element.rackFor}}</td>
+              </ng-container>
+              <ng-container matColumnDef="Shelf">
+                <th mat-header-cell *matHeaderCellDef>Shelf</th>
+                <td mat-cell *matCellDef="let element">{{element.Shelf}}</td>
+              </ng-container>
+              <ng-container matColumnDef="teams">
+                <th mat-header-cell *matHeaderCellDef>Teams</th>
+                <td mat-cell *matCellDef="let element">               
+                  {{ (element.teams || []).join(', ') || '-' }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="Actions">
+                <th mat-header-cell *matHeaderCellDef>Actions</th>
+                <td mat-cell *matCellDef="let element;">
+                  <button mat-icon-button (click)="editRack(element)">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                <!-- Delete button hidden as per requirement
+                <button mat-icon-button (click)="deleteUserConfirmation(element)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+                -->
+                </td>
+              </ng-container>
+            
+            <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+            <ng-container matColumnDef="expandedDetail">
+                <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+                    <div class="example-element-detail" *ngIf="!(element.edit)" [@detailExpand]="element == expandedRow ? 'expanded' : 'collapsed'">
+                        <div class="inner-table mat-elevation-z8" *ngIf="expandedRow === element">
+                  <table style="margin: 10px 0; border: 1px solid #ebebeb;"  #innerTables mat-table #innerSort="matSort" [dataSource]="element.shelfDetails" matSort>
+                    <ng-container matColumnDef="{{innerColumn}}" *ngFor="let innerColumn of subTableColumns">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> {{innerColumn}} </th>
+                      <td mat-cell style="word-break: break-all !important;" *matCellDef="let element"> {{element[innerColumn]}} </td>
+                    </ng-container>
+                    <tr mat-header-row class="innerTableRow" *matHeaderRowDef="subTableColumns"></tr>
+                    <tr mat-row class="innerTableRow" *matRowDef="let row; columns: subTableColumns;"></tr>
+                  </table>
+                    <!-- <div *ngIf="element.subTableColumns.data.length > 5"> <mat-paginator #paginator1 [pageSizeOptions]="[5, 10, 15, 20]"></mat-paginator> </div> -->
+                        </div>
+                    </div>
+                </td>
+            </ng-container> 
+         
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let element; columns: displayedColumns;"
+             [class.example-expanded-row]="expandedRow === element" class="alternate-bg" (click)="toggleRow(element)">
+            </tr>
+            <tr mat-row *matRowDef="let row; columns: ['expandedDetail']; let i = index;" class="example-detail-row"></tr>
+        </table>
+    </div>
+    </div>
+    <div *ngIf="selectedView === 'Config'" style="padding-top: 25px;">
+      <div class="row">
+        <div class="col-lg-6" style="display: flex; flex-direction: column; gap: 16px; margin-left: 185px;">
+          <div style="display: flex; align-items: center; gap: 12px; padding-left: 16px;">
+            <mat-slide-toggle [(ngModel)]="showPairedTestbeds" color="primary">
+              Show Paired Testbeds in Lab Setup Testbed Selection
+            </mat-slide-toggle>
+          </div>
+           <div style="display: flex; align-items: center; gap: 12px; padding-left: 16px;">
+            <mat-slide-toggle [(ngModel)]="showInactiveTestbeds" color="primary">
+              Show Inactive Testbeds for pairing in Lab Setup Testbed Selection
+            </mat-slide-toggle>
+          </div>
+          <div style="display: flex; align-items: center; gap: 16px;  padding-left: 16px;">
+            <label style="white-space: nowrap;">Device To Append In Labsetup:</label>
+            <mat-form-field style="min-width: 320px;">
+              <input matInput type="text" [(ngModel)]="deviceAppendLabSetup" placeholder="Please Enter Device Name">
+            </mat-form-field>
+          </div>
+
+          <div style="padding-left: 16px;">
+            <button class="add-user-button mb-1 ibutton" style="width:120px;" (click)="saveDeviceAppend()">SAVE</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    </mat-card>
+</div>

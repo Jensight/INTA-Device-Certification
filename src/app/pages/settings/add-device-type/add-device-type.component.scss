@@ -1,0 +1,317 @@
+:host ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-thick{
+    color: #0000001f !important;
+}
+
+mat-card {
+    height: 550px;
+    overflow-y: auto;
+    padding: 24px !important;
+
+    /* For Webkit browsers (Chrome, Safari, Edge) */
+    ::-webkit-scrollbar-button {
+        display: none;
+    }
+
+    scrollbar-width: thin;
+    scrollbar-color: #888 transparent;
+}
+
+// Clean form styling to match the design
+.form-container {
+    max-width: 100%;
+    margin-left: 10px;
+}
+
+.form-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 24px;
+    position: relative;
+    
+    h2 {
+        margin: 0;
+        font-size: 20px;
+        font-weight: 400;
+        color: #333;
+        width: 100%;
+        text-align: center;
+    }
+    
+    .close-btn {
+        position: absolute;
+        right: 0;
+        top: 0;
+        font-size: 20px;
+        cursor: pointer;
+        color: #666;
+        line-height: 1;
+    }
+}
+
+// Form row styling
+.form-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+    gap: 24px;
+    min-height: 48px;
+    
+    &.top-row {
+        margin-bottom: 30px;
+        align-items: center;
+    }
+}
+
+.field-group {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    height: 48px;
+    
+    mat-label {
+        font-size: 14px;
+        color: #666;
+        font-weight: 500;
+        white-space: nowrap;
+        line-height: 20px;
+        display: flex;
+        align-items: center;
+    }
+}
+
+// Input field styling
+:host ::ng-deep {
+    .mat-form-field {
+        width: 100%;
+        
+        .mat-form-field-wrapper {
+            padding-bottom: 0;
+        }
+        
+        .mat-form-field-underline {
+            background-color: #e0e0e0;
+        }
+        
+        .mat-form-field-label {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .mat-input-element {
+            font-size: 14px;
+        }
+    }
+    
+    // Radio button styling
+    mat-radio-group {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        height: 48px;
+        
+        mat-radio-button {
+            display: flex;
+            align-items: center;
+            height: 20px;
+            transform: translateY(4px) !important;
+            
+            .mat-radio-container {
+                vertical-align: middle;
+                margin-right: 6px;
+            }
+            
+            .mat-radio-label {
+                font-size: 14px;
+                line-height: 20px;
+                padding-left: 0;
+                display: flex;
+                align-items: center;
+                margin: 0;
+            }
+            
+            .mat-radio-label-content {
+                line-height: 20px;
+                padding-left: 0;
+            }
+    }
+}
+
+// Checkbox styling  
+    mat-checkbox {
+        height: 56px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transform: translateY(4px) !important;
+        
+        .mat-checkbox-layout {
+            white-space: nowrap;
+            cursor: inherit;
+            align-items: center;
+            display: flex;
+        }
+        
+        .mat-checkbox-inner-container {
+            margin-right: 6px;
+        }
+        
+        .mat-checkbox-label {
+            font-size: 14px;
+            line-height: 20px;
+            padding-left: 0;
+            display: flex;
+            align-items: center;
+            margin: 0;
+        }
+    }
+    
+    // Select styling
+    mat-select {
+        .mat-select-value {
+            font-size: 14px;
+        }
+        
+        .mat-select-arrow {
+            color: #f44336;
+        }
+    }
+}
+
+// Label styling
+mat-label {
+    font-size: 14px;
+    color: #666;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+// Button styling
+.add-criteria-btn {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 2px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    
+    &:hover {
+        background-color: #d32f2f;
+    }
+}
+
+// Vendor row styling
+.vendor-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 24px;
+    min-height: 56px;
+    
+    .vendor-field {
+        flex: 0 0 280px;
+        display: flex;
+        align-items: center;
+    }
+    
+    .checkbox-group {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: 0 0 80px;
+        height: 56px;
+        
+        mat-checkbox {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+    
+    .delete-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: none;
+        border: none;
+        color: #666;
+        cursor: pointer;
+        padding: 4px;
+        flex: 0 0 40px;
+        height: 56px;
+        
+        &:hover {
+            color: #f44336;
+        }
+        
+        i {
+            font-size: 16px;
+        }
+    }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+    .form-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+    
+    .vendor-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
+
+// Bottom buttons
+.form-actions {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 40px;
+    padding-top: 0;
+    
+    .btn {
+        padding: 8px 16px;
+        border-radius: 4px;
+        font-size: 14px;
+        font-weight: 500;
+        
+        &.btn-primary {
+            background-color: #2196F3;
+            border-color: #2196F3;
+            color: white;
+            
+            &:hover {
+                background-color: #1976D2;
+            }
+        }
+        
+        &.btn-outline-danger {
+            background-color: transparent;
+            border: 1px solid #f44336;
+            color: #f44336;
+            
+            &:hover {
+                background-color: #f44336;
+                color: white;
+            }
+        }
+    }
+}
+:host ::ng-deep .mat-internal-form-field>label {
+    padding-left: 4px;
+    padding-top: 0px !important;
+    margin-top: 0px !important;
+    transform: translateY(0px) !important;
+}

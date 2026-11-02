@@ -1,0 +1,71 @@
+<mat-card>
+    <mat-card-header>
+        <div class="col-md-12">
+          <h4>Define Rules for Dashboard</h4>
+          <h6>By default; all dashboards will have the first filtering on the corresponding team's user-list</h6>
+        </div>
+      </mat-card-header>
+      <div class="card">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="d-flex justify-content-end align-items-center mt-2 mr-3" style="padding-bottom: 10px;">
+                    <button (click)="addDeviceType(null)" class="ibutton" style="width:110px; margin-right: 15px;"> Add
+                        Row</button>
+                    <!-- <button (click)="save()" class="ibutton" style="width:110px;" [disabled] = '!hasUnSavedData'> Save</button> -->
+                </div>     
+            </div>
+        </div>
+        <table mat-table #outerSort="matSort" [dataSource]="mainDataSource" multiTemplateDataRows class="mat-elevation-z8" matSort>
+            <ng-container matColumnDef="DeviceType">
+                <th mat-header-cell *matHeaderCellDef>Device Type Filters</th>
+                <td mat-cell *matCellDef="let element">{{element.DeviceType}}</td>
+              </ng-container>
+              <ng-container matColumnDef="ModelType">
+                <th mat-header-cell *matHeaderCellDef>Model Filters</th>
+                <td mat-cell *matCellDef="let element">{{element.ModelType}}</td>
+              </ng-container>
+              <ng-container matColumnDef="Status">
+                <th mat-header-cell *matHeaderCellDef>Status</th>
+                <td mat-cell *matCellDef="let element">{{element.Status}}</td>
+              </ng-container>
+              <ng-container matColumnDef="Actions">
+                <th mat-header-cell *matHeaderCellDef>Actions</th>
+                <td mat-cell *matCellDef="let element;">
+                  <button mat-icon-button (click)="addDeviceType(element)">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button mat-icon-button (click)="deleteDeviceType(element)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </td>
+              </ng-container>
+            
+            <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+            <ng-container matColumnDef="expandedDetail">
+                <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+                    <div class="example-element-detail" *ngIf="!(element.edit)" [@detailExpand]="element == expandedRow ? 'expanded' : 'collapsed'">
+                        <div class="inner-table mat-elevation-z8" *ngIf="expandedRow">
+                  <table style="margin: 10px 0; border: 1px solid #ebebeb;"  #innerTables mat-table #innerSort="matSort" [dataSource]="element.vendorArray" matSort>
+                    <ng-container matColumnDef="{{innerColumn}}" *ngFor="let innerColumn of subTableColumns">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> {{innerColumn}} </th>
+                      <td mat-cell style="word-break: break-all !important;" *matCellDef="let element"> {{element[innerColumn]}} </td>
+                    </ng-container>
+                    <tr mat-header-row class="innerTableRow" *matHeaderRowDef="subTableColumns"></tr>
+                    <tr mat-row class="innerTableRow" *matRowDef="let row; columns: subTableColumns;"></tr>
+                  </table>
+                    <!-- <div *ngIf="element.subTableColumns.data.length > 5"> <mat-paginator #paginator1 [pageSizeOptions]="[5, 10, 15, 20]"></mat-paginator> </div> -->
+                        </div>
+                    </div>
+                </td>
+            </ng-container> 
+         
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let element; columns: displayedColumns;"
+             [class.example-expanded-row]="expandedRow === element" class="alternate-bg" (click)="toggleRow(element)">
+            </tr>
+            <tr mat-row *matRowDef="let row; columns: ['expandedDetail']; let i = index;" class="example-detail-row"></tr>
+        </table>
+    </div>
+</mat-card>
+
+

@@ -1,0 +1,45 @@
+<div class="col-lg-12 text-center" style="padding: 0.1px;">
+    <!-- Add Error Fields -->
+    <!-- <mat-card>
+      <div class="col-md-2"></div>
+      <div class="col-md-8 offset-md-2" style="margin-bottom: 20px; font-size: 14px;">
+        <form [formGroup]="errorCodes" (ngSubmit)="addErrorCodes()">
+          <mat-form-field class="col-md-12">
+            <input matInput placeholder="Error Code" formControlName="errorCode">
+            <mat-error *ngIf="errorCodes.get('errorCode').hasError('required')">
+              Please Enter Error Code
+            </mat-error>
+            <mat-error *ngIf="errorCodes.get('errorCode').hasError('duplicate')">
+             Error Code Already Exists
+          </mat-error>
+          </mat-form-field>
+          <mat-form-field class="col-md-12">
+            <input matInput placeholder="Error Details" formControlName="errorDesc">
+            <mat-error *ngIf="errorCodes.get('errorDesc').hasError('required')">
+              Please Enter Error Details
+            </mat-error>
+          </mat-form-field>
+
+          <div class="col-md-12" style="text-align: center">
+            <button class="ibutton"
+              style="margin-right: 15px;" [disabled]="errorCodes.invalid"> Add & Submit </button>
+          </div>
+        </form>		
+      </div>
+      <div class="col-md-2"></div>
+    </mat-card> -->
+   <!-- // <br> -->
+    <!-- Table -->
+    <mat-card>
+      <div class="d-flex justify-content-end align-items-center" >
+        <button (click)="addErrorCodes()" class="mb-2" class="ibutton"> Add Error Code</button>
+        <button mat-button color="warn" class="ml-1" (click) ="saveErrorCodeToExcel()" title="Download CSV Report For Error Codes" style="font-size: 16px;" >
+          <i class="fa fa-download fa-1x" aria-hidden="true"></i>
+        </button>
+      </div>
+     
+        <angular2-smart-table (edit)="editErrorCode($event)" (delete)="deleteErrorCode($event)"
+          [settings]="settings" [source]="source">
+        </angular2-smart-table>
+    </mat-card>
+  </div>

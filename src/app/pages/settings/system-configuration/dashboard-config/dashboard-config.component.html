@@ -1,0 +1,227 @@
+    <mat-card>
+        
+        <nav  class="navbar">
+          <ul class="nav-list">
+            <li><button (click)="setView('DashboardConfig')" [ngStyle]="{'color': selectedConfig === 'DashboardConfig' ? 'black' : 'white', 'font-weight': selectedConfig === 'DashboardConfig' ? 'bold' : 'normal'}">Dashboard Config</button> </li>
+            <li><button (click)="setView('DashboardRules')" [ngStyle]="{'color': selectedConfig === 'DashboardRules' ? 'black' : 'white', 'font-weight': selectedConfig === 'DashboardRules' ? 'bold' : 'normal'}">Dashboard Rules</button> </li>
+            <li><button (click)="setView('Jira')" [ngStyle]="{'color': selectedConfig === 'Jira' ? 'black' : 'white', 'font-weight': selectedConfig === 'Jira' ? 'bold' : 'normal'}">Jira Config</button></li>
+            <li><button (click)="setView('Mapping')" [ngStyle]="{'color': selectedConfig === 'Mapping' ? 'black' : 'white', 'font-weight': selectedConfig === 'Mapping' ? 'bold' : 'normal'}">TestBed - TestSet Mapping</button></li>
+            <li><button (click)="setView('Multi')" [ngStyle]="{'color': selectedConfig === 'Multi' ? 'black' : 'white', 'font-weight': selectedConfig === 'Multi' ? 'bold' : 'normal'}">Regression Config</button></li>
+          </ul>
+      </nav>
+<div class="col-lg-12 text-center" style="padding: 0.1px; margin-top: 30px;"  *ngIf = "selectedConfig === 'DashboardConfig'">
+
+        <div class="col-md-2"></div>
+        <div class="col-md-8 offset-md-2" style="margin-bottom: 20px; font-size: 14px;">
+            <h6 class="text-left" style="margin-left: 10px;">{{selectedTeam}} Team Configration : </h6>
+            <form [formGroup]="dashboard_config_team"  class="text-left">
+                <div class="col-md-12" style="padding: 10px;">
+                    <section class="example-section">
+                        <mat-slide-toggle color="primary" formControlName="enable_completed_regression">Enable Only Completed Regression</mat-slide-toggle>
+                    </section>
+                </div>
+                <div class="col-md-12" style="padding: 10px;">
+                    <section class="example-section">
+                        <mat-slide-toggle color="primary" formControlName="enable_latest_info">Show Latest Info On Cards</mat-slide-toggle>
+                    </section>
+                </div>
+                <!-- To Show team wise count on each card-->
+                <div class="col-md-12" style="padding: 10px;">
+                    <section class="example-section">
+                        <mat-slide-toggle color="primary" formControlName="enable_team_count">Show Team's Count on cards</mat-slide-toggle>
+                    </section>
+                    
+                </div>  
+
+               <div class="col-md-12" style="padding: 10px;">
+                    <section class="example-section">
+                        <mat-slide-toggle color="primary" formControlName="show_cpe_analysis_Specific_clients">Show CPE Analysis for Specific Clients </mat-slide-toggle>
+                    </section>
+                </div>
+                
+            </form>
+            <div class="col-md-12" style="text-align: center" >
+                <button class="ibutton" (click)="setConfig()" style="margin-right: 15px; width:100px;"> Save Config </button>
+            </div>
+        </div>
+  </div>
+  <div class="col-lg-12 text-center" style="padding: 0.1px; margin-top: 30;" *ngIf = "selectedConfig === 'DashboardRules'">
+    <app-dashboard-rules></app-dashboard-rules>
+  </div>
+
+<div class="col-lg-12 text-center" style="padding: 0.1px; margin-top: 30px;" *ngIf = "selectedConfig === 'Jira'">
+    <div class="col-md-4"></div>
+    <div class="col-md-8 offset-md-2" style="margin-bottom: 20px; font-size: 14px;">
+        <form [formGroup]="jira_config" class="text-left" (ngSubmit)="saveJiraConfig()">
+            <div class="col-md-12" style="padding: 10px;">
+                <section class="example-section">
+                    <mat-slide-toggle color="primary" formControlName="jiraIntegration">Jira Integration</mat-slide-toggle>
+                </section>
+            </div> 
+            <div style="padding-left: 20px;">
+            <mat-form-field class="col-md-12">
+                <mat-label>Jira/ALM Server Ip/Url</mat-label>
+                <input matInput formControlName="jiraIP">
+                <mat-error *ngIf="jira_config.get('jiraIP').hasError('required')">
+                  Please Enter Jira Server Ip/Url
+                </mat-error>
+              </mat-form-field>
+              <!-- <mat-form-field class="col-md-12">
+                <input matInput placeholder="Jira/ALM Server Port" formControlName="JIRAPort">
+                <mat-error *ngIf="jira_config.get('JIRAPort').hasError('required')">
+                  Please Enter a Jira Server Port
+                </mat-error>
+              </mat-form-field> -->
+              <mat-form-field class="col-md-12">
+                <mat-label>Jira Service Account Email</mat-label>
+                <input matInput formControlName="jiraEmail">
+                <mat-error *ngIf="jira_config.get('jiraEmail').hasError('required')">
+                  Please Enter Jira service Account Email
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field class="col-md-12">
+                <mat-label>Jira Service Account API Token</mat-label>
+                <input matInput type="password" formControlName="jiraToken">
+                <mat-error *ngIf="jira_config.get('jiraToken').hasError('required')">
+                  Please Enter Jira Service Account API Token
+                </mat-error>
+              </mat-form-field>
+              <div class="row" style="padding-top: 2px">
+                <span class="underlineremove; hideunderlineonclick col-6">
+                <mat-form-field appearance="legacy" class="col-md-12" style="height: 60px;">
+                  <mat-label style="padding-bottom: 1px;">Jira Service Account Token Expiry</mat-label>
+                  <input #pickerInput matInput formControlName="jiraTokenExpiry" readonly [min]= "currentDate"
+                      [matDatepicker]="picker" class="readonly-input" style="border-bottom: 1px solid;" />
+                  <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
+                  <mat-datepicker-toggle matSuffix [for]="picker" style="position: relative; top: 5px;">
+                  </mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                  <mat-error *ngIf="jira_config.get('jiraTokenExpiry').hasError('required')">
+                    Please Enter Jira Service Account Token Expiry
+                  </mat-error>
+              </mat-form-field>
+            </span>
+              <div class ="col-6" style="padding-left: 25px"> 
+                Alert Prior :
+                <mat-form-field style="width: 50px !important; position: relative; bottom: 10px;">
+                  <mat-select formControlName = 'jiraWarningAfter'>
+                    <mat-option
+                      *ngFor="let num of numbersList"
+                      [value]="num"
+                    >
+                      {{ num }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                Days
+              </div>
+              </div>
+              <div *ngIf="jiraTeamsDetail && jiraTeamsDetail.length > 0" class="row" style="padding-top: 2px">
+                <mat-form-field *ngFor="let item of jiraTeamsDetail" class="col-6" style="padding-left: 30px">
+                  <mat-label>JIRA Project Space For <b>{{item.teamname}}</b></mat-label>
+                  <input matInput [(ngModel)]="item.jira_project_id" [id]="item.jira_project_id" [ngModelOptions]="{standalone: true}">
+                </mat-form-field>
+              </div>
+              <div class="col-md-12" style="text-align: center">
+                <button class="ibutton"
+                  style="margin-right: 15px; width:100px;"> Save Config </button>
+            </div>
+            </div>
+        </form> 
+    </div>  
+    
+</div>
+<div class="col-lg-12 text-center" style="padding: 0.1px; margin-top: 30px;" *ngIf = "selectedConfig === 'Mapping'">
+  <div class="col-md-4"></div>
+    <div class="col-md-8 offset-md-2" style="margin-bottom: 20px; font-size: 14px;">
+      <h6 class="text-left" style="margin-left: 10px;">{{selectedTeam}} Team Configration : </h6>
+    <form [formGroup]="teamConfig" class="text-left">
+        <div class="col-md-12" style="padding: 10px;">
+            <section class="example-section">
+                <mat-slide-toggle color="primary" formControlName="test_set_filter">{{selectedTeam}} - Test Set Filter</mat-slide-toggle>
+            </section>
+        </div>
+        <div class="col-md-12" style="padding-left: 30px; padding-top: 10px; padding-bottom: 10px;"  *ngIf="teamConfig.get('test_set_filter').value">
+            <section class="example-section">
+                <mat-slide-toggle color="primary" formControlName="is_TestBedProfile_TestSet_Mapped">Is Testbed Profile and Test Set Mapped</mat-slide-toggle>
+            </section>
+        </div>
+    </form>
+    <div class="col-md-12" style="text-align: center" >
+        <button class="ibutton" (click)="testBedTestSetMapping()"
+          style="margin-right: 15px; width:100px;"> Save Config </button>
+    </div>
+  </div>
+</div>
+<div class="col-lg-12 text-center" style="padding: 0.1px; margin-top: 30px;" *ngIf = "selectedConfig === 'Multi'">
+      <div class="col-md-4"></div>
+      <div class="col-md-8 offset-md-2" style="margin-bottom: 20px; font-size: 14px;">
+          <h6 class="text-left" style="margin-left: 10px;">{{selectedTeam}} Team Configration : </h6>
+          <form [formGroup]="multi_delete_regression"  class="text-left">
+             
+              <div class="col-md-12" style="padding: 10px;">
+                  <section class="example-section">
+                      <mat-slide-toggle color="primary" formControlName="multi_delete_regressions">Multi Delete Regressions </mat-slide-toggle>
+                  </section>
+              </div>
+              <div class="col-md-12" style="padding-left: 30px; padding-top: 10px; padding-bottom: 10px;"  *ngIf="multi_delete_regression.get('multi_delete_regressions').value">
+                  <section class="example-section">
+                      <mat-slide-toggle color="primary" formControlName="deleteInProgressReg">Enable Delete - In Progress Regressions</mat-slide-toggle>
+                  </section>
+                  
+              </div>
+              <div class="col-md-12" style="padding: 10px;">
+                  <section class="example-section">
+                      <mat-slide-toggle color="primary" formControlName="show_only_paired_testbeds">Show only paired testbeds for Scheduling Regression in Test Scheduler</mat-slide-toggle>
+                  </section>
+              </div>
+              <div class="col-md-12" style="padding: 10px;">
+                  <section class="example-section">
+                      <mat-slide-toggle color="primary" formControlName="show_dynamic_scheduler">Show Dynamic Scheduler</mat-slide-toggle>
+                  </section>
+              </div>
+              <div class="col-md-12" style="padding-left: 30px; padding-top: 10px; padding-bottom: 10px;" *ngIf="multi_delete_regression.get('show_dynamic_scheduler').value">
+                  <section class="example-section">
+                      <mat-slide-toggle color="primary" formControlName="exclusive_clients">Exclusive Clients</mat-slide-toggle>
+                  </section>
+              </div>
+              <div class="col-md-12" style="padding-left: 30px; padding-top: 10px; padding-bottom: 10px;" *ngIf="multi_delete_regression.get('show_dynamic_scheduler').value">
+                  <!-- <mat-form-field style="width: 300px; font-size: 13px;">
+                      <mat-label>CMTS Network Element</mat-label>
+                      <mat-select formControlName="cmts_network_element">
+                          <mat-option [value]="''">None</mat-option>
+                          <mat-option *ngFor="let node of cmtsNodeOptions" [value]="node._id">{{ node.nodeName }}</mat-option>
+                      </mat-select>
+                  </mat-form-field> -->
+                <mat-form-field style="width: 300px; font-size: 13px;">
+                    <mat-label>CMTS Network Element</mat-label>
+                
+                    <mat-select formControlName="cmts_network_element" panelClass="select-cmts" (openedChange)="onCmtsDropdownChange($event)">
+                
+                        <!-- Search Box -->
+                        <div class="input-group input-group-sm px-2 py-1" style="margin-bottom: 8px;">
+                            <input type="text" placeholder="Search" autocomplete="off" class="form-control"
+                                [formControl]="cmtsSearchControl" (keydown)="handleInput($event)" >
+                        </div>
+                
+                        <mat-option [value]="''">None</mat-option>
+                
+                        <mat-option *ngFor="let node of filteredCmtsNodes | async" [value]="node._id">
+                            {{ node.nodeName }}
+                        </mat-option>
+                
+                    </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-md-12" style="padding: 10px;">
+                  <section class="example-section">
+                      <mat-slide-toggle color="primary" formControlName="restrict_testbed_to_user">Restrict Test Bed to User</mat-slide-toggle>
+                  </section>
+              </div>
+          </form>
+          <div class="col-md-12" style="text-align: center" >
+              <button class="ibutton" (click)="deleteRegressionConfig()" style="margin-right: 15px; width:100px;"> Save Config </button>
+          </div>
+      </div>
+</div>
+</mat-card>
