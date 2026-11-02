@@ -1,0 +1,125 @@
+<app-title-display [breadcrumbs]="breadcrumbs" titleName="TC Execution Analysis "></app-title-display>
+<mat-card style="padding-top:0px;min-height: 500px">
+  <div class="row py-3">
+    <div class="col-sm-12 d-flex justify-content-between align-items-center" style="margin-top: -10px;">
+      <div style="margin-left: 9px; margin-right: -25px;">
+        <label class="font-weight-bold" for="user">User</label>
+        <select (change)="filterBasedOnUser();" [(ngModel)]="selectedUser"
+          style="padding:5px; height: 35px;" class="form-control" class="form-control">
+          <option [ngValue]="1">All</option>
+          <option *ngFor="let user of allUserNames" [ngValue]="user.value">{{user.title}}</option>
+        </select>
+      </div>
+
+      <div style="padding-left: 25px;">
+        <label class="font-weight-bold" for="deviceType">Available Device Types</label>
+        <select (change)="grtAllRegressionData();"  [(ngModel)]="selectedDeviceType"
+          style="padding:5px; height: 35px;" class="form-control">
+          <option *ngFor="let vendor of defaultVendor" [value]="vendor">
+            {{ vendor }}
+          </option>
+        </select>
+      </div>
+      <div *ngIf="showONTPrior">
+        <label class="font-weight-bold" for="deviceType">ONT Model:</label>
+        <select (change)="grtAllRegressionData();" [(ngModel)]="selectedONT" style="padding:5px; height: 35px;" id="ontModelSelect1"
+          class="form-control" [disabled]="ontModels.length === 1">
+          <option *ngFor="let ontModel of ontModels" [value]="ontModel">
+            {{ ontModel }}
+          </option>
+        </select>
+      </div>
+
+      <div>
+        <label class="font-weight-bold" for="models">Models</label>
+        <select (change)="grtAllRegressionData()" [(ngModel)]="selectedModel" style="padding:5px; height: 35px;"
+          class="form-control">
+          <option [ngValue]="1">All</option>
+          <option *ngFor="let model of allModels" [value]="model">
+            {{ model}}
+          </option>
+        </select>
+      </div>
+      <div *ngIf="showONTAfter">
+        <label class="font-weight-bold" for="deviceType">ONT Model:</label>
+        <select (change)="grtAllRegressionData();" [(ngModel)]="selectedONT" style="padding:5px; height: 35px;" id="ontModelSelect2"
+          class="form-control" [disabled]="ontModels.length === 1">
+          <!-- <option [ngValue]="All">All</option> -->
+          <option *ngFor="let ontModel of ontModels" [value]="ontModel">
+            {{ ontModel }}
+          </option>
+        </select>
+      </div>
+
+     <div class="d-flex flex-column">
+        <!-- <label class="font-weight-bold" for="allFWVersions">FirmwareVersion</label>
+        <select (change)="filterBasedOnFWVersion();" [(ngModel)]="selectedFirmware" style="padding:5px; height: 35px; width: 150px;"
+          class="form-control">
+          <option [ngValue]="1">All</option>
+          <option *ngFor="let fw of allFWVersions" [value]="fw">
+            {{ fw}}
+          </option>
+        </select> -->
+        <mat-label class="font-weight-bold" style="position: relative; top: 13px;">Firmware Version</mat-label>
+            <form [formGroup]="executionAnalysisFormGroup">
+              
+              <mat-form-field style="width:200px">
+                <mat-select formControlName="selectFWFormControl">
+                  <input type="text" class="form-control" placeholder="Firmware Version"  [(ngModel)]="fwInput"  (input)="filterFWOption($event)">
+                  <ng-container *ngFor="let fw of fwVersionMatchedList">
+                    <mat-option [value]="fw" >{{fw}}</mat-option>
+                  </ng-container>
+                </mat-select>
+            
+              </mat-form-field>
+            </form>
+      </div>
+      <!-- <div>
+
+        <label class="font-weight-bold" for="firmwareVersion">FirmwareVersion</label>
+
+        <input type="text" (keyup)="getMatchedFw($event)" id="firmwareVersion" list="allFWVersions" style="padding:5px; height: 35px;" />
+
+          <datalist id="allFWVersions" style="width: 20px;" onchange="filterBasedOnFWVersion()">
+
+            <option *ngFor="let item of fwVersionMatchedList" [value]="item">{{item}}</option>
+
+          </datalist>
+
+      </div> -->
+<!-- selectedRegStatus && selectedRegStatus.length == 1 && selectedRegStatus[0] == status -->
+      <div class="d-flex flex-column">
+        
+        <mat-form-field style="margin-top: 25px; margin-right: 20px;">
+          <mat-label class="font-weight-bold">Select Regression Status:</mat-label>
+          <mat-select (openedChange)="triggerEvent($event)" [formControl]="selectRegFormControl" multiple>            
+            <mat-option *ngFor="let status of regStatus"
+              [value]="status" [disabled]="selectedRegStatus && selectedRegStatus.length == 1 
+              && selectedRegStatus[0].toLowerCase() === status.toLowerCase()"
+              (onSelectionChange)="filterBasedOnRegStatus()">
+              {{ status }} 
+            </mat-option>
+            <div *ngIf="showError" class="error-message-container">
+              <div class="text-danger error-message-text">
+                At least one item must remain selected, this item cannot be unselected.
+              </div>
+            </div>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <mat-card-content>
+    <div class="row" style="margin-top:10px">
+      <div class="col main-card" style="margin-right:5px">
+        <div style="min-height: 300px;padding-top:0px;padding-bottom:0px" class="row card-body">
+          <div class="row" style="padding-top:15px;padding-bottom: 10px">
+          </div>
+          <div class="col container">
+            <router-outlet></router-outlet>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

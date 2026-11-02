@@ -1,0 +1,39 @@
+<app-title-display [breadcrumbs]="breadcrumbs" titleName="ROI Analysis"></app-title-display>
+<!-- *ngIf="!(dataService.tcAnalysisData | async) && allData && !loading" -->
+<mat-card *ngIf="!loading && !noData">
+    <mat-card-content>
+        <div class="row" style="margin-top:10px">
+            <div class="col-sm-6 offset-md-3 main-card-left" style="margin-right:5px">
+                <div class="row card-header">
+                    <div class="col text-center">
+                        <h6>ROI</h6>
+                    </div>
+                </div>
+                <div style="min-height: 370px" class="row border card-body">
+                    <div style="padding:0px" class="col">
+                        <div echarts  [options]="chartInput" style="width: 100%"
+                        class="echart"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>
+
+<div *ngIf="loading && !noData"
+    style="padding-right:20px; padding-left:25px;position:relative; height:100%">
+    <div *ngIf="loading" style="position: absolute;top: 40%;left: 45%;" class="lds-hourglass"></div>
+</div>
+
+<div *ngIf="!loading && noData"
+    style="padding-right:20px; padding-left:25px;position:relative; height:100%">
+    <div style="position: absolute;top: 45%; left: 25%" class="text-center">
+        <h4>No Data Available.Add Testgroups and Come Back !!</h4>
+        <br>
+        <button routerLink="/pages/dashboard" title="Home"
+            style="cursor: pointer;padding-bottom: 5px;padding-top:5px;padding-right:8px;padding-left:8px"
+            class="btn btn-info btn-tiny">
+            Home
+        </button>
+    </div>
+</div>

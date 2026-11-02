@@ -1,0 +1,131 @@
+@import '../../../../../../themes.scss';
+
+button {
+    cursor: pointer !important;
+}
+
+
+.lds-hourglass {
+    display: inline-block;
+    position: relative;
+    width: 64px;
+    height: 64px;
+  }
+  .btn {
+    background: #fff;
+    border:1px solid #da291c;
+    color: #da291c;
+  }
+  .btn:hover {
+    color: #fff;
+    border:1px solid #da291c;
+    background: #da291c;
+  }
+
+    .lds-hourglass:after {
+        content: " ";
+        display: block;
+        border-radius: 50%;
+        width: 0;
+        height: 0;
+        margin: 6px;
+        box-sizing: border-box;
+        border: 26px solid  #0495ee;
+        border-color:  #0495ee  transparent  #0495ee  transparent;
+        animation: lds-hourglass 1.2s infinite;
+      }
+
+  @keyframes lds-hourglass {
+    0% {
+      transform: rotate(0);
+      animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+    }
+    50% {
+      transform: rotate(900deg);
+      animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    }
+    100% {
+      transform: rotate(1800deg);
+    }
+  }
+  table {
+    width:75%;
+    height: 150%;
+    border:2px solid #949090;
+    
+    border-collapse:collapse;
+    padding:11px;
+  }
+  table th {
+    border:2px solid #949090;
+    padding:11px;
+
+   
+    color: #313030;
+  }
+  table td {
+    border:2px solid #949090;
+    border:2px solid ;
+    text-align:center;
+    padding:11px;
+    background: #ffffff;
+    color: #313030;
+  }
+//   :host ::ng-deep angular2-smart-table table{
+
+//     border-style: inset;
+
+//     border-color: initial;
+
+//     border-image: initial;
+
+//     display: table;
+//     border: 2px solid rgb(18, 17, 17);
+//     // border-color: rgb(12, 12, 12); /* border of the big table*/
+
+//   }
+
+// /* grid lines */
+
+// :host ::ng-deep  angular2-smart-table table > tbody > tr > td {
+//   background-color: white;
+//     box-sizing: border-box;
+
+//     border: 2px solid rgb(18, 17, 17);
+
+// }
+
+
+
+// /* headers grid color*/
+
+// :host ::ng-deep  angular2-smart-table thead > tr > th  {
+//   font-weight: bold;
+//     border: 2px solid rgb(18, 17, 17);
+
+// }  
+
+.mat-button-toggle-appearance-legacy {
+  background-color: #ffffff;
+}
+
+
+
+
+
+.mat-button-toggle-checked {
+  background-color: rgb(24, 23, 23);
+}
+
+:host ::ng-deep mat-form-field .mat-form-field-wrapper .mat-form-field-flex .mat-form-field-infix {
+  padding: 10px !important;
+  margin-top: 0 !important;
+
+  .mat-form-field-label-wrapper .mat-form-field-label mat-label {
+    padding-left: 15px !important;
+  }
+}
+
+:host ::ng-deep .mat-mdc-form-field .mdc-line-ripple {
+  display: none !important;
+}

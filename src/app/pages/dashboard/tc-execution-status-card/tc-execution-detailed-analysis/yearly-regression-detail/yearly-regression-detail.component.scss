@@ -1,0 +1,206 @@
+@import '../../../../../../themes.scss';
+
+button {
+    cursor: pointer !important;
+}
+
+
+.lds-hourglass {
+    display: inline-block;
+    position: relative;
+    width: 64px;
+    height: 64px;
+  }
+  .btn {
+    background: #fff;
+    border:1px solid #da291c;
+    color: #da291c;
+  }
+  .btn:hover {
+    color: #fff;
+    border:1px solid #da291c;
+    background: #da291c;
+  }
+    .lds-hourglass:after {
+        content: " ";
+        display: block;
+        border-radius: 50%;
+        width: 0;
+        height: 0;
+        margin: 6px;
+        box-sizing: border-box;
+        border: 26px solid #0495ee;
+        border-color:  #0495ee  transparent  #0495ee  transparent;
+        animation: lds-hourglass 1.2s infinite;
+      }
+
+  @keyframes lds-hourglass {
+    0% {
+      transform: rotate(0);
+      animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+    }
+    50% {
+      transform: rotate(900deg);
+      animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    }
+    100% {
+      transform: rotate(1800deg);
+    }
+  }
+
+  
+  .card {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    margin: auto;
+    -webkit-box-shadow: 0 0.5rem 1rem rgba(0, 0, 16, 0.19), 0 0.3rem 0.3rem rgba(0, 0, 16, 0.23);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 16, 0.19), 0 0.3rem 0.3rem rgba(0, 0, 16, 0.23);
+    background-color: rgb(255, 255, 255);
+    padding: 0.8rem;
+    width: 34rem;
+    height: 5rem;
+  }
+
+  .date-range-container {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    padding: 0.1rem 0.1rem;
+    width: inherit;
+    height: inherit;
+  }
+
+  .date-range-picker {
+    background-color: rgba(245, 245, 248, 0.932);
+    padding: 0.4rem 0.4rem 0.1rem 0.4rem;
+    border-radius: 1rem;
+    font-size: 11px;
+  }
+
+  .svg {
+    fill: rgb(242, 242, 242);
+    height: 3.6rem;
+    width: 3.6rem;
+    margin: 0.2rem;
+  }
+
+  input[type="radio"] + span {
+    -webkit-transition: all 0.2s;
+    transition: all 0.2s;
+  }
+  
+  input + span {
+    cursor: pointer;
+  }
+
+  .rating-form{
+    height: 3rem;
+    width: 3rem;
+    margin: 0.5rem;
+    display: inline-flex;
+    flex-direction: row;
+  }
+
+  .active{
+    background-color: rgba(24, 24, 56, 0.932);
+    padding: 0.4rem 0.4rem 0.1rem 0.4rem;
+    border-radius: 1.2rem;
+    color: white;
+    font-size: 11px;
+  }
+  
+  
+  table {
+    width:70%;
+    height: 150%;
+    border:1px solid #666363;
+    
+    border: collapse 1;;
+    padding:11px;
+  }
+  table th {
+    border:2px solid #dbd5d5;
+    padding:11px;
+
+   
+    color: #313030;
+  }
+  table td {
+    border:2px solid #dbd5d5;
+    border:2px solid ;
+    text-align:center;
+    padding:11px;
+    background: #ffffff;
+    color: #313030;
+  }
+
+//   :host ::ng-deep angular2-smart-table table{
+
+//     border-style: inset;
+
+//     border-color: initial;
+
+//     border-image: initial;
+
+//     display: table;
+
+//     border: 2px solid rgb(18, 17, 17); /* border of the big table*/
+
+//   }
+
+// /* grid lines */
+
+// :host ::ng-deep  angular2-smart-table table > tbody > tr > td {
+//   background-color: white;
+
+//     box-sizing: border-box;
+
+//     border: 2px solid rgb(18, 17, 17);
+
+// }
+
+
+
+// /* headers grid color*/
+
+// :host ::ng-deep  angular2-smart-table thead > tr > th  {
+//     font-weight: bold;
+//     border: 2px solid rgb(18, 17, 17);
+
+// }  
+  
+.mat-button-toggle-appearance-legacy {
+
+
+
+  background-color: #ffffff;
+
+
+
+  color: rgb(27, 26, 26);
+
+
+
+}
+
+
+
+
+
+.mat-button-toggle-checked {
+
+
+
+  background-color: rgb(24, 23, 23);
+
+
+
+  color: white;
+
+
+
+}

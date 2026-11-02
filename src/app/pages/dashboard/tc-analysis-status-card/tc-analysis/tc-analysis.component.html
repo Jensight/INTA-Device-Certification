@@ -1,0 +1,302 @@
+<app-title-display [breadcrumbs]="breadcrumbs" titleName="Test Group Analysis"></app-title-display>
+<mat-card *ngIf="!(dataService.tcAnalysisData | async) && allData && !loading">
+  <mat-card-header>
+    <div class="col-sm-8">
+      <h4 style="width:100%;text-align: center"> Test Group Analysis</h4>
+    </div>
+    <div class="col-sm-3">
+      <div class="row">
+        <div class="col-sm-5" style="padding-top: 10px">Timeframe</div>
+        <div class="col-sm-7" style="padding-left: 10px;padding-right: 10px">
+          <select [(ngModel)]="selectedYear" (change)="yearChange()" style="padding:5px; height: 35px;"
+            class="form-control">
+            <option *ngFor="let year of allYears" [value]="year">{{year}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-1">
+      <!-- <button (click)="downloadReport()" title="Download Report"
+        style="cursor: pointer;padding-bottom: 5px;padding-top:5px;padding-right:8px;padding-left:8px"
+        class="btn btn-primary btn-tiny">
+        <i class="fa fa-download" aria-hidden="true"></i>
+      </button> -->
+      <button  class="ibutton" (click)="downloadReport()" title="Download Report" style="z-index: 100; height: 30px; width:40px;">
+        <i class="fa fa-download fa-lg"></i>
+    </button>
+    </div>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="row" style="padding-top:15px;padding-bottom: 10px">
+      <div class="col-sm-1" style="padding-top:10px;padding-right:2px">
+        Test Group
+      </div>
+      <!--div class="col-sm-2" style="padding-left: 10px;padding-right: 10px">
+        <select (change)="updateTestGroup();" [(ngModel)]="selectedTestGroup"
+          style="padding:5px; height: 35px;" class="form-control">
+          <option [ngValue]="1">All</option>
+          <option *ngFor="let tg of allTestGroups" [ngValue]="tg">{{tg.testGroupName}}</option>
+        </select>
+      </div-->
+      <div class="col-sm-3" style="padding-left: 10px;padding-right: 10px; margin-top: -10px;">
+        <mat-form-field>
+          <mat-label></mat-label>
+          <mat-select (selectionChange)="updateTestGroup();" [(ngModel)]="selectedTestGroup">
+            <mat-option [value]="1">All</mat-option>
+            <mat-option *ngFor="let tg of allTestGroups" [value]="tg" [matTooltip]="tg.testGroupName">{{tg.testGroupName}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        </div>
+      <div *ngIf="selectedTestGroup != 1" class="col-sm-1" style="padding-top:10px;padding-right:2px">
+        Testcase
+      </div>
+      <!--div *ngIf="selectedTestGroup != 1" class="col-sm-2" style="padding-left: 10px;padding-right: 10px">
+        <select (change)="updateTestCase();" [(ngModel)]="selectedTestCase" style="padding:5px; height: 35px;"
+          class="form-control">
+          <option [ngValue]="1">All</option>
+          <option *ngFor="let tc of selectedTCofSelectedTG" [ngValue]="tc">{{tc.tcName}}</option>
+        </select>
+      </div-->
+      <div *ngIf="selectedTestGroup != 1" class="col-sm-3" style="padding-left: 10px;padding-right: 10px">
+        <mat-form-field style="width: 400px; margin-top: -10px;">
+          <mat-label></mat-label>
+          <!--mat-select (selectionChange)="updateTestCase();" [(ngModel)]="selectedTestCase"-->
+            <input matInput type="search" (keyup.enter)="updateTestCase();" [formControl]="searchTestCaseFormControl" name="selectedTestCaseName" [(ngModel)]="selectedTestCaseName" [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete">
+            <mat-option [value]="All" (click)="updateTestCase();">All</mat-option>
+            <mat-option *ngFor="let tc of filteredTestCases | async" [value]="tc.tcName" [matTooltip]="tc.tcName" (click)="updateTestCase();">{{tc.tcName}}</mat-option>
+          </mat-autocomplete>
+          <button mat-button mat-icon-button matSuffix (click)="clearSearchField()" *ngIf="selectedTestCaseName">
+            <mat-icon style="margin-top: 18px;">clear</mat-icon>
+          </button>
+          <!--/mat-select-->
+          <button class="primary" type="button" mat-button matSuffix mat-icon-button (click)="updateTestCase()">
+            <mat-icon style="margin-top: 18px;">search</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+      <div style="padding-top: 15px; margin-left: -60px;" >
+        <label for=""[ngStyle]="{'padding-left': selectedTestGroup == 1 ? '55px' : '225px' }">Cumilative Data:</label>
+        <mat-slide-toggle style="padding-left: 5px;" color="primary" [(ngModel)]="showCumulative" (ngModelChange)="toggleChange()" [disabled]="this.selectedTestGroup !== 1" ></mat-slide-toggle>
+      </div>
+      <div class="col-sm-6 justify-content: space-between; underlineremove; hideunderlineonclick" *ngIf="selectedTestGroup == 1"
+      style="padding: 1px; margin-top: -10px;">
+        <mat-form-field appearance="legacy" class="example-full-width;" style="padding-left: 30px; width: 235px; height: 60px;">
+          <mat-label>Choose From Month</mat-label>
+          <input  #pickerInput matInput id = "pickerInput" name="pickerInput" readonly [min]="minDate" [max]="maxDate"
+                          [matDatepicker]="picker" style="border-bottom: 1px solid;"
+                           />
+          <mat-datepicker-toggle style="position: relative; top: 5px;"
+            matSuffix
+            [for]="picker">
+          </mat-datepicker-toggle>
+          <mat-datepicker #picker [startView]="'year'" (dateSelected)="monthChanged($event, picker, pickerInput)"
+                          (monthSelected)="monthChanged($event, picker, pickerInput)"
+                          [calendarHeaderComponent]="calenderHeader">
+          <mat-date-range-picker-actions>  
+              <button mat-button matDateRangePickerCancel (click)="onClear(false)">Clear</button>
+          </mat-date-range-picker-actions>
+          </mat-datepicker>
+        </mat-form-field>
+        <mat-form-field appearance="legacy" class="example-full-width" style="padding-left: 25px;  width: 235px;  height: 60px;">
+          <mat-label>Choose To Month</mat-label>
+          <input  #pickerInput2 matInput id = "pickerInput2" name="pickerInput2" readonly [min]="minEndDate" [max]="maxDate"
+                          [matDatepicker]="picker2" style="border-bottom: 1px solid;"
+                           />
+          <mat-datepicker-toggle style="position: relative; top: 5px;"
+            matSuffix
+            [for]="picker2">
+          </mat-datepicker-toggle>
+          <mat-datepicker #picker2 [startView]="'year'" (dateSelected)="endMonthChanged($event, picker2, pickerInput2)"
+                          (monthSelected)="endMonthChanged($event, picker2, pickerInput2)" [calendarHeaderComponent]="calenderHeader">
+          <mat-date-range-picker-actions>  
+              <button mat-button matDateRangePickerCancel (click)="onClear()">Clear</button>
+          </mat-date-range-picker-actions>
+          </mat-datepicker>
+        </mat-form-field>
+    </div>
+    </div>
+    <div style="margin-top: -15px; display: flex; justify-content: center;"
+    *ngIf="selectedTestGroup != 1">
+      <mat-form-field appearance="legacy" class="example-full-width;" style="padding-left: 30px; width: 235px; height: 60px;">
+        <mat-label>Choose From Month</mat-label>
+        <input  #pickerInput matInput id = "pickerInput" name="pickerInput" readonly [min]="minDate" [max]="maxDate"
+                        [matDatepicker]="picker" style="border-bottom: 1px solid;"
+                         />
+        <mat-datepicker-toggle style="position: relative; top: 5px;"
+          matSuffix
+          [for]="picker">
+        </mat-datepicker-toggle>
+        <mat-datepicker #picker [startView]="'year'" (dateSelected)="monthChanged($event, picker, pickerInput)"
+                        (monthSelected)="monthChanged($event, picker, pickerInput)"
+                        [calendarHeaderComponent]="calenderHeader">
+        <mat-date-range-picker-actions>  
+            <button mat-button matDateRangePickerCancel (click)="onClear(false)" style="margin-right: -30px;">Clear</button>
+        </mat-date-range-picker-actions>
+        </mat-datepicker>
+      </mat-form-field>
+      <mat-form-field appearance="legacy" class="example-full-width" style="padding-left: 25px; width: 235px; height: 60px;">
+        <mat-label>Choose To Month</mat-label>
+        <input  #pickerInput2 matInput id = "pickerInput2" name="pickerInput2" readonly [min]="minEndDate" [max]="maxDate"
+                        [matDatepicker]="picker2" style="border-bottom: 1px solid;"
+                         />
+        <mat-datepicker-toggle style="position: relative; top: 5px;"
+          matSuffix
+          [for]="picker2">
+        </mat-datepicker-toggle>
+        <mat-datepicker #picker2 [startView]="'year'" (dateSelected)="endMonthChanged($event, picker2, pickerInput2)"
+                        (monthSelected)="endMonthChanged($event, picker2, pickerInput2)" [calendarHeaderComponent]="calenderHeader">
+        <mat-date-range-picker-actions>  
+            <button mat-button matDateRangePickerCancel (click)="onClear()">Clear</button>
+        </mat-date-range-picker-actions>
+        </mat-datepicker>
+      </mat-form-field>
+  </div>
+    <div *ngIf="noData" style="padding-right:20px; padding-left:25px;position:relative; height:400px">
+      <div style="position: absolute;top: 40%;width:100%" class="text-center">
+        <h4>No Data Available.</h4>
+      </div>
+    </div>
+    <div *ngIf ="!noData">
+     <div   class="row" style="margin-bottom: 20px;">
+       <div class="col-lg-6" style="margin-bottom: 20px;"> 
+        <div class="card">
+          <h6 class="card-header">Consolidated Testcase Result Status</h6>
+          <div>
+            <button  class="ibutton" *ngIf="showBackButton === 1" class="back-button" (click)="return()" title="Back" style="z-index: 100; height: 30px; position: absolute;">
+              <i class="fa fa-angle-double-left"></i>
+          </button>
+            <app-tc-yearly-status chartName="yearlyStatus" [xLableName]="xLabelName" [noData]="noData"
+            (chart)="updateCharts($event)" [chartData]="yearlyData" (someEvent)="yearSelected($event)"></app-tc-yearly-status>
+        </div>
+        </div>
+       </div>
+       <div class="col-lg-6" style="margin-bottom: 20px;">
+        <div class="card">
+          <h6 class="card-header">Consolidated Testcase Execution Status</h6>
+          <div>
+            <app-tc-execution-count chartName="executionCount" (chart)="updateCharts($event)"
+            [chartData]="executionCountStatus"></app-tc-execution-count>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6" *ngIf ="dataService.getCurrentUser().role === 'admin'">
+        <div class="card">
+          <h6 class="card-header">ROI (Manual vs Automation Efforts)</h6>
+          <div>
+            <app-tc-effort-savings chartName="effortSavings" [xLableName]="xLabelName" [noData]="noData"
+            (chart)="updateCharts($event)" [chartData]="effortSavingsData"></app-tc-effort-savings>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6" *ngIf ="dataService.getCurrentUser().role === 'admin'">
+        <div class="card">
+          <h6 class="card-header">Testcase Regression Utilization</h6>
+          <div>
+            <app-tc-utilization chartName="utilization" [xLableName]="xLabelName" [noData]="noData"
+            (chart)="updateCharts($event)" [chartData]="utilizationData"></app-tc-utilization>
+          </div>
+        </div>
+      </div>
+       </div>
+
+       <div *ngIf="detailData">
+        <app-failure-category-detail dataType = "tcAnalysis" [hasFilter]="hasFilter" (categoryMapsEvent) = "categoryMapHander($event)" (reasonMapsEvent) = "reasonMapHander($event)"
+        [detailData]= "detailData"></app-failure-category-detail>
+    </div>  
+  </div>
+      <!--
+    </div> -->
+
+    <!--
+    <div class="row" style="margin-top:10px">
+      <div class="col-sm-6 main-card-left" style="margin-right:5px">
+        <div class="row card-header">
+          <div class="col text-center">
+            <h6>Yearly Status</h6>
+          </div>
+        </div>
+        <div style="min-height: 300px" class="row border card-body">
+          <div style="padding:0px" class="col">
+            <app-tc-yearly-status chartName="yearlyStatus" [xLableName]="xLabelName" [noData]="noData"
+              (chart)="updateCharts($event)" [chartData]="yearlyData"></app-tc-yearly-status>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 main-card-right" style="margin-right:5px">
+        <div class="row card-header">
+          <div class="col text-center">
+            <h6>Execution Status</h6>
+          </div>
+        </div>
+        <div style="min-height: 300px" class="row border card-body">
+          <div style="padding:0px" class="col">
+            <app-tc-execution-count chartName="executionCount" (chart)="updateCharts($event)"
+              [chartData]="executionCountStatus"></app-tc-execution-count>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" style="margin-top:10px">
+      <div class="col-sm-6 main-card-left" style="margin-right:5px">
+        <div class="row card-header">
+          <div class="col text-center">
+            <h6>ROI (Manual vs Automation Efforts)</h6>
+          </div>
+        </div>
+        <div style="min-height: 300px" class="row border card-body">
+          <div style="padding:0px" class="col">
+            <app-tc-effort-savings chartName="effortSavings" [xLableName]="xLabelName" [noData]="noData"
+              (chart)="updateCharts($event)" [chartData]="effortSavingsData"></app-tc-effort-savings>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 main-card-right" style="margin-right:5px">
+        <div class="row card-header">
+          <div class="col text-center">
+            <h6>Effort Savings</h6>
+          </div>
+        </div>
+        <div style="min-height: 300px" class="row border card-body">
+          <div style="padding:0px" class="col">
+            <app-tc-effort-savings chartName="efforSavingsArea" [xLableName]="xLabelName" [noData]="noData"
+              (chart)="updateCharts($event)" [chartData]="effortSavingsArea"></app-tc-effort-savings>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" style="margin-top:10px">
+      <div class="col-sm-6 main-card-left" style="margin-right:5px">
+        <div class="row card-header">
+          <div class="col text-center">
+            <h6>Yearly Utilization</h6>
+          </div>
+        </div>
+        <div style="min-height: 300px" class="row border card-body">
+          <div style="padding:0px" class="col">
+            <app-tc-utilization chartName="utilization" [xLableName]="xLabelName" [noData]="noData"
+              (chart)="updateCharts($event)" [chartData]="utilizationData"></app-tc-utilization>
+          </div>
+        </div>
+      </div>
+    </div> -->
+  </mat-card-content>
+</mat-card>
+
+<div *ngIf="loading && !(dataService.tcAnalysisData | async)"
+  style="padding-right:20px; padding-left:25px;position:relative; height:100%">
+  <div *ngIf="loading" style="position: absolute;top: 40%;left: 45%;" class="lds-hourglass"></div>
+</div>
+
+<div *ngIf="(dataService.tcAnalysisData | async) "
+  style="padding-right:20px; padding-left:25px;position:relative; height:100%">
+  <div style="position: absolute;top: 45%; left: 25%" class="text-center">
+    <h4>No Data Available. Run Regressions and Come Back !!</h4>
+    <br>
+    <button routerLink="/pages/dashboard" title="Home"
+      style="cursor: pointer;padding-bottom: 5px;padding-top:5px;padding-right:8px;padding-left:8px"
+      class="btn btn-info btn-tiny">
+      Home
+    </button>
+  </div>
+</div>

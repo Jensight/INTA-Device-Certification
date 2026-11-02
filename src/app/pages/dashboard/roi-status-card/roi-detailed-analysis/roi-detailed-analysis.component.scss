@@ -1,0 +1,74 @@
+@import "../../../../../themes.scss";
+
+  .card-header {
+    margin-top: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    // background: nb-theme(form-control-placeholder-color) !important;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    padding-top: 12px;
+    padding-bottom: 8px;
+  }
+
+  .main-card-left {
+    margin-right: 0px !important;
+    padding-left: 0px;
+    padding-right: 2.5px;
+  }
+
+  .main-card-right {
+    margin-right: 0px !important;
+    padding-left: 2.5px;
+    padding-right: 0px;
+  }
+
+  .card-body {
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-top-width: 0px !important;
+  }
+
+  td {
+    padding: 8px;
+  }
+
+  .lds-hourglass:after {
+    content: " ";
+    display: block;
+    border-radius: 50%;
+    width: 0;
+    height: 0;
+    margin: 6px;
+    box-sizing: border-box;
+    border: 26px solid #0495ee;
+    border-color: #0495ee transparent #0495ee
+      transparent;
+    animation: lds-hourglass 1.2s infinite;
+  }
+
+
+button {
+  cursor: pointer !important;
+}
+
+.lds-hourglass {
+  display: inline-block;
+  position: relative;
+  width: 64px;
+  height: 64px;
+}
+
+@keyframes lds-hourglass {
+  0% {
+    transform: rotate(0);
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  }
+  50% {
+    transform: rotate(900deg);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  100% {
+    transform: rotate(1800deg);
+  }
+}

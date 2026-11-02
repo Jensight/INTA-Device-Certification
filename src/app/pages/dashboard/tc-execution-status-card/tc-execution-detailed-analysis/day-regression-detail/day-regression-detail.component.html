@@ -1,0 +1,136 @@
+<!-- <div *ngIf="selectedMonth && selectedYear && selectedDay && !(dataService.regressionNoData | async)" class="row">
+    <div style="z-index: 100;margin-left: -3%" class="col text-left">
+        <button (click)="goBackLevel()" title="View Day-wise Regression" style="cursor: pointer;padding-bottom: 5px;padding-top:5px;padding-right:8px;padding-left:8px"
+            class="btn btn-info btn-tiny">
+            Back
+        </button>
+    </div>
+    <div style="z-index: 100" class="col text-right">
+            <button (click)="downloadReport()" title="Download Report" style="cursor: pointer;padding-bottom: 5px;padding-top:5px;padding-right:8px;padding-left:8px"
+                class="btn btn-primary btn-tiny">
+                <i class="fa fa-download" aria-hidden="true"></i>
+            </button>
+        </div>
+</div> -->
+<div  style="display:flex;flex-direction:row;justify-content: space-between;">
+    <div style="padding-left: 20px;">
+    <button class="ibutton" (click)="goBackLevel()" title="View Day-wise Regression" style="z-index: 100; height: 30px; width:60px;" >
+        Back
+        </button>
+    </div>
+    <div *ngIf="!(dataService.regressionNoData | async)">
+        <button *ngIf="currentData && !(dataService.regressionNoData | async)" (click)="capture('pdf')" title="Download PDF Report" style="color: #fff;background-color: #da291c;border-color: #da291c;z-index: 100; height: 40px; width:40px;" class="btn btn-danger btn-icon fixed-button">
+            <i class="fa fa-file-pdf-o fa-lg"></i>
+        </button>
+        <button *ngIf="currentData && !(dataService.regressionNoData | async)"  (click)="capture('excel')" title="Download Excel Report" style="color: #fff;background-color: #28a745;border-color: #28a745;z-index: 100; height: 40px; width:40px;margin-left: 5px;" class="btn btn-success btn-icon fixed-button">
+            <i class="fa fa-file-excel-o fa-lg"></i>
+        </button>
+    </div>
+</div>
+<br/>
+<div style="position: absolute;top: 45%;right: 96%;z-index: 1;">
+    <!-- <button [disabled]="!back" (click)="redirectPrevious()" style="border-radius: 50%;z-index: 1;padding-left: 14px;padding-right: 14px;padding-top: 8px;padding-bottom: 8px;font-size: 25px;"
+        class="btn btn-primary btn-demo circle-button">&laquo;</button> -->
+         <button [disabled]="!back" (click)="redirectPrevious()" mat-mini-fab color="primary">&laquo;</button>
+</div>
+<div style="position: absolute;top: 45%;left: 96%;z-index: 1;">
+    <!-- <button [disabled]="!next" (click)="redirectNext()" style="border-radius: 50%;z-index: 1;padding-left: 14px;padding-right: 14px;padding-top: 8px;padding-bottom: 8px;font-size: 25px;"
+        class="btn btn-primary btn-demo circle-button">&raquo;</button> -->
+        <button [disabled]="!next" (click)="redirectNext()" mat-mini-fab color="primary">&raquo;</button>
+</div>
+
+<div #screen>
+<div *ngIf="selectedMonth && selectedYear && selectedDay && !(dataService.regressionNoData | async)"  style="padding-right:20px; padding-left:25px;position:relative">   
+    <div [@routeSlide]="state" class="row" style="padding:15px;margin-top:-20px">
+        <div style="padding:10px" class="col-md-7">
+            <div style="padding:10px" class="col text-center">
+                <h6 style=" font-size: 1.125rem !important;
+                font-family: Roboto, sans-serif !important;
+                font-weight: 700 !important;
+                line-height: 1.5rem !important;">{{selectedDay}}-{{selectedMonth}}-{{selectedYear}} Regression Summary</h6> 
+            </div>
+            <div echarts  [options]="chartInput" style="width: 100%" (chartInit)="onChartInit($event)"
+                class="echart">
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="row">
+                <div style="padding:10px;padding-top: 5%;" class="col text-center">
+                    <h6 style=" font-size: 1.125rem !important;
+                    font-family: Roboto, sans-serif !important;
+                    font-weight: 700 !important;
+                    line-height: 1.5rem !important;">Summary</h6>
+                </div>
+               
+            </div>
+            <div class="table" style="height:33%; ;padding-left: 100px; padding-top: 15%;">
+                <table>
+                    <tbody>
+                      
+                        <tr>
+
+                            <td><b>Total Regression Jobs</b></td> 
+                            <td>{{currentData.length}}</td>
+                         </tr>
+                         <tr>
+                            <td><b> Total Unique FW Versions</b></td>
+                            <td>{{tableData.firmwareVersion.length}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Total TC</b></td>
+                            <td>{{tableData.totalTc}}</td>
+                        </tr>
+                       
+                        <tr>
+                            <td><b>Pass TC</b></td>
+                            <td>{{tableData.totalPass}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Fail TC</b></td>
+                            <td>{{tableData.totalFail}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Total Abort TC</b></td>
+                            <td>{{tableData.totalAbort}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Total Warn TC</b></td>
+                            <td>{{tableData.totalWarn}}</td>
+                        </tr>
+                        <tr *ngIf="showNoRun">
+                            <td><b>No Run TC</b></td>
+                            <td>{{tableData.totalNoRun}}</td>
+                        </tr>
+                       
+                    </tbody>
+                </table>
+            </div> 
+        </div>
+    </div>
+</div>
+</div>
+<div *ngIf="(!selectedMonth || !selectedYear || !selectedDay) && !(dataService.regressionNoData | async)" style="padding-right:20px; padding-left:25px;position:relative; height:400px">
+    <div *ngIf="loading" style="position: absolute;top: 40%;left: 50%;" class="lds-hourglass"></div>
+</div>
+<div class="col-md-12" *ngIf="selectedMonth && selectedYear && selectedDay && !(dataService.regressionNoData | async)" >
+    <div style="padding:10px" class="col text-center"><h6 style=" font-size: 1.125rem !important;
+        font-family: Roboto, sans-serif !important;
+        font-weight: 700 !important;
+        line-height: 1.5rem !important;"> Detailed Summary</h6></div>
+        <app-detail-summary [quarterDetails]="currentData" [dataType]="dataType" [showNoRun]="showNoRun"></app-detail-summary>
+</div>
+<div #screen2>
+    <div *ngIf="selectedDay && selectedMonth && selectedYear && !(dataService.regressionNoData | async)">
+        <app-failure-category-detail dataType = "day" [selectedDay] ="selectedDay" [selectedMonth] = "selectedMonth" [selectedYear] ="selectedYear" [detailData]= "detailData" (categoryMapsEvent) = "categoryMapHander($event)" (reasonMapsEvent) = "reasonMapHander($event)"></app-failure-category-detail>
+    </div>
+</div>
+<div *ngIf="(dataService.regressionNoData | async)" style="padding-right:20px; padding-left:25px;position:relative; height:400px">
+    <div style="position: absolute;top: 40%;width:100%" class="text-center">
+        <h4>No Data Available. Run Regressions and Come Back !!</h4>
+        <br>
+        <button routerLink="/pages/dashboard"  title="Home" style="cursor: pointer;padding-bottom: 5px;padding-top:5px;padding-right:8px;padding-left:8px"
+            class="btn btn-info btn-tiny">
+            Home
+        </button>
+    </div>
+</div>

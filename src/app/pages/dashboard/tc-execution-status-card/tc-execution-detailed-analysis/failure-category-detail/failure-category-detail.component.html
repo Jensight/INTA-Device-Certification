@@ -1,0 +1,31 @@
+<div *ngIf=" currentData && currentData.length >0  && !(dataService.regressionNoData | async)" class="row"
+    style="padding-top:0px">
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header">
+                <h6>Consolidated Failed Testcases By Test Group</h6>
+            </div>
+            <div echarts [options]="chartInput" style="width: 100%" (chartInit)="onChartInit($event)" class="echart">
+            </div>
+            </div>
+    </div>
+    <div class="col-lg-6"  *ngIf = "showErrorChart">
+        <div class="card">
+            <div class="card-header">
+                <h6>Consolidated Failed APIs By Reason</h6>
+            </div>
+            <div echarts [options]="failreasonChartInput" style="width: 100%" class="echart">
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6"  *ngIf = "!showErrorChart">
+        <div class="card">
+            <div class="card-header">
+                <h6>Failed By Reason</h6>
+            </div>
+        <div class="row col-sm-12" style="padding-bottom:200px; padding-top: 180px;" class="col text-center">
+            <b>No Data Available </b>
+        </div>
+        </div>
+    </div>
+</div>

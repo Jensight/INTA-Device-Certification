@@ -1,0 +1,48 @@
+<div id="make-3D-space">
+    <div (mouseenter)="addClass()" class="slow-transition" (mouseleave)="removeClass()" #productCard id="product-card">
+        <div id="product-back">
+            <div class="shadow"></div>
+            <div id="carousel">
+                <ul id="caro" #carousel style="padding-left: 0px;">
+                    <li>
+                        <div  duration="2" [countUp]="lowImpact" class="text-center content-font" style="padding-top:25%">
+                            {{lowImpact/2}}
+                        </div>
+                        <div class="text-center" style="color:white;font-size:20px;font-family: 'Changa', sans-serif;padding-top:15%;">
+                            Low Impact Testgroups
+                        </div>
+                    </li>
+                    <li>
+                        <div  duration="2" [countUp]="moderateImpact" class="text-center content-font" style="padding-top:25%">
+                            {{moderateImpact/2}}
+                        </div>
+                        <div class="text-center" style="color:white;font-size:20px;font-family: 'Changa', sans-serif;padding-top:15%;">
+                            Moderate Impact Testgroups
+                        </div>
+                    </li>
+                    <li>
+                        <div  duration="2" [countUp]="highImpact" class="text-center content-font" style="padding-top:25%">
+                            {{highImpact/2}}
+                        </div>
+                        <div class="text-center" style="color:white;font-size:20px;font-family: 'Changa', sans-serif;padding-top:15%;">
+                            High Impact Testgroups
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="image_overlay"></div>
+            <div routerLink="/pages/dashboard/roi-analysis" id="view_details">View Analysis</div>
+            <div class="stats">
+                <div class="stats-container">
+                    <span style="cursor: pointer;" routerLink="/pages/dashboard/roi-analysis" class="product_price shake"><i
+                            style="font-size:30px" class="fa fa-angle-double-right fa-6"></i></span>
+                    <p style="padding-bottom:0px;margin-bottom:0px">View</p>
+                    <span class="product_name">ROI Analysis</span>
+                    <div  class="product-options">
+                        <span> Check ROI based on Test Groups</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
