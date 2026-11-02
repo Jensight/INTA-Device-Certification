@@ -1,0 +1,88 @@
+<app-title-display [breadcrumbs]="breadcrumbs" titleName="Compare Regressions"></app-title-display>
+<div class="row" *ngIf="compareType==='fiveReg'">
+    <div class="col-md-3">
+        <mat-form-field class="example-full-width" style="width: 200px;">
+            <mat-label>Choose a date (UTC)</mat-label>
+            <input matInput [matDatepicker]="picker"  [min]="minDate" [max]="maxDate" [(ngModel)]="dateValue" (ngModelChange)="onDateChange($event)" style="margin-top: 6px;">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+    </div>
+    <div class="col-md-2"  style="margin-top: 15px;">
+        <select style="padding-left: 1px;padding-right: 1px; width: 100%"(change)="saveModule($event.target.value)" [(value)]="moduleType" class="form-control">
+            <option value="all">All Models</option>
+            <option *ngFor="let model of allModels" [value]="model.modelName">
+                {{model.modelName}}
+            </option>
+        </select>
+    </div>
+    <div *ngIf="enable_environment_type_selection == true" class="col-md-2"  style="margin-top: 15px;">
+        <select style="padding-left: 1px;padding-right: 1px; width: 100%"(change)="filterOnEnv($event.target.value)" [(value)]="env_type" class="form-control">
+            <option *ngFor="let env of environment_type" [value]="env">
+                {{env}}
+            </option>
+        </select>
+    </div>
+    <div class ="col-md-3" [ngClass]="enable_environment_type_selection == true ? 'col-md-3':'col-md-5' " style="margin-top:20px">
+        <mat-radio-group (change)="getRegression($event)" [(ngModel)]="compareType" class="radio-group">
+            <mat-radio-button class="col-md-6 radio-button" value='fiveReg'>
+            <label class="mdc-label" for="mat-radio-5-input" style="position: relative; bottom: -2px;"><span *ngIf="enable_environment_type_selection == false">Compare </span>Last 5 regressions</label> 
+        </mat-radio-button>
+            <mat-radio-button class="col-md-6 radio-button" value="twoReg">
+            <label class="mdc-label" for="mat-radio-5-input" style="position: relative; bottom: -2px;">Compare 2 regressions</label></mat-radio-button>
+        </mat-radio-group>
+    </div>
+    <div class="text-right col-md-2" style="margin-top:15px;" *ngIf="tableReady && !noData">
+        <button class="ibuttonex" (click)="excelSheet()" title="Download Excel Report" style="z-index: 100; height: 30px; width:40px;">
+            <i class="fa fa-download fa-lg"></i>
+        </button>
+        <button  class="ibutton" (click)="pdfSheet()" title="Download PDF Report" style="z-index: 100; height: 30px; width:40px">
+            <i class="fa fa-download fa-lg"></i>
+        </button>
+    </div>
+</div>
+<div class="row" style="margin-top: 15px;" *ngIf="compareType==='twoReg'">
+    <div class="col-md-6" style="margin-top:12px">
+        <mat-radio-group (change)="getRegression($event)" [(ngModel)]="compareType">
+            <mat-radio-button class="col-md-6" value='fiveReg'>Compare Last 5 regressions</mat-radio-button>
+            <mat-radio-button class="col-md-6" value="twoReg">Compare 2 regressions</mat-radio-button>
+        </mat-radio-group>
+    </div>
+    <div class="col-md-2"  style="margin-top:15px; width: 100px; height: 34px;">
+        <button (click)="selectReg('Regression1')" class="ibutton">
+            Regression 1 </button>
+    </div>
+    <div class="col-md-2"  style="margin-top:15px; width: 100px; height: 34px;">
+        <button (click)="selectReg('Regression2')" class="ibutton">
+            Regression 2 </button>
+    </div>
+    <div class="col-md-2 text-center" style="margin-top:15px;" *ngIf="tableReady && !noData">
+        <button  class="ibuttonex" (click)="excelSheet()" title="Download Excel Report" style="z-index: 100; height: 30px; width:40px">
+            <i class="fa fa-download fa-lg"></i>
+        </button>
+        <button  class="ibutton" (click)="pdfSheet()" title="Download PDF Report" style="z-index: 100; height: 30px; width:40px">
+            <i class="fa fa-download fa-lg"></i>
+        </button>
+    </div>
+</div>
+
+<div #screen > 
+    <div *ngIf="!noData"  class="row top-buffer" id="summary_table">
+        <div *ngIf="summaryTableReady" class="ngTable">
+            <angular2-smart-table [source]="source1" [settings]="summaryDataSettings"></angular2-smart-table>
+        </div>
+    </div>
+</div>
+
+
+<div *ngIf="!noData" class="row top-buffer" >
+    <div *ngIf="tableReady" class="ngTable">
+        <angular2-smart-table [source]="source" [settings]="regressionDataSettings"></angular2-smart-table>
+    </div>
+</div>
+
+<div *ngIf="noData" class="row top-buffer">
+   <div style="width: 100%; text-align: center;margin-top: 19%;">
+       <h4>No Regressions Found</h4>
+   </div>
+</div>

@@ -1,0 +1,153 @@
+.mat-radio-button ~ .mat-radio-button {
+    padding-right: 16px;
+}
+// .reg-drop-down{
+//     width: 60%;
+//     margin-left: 58px;
+//     height: calc(2rem + 16px);
+// }
+// .drop-down-class {
+//     width: 60%;
+//     margin-top: 4%;
+//     background-color: #dadfe6;
+//     display: block;
+//     padding: 0.375rem 0.75rem;
+//     font-size: 1rem;
+//     line-height: 1.5;
+//     color: #495057;
+//     background-color: #fff;
+//     background-clip: padding-box;
+//     border: 1px solid #ced4da;
+//     border-radius: 0.25rem;
+//     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+// }
+.top-buffer { margin-top:20px; }
+.label {
+    display: inline;
+    padding: .2em .6em .3em;
+    font-size: 90%;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25em;
+}
+
+:host ::ng-deep .mat-select-panel-done-animating, .min-top{
+    margin-top: 60px !important
+}
+
+// :host ::ng-deep angular2-smart-table table{
+//     border-style: inset;
+//     border-color: initial;
+//     border-image: initial;
+//     border-width: 2px;
+//     word-wrap: break-word;
+//     table-layout: fixed;
+//     display: table;
+//     // border-spacing: 2px;
+//     // border-radius: 8px;
+//     // border-collapse:separate;
+//     border: none;
+// }
+// /* grid lines */
+// :host ::ng-deep angular2-smart-table table > tbody > tr > td {
+//     box-sizing: border-box;
+//     border: 1px solid grey;
+//     border-radius: 4px;
+//     font-weight: 500;
+// }
+
+// /* headers grid color*/
+// :host ::ng-deep angular2-smart-table thead > tr > th  { 
+//     border: 1px solid grey;
+//     background-color: #A4ABB3;
+//     color: black;
+//     // font-weight: bold;
+//     // border-radius: 4px;
+// }
+
+// :host ::ng-deep td {
+//     padding: 0.575rem 0.75rem !important;
+//     font-size: 11px !important;
+// }
+
+// /*font size*/
+// :host ::ng-deep angular2-smart-table table > tbody > tr > td{
+//     font-size: 30px;
+// }
+// :host ::ng-deep .label {
+//     display: inline;
+//     padding: .2em .6em .3em;
+//     font-size: 95%;
+//     font-weight: 700;
+//     line-height: 1;
+//     color: #fff;
+//     text-align: center;
+//     white-space: nowrap;
+//     vertical-align: baseline;
+//     border-radius: .35em;
+// }
+
+.reg-font{
+    font-size: 1.18rem;
+    color: #181818;
+    font-weight: 400;
+}
+
+// :host ::ng-deep .nb-theme-corporate select.form-control{
+//     height: calc(2rem + 16px);
+// }
+
+:host ::ng-deep .form-control {
+    width: 60%;
+}
+
+//:host ::ng-deep td {
+//  padding: 0.575rem 0.75rem !important;
+//  font-size: 11px !important;
+//}
+
+.ibuttonex {
+    transition-duration: 0.4s;
+    border: 1px solid #0b9733; 
+    border-radius: 4px;
+    padding: 2px 4px;
+    color: #0b9733;
+    background-color: white;
+    height: 32px;
+    text-align: center;
+    text-decoration: none;
+    width: max-content;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 12px;
+}
+.ibuttonex:hover {
+    background-color: #0b9733;
+    color: white;
+}
+::ng-deep .mat-mdc-icon-button img,
+::ng-deep .mat-mdc-icon-button svg {
+  width: 20px;
+  height: 20px;
+  vertical-align: baseline;
+  margin-top: 8px;
+}
+::ng-deep .mat-internal-form-field > label {
+    margin-top: 8px !important;
+  }
+
+  .radio-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  
+  .radio-button {
+    flex: 1;
+    margin-right: 10px;
+    white-space: nowrap;
+  }

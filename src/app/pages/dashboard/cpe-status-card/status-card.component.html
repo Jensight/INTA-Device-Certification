@@ -1,0 +1,39 @@
+<div class="card" style="cursor: move;">
+    <div class="card-body">
+      <div class="slide-num">
+        <div id="cpeReservation" class="carousel slide" data-ride="carousel">
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <h3 style="padding-top: 20px;">{{ resDevicesCount }}</h3>
+              <p>Reserved Devices</p>
+            </div>
+  
+            <div class="carousel-item">
+              <h3 style="padding-top: 20px;">{{ completedCount }}</h3>
+              <p>Completed Reservations</p>
+            </div>
+  
+            <div class="carousel-item">
+              <h3 style="padding-top: 20px;">{{ activeCount }}</h3>
+              <p>Active Reservations</p>
+            </div>
+  
+          </div>
+          <a class="carousel-control-prev" href="#cpeReservation" role="button" data-slide="prev">
+            <i class="fa fa-chevron-left" aria-hidden="true"></i>
+          </a>
+          <a class="carousel-control-next" href="#cpeReservation" role="button" data-slide="next">
+            <i class="fa fa-chevron-right" aria-hidden="true"></i>
+          </a>
+        </div>
+      </div>
+      <a routerLink="/pages/dashboard/reservation-analysis" class="card-btn">Reservation Analysis <strong><i class="fa fa-chevron-right"
+            aria-hidden="true"></i></strong></a>
+    </div>
+    <div class="card-foot">
+      <p>Last Device <strong><i class="fa fa-chevron-up" aria-hidden="true"></i>
+        </strong></p>
+        <h6 style="font-weight: 600 !important; font-size: 14px !important;" [matTooltip]="lastDevice || 'NA'">{{(lastDevice|limitTo:20) || 'NA'}}</h6>
+    </div>
+  </div>
+  

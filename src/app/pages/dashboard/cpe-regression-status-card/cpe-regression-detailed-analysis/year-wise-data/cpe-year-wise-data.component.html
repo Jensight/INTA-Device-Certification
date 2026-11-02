@@ -1,0 +1,300 @@
+<div class="row" *ngIf="!(dataService.CPERegressionNoData | async) && allData && !loading" style="padding-bottom: 15px;">
+    <!--div style="padding-bottom: 10px" class="col-sm-8 text-center">
+        <h4>CPE Regressions Analysis</h4>
+    </div-->
+    <div class="col-sm-3">
+        <div class="row">
+            <div class="col-sm-5" style="padding-top: 10px">Timeframe:</div>
+            <div class="col-sm-7" style="padding-left: 1px;padding-right: 10px">
+                <select (change)="processData()" [(ngModel)]="timeFrame" style="padding:5px; height: 35px;" class="form-control">
+                    <option *ngFor="let item of allYears"  [value]="item">{{item === 'allData'? 'All': item}} </option>
+                </select>
+            </div>
+        </div>
+    </div>  
+    <div class="row" *ngIf="timeFrame != 'allData'" >
+        <div class="underlineremove; hideunderlineonclick" style="margin: auto; padding: 1px;">
+            <mat-form-field appearance="legacy" class="example-full-width;" style="padding-left: 30px;">
+                <mat-label>Choose From Month</mat-label>
+                <input #pickerInput matInput id="pickerInput" name="pickerInput" readonly [min]="minDate" [max]="maxDate"
+                    [matDatepicker]="picker" style="border-bottom: 1px solid;" />
+                <mat-datepicker-toggle matSuffix [for]="picker">
+                </mat-datepicker-toggle>
+                <mat-datepicker #picker [startView]="'year'" (dateSelected)="monthChanged($event, picker, pickerInput)"
+                    (monthSelected)="monthChanged($event, picker, pickerInput)" [calendarHeaderComponent]="calenderHeader">
+                    <mat-date-range-picker-actions>
+                        <button mat-button matDateRangePickerCancel (click)="onClear(false)">Clear</button>
+                    </mat-date-range-picker-actions>
+                </mat-datepicker>
+            </mat-form-field>
+            <mat-form-field appearance="legacy" class="example-full-width" style="padding-left: 10px;">
+                <mat-label>Choose To Month</mat-label>
+                <input #pickerInput2 matInput id="pickerInput2" name="pickerInput2" readonly [min]="minEndDate"
+                    [max]="maxDate" [matDatepicker]="picker2" style="border-bottom: 1px solid;" />
+                <mat-datepicker-toggle matSuffix [for]="picker2">
+                </mat-datepicker-toggle>
+                <mat-datepicker #picker2 [startView]="'year'"
+                    (dateSelected)="endMonthChanged($event, picker2, pickerInput2)"
+                    (monthSelected)="endMonthChanged($event, picker2, pickerInput2)"
+                    [calendarHeaderComponent]="calenderHeader">
+                    <mat-date-range-picker-actions>
+                        <button mat-button matDateRangePickerCancel (click)="onClear()">Clear</button>
+                    </mat-date-range-picker-actions>
+                </mat-datepicker>
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div style="padding-right: 0px; padding-left:55px; padding-top: 10px">
+            View By:
+        </div>
+        <div style="padding-left: 19px">
+            <mat-radio-group (change)="viewByChange()" [(ngModel)]="viewBy">
+                <mat-radio-button value="vendors" style="padding-right: 15px; padding-top: 10px">Vendors</mat-radio-button>
+                <mat-radio-button value="models" style="padding-right: 25px; padding-top: 10px">Models</mat-radio-button>
+            </mat-radio-group>
+        </div>
+    </div>
+   
+    <div class="row" style="padding-left: 40px;">
+        <!-- <button (click)="downloadReport()" title="Download Report" style="cursor: pointer;padding-bottom: 5px;padding-top:5px;padding-right:8px;padding-left:8px"
+        class="btn btn-primary btn-tiny">
+        <i class="fa fa-download" aria-hidden="true"></i>
+    </button> -->
+    <button  class="ibutton" (click)="downloadReport()" title="Download Report" style="z-index: 100; height: 30px; width:40px;">
+      <i class="fa fa-download fa-lg"></i>
+  </button>
+    </div>
+</div>
+<div *ngIf="!(dataService.CPERegressionNoData | async) && allData && !loading" class="row">
+    <!--div class="col-md-6 text-left">
+        <div class="row">
+            <div class="col-md-2" style="padding-right: 0px">
+                <b>View By :</b>
+            </div>
+            <div class="col-md-10" style="padding-left: 0px">
+                <mat-radio-group (change)="viewByChange()" [(ngModel)]="viewBy">
+                    <mat-radio-button style="width: 25%" value="vendors">Vendors</mat-radio-button>
+                    <mat-radio-button value="models">Models</mat-radio-button>
+                </mat-radio-group>
+            </div>
+        </div>
+    </div-->
+    <!--div class="col-md-6 text-right">
+        <div class="row" style="margin-right: -15px">
+            <div class="col-md-3">
+                <b>View: </b>
+            </div>
+            <div class="col-md-9" style="padding-left: 0px;padding-right: 0px">
+                <mat-radio-group (change)="viewByType()" [(ngModel)]="pieChartType">
+                    <mat-radio-button style="padding-right: 10px" value="totalTC">Total TC</mat-radio-button>
+                    <mat-radio-button style="padding-right: 10px" value="passTC">Pass TC</mat-radio-button>
+                    <mat-radio-button style="padding-right: 10px" value="failTC">Fail TC</mat-radio-button>
+                    <mat-radio-button style="padding-right: 10px" value="norunTC">Norun TC</mat-radio-button>
+                </mat-radio-group>
+            </div>
+        </div>
+    </div-->
+</div>
+
+<mat-card-content>
+    <div *ngIf="!(dataService.CPERegressionNoData | async) && allData && !loading" class="row">
+        <div class="col-sm-6 main-card px-3" style="max-width: 99%; padding-bottom: 6px; max-width: 50%">
+            <div class="row card-header">
+                <div class="col text-center">
+                    <h6 style=" font-size: 1.125rem;
+                        font-family: Roboto, sans-serif;
+                        font-weight: 700;
+                        line-height: 1.5rem;">CPE Regressions Analysis</h6>
+                </div>
+            </div>
+            <div style="min-height: 400px" class="row border card-body">
+                <div echarts (chartClick)="yearSelected($event)" [options]="chartInput" style="width: 100%"
+                    (chartInit)="onChartInit($event)" class="echart"></div>
+            </div>
+        </div>
+    <div class="col-sm-6 main-card px-3" style="max-width: 99%; padding-bottom: 6px; max-width: 50%">
+        <div class="row card-header">
+            <div class="col text-center">
+                <h6 style=" font-size: 1.125rem;
+                    font-family: Roboto, sans-serif;
+                    font-weight: 700;
+                    line-height: 1.5rem;">Testcase Execution Status</h6>
+            </div>
+        </div>
+        <div style="min-height: 400px" class="row border card-body">
+            <div class="row" style="margin-right: -15px">
+                <div style="padding-right: 10px; padding-left: 15px">
+                    <b>View: </b>
+                </div>
+                <div>
+                    <mat-radio-group (change)="viewByType()" [(ngModel)]="pieChartType">
+                        <mat-radio-button style="padding-right: 10px; padding-left: 15px" value="totalTC">Total
+                            TC</mat-radio-button>
+                        <mat-radio-button style="padding-right: 10px" value="passTC">Pass TC</mat-radio-button>
+                        <mat-radio-button style="padding-right: 10px" value="failTC">Fail TC</mat-radio-button>
+                        <mat-radio-button style="padding-right: 10px" value="norunTC">Norun TC</mat-radio-button>
+                    </mat-radio-group>
+                </div>
+            </div>
+            <div echarts (chartClick)="yearSelectedPie($event)" [options]="chartInputPIE" style="width: 100%"
+                (chartInit)="onChartInitPIE($event)" class="echart"></div>
+        </div>
+    </div>
+</div>
+    <div class="row">
+        <div *ngIf="!(dataService.CPERegressionNoData | async) && allData && !loading && viewBy==='vendors' && showDeviceUtilizationChart"
+            class="col-sm-6 main-card px-3">
+            <div style="max-width: 100%;">
+                <div class="row card-header">
+                    <div class="col text-center">
+                        <h6 style=" font-size: 1.125rem;
+                    font-family: Roboto, sans-serif;
+                    font-weight: 700;
+                    line-height: 1.5rem;">Vendor Device Utilization</h6>
+                    </div>
+                </div>
+                <div style="min-height: 400px" class="row border card-body">
+                    <div style="padding:0px" class="col">
+                        <button class="ibutton" *ngIf="showBackButton === 1" class="back-button" (click)="return()"
+                            title="Back"
+                            style="z-index: 100; height: 30px; position: absolute; padding-left: 2px; padding-right: 2px;">
+                            <i class="fa fa-angle-double-left"></i>
+                        </button>
+                        <app-reservation-chart-display (chart)="updateCharts($event)"
+                            chartName="vendorDeviceUtilization" [chartNumber]="0" [dataName]="dataName"
+                            [xAxisName]="xAxisName" yAxisName="Duration(Hours)" [timeFrame]="timeFrame"
+                            [chartData]="vendorChartData"></app-reservation-chart-display>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="!(dataService.CPERegressionNoData | async) && allData && !loading && viewBy==='models' && showDeviceUtilizationChart"
+            class="col-sm-6 main-card px-3">
+            <div style="max-width: 100%;">
+                <div class="row card-header">
+                    <div class="col text-center">
+                        <h6 style=" font-size: 1.125rem;
+                    font-family: Roboto, sans-serif;
+                    font-weight: 700;
+                    line-height: 1.5rem;">Model Device Utilization</h6>
+                    </div>
+                </div>
+                <div style="min-height: 400px" class="row border card-body">
+                    <div style="padding:0px" class="col">
+                        <button class="ibutton" *ngIf="showBackButton === 1" class="back-button" (click)="return()"
+                            title="Back"
+                            style="z-index: 100; height: 30px; position: absolute; padding-left: 2px; padding-right: 2px;">
+                            <i class="fa fa-angle-double-left"></i>
+                        </button>
+                        <app-reservation-chart-display (chart)="updateCharts($event)" chartName="modelDeviceUtilization"
+                            [chartNumber]="0" [dataName]="dataName" [xAxisName]="xAxisName" yAxisName="Duration(Hours)"
+                            [timeFrame]="timeFrame" [chartData]="modelChartData"></app-reservation-chart-display>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6"
+            *ngIf="!(dataService.CPERegressionNoData | async) && allData && !loading && showDeviceUtilizationChart">
+            <div class="row card-header">
+                <div class="col text-center">
+                    <h6 style=" font-size: 1.125rem;
+                font-family: Roboto, sans-serif;
+                font-weight: 700;
+                line-height: 1.5rem;">Device Utilization</h6>
+                </div>
+            </div>
+            <div style="min-height: 400px" class="row border card-body">
+                <div style="min-height: 400px">
+                    <div *ngIf="viewBy==='vendors'">
+                        <div class="row" style="padding-top: 10px">
+                            <label style="font-family: Roboto, sans-serif; font-size: 0.9375rem; font-weight: 400; line-height: 1.25rem; padding-left: 15px; padding-right: 50px; padding-top: 8px">Vendors:</label>
+                            <select [(ngModel)]="selectedVendor" style="padding:5px; height: 35px; width: 300px;" class="form-control "
+                            (change)="changeDeviceData()">
+                            <option  *ngFor="let vendor of allVendorNames" [value]="vendor">{{vendor === 'All'? 'Select Vendor': vendor}}</option>
+                        </select>
+                        </div>
+                       
+                    </div>
+                    <div *ngIf="viewBy==='models'">
+                        <div class="row" style="padding-top: 10px">
+                        <label
+                            style="font-family: Roboto, sans-serif; font-size: 0.9375rem; font-weight: 400; line-height: 1.25rem; padding-left: 15px; padding-right: 50px; padding-top: 8px">Models:</label>
+                        <select [(ngModel)]="selectedModel" style="padding:5px; height: 35px; width: 300px;" class="form-control"
+                            (change)="changeDeviceData()">
+                            <option [ngValue]="model" *ngFor="let model of allModelNames">{{model == 'All'? 'Select Model': model}}</option>
+                        </select>
+                    </div>
+                </div>
+                </div>
+                <div>
+                    <div *ngIf="selectedVendor !=='All' && viewBy==='vendors'">
+                        <div class="row" style="margin-top:-320px">
+                        <label
+                            style="font-family: Roboto, sans-serif; font-size: 0.9375rem; font-weight: 400; line-height: 1.25rem; padding-left: 15px; padding-right: 50px; padding-top: 8px">Devices:</label>
+                        <select [(ngModel)]="selectedVendorDevice" style="padding:5px; height: 35px; width: 300px;"
+                            class="form-control" (change)="calculateConsolidatedDeviceData()">
+                            <option [ngValue]="'All'" selected>Select Device</option>
+                            <option [ngValue]="vendorDevice" *ngFor="let vendorDevice of devicesInTable">
+                                {{vendorDevice}}</option>
+                        </select>
+                    </div>
+                    </div>
+                    <div *ngIf="selectedModel !== 'All' && viewBy==='models'">
+                        <div class="row" style="margin-top:-320px">
+                        <label
+                            style="font-family: Roboto, sans-serif; font-size: 0.9375rem; font-weight: 400; line-height: 1.25rem; padding-left: 15px; padding-right: 50px; padding-top: 8px">Devices:</label>
+                        <select [(ngModel)]="selectedModelDevice" style="padding:5px; height: 35px; width: 300px;"
+                            class="form-control" (change)="calculateConsolidatedDeviceData()">
+                            <option [ngValue]="'All'" selected>Select Device</option>
+                            <option [ngValue]="modelDevice" *ngFor="let modelDevice of devicesInTable">{{modelDevice}}
+                            </option>
+                        </select>
+                    </div>
+                    </div>
+                </div>
+                <div style="padding:0px;" class="col text-center" *ngIf="showTable">
+                    <div style="margin-top:-215px" class="row">
+                        <div class="col-md-10 offset-md-1">
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <td>Name</td>
+                                        <td>{{finalDeviceData.deviceName}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Reservations</td>
+                                        <td>{{finalDeviceData.totalNoOfReservations}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Utilized Hours</td>
+                                        <td>{{finalDeviceData.totalutilizedHours}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Utilization Percentage</td>
+                                        <td>{{finalDeviceData.totalUtlizedPercentage}} %</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</mat-card-content>
+
+<div *ngIf="loading && !(dataService.CPERegressionNoData | async)" style="padding-right:20px; padding-left:25px;position:relative; height:400px">
+    <div *ngIf="loading" style="position: absolute;top: 40%;left: 50%;" class="lds-hourglass"></div>
+</div>
+
+<div *ngIf="(dataService.CPERegressionNoData | async) " style="padding-right:20px; padding-left:25px;position:relative; height:400px">
+    <div style="position: absolute;top: 40%;width:100%" class="text-center">
+        <h4>No Data Available. Run Regressions and Come Back !!</h4>
+        <br>
+        <button routerLink="/pages/dashboard"  title="Home" style="cursor: pointer;padding-bottom: 5px;padding-top:5px;padding-right:8px;padding-left:8px"
+            class="btn btn-info btn-tiny">
+            Home
+        </button>
+    </div>
+</div>

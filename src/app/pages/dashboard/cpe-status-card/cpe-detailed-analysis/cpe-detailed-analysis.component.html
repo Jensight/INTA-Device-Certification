@@ -1,0 +1,233 @@
+<app-title-display [breadcrumbs]="breadcrumbs" titleName="Reservation Analysis"></app-title-display>
+<mat-card>
+    <mat-card-header>
+        <div class="col-sm-3">
+            <div class="row">
+                <div class="col-sm-5" style="padding-top: 10px">Timeframe</div>
+                <div class="col-sm-7" style="padding-left: 10px;padding-right: 10px">
+                    <select [(ngModel)]="timeFrame" style="padding:5px; height: 35px;" class="form-control">
+                        <option value="7">Last 7 Days </option>
+                        <option value="30">Last 30 Days</option>
+                        <option value="1">All Time</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-1">
+            <button (click)="downloadReport()" title="Download Report" style="cursor: pointer;padding-bottom: 5px;padding-top:5px;padding-right:8px;padding-left:8px" class="btn btn-primary btn-tiny">
+                <i class="fa fa-download" aria-hidden="true"></i>
+            </button>
+        </div>
+    </mat-card-header>
+    <mat-card-content>
+        <!-- <div class="row" style="margin-top:10px">
+           <div class="col-sm-6 main-card px-3">
+                <div class="row card-header">
+                    <div class="col text-center">
+                        <h6 style="font-size: 1.125rem;
+                        font-family: Roboto, sans-serif;
+                        font-weight: 700;
+                        line-height: 1.5rem;">Reservation Trend</h6>
+                    </div>
+                </div>
+                <div style="min-height: 300px" class="row border card-body">
+                    <div style="padding:0px" class="col">
+                        <app-reservation-chart (chart)="updateCharts($event)" chartName="reservationTrend" [chartNumber]="0" dataName="day" xAxisName="Days of Week" [timeFrame]="timeFrame" [chartData]="reservationTrendData"></app-reservation-chart>
+                    </div>
+                </div>
+            </div> 
+            <div class="col-sm-6 main-card px-3">
+                <div class="row card-header">
+                    <div class="col text-center">
+                        <h6 style=" font-size: 1.125rem;
+                        font-family: Roboto, sans-serif;
+                        font-weight: 700;
+                        line-height: 1.5rem;">Reservation Status</h6>
+                    </div>
+                </div>
+                <div style="min-height: 300px" class="row border card-body">
+                    <div style="padding:0px" class="col">
+                        <app-reservation-chart (chart)="updateCharts($event)" chartName="reservationStatus" [chartNumber]="1" dataName="status" xAxisName="Reservation Status" [timeFrame]="timeFrame" [chartData]="reservationStatusData"></app-reservation-chart>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+        <div class="row" style="margin-top:10px">
+            <div class="col-sm-6 main-card px-3">
+                <div class="row card-header">
+                    <div class="col text-center">
+                        <h6 style=" font-size: 1.125rem;
+                        font-family: Roboto, sans-serif;
+                        font-weight: 700;
+                        line-height: 1.5rem;">Device Utilization (Manual Testing)</h6>
+                    </div>
+                </div>
+                <div style="min-height: 300px" class="row border card-body">
+                    <div style="padding:0px" class="col">
+                        <app-reservation-chart-display (chart)="updateCharts($event)" chartName="deviceUtilization" [chartNumber]="0" dataName="deviceName" xAxisName="Device Name" [timeFrame]="timeFrame" [chartData]="deviceReservationData"></app-reservation-chart-display>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 main-card px-3">
+                <div class="row card-header">
+                    <div class="col text-center">
+                        <h6 style=" font-size: 1.125rem;
+                        font-family: Roboto, sans-serif;
+                        font-weight: 700;
+                        line-height: 1.5rem;">Testbed Utilization (Manual Testing)</h6>
+                    </div>
+                </div>
+                <div style="min-height: 300px" class="row border card-body">
+                    <div style="padding:0px" class="col">
+                        <app-reservation-chart-display (chart)="updateCharts($event)" chartName="testbedUtilization" [chartNumber]="0" dataName="testbedName" xAxisName="Testbed Name" [timeFrame]="timeFrame"
+                            [chartData]="testbedReservation"></app-reservation-chart-display>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-top:10px">
+            <div class="col-sm-6 main-card px-3">
+                <div class="row card-header">
+                    <div class="col text-center">
+                        <h6 style=" font-size: 1.125rem;
+                        font-family: Roboto, sans-serif;
+                        font-weight: 700;
+                        line-height: 1.5rem;">Unused Devices(Top 5)</h6>
+                    </div>
+                </div>
+                <div style="min-height: 300px" class="row border card-body">
+                    <div style="padding:0px" class="col">
+                        <app-reservation-streak-chart (chart)="updateCharts($event)" chartName="unusedDevice" [timeFrame]="timeFrame" dataName="deviceName" [chartData]="deviceStreak"></app-reservation-streak-chart>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 main-card px-3">
+                <div class="row card-header">
+                    <div class="col text-center">
+                        <h6 style=" font-size: 1.125rem;
+                        font-family: Roboto, sans-serif;
+                        font-weight: 700;
+                        line-height: 1.5rem;">Unused Testbeds(Top 5)</h6>
+                    </div>
+                </div>
+                <div style="min-height: 300px" class="row border card-body">
+                    <div style="padding:0px" class="col">
+                        <app-reservation-streak-chart (chart)="updateCharts($event)" chartName="unusedTestbed" [timeFrame]="timeFrame" dataName="testbedName" [chartData]="testbedStreak"></app-reservation-streak-chart>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-top:10px">
+            <div class="col-sm-6 main-card px-3">
+                <div class="row card-header">
+                    <div class="col text-center">
+                        <h6 style=" font-size: 1.125rem;
+                        font-family: Roboto, sans-serif;
+                        font-weight: 700;
+                        line-height: 1.5rem;">Device Details</h6>
+                    </div>
+                </div>
+                <div style="min-height: 300px" class="row border card-body">
+                    <div style="padding:0px" class="col text-center">
+                        <div class="row">
+                            <div class="offset-md-3 col-md-6">
+                                <select [(ngModel)]="selectedDevice" style="padding:5px; height: 35px;" class="form-control">
+                                    <option [ngValue]="device" *ngFor="let device of data['deviceData']">{{device.deviceName}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div style="margin-top:15px" *ngIf="selectedDevice" class="row">
+                            <div class="col-md-10 offset-md-1">
+                                <table class="table table-bordered">
+                                    <tbody>
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>{{selectedDevice.deviceName}}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>Last Reservation</td>
+                                            <td>{{selectedDevice.differentDays |timeDifference}}  ago.</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Reserved Duration</td>
+                                            <td>{{selectedDevice.duration}} Hour(s)</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Last Reservation Date</td>
+                                            <td>{{selectedDevice.lastReservation | date:'short'}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Utilization</td>
+                                            <td>{{selectedDevice.utlizedPercentage}} %</td>
+                                        </tr>
+                                        <tr>
+                                                <td>Device ID</td>
+                                                <td>{{selectedDevice._id}} </td>
+                                            </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 main-card px-3">
+                <div class="row card-header">
+                    <div class="col text-center">
+                        <h6 style=" font-size: 1.125rem;
+                        font-family: Roboto, sans-serif;
+                        font-weight: 700;
+                        line-height: 1.5rem;">Testbed Details</h6>
+                    </div>
+                </div>
+                <div style="min-height: 300px" class="row border card-body">
+                    <div style="padding:0px" class="col text-center">
+                        <div class="row">
+                            <div class="offset-md-3 col-md-6">
+                                <select [(ngModel)]="selectedTestbed" style="padding:5px; height: 35px;" class="form-control">
+                                    <option [ngValue]="tb" *ngFor="let tb of data['testbedData']">{{tb.testbedName}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div style="margin-top:15px" *ngIf="selectedTestbed" class="row">
+                                <div class="col-md-10 offset-md-1">
+                                    <table class="table table-bordered">
+                                        <tbody>
+                                            <tr>
+                                                <td>Name</td>
+                                                <td>{{selectedTestbed.testbedName}}</td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>Last Reservation</td>
+                                                <td>{{selectedTestbed.differentDays |timeDifference}}  ago.</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Reserved Duration</td>
+                                                <td>{{selectedTestbed.duration}} Hour(s)</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Last Reservation Date</td>
+                                                <td>{{selectedTestbed.lastReservation | date:'short'}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Utilization</td>
+                                                <td>{{selectedTestbed.utlizedPercentage}} %</td>
+                                            </tr>
+                                            <tr>
+                                                    <td>Testbed ID</td>
+                                                    <td>{{selectedTestbed._id}} </td>
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>
+<ngx-spinner size = "medium" color = "#fff" type = "ball-spin-clockwise" 
+[fullScreen] = "true" [showSpinner]="loading"></ngx-spinner>

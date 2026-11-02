@@ -1,0 +1,114 @@
+@import '../../../../themes.scss';
+
+#caro > li > div.text-center {
+    padding-top: 15px;
+}
+
+.icon {
+    float: right;
+}
+
+
+.card {
+    margin: 0;
+    box-shadow: 2px 2px 3px #00000029;
+    border: none;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 1rem;
+    width: 16.5rem;
+    height: 16rem;
+
+    .card-body {
+        text-align: center;
+        padding-bottom: 10px !important;
+
+        .slide-num {
+            padding-top: 20px;
+        }
+
+        h3 {
+            padding: 10px;
+            margin: 0;
+            color: #575756;
+            font-size: 3.2rem;
+            display: block;
+            font-weight: 400;
+            padding-bottom: 1rem;
+        }
+
+        p {
+            color: #575756;
+            margin-bottom: 25px;
+            font-size: 1rem !important;
+        }
+        
+        .card-btn {
+            border-radius: 3px;
+            text-decoration: none;
+            padding: 10px 12px 10px 12px;
+            text-align: left;
+            text-transform: uppercase;
+            font-size: 14px;
+            margin: 0px auto;
+            display: table;
+            width: 90%;
+            background: #fff;
+            border:1px solid #da291c;
+            color: #da291c;
+            strong {
+                float: right;
+            }
+        }
+        .card-btn:hover {
+            color: #fff;
+            border:1px solid #da291c;
+            background: #da291c;
+        }
+
+        .carousel-control-prev, .carousel-control-next {
+            padding: 0;
+            margin: 0;
+            height: 60px;
+            color: #DADADA;
+            text-decoration: none;
+            font-size: 20px;
+        }
+    }
+
+    .card-foot {
+        padding: 1.2rem 1.25rem;
+        border-top: 3px solid #ccc;
+        position: relative;
+        bottom: -44px;
+        transition: all 0.2s linear;
+
+        p {
+            padding: 0;
+            margin:  0 0 16px;
+            font-size: 1rem !important;
+            color: #575756;
+
+            strong {
+                float: right;
+            }
+        }
+
+        h6 {
+             padding: 0;
+             margin: 0;
+             font-size: 14px;
+        }
+
+        &:hover {
+            position: inherit;
+            bottom: 0px;
+            transform: translateY(-10px);
+            background-color: #ffffff;
+        }
+        &:hover strong
+        {
+            display: none;
+        }
+    }
+}

@@ -1,0 +1,65 @@
+// @import "~ng-pick-datetime/assets/style/picker.min.css";
+@import "@danielmoncada/angular-datetime-picker/assets/style/picker.min.css";
+
+.text-right {
+    margin-top: 10%;
+    margin-left: 70%;
+}
+.text-reg-right {
+    margin-top: 13%;
+    margin-bottom: 2%;
+    margin-left: 70%;
+}
+.modal-body {
+    // max-height: 400px;
+    overflow-y: auto;
+}
+.modal-body {
+    position: relative;
+    padding: 15px;
+}
+
+button.mat-raised-button{
+    background-color: rgb(13, 107, 24);    
+    color: white;
+}
+
+::ng-deep .mat-mdc-raised-button:not(:disabled) {
+  color: white;
+  background-color: rgb(13, 107, 24);
+}
+
+.container {
+    height: 250px;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+  }
+  
+table {
+    width: 100%;
+    overflow: auto;
+    height: 100%;
+  }
+  
+  .mat-header-cell {
+    background-color: #A4ABB3;
+    color: white;
+  }
+  .mat-header-cell:first-child {
+    border-top-left-radius: 5px;
+  }
+  .mat-header-cell:last-child {
+    border-top-right-radius: 5px;
+  }
+  .mat-row:nth-child(2n) {
+    background-color: #f2f2f2;
+  }  
+
+  .mat-row:hover{
+    background-color: white;
+  }
+
+  ::ng-deep .mat-mdc-dialog-surface {
+    overflow-y: unset; 
+  }

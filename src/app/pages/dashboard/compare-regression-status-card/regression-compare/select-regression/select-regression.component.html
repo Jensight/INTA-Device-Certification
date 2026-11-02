@@ -1,0 +1,105 @@
+<div >
+  <form [formGroup]="regressionForm" style="margin-bottom: 20px;">
+      <div class="row" style="margin-top: 5%">
+          <div class="col-md-12" style="margin-top: 2%" style="display: flex;flex-direction: row; padding-left: 40px; padding-top: 25px;">
+        <div class="col-md-6" style="display: flex;flex-direction: row;">
+                  <div>
+                  <mat-form-field appearance="fill">
+                      <mat-label>Enter a Date Range (UTC)</mat-label>
+                      <mat-date-range-input [formGroup]="regressionForm" [rangePicker]="picker">
+                        <input matStartDate formControlName="fromDate" placeholder="Start date">
+                        <input matEndDate formControlName="toDate" placeholder="End date">
+                      </mat-date-range-input>             
+                      <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
+                      <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div style="padding-top: 1%;">
+                      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                          <mat-date-range-picker #picker></mat-date-range-picker>
+                     </div>
+                 </div>
+        <div class="col-md-3" [ngClass]="enable_environment_type_selection == true ? 'col-md-3':'col-md-4' ">
+          <mat-form-field appearance="fill" [ngStyle]="{'width': enable_environment_type_selection ? '150px':'180px' }">
+                      <mat-label>Available Models</mat-label>
+                      <mat-select formControlName="model">
+                          <mat-option *ngFor="let model of allModels" [value]="model.modelName">{{model.modelName}}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+              </div>
+        <div *ngIf="enable_environment_type_selection == true" class="col-md-3">
+          <mat-form-field appearance="fill" [ngStyle]="{'width': enable_environment_type_selection ? '150px':'180px' }">
+            <mat-label>Select Environment</mat-label>
+            <mat-select formControlName="environment" [(value)]="env_type">
+              <mat-option *ngFor="let env of environment_type" [value]="env">{{env}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div style=" margin-top: 0%; margin-left: -25px;" class="col-md-12 text-right">
+                  <button mat-raised-button  color="success" (click)="fetchRegressions()" >Check</button> &nbsp; &nbsp; &nbsp; &nbsp;
+                  <button mat-flat-button  color="warn" (click)="close()">Close</button>
+              </div>
+      
+      </div>
+  </form>
+  
+</div>
+<div @fade *ngIf="showRegList && !noData">
+  <!-- <mat-radio-group [(ngModel)]="selectedReg" (change)="SelectedReg($event)">
+    <mat-radio-button [value]="reg1">Regression 1 : {{selectedReg1}}</mat-radio-button><br/><br/>
+    <mat-radio-button [value]="reg2">Regression 2 : {{selectedReg1}}</mat-radio-button>
+  </mat-radio-group> -->
+    <!-- <div class="mat-elevation-z3">    -->
+      <div *ngIf="Dup" style="color: red;text-align: center">This regression is already selected. Please select a different regression!</div>
+        <mat-radio-group (change)="sendDataToParent($event)" [(ngModel)]="chosenRegName">
+    <div class="container">
+            <table mat-table [dataSource]="dataSource" matSort>    
+                <ng-container matColumnDef="selected">
+                    <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let element">
+              <mat-radio-button [value]="element">
+              </mat-radio-button>
+            </td>
+          </ng-container>
+
+        <ng-container matColumnDef="runId">
+          <th mat-header-cell *matHeaderCellDef>Run Id</th>
+          <td mat-cell *matCellDef="let element"> {{element.tagName}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="filter">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-form-field style="margin-left: 15px;color: white;">
+              <mat-label style="color: white;">Run ID</mat-label>
+                <input matInput (keyup)="applyFilter($event.target.value)" #input/>       
+            </mat-form-field>
+          </th>
+            <td mat-cell *matCellDef="let element"></td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="4">
+            No data matching the filter "{{input?.value}}"
+          </td>
+        </tr>
+      </table>
+  </div>
+    <mat-paginator [pageSizeOptions]="[10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+    </mat-radio-group>
+    
+  <!-- </div> -->
+
+  
+</div>
+<div  *ngIf="noData" style="text-align: center">
+No Regressions in Selected Date Range or Model
+</div>
+<div *ngIf="showRegList" style="text-align: center" class="row">
+    <div style="margin-top:20px" class="col">
+        <button mat-raised-button [disabled]="chosenRegName!=''?false:true" color="success" *ngIf="!noData&&!Dup" [mat-dialog-close]="resultObj">Select</button> &nbsp; &nbsp; &nbsp; &nbsp;
+        <button mat-raised-button  color="warn"  *ngIf="!noData" (click)="back()">Back</button>
+    </div>
+</div> 

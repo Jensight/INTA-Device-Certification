@@ -1,0 +1,44 @@
+<div class="card" style="cursor: move;">
+    <div class="card-body">
+        <div class="slide-num">
+            <div id="carouselTcAnalysis" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                  <div class="carousel-item active">
+                    <h3>{{totalTestcases}}</h3>
+                    <p>Usecases</p>
+                  </div>
+        
+                  <div class="carousel-item">
+                    <h3>{{testGroup}}</h3>
+                    <p>Usecases groups</p>
+                  </div>
+        
+                  <div class="carousel-item">
+                    <h3>{{testSuite}}</h3>
+                    <p>Regression suites</p>
+                  </div>
+      
+                  <div class="carousel-item">
+                      <h3>{{module}}</h3>
+                      <p>Product Set</p>
+                    </div>
+        
+                </div>
+                <a class="carousel-control-prev" href="#carouselTcAnalysis" role="button" data-slide="prev">
+                  <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                </a>
+                <a class="carousel-control-next" href="#carouselTcAnalysis" role="button" data-slide="next">
+                  <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                </a>
+              </div>
+        </div>
+        <a routerLink="/pages/dashboard/environment-analysis" class="card-btn">Environment Analysis <strong><i class="fa fa-chevron-right"
+                aria-hidden="true"></i></strong></a>
+    </div>
+    <div *ngIf="isEnableLatestInfo" class="card-foot">
+        <p>Last Usecases <strong><i class="fa fa-chevron-up" aria-hidden="true"></i>
+        </strong></p>
+        <h6 style="font-weight: 600 !important; font-size: 14px !important;" [matTooltip]="tcName || 'NA'">{{ (tcName|limitTo:20) || 'NA' }}</h6>
+    </div>
+</div>
+  
