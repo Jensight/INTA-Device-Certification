@@ -1,0 +1,802 @@
+<!doctypehtml>
+    <html lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body {
+            font-family: 'trebuchet MS', 'Lucida sans', Arial;
+            font-size: 14px
+        }
+
+        table {
+            border-spacing: 0;
+            width: 100%
+        }
+        .borderedJob {
+            border: solid #ccc 1px;
+            -moz-border-radius: 6px;
+            -webkit-border-radius: 6px;
+            border-radius: 6px;
+            -webkit-box-shadow: 0 1px 1px #ccc;
+            -moz-box-shadow: 0 1px 1px #ccc;
+            box-shadow: 0 1px 1px #ccc
+        }
+
+        .borderedJob tr:hover {
+            background: #fbf8e9;
+            -o-transition: all .1s ease-in-out;
+            -webkit-transition: all .1s ease-in-out;
+            -moz-transition: all .1s ease-in-out;
+            -ms-transition: all .1s ease-in-out;
+            transition: all .1s ease-in-out
+        }
+
+        .borderedJob td,
+        .borderedJob th {
+            border-left: 1px solid #ccc;
+            border-top: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .borderedJob tr td:first-child {
+            background-color: #dce9f9;
+            background-image: -webkit-gradient(linear, left top, left bottom, from(#ebf3fc), to(#dce9f9));
+            background-image: -webkit-linear-gradient(top, #ebf3fc, #dce9f9);
+            background-image: -moz-linear-gradient(top, #ebf3fc, #dce9f9);
+            background-image: -ms-linear-gradient(top, #ebf3fc, #dce9f9);
+            background-image: -o-linear-gradient(top, #ebf3fc, #dce9f9);
+            background-image: linear-gradient(top, #ebf3fc, #dce9f9);
+            -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, .8) inset;
+            -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, .8) inset;
+            box-shadow: 0 1px 0 rgba(255, 255, 255, .8) inset;
+            text-shadow: 0 1px 0 rgba(255, 255, 255, .5)
+        }
+
+        .borderedJob tr:first-child td:first-child
+       {
+            border-left: none
+        }
+
+        .borderedJob tr:first-child td:first-child {
+            -moz-border-radius: 6px 0 0 0;
+            -webkit-border-radius: 6px 0 0 0;
+            border-radius: 6px 0 0 0
+        }
+
+        .borderedJob th:last-child {
+            -moz-border-radius: 0 6px 0 0;
+            -webkit-border-radius: 0 6px 0 0;
+            border-radius: 0 6px 0 0
+        }
+
+        .borderedJob th:only-child {
+            -moz-border-radius: 6px 6px 0 0;
+            -webkit-border-radius: 6px 6px 0 0;
+            border-radius: 6px 6px 0 0
+        }
+
+        .borderedJob tr:last-child td:first-child {
+            -moz-border-radius: 0 0 0 6px;
+            -webkit-border-radius: 0 0 0 6px;
+            border-radius: 0 0 0 6px
+        }
+
+        .borderedJob tr:last-child td:last-child {
+            -moz-border-radius: 0 0 6px 0;
+            -webkit-border-radius: 0 0 6px 0;
+            border-radius: 0 0 6px 0
+        }
+
+
+        .bordered {
+            border: solid #ccc 1px;
+            -moz-border-radius: 6px;
+            -webkit-border-radius: 6px;
+            border-radius: 6px;
+            -webkit-box-shadow: 0 1px 1px #ccc;
+            -moz-box-shadow: 0 1px 1px #ccc;
+            box-shadow: 0 1px 1px #ccc
+        }
+
+        .bordered tr:hover {
+            background: #fbf8e9;
+            -o-transition: all .1s ease-in-out;
+            -webkit-transition: all .1s ease-in-out;
+            -moz-transition: all .1s ease-in-out;
+            -ms-transition: all .1s ease-in-out;
+            transition: all .1s ease-in-out
+        }
+
+        .bordered td,
+        .bordered th {
+            border-left: 1px solid #ccc;
+            border-top: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .bordered th {
+            background-color: #dce9f9;
+            background-image: -webkit-gradient(linear, left top, left bottom, from(#ebf3fc), to(#dce9f9));
+            background-image: -webkit-linear-gradient(top, #ebf3fc, #dce9f9);
+            background-image: -moz-linear-gradient(top, #ebf3fc, #dce9f9);
+            background-image: -ms-linear-gradient(top, #ebf3fc, #dce9f9);
+            background-image: -o-linear-gradient(top, #ebf3fc, #dce9f9);
+            background-image: linear-gradient(top, #ebf3fc, #dce9f9);
+            -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, .8) inset;
+            -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, .8) inset;
+            box-shadow: 0 1px 0 rgba(255, 255, 255, .8) inset;
+            border-top: none;
+            text-shadow: 0 1px 0 rgba(255, 255, 255, .5)
+        }
+
+        .bordered td:first-child,
+        .bordered th:first-child {
+            border-left: none
+        }
+
+        .bordered th:first-child {
+            -moz-border-radius: 6px 0 0 0;
+            -webkit-border-radius: 6px 0 0 0;
+            border-radius: 6px 0 0 0
+        }
+
+        .bordered th:last-child {
+            -moz-border-radius: 0 6px 0 0;
+            -webkit-border-radius: 0 6px 0 0;
+            border-radius: 0 6px 0 0
+        }
+
+        .bordered th:only-child {
+            -moz-border-radius: 6px 6px 0 0;
+            -webkit-border-radius: 6px 6px 0 0;
+            border-radius: 6px 6px 0 0
+        }
+
+        .bordered tr:last-child td:first-child {
+            -moz-border-radius: 0 0 0 6px;
+            -webkit-border-radius: 0 0 0 6px;
+            border-radius: 0 0 0 6px
+        }
+
+        .bordered tr:last-child td:last-child {
+            -moz-border-radius: 0 0 6px 0;
+            -webkit-border-radius: 0 0 6px 0;
+            border-radius: 0 0 6px 0
+        }
+
+        .empty-graph,
+        .graph {
+            border: 1px solid #ccc;
+            width: auto;
+            height: 7px;
+            padding: 0;
+            background: #f33
+        }
+
+        .pass-bar {
+            background: #1d4
+        }
+
+        .fail-bar,
+        .pass-bar {
+            float: left;
+            height: 100%
+        }
+
+        .border {
+            border: 1px solid #ccc;
+            border-top-color: #ccc;
+            border-top-style: solid;
+            border-top-width: 1px;
+            border-right-color: #ccc;
+            border-right-style: solid;
+            border-right-width: 1px;
+            border-bottom-color: #ccc;
+            border-bottom-style: solid;
+            border-bottom-width: 1px;
+            border-left-color: #ccc;
+            border-left-style: solid;
+            border-left-width: 1px;
+            border-image-source: initial;
+            border-image-slice: initial;
+            border-image-width: initial;
+            border-image-outset: initial;
+            border-image-repeat: initial;
+            padding: .3em .2em;
+            margin: .2em 0
+        }
+
+        .head-hover {
+            background-color: #eee;
+            border-color: #ccc;
+            cursor: pointer
+        }
+
+        .collapsible:hover {
+            background-color: #96fbb4
+        }
+
+        .content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height .2s ease-out
+        }
+
+        .collapsible>h4>#arrow::after {
+            float: right;
+            content: '\0025BC'
+        }
+
+        .active>h4>#arrow::after {
+            content: '\0025B2'
+        }
+
+        .list {
+            display: flex;
+            overflow: hidden;
+            grid-template-columns: repeat(2, 1fr);
+            grid-auto-rows: 1fr;
+            grid-column-gap: 5px;
+            grid-row-gap: 5px;
+            height: fit-content
+        }
+
+        .list-item {
+            display: flex;
+            padding: .5em;
+            margin-bottom: 20px
+        }
+
+        .list-content {
+            margin: auto;
+            width: 100%
+        }
+
+        .result {
+            padding: 2px 5px;
+            font-size: .75em;
+            letter-spacing: 1px;
+            white-space: nowrap;
+            color: #000;
+            background-color: #ddd;
+            border-radius: 3px
+        }
+
+        .Pass {
+            background-color: #5cb85c !important
+        }
+
+        .Fail {
+            background-color: #d9534f !important
+        }
+
+        .Excluded {
+            background-color: #ff9f05 !important
+        }
+        .Warning {
+            background-color: #ffa500 !important
+        }
+        .Abort {
+            background-color: #fa4d56 !important
+        }
+        .NoExec {
+            background-color: #faa721 !important
+        }
+        .info {
+            background-color: #7fdbff
+        }
+
+        .dashed {
+            border-style: dashed
+        }
+     /* .div-img{
+    justify-content: center;
+    align-items: center;
+    display:flex;
+    padding-top:20%;
+} */
+/* img{
+    transition: transform .2s;
+    width:50px;
+    height:50px;
+    margin:0 auto;
+    background-color: rgb(173, 173, 237);
+    border-radius: 10px;
+    border: 1px solid black;
+}
+img:hover{
+    transform:scale(2.5);
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: white;
+}  */
+    </style><br>
+    <div style="width:50%">
+        <table id="regressionDetails" style="font-size:17px" class="borderedJob">
+
+            <tr>
+                <td>Job Id</td>
+                
+            </tr>
+            <tr>
+                <td>Start Time</td>
+               
+            </tr>
+            <tr>
+                <td>End Time</td>
+            </tr>         </tr>
+            <tr>
+                <td>Duration</td>
+
+            </tr>
+            <tr>
+                <td>Environment Type</td>
+   
+            <tr>
+                <td>Firmware Version</td>
+
+            </tr>
+
+        </table>
+    </div><br><br>
+    <div style="width:50%">
+        <table id="myTable" class="bordered">
+            <thead>
+                <tr>
+                    <th>Statistics
+                    <th>Total
+                    <th>Pass
+                    <th>Fail
+                    <th>No Run
+                    <th>Warning
+                    <th>Aborted
+                    <th>Excluded
+                    <th>Duration
+                    <th>Overview
+            <tbody>
+        </table>
+    </div><br><br>
+    <div class="border">
+        <div class="head-hover collapsible">
+            <div style="display: flex;flex-direction: row;flex-wrap: nowrap;align-items: center;gap: 30px;">
+                <div>
+            <h4 id="tbName" style="margin:0;padding:5px"><span id="arrow"></span> <span
+                    class="result info">Testbed</span>&nbsp;</h4>
+                </div>
+                 <div>
+                    <h4 id="dutHeader" style="margin:0;padding:5px"><span class="result info">DUT</span>&nbsp;<span id="dutName" style="font-weight:bold"></span></h4>
+                </div>
+                <div>
+                    <h4 id="firmV" style="margin:0;padding:5px"><span id="arrow"></span> <span
+                        class="result info">Firmware Version</span>&nbsp;</h4>
+                </div>
+                </div>     
+        </div>
+        <div class="content">
+            <div style="width:55%;padding-top:20px">
+                <table style="width:64%;margin:auto;word-break:break-all" id="variableValue" class="bordered">
+                    <thead>
+                        <tr>
+                            <th style="text-align:center" colspan="2">Variable Values
+                    <tbody>
+                </table>
+            </div>
+            <ul id="testbedContent" class="list" style="display: flex;flex-wrap: wrap;align-items: flex-start;justify-content: center;"></ul>
+        </div>
+    </div>
+    <div id="executionLogs" style="margin-left:10px">
+        <h3>Execution Logs</h3>
+    </div>
+    <script src="https://unpkg.com/blob-util/dist/blob-util.min.js"></script>
+    <script>
+        function copyText(idname){
+            console.log('idname => ', idname);
+            var text = document.querySelector('.'+idname);
+            console.log('text ', text);
+            // var textCopy = document.getElementById(idname);
+            // textCopy.value = text;    
+            // document.execCommand("copy");
+            text.select();
+            document.execCommand("copy");
+            console.log(text.value);
+        }
+        var imgArr = [];
+        var imgCount = 1;
+        var docCount = 1;
+        var docArr = [];
+
+        function openLink(divId) {
+            const doc = docArr.filter(ele => ele.div == divId)[0];
+            const link = doc.docURL;
+            const docType = doc.docType;
+            const base64String = doc.base64;
+            console.log('inside open link', link, docType);
+            let win = window.open('', '_blank');
+            if (!win) {
+                alert('Please allow popups for this site.');
+                return;
+            }
+            if (doc.fileNotFound) {
+                win.close();
+                alert('File not found: ' + link);
+                return;
+            }
+            if (!base64String) {
+                win.close();
+                console.log('No base64 data available for', link);
+                return;
+            }
+            if (doc.type === 'img') {
+                // Browsers block top-level navigation to data: URLs, so convert the
+                // data URI to a Blob URL before opening it in the new tab
+                const commaIdx = base64String.indexOf(',');
+                const meta = commaIdx > -1 ? base64String.substring(0, commaIdx) : '';
+                const rawBase64 = commaIdx > -1 ? base64String.substring(commaIdx + 1) : base64String;
+                const mimeMatch = meta.match(/data:(.*?);base64/);
+                const mimeType = mimeMatch ? mimeMatch[1] : 'image/jpeg';
+                const byteCharacters = atob(rawBase64);
+                const byteNumbers = new Array(byteCharacters.length);
+                for (let i = 0; i < byteCharacters.length; i++)
+                    byteNumbers[i] = byteCharacters.charCodeAt(i);
+                const byteArray = new Uint8Array(byteNumbers);
+                const blob = new Blob([byteArray], { type: mimeType });
+                win.location.href = URL.createObjectURL(blob);
+                return;
+            }
+            if (docType === 'html') {
+                const htmlContent = atob(base64String);
+                win.document.open();
+                win.document.write(htmlContent);
+                win.document.close();
+            } else if (docType === 'pdf' || docType === 'jpeg' || docType === 'txt') {
+                const mimeType = docType === 'pdf' ? 'application/pdf'
+                    : docType === 'jpeg' ? 'image/jpeg' : 'text/plain';
+                const byteCharacters = atob(base64String);
+                const byteNumbers = new Array(byteCharacters.length);
+                for (let i = 0; i < byteCharacters.length; i++)
+                    byteNumbers[i] = byteCharacters.charCodeAt(i);
+                const byteArray = new Uint8Array(byteNumbers);
+                const blob = new Blob([byteArray], { type: mimeType });
+                win.location.href = URL.createObjectURL(blob);
+            } else if (docType === 'xlsx' || docType === 'docx') {
+                win.close();
+                const base64StringType = docType === 'xlsx'
+                    ? 'data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,'
+                    : 'data:application/msword;base64,';
+                const pathArray = [] = link.split('/');
+                const filename = pathArray[pathArray.length - 1];
+                const link1 = document.createElement("a");
+                link1.href = base64StringType + base64String;
+                link1.download = filename;
+                link1.click();
+            } else {
+                win.close();
+            }
+        }
+
+        function objectToCss(styleObject) {
+            if (!styleObject || typeof styleObject !== 'object') {
+                return '';
+            }
+            return Object.entries(styleObject)
+                .map(([key, value]) => `${key.replace(/([A-Z])/g, '-$1').toLowerCase()}:${value}`)
+                .join(';');
+        }
+        
+        var tagsToReplace = {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;'
+        };
+
+        function replaceTag(tag) {
+            return tagsToReplace[tag] || tag;
+        }
+
+        function
+        safe_tags_replace(str) {
+            //return str.replace(/[& <>]/g, replaceTag);
+            //console.log(str)
+            if(str !== undefined){
+            	return str.replace(/[& <>]/g, replaceTag);
+            } else {
+                return '';
+            }
+        }
+        for (let index = 0; index < statsList.length; index++) {
+            const element = statsList[index];
+            var passPercentage = ((element.pass / element.total) * 100).toFixed(2)
+            var failPercentage = (100 - passPercentage)
+            var myHtmlContent = `
+                <tr><td>${element.name}</td>
+                <td>${element.total}</td>
+                <td>${element.pass}</td>
+                <td>${element.fail}</td>
+                <td>${element.noRun}</td>
+                <td>${element.warning}</td>
+                <td>${element.aborted}</td>
+                <td>${element.excluded}</td>
+                <td>${element.duration}</td>
+                <td>
+                    <div class="graph">
+                        <div class="pass-bar" style="width: ${passPercentage}%" title="${passPercentage}%"></div>
+                        <div class="fail-bar" style="width: ${failPercentage}%" title="${failPercentage}%"></div>
+                    </div>
+                </td></tr>
+                `
+            var tableRef = document.getElementById('myTable').getElementsByTagName('tbody')[0];
+            var newRow = tableRef.insertRow(tableRef.rows.length);
+            newRow.innerHTML = myHtmlContent;
+        }
+        regressionDetails.push(firmware)
+        for (let index = 0; index < regressionDetails.length; index++) {
+            const element = regressionDetails[index];
+            var tableRefs = document.getElementById('regressionDetails').getElementsByTagName('tbody')[0];
+            var ele = tableRefs.getElementsByTagName('tr')[index].insertCell(1)
+            if (index == 2 || index == 1) {
+                ele.innerHTML = new Date(element)
+            } else {
+                ele.innerHTML = element
+            }
+
+        }
+        document.getElementById('tbName').innerHTML += testbedDeatils.testBedName
+        document.getElementById('firmV').innerHTML += firmware
+        
+        // console.log(testbedDeatils,firmware,"data")
+        var htmlContent = ''
+
+        var deviceContent = '';
+        for (let index = 0; index < testbedDeatils.devices.length; index++) {
+            const element = testbedDeatils.devices[index];
+            deviceContent += `<li class="list-item" style="width: 600px;">
+                    <table style="width: 100%;margin-left:auto;margin-right:auto;word-break: break-all" id="deviceDetails" class="bordered">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center" colspan="2">${element['deviceName']} </th>
+                        </tr>
+                    </thead>
+                    <tbody>`
+            const deviceKeys = Object.keys(element)
+            for (let j = 0; j < deviceKeys.length; j++) {
+                const key = deviceKeys[j];
+                deviceContent += `
+                <tr>
+                    <td>${key.toLocaleUpperCase()}</td>
+                    <td>${element[key]}</td>
+                </tr>`
+
+            }
+            deviceContent += `
+                    </tbody>
+                </table>
+            </li>`
+
+        }
+        var testbedContent = document.getElementById('testbedContent')
+        testbedContent.innerHTML += deviceContent;
+        for (let index = 0; index < testbedDeatils.variables.length; index++) {
+            const element = testbedDeatils.variables[index];
+            htmlContent = `
+                <tr>
+                    <td width="50%">${element['variableName']}</td>
+                    <td>${element['variableValue']}</td>
+                </tr>`
+            var tableRef = document.getElementById('variableValue').getElementsByTagName('tbody')[0]
+            var newRow = tableRef.insertRow(tableRef.rows.length);
+            newRow.innerHTML = htmlContent;
+        }
+
+        var tchtml = ``;
+        var tcCount = 0;
+        for (let index = 0; index < testcaseLog.length; index++) {
+            const element = testcaseLog[index];
+            if (!element.rerun && !element.prePost) {
+                tcCount++
+            }
+            var passPercentage = ((element.pass / element.total) * 100).toFixed(2)
+            var failPercentage = 100 - passPercentage
+            //console.log('element.tcResult => ', element.tcName , ' ==> ' , element.tcResult, ' ==> ', element)
+            if(element.tcResult === '' || element.tcResult === 'Excluded'){
+                tchtml += `<div class="border" style="margin-top: 20px;;margin-right: 10px">
+                <div class="head-hover collapsible">
+                    <h4 id="tcName" style="margin: 0px;padding: 5px">
+                            ${!element.prePost ?tcCount + ') -': ''}
+                        <span id="arrow"></span>
+                        ${element.rerun ? `<span class="result info">Rerun</span>`: ''}
+                        <span style="float: right;margin-right:20px">${element.duration}</span>
+                        <span class="result Excluded">Excluded</span>
+                        ${element.tcName}</h4>
+                </div>
+                <div class="content tc">`
+            } else if(element.tcResult && element.tcResult === 'Warning'){
+                tchtml += `<div class="border" style="margin-top: 20px;;margin-right: 10px">
+                <div class="head-hover
+                collapsible">
+                    <h4 id="tcName" style="margin: 0px;padding: 5px">
+                            ${!element.prePost ?tcCount + ') -': ''}
+                        <span id="arrow"></span>
+                        ${element.rerun ? `<span class="result info">Rerun</span>`: ''}
+                        <span style="float: right;margin-right:20px">${element.duration}</span>
+                        <span class="result Warning">Warning</span>
+                        ${element.tcName}</h4>
+                </div>
+                <div class="content tc">`
+            } else if(element.tcResult && element.tcResult === 'Abort'){
+                tchtml += `<div class="border" style="margin-top: 20px;;margin-right: 10px">
+                <div class="head-hover
+                collapsible">
+                    <h4 id="tcName" style="margin: 0px;padding: 5px">
+                            ${!element.prePost ?tcCount + ') -': ''}
+                        <span id="arrow"></span>
+                        ${element.rerun ? `<span class="result info">Rerun</span>`: ''}
+                        <span style="float: right;margin-right:20px">${element.duration}</span>
+                        <span class="result Abort">Abort</span>
+                        ${element.tcName}</h4>
+                </div>
+                <div class="content tc">`
+            } else if(element.tcResult && element.tcResult === 'No Exec'){
+                tchtml += `<div class="border" style="margin-top: 20px;;margin-right: 10px">
+                <div class="head-hover
+                collapsible">
+                    <h4 id="tcName" style="margin: 0px;padding: 5px">
+                            ${!element.prePost ?tcCount + ') -': ''}
+                        <span id="arrow"></span>
+                        ${element.rerun ? `<span class="result info">Rerun</span>`: ''}
+                        <span style="float: right;margin-right:20px">${element.duration}</span>
+                        <span class="result NoExec">No Run</span>
+                        ${element.tcName}</h4>
+                </div>
+                <div class="content tc">`
+            }
+            else {
+            tchtml += `<div class="border" style="margin-top: 20px;;margin-right: 10px">
+            <div class="head-hover collapsible">
+                   <h4 id="tcName" style="margin: 0px;padding: 5px">
+                        ${!element.prePost ?tcCount + ') -': ''}
+                    <span id="arrow"></span>
+                    ${element.rerun ? `<span class="result info">Rerun</span>`: ''}
+                    <span style="float: right;margin-right:20px">${element.duration}</span>
+                    <span class="result ${element.tcResult? 'Pass' : 'Fail'}">${element.tcResult? 'Pass' : 'Fail'}</span>
+                    ${element.tcName}</h4>
+            </div>
+            <div class="content tc">`
+            }
+            var count = 1;
+            for (var j = 0; j < element.logs.length; j++) {
+                const log = element.logs[j];
+                if(log.type && log.type == 'url') {
+                    tchtml +=
+                        `<div style="margin-left: 40px;margin-top: 7px;margin-bottom:8px">${safe_tags_replace(log.date)} ${safe_tags_replace(log.othertext)} <a href = "${safe_tags_replace(log.url)}" target="_blank">${safe_tags_replace(log.url)}</a>${safe_tags_replace(log.othertext1)}</div>`
+                } else if (typeof log == 'string') {
+                    console.log('log string => ', log);
+                    tchtml +=
+                        `<div style="margin-left: 40px;margin-top: 7px;margin-bottom:8px">${safe_tags_replace(log)}</div>`
+                } else if (log.type && log.type == 'highlight') {
+                    const dynamicStyles = objectToCss(log.style);
+                    console.log('dynamicStyles => ', dynamicStyles, log);
+                    tchtml += `<div style="margin-left: 40px;margin-top: 7px;${dynamicStyles}"><span>${safe_tags_replace(log.date)}</span>${safe_tags_replace(log.data)}</div>`
+                } else if (log.type && log.type == 'comment') {
+                    tchtml += `<div style="margin-left: 40px;margin-top: 7px;font-style: italic;color: grey;">
+                                [comment] : ${safe_tags_replace(log.data)} </div>`
+                }
+                else {
+                    if (log.result === '' || log.result === 'Excluded') {
+                        tchtml += `<div class="border dashed" style="margin-right: 10px;margin-left:80px;margin-bottom:10px">
+                        <div class="head-hover collapsible">
+                            <h4 id="tcName" style="margin: 0px;padding: 5px">
+                                Step - ${log.stepNo} :
+                                <span id="arrow"></span>
+                                <span style="float: right;margin-right:20px">${log.duration}</span>
+                                <span class= "result Excluded">Excluded</span>
+                    ${log.apiName}</h4>
+                        </div> <div class="content">`
+                } else if(log.result && log.result === 'Warning'){
+                    tchtml += `<div class="border dashed" style="margin-right: 10px;margin-left:80px;margin-bottom:10px">
+                    <div class="head-hover
+                    collapsible">
+                        <h4 id="tcName" style="margin: 0px;padding: 5px">
+                            Step - ${log.stepNo} :
+                            <span id="arrow"></span>
+                            <span style="float: right;margin-right:20px">${log.duration}</span>
+                            <span class= "result Warning">Warning</span> 
+                    ${log.apiName}</h4>
+                    </div> <div class="content">`
+                    } else if(log.result && log.result === 'Abort'){
+                    tchtml += `<div class="border dashed" style="margin-right: 10px;margin-left:80px;margin-bottom:10px">
+                    <div class="head-hover
+                    collapsible">
+                        <h4 id="tcName" style="margin: 0px;padding: 5px">
+                            Step - ${log.stepNo} :
+                            <span id="arrow"></span>
+                            <span style="float: right;margin-right:20px">${log.duration}</span>
+                            <span class= "result Abort">Abort</span> 
+                    ${log.apiName}</h4>
+                    </div> <div class="content">`
+                    } else {
+                    tchtml += `<div class="border dashed" style="margin-right: 10px;margin-left:80px;margin-bottom:10px">
+                        <div class="head-hover collapsible">
+                            <h4 id="tcName" style="margin: 0px;padding: 5px">
+                                Step - ${log.stepNo} :
+                                <span id="arrow"></span>
+                                <span style="float: right;margin-right:20px">${log.duration}</span>
+                                <span class= "result ${log.result? 'Pass' : 'Fail'}">${log.result? 'Pass' : 'Fail'}</span>
+                    ${log.apiName}</h4>
+                        </div> <div class="content">`
+                    }
+                    for (let k = 0; k < log.logs.length; k++) {
+                        const logStr = log.logs[k];
+                        if(logStr.type && logStr.type == 'url') {
+                            tchtml +=
+                            `<div style="margin-left: 40px;margin-top: 7px;margin-bottom:8px">${safe_tags_replace(logStr.date)} ${safe_tags_replace(logStr.othertext)} <a href = "${safe_tags_replace(logStr.url)}" target="_blank">${safe_tags_replace(logStr.url)}</a>${safe_tags_replace(logStr.othertext1)}</div>`
+                        } else if(logStr.type && logStr.type == 'img') {
+                           var docURL = logStr.imgUrl;
+                           docArr.push({div: 'div'+docCount, docURL, type: 'img', base64: logStr.base64, fileNotFound: logStr.fileNotFound});
+                            if (logStr.fileNotFound) {
+                            tchtml += `<div style="margin-left: 40px;margin-top: 7px;color:red;"><span>${safe_tags_replace(logStr.date)}</span> File Not Found: ${safe_tags_replace(docURL)}</div>`
+                            } else if (logStr.liveSS) {
+                            tchtml += `<div style="margin-left: 40px;margin-top: 7px;"><span>${safe_tags_replace(logStr.date)}</span><a style='color: -webkit-link; cursor: pointer; text-decoration: underline;' onclick="openLink(this.id)" id='${'div'+docCount}'>${safe_tags_replace(docURL)}</a></div>`
+                           } else {
+                            tchtml += `<div style="margin-left: 40px;margin-top: 7px;"><img onclick="openLink(this.id)" id='${'div'+docCount}' src="${logStr.base64}" style="width: 300px; height: 300px; object-fit: contain; cursor: pointer;" alt="${docURL}"/></div>`
+                           }
+                           docCount++;
+                        } else if(logStr.type && logStr.type == 'doc') {
+                            var docURL = logStr.url;
+                            docArr.push({div: 'div'+docCount, docURL, type: 'doc', docType: logStr.docType, base64: logStr.base64, fileNotFound: logStr.fileNotFound});
+                            if (logStr.fileNotFound) {
+                            tchtml += `<div style="margin-left: 40px;margin-top: 7px;color:red;"><span>${safe_tags_replace(logStr.date)}</span> File Not Found: ${safe_tags_replace(docURL)}</div>`
+                            } else {
+                            tchtml += `<div style="margin-left: 40px;margin-top: 7px;"><span>${safe_tags_replace(logStr.date)}</span><a style='color: -webkit-link; cursor: pointer; text-decoration: underline;' onclick="openLink(this.id)" id='${'div'+docCount}'>${safe_tags_replace(docURL)}</a></div>`
+                            }
+                            docCount++;
+                        } else if(logStr.type && logStr.type == 'comment') {
+                            tchtml += `<div style="margin-left: 40px;margin-top: 7px;font-style: italic;color: grey;">
+                                [comment] : ${safe_tags_replace(logStr.data)} </div>`
+                        } else if(logStr.type && logStr.type == 'highlight') {
+                            const dynamicStyles = objectToCss(logStr.style);
+                            console.log('dynamicStyles => ', dynamicStyles, logStr);
+                            tchtml += `<div style="margin-left: 40px;margin-top: 7px;"><span>${safe_tags_replace(logStr.date)}</span><span style="${dynamicStyles}">${safe_tags_replace(logStr.data)}</span></div>`
+                        }
+                        else {
+                            tchtml += `<div style="margin-left: 40px;margin-top: 7px;">${safe_tags_replace(logStr)}</div>`
+                        }
+                        
+                    }
+                    tchtml += `</div> </div>`
+                    count++;
+                }
+            }
+            tchtml += `</div></div>`
+
+        }
+        document.getElementById('executionLogs').innerHTML += tchtml
+
+        var coll = document.getElementsByClassName("collapsible");
+        var i;
+
+        for (i = 0; i < coll.length; i++) {
+            coll[i].addEventListener("click", function () {
+                this.classList.toggle("active");
+                var content = this.nextElementSibling;
+                if (content.style.maxHeight) {
+                    content.style.maxHeight = null;
+                } else {
+                    content.style.maxHeight = 'fit-content';
+                }
+            });
+            document.title = regressionDetails[0]
+        }
+         if (typeof dutDeviceName !== 'undefined' && dutDeviceName) {
+            document.getElementById('dutName').innerText = dutDeviceName;
+        } else {
+            document.getElementById('dutHeader').style.display = 'none';
+        }
+    </script>
