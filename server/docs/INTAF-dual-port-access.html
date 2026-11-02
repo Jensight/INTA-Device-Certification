@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Change Document: Dual-Port Access for Host 172.23.234.176</title>
+  <style>
+    :root {
+      --bg: #f9fafb;
+      --surface: #ffffff;
+      --border: #e2e8f0;
+      --accent: #2563eb;
+      --accent-light: #eff6ff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --code-bg: #1e293b;
+      --code-text: #e2e8f0;
+      --green: #16a34a;
+      --red: #dc2626;
+      --yellow: #ca8a04;
+      --purple: #7c3aed;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      padding: 2rem 1rem;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 3rem 3.5rem;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--accent);
+      border-bottom: 3px solid var(--accent);
+      padding-bottom: 0.75rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .meta {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 2rem;
+    }
+
+    h2 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      margin: 2.5rem 0 1rem;
+      padding-left: 0.75rem;
+      border-left: 4px solid var(--accent);
+    }
+
+    h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 1.75rem 0 0.6rem;
+    }
+
+    p {
+      margin-bottom: 1rem;
+      color: var(--text);
+    }
+
+    ul, ol {
+      margin: 0.5rem 0 1rem 1.5rem;
+    }
+
+    li {
+      margin-bottom: 0.4rem;
+    }
+
+    code {
+      font-family: "Fira Code", "Cascadia Code", Consolas, monospace;
+      font-size: 0.85em;
+      background: #f1f5f9;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.1em 0.4em;
+      color: #be185d;
+    }
+
+    pre {
+      background: var(--code-bg);
+      color: var(--code-text);
+      border-radius: 8px;
+      padding: 1.25rem 1.5rem;
+      overflow-x: auto;
+      margin: 1rem 0 1.25rem;
+      font-size: 0.88rem;
+      line-height: 1.6;
+    }
+
+    pre code {
+      background: none;
+      border: none;
+      padding: 0;
+      color: inherit;
+      font-size: inherit;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0 1.5rem;
+      font-size: 0.9rem;
+    }
+
+    th {
+      background: var(--accent-light);
+      color: var(--accent);
+      font-weight: 600;
+      text-align: left;
+      padding: 0.65rem 1rem;
+      border: 1px solid var(--border);
+    }
+
+    td {
+      padding: 0.6rem 1rem;
+      border: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    tr:nth-child(even) td {
+      background: #f8fafc;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 2rem 0;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.2em 0.6em;
+      border-radius: 9999px;
+      margin-right: 0.25rem;
+    }
+
+    .badge-http  { background: #fef3c7; color: #92400e; }
+    .badge-https { background: #d1fae5; color: #065f46; }
+    .badge-ws    { background: #ede9fe; color: #4c1d95; }
+
+    @media (max-width: 640px) {
+      .container { padding: 1.5rem 1.25rem; }
+      h1 { font-size: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <h1>Change Document: Dual-Port Access for Host 172.23.234.176</h1>
+  <p class="meta"><strong>Date:</strong> 2026-08-06 &nbsp;|&nbsp; <strong>Purpose:</strong> Allow the host <code>172.23.234.176</code> to communicate with the backend over both port <strong>8080</strong> (HTTP) and port <strong>8081</strong> (HTTPS).</p>
+
+  <!-- ─── Files Modified ─────────────────────────────────────────────────── -->
+  <h2>Files Modified</h2>
+  <table>
+    <thead>
+      <tr><th>Project</th><th>File</th><th>Role</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Backend</td><td><code>server/config.js</code></td><td>Declares the two port constants (<code>httpPort</code>, <code>httpsPort</code>)</td></tr>
+      <tr><td>Backend</td><td><code>server/server.js</code></td><td>Starts both HTTP and HTTPS servers using those ports</td></tr>
+      <tr><td>Backend</td><td><code>server/utils/connect.js</code></td><td>Whitelists the new host in CORS, host-validation, and Socket.IO</td></tr>
+      <tr><td>UI</td><td><code>src/environments/environment.prod.ts</code></td><td>Points the production build at the new host/ports</td></tr>
+      <tr><td>UI</td><td><code>src/app/models/config.ts</code></td><td>Re-exports the URLs from environment so all Angular services pick them up</td></tr>
+    </tbody>
+  </table>
+
+  <hr />
+
+  <!-- ─── Background ────────────────────────────────────────────────────── -->
+  <h2>Background</h2>
+  <p>The Rogers Framework Backend runs two servers simultaneously on the same Express <code>app</code> instance:</p>
+  <table>
+    <thead>
+      <tr><th>Server</th><th>Protocol</th><th>Port</th><th>Purpose</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>httpServer</code></td><td>HTTP</td><td>8080</td><td>API plugin calls, vauto-api, test-case execution</td></tr>
+      <tr><td><code>httpsServer</code></td><td>HTTPS</td><td>8081</td><td>Normal Angular UI → Node API calls</td></tr>
+    </tbody>
+  </table>
+  <p>Because the two servers use different protocols and ports, any client host that needs to call <strong>both</strong> must be explicitly whitelisted in three separate security layers.</p>
+
+  <hr />
+
+  <!-- ─── Backend Changes ───────────────────────────────────────────────── -->
+  <h2>Backend Changes</h2>
+
+  <h3>1. <code>server/config.js</code> — Port Constants</h3>
+  <p>Defines the two port numbers used throughout the backend. These values are read by <code>server.js</code> to start each server.</p>
+<pre><code>module.exports = {
+    serverport: 8081,   // HTTPS port — UI to Node API calls
+    httpPort:   8080,   // HTTP port  — API plugin / vauto-api / test-case
+    httpsPort:  8081,   // HTTPS port — normal UI calls
+    ...
+};</code></pre>
+  <ul>
+    <li><code>httpPort: 8080</code> — plain HTTP server port, used by API plugins, vauto-api, and test-case routes.</li>
+    <li><code>httpsPort: 8081</code> — TLS-secured server port, used by the Angular UI for all standard API calls.</li>
+    <li>No IP address is hardcoded here; this file solely owns the port values that the rest of the backend references via <code>config.httpPort</code> / <code>config.httpsPort</code>.</li>
+  </ul>
+
+  <hr />
+
+  <h3>2. <code>server/server.js</code> — Dual-Server Startup</h3>
+  <p>Imports both servers from <code>connect.js</code> and binds them to their respective ports.</p>
+<pre><code>var server     = conn.SERVER;       // httpsServer — port 8081
+var httpServer = conn.HTTP_SERVER;  // httpServer  — port 8080
+
+var httpsPort = config.httpsPort || 8081;
+var httpPort  = config.httpPort  || 8080;
+
+const startServer = async () => {
+    // HTTPS server — UI to Node API calls
+    server.listen(httpsPort, ...);
+    // HTTP server — API plugin calls (vauto-api / test-case routes)
+    httpServer.listen(httpPort, ...);
+};</code></pre>
+  <ul>
+    <li><code>server.listen(httpsPort)</code> — starts the TLS server (<code>httpsServer</code>) on port <strong>8081</strong>.</li>
+    <li><code>httpServer.listen(httpPort)</code> — starts the plain HTTP server on port <strong>8080</strong>.</li>
+    <li>Both servers share the same Express <code>app</code> instance (set up in <code>connect.js</code>), so all routes, middleware, and controllers are available on both ports.</li>
+  </ul>
+
+  <hr />
+
+  <h3>3. <code>server/utils/connect.js</code> — Security Whitelisting</h3>
+  <p>The IP address <code>172.23.234.176</code> was added as a trusted origin/host across all three security layers:</p>
+
+  <h3>3a. CORS (<code>app.use(cors(options))</code>)</h3>
+  <p>Controls which browser origins are allowed to make cross-origin HTTP requests to the Express app.</p>
+<pre><code>const options = {
+  origin: [
+    ...
+    'http://172.23.234.176:8080',   // ← HTTP / port 8080
+    'https://172.23.234.176:8081',  // ← HTTPS / port 8081
+    ...
+  ],
+  credentials: true
+}</code></pre>
+  <ul>
+    <li><code>http://172.23.234.176:8080</code> — allows requests arriving on the <strong>HTTP server</strong> (port 8080).</li>
+    <li><code>https://172.23.234.176:8081</code> — allows requests arriving on the <strong>HTTPS server</strong> (port 8081).</li>
+    <li><code>credentials: true</code> — permits cookies and Authorization headers to be sent along with the requests.</li>
+  </ul>
+  <p>Without these entries the browser would block the response with a CORS error before any application logic runs.</p>
+
+  <hr />
+
+  <h3>3b. Host Validation (<code>app.use(hostValidation(...))</code>)</h3>
+  <p>A secondary server-side guard that validates the <code>Host</code> header of every incoming request. This prevents <strong>Host header injection</strong> attacks.</p>
+<pre><code>app.use(hostValidation({
+  hosts: [
+    ...
+    '172.23.234.176:8080',  // ← HTTP / port 8080
+    '172.23.234.176:8081',  // ← HTTPS / port 8081
+    ...
+  ]
+}));</code></pre>
+  <ul>
+    <li>Requests whose <code>Host</code> header does not match an entry in this list are rejected with <code>403 Forbidden</code> before reaching any route handler.</li>
+    <li>Both port entries are needed because the <code>Host</code> header sent by the client includes the port number.</li>
+  </ul>
+
+  <hr />
+
+  <h3>3c. Socket.IO CORS (<code>socketIo(server, { cors: { origin: [...] } })</code>)</h3>
+  <p>Controls which origins are permitted to establish a WebSocket/Socket.IO connection.</p>
+<pre><code>const io = socketIo(server, {
+  cors: {
+    origin: [
+      ...
+      'http://172.23.234.176:8080',   // ← WS over HTTP / port 8080
+      'https://172.23.234.176:8081',  // ← WSS over HTTPS / port 8081
+      ...
+    ],
+    methods: ["GET", "POST"],
+    credentials: true
+  },
+  allowEIO3: true
+});
+// Socket.IO is also attached to httpServer so it works on port 8080
+io.attach(httpServer);</code></pre>
+  <ul>
+    <li>The main Socket.IO instance attaches to <code>httpsServer</code> (port 8081).</li>
+    <li><code>io.attach(httpServer)</code> attaches the <strong>same</strong> <code>io</code> instance to <code>httpServer</code> (port 8080) as well, so real-time events work regardless of which port the client connects through.</li>
+  </ul>
+
+  <hr />
+
+  <!-- ─── UI Changes ────────────────────────────────────────────────────── -->
+  <h2>UI Changes</h2>
+
+  <h3>4. <code>src/environments/environment.prod.ts</code> — Production URL Config</h3>
+  <p>This is the Angular production environment config. It tells the UI which backend base URLs to call.</p>
+<pre><code>export const environment = {
+  ...
+  SERVER:      'https://172.23.234.176:8081/',  // HTTPS — normal UI → Node API calls
+  SERVER_HTTP: 'http://172.23.234.176:8080/',   // HTTP  — API plugin / vauto-api / test-case calls
+  ...
+};</code></pre>
+  <ul>
+    <li><code>SERVER</code> (<code>8081</code>) — used by all standard Angular HTTP service calls that go through the HTTPS server.</li>
+    <li><code>SERVER_HTTP</code> (<code>8080</code>) — used specifically for API-plugin, vauto-api, and test-case execution calls that must go through the plain HTTP server.</li>
+  </ul>
+  <p>All Angular services that inject the environment URLs automatically target <code>172.23.234.176</code> when the app is built with <code>--configuration production</code>.</p>
+
+  <hr />
+
+  <h3>5. <code>src/app/models/config.ts</code> — Central URL Exports</h3>
+  <p>This is the single file all Angular services import to get the backend base URL. It reads from the environment so there is no URL hardcoded anywhere in the services themselves.</p>
+<pre><code>import { environment } from '../../environments/environment';
+export const SERVER      = environment.SERVER;       // HTTPS — normal UI to Node API calls
+export const SERVER_HTTP = environment.SERVER_HTTP;  // HTTP  — API plugin / vauto-api / test-case
+export const ENABLE_SSO  = environment.ENABLE_SSO;</code></pre>
+  <ul>
+    <li><code>SERVER</code> resolves to <code>https://172.23.234.176:8081/</code> in production builds.</li>
+    <li><code>SERVER_HTTP</code> resolves to <code>http://172.23.234.176:8080/</code> in production builds.</li>
+    <li>In development builds (<code>environment.ts</code>) both resolve to <code>http://localhost:8080/</code>, so dev behaviour is unchanged.</li>
+    <li>No change was required to the services or components that <code>import { SERVER, SERVER_HTTP } from '../models/config'</code> — the URL flows through automatically.</li>
+  </ul>
+
+  <hr />
+
+  <!-- ─── Summary ───────────────────────────────────────────────────────── -->
+  <h2>Summary of All Changes</h2>
+  <table>
+    <thead>
+      <tr><th>#</th><th>Project</th><th>File</th><th>What Changed</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td>Backend</td><td><code>server/config.js</code></td><td>Defines <code>httpPort: 8080</code> and <code>httpsPort: 8081</code> used by server.js</td></tr>
+      <tr><td>2</td><td>Backend</td><td><code>server/server.js</code></td><td>Starts <code>httpsServer</code> on port 8081 and <code>httpServer</code> on port 8080</td></tr>
+      <tr><td>3</td><td>Backend</td><td><code>server/utils/connect.js</code></td><td>Added <code>172.23.234.176:8080</code> + <code>:8081</code> to CORS, host-validation, Socket.IO CORS</td></tr>
+      <tr><td>4</td><td>UI</td><td><code>src/environments/environment.prod.ts</code></td><td><code>SERVER</code> → <code>https://172.23.234.176:8081/</code>, <code>SERVER_HTTP</code> → <code>http://172.23.234.176:8080/</code></td></tr>
+      <tr><td>5</td><td>UI</td><td><code>src/app/models/config.ts</code></td><td>Re-exports <code>SERVER</code> / <code>SERVER_HTTP</code> from environment (no IP change here — inherits from #4)</td></tr>
+    </tbody>
+  </table>
+
+</div>
+</body>
+</html>

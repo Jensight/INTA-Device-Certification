@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dynamic Scheduler Controller — Code Flow Document</title>
+  <style>
+    :root {
+      --bg: #f9fafb;
+      --surface: #ffffff;
+      --border: #e2e8f0;
+      --accent: #2563eb;
+      --accent-light: #eff6ff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --code-bg: #1e293b;
+      --code-text: #e2e8f0;
+      --green: #16a34a;
+      --red: #dc2626;
+      --yellow: #ca8a04;
+      --purple: #7c3aed;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      padding: 2rem 1rem;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 3rem 3.5rem;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--accent);
+      border-bottom: 3px solid var(--accent);
+      padding-bottom: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    h2 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      margin: 2.5rem 0 1rem;
+      padding-left: 0.75rem;
+      border-left: 4px solid var(--accent);
+    }
+
+    h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 2rem 0 0.75rem;
+    }
+
+    p {
+      margin-bottom: 1rem;
+      color: var(--text);
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 2rem 0;
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0 1.5rem;
+      font-size: 0.93rem;
+    }
+
+    thead tr {
+      background: var(--accent-light);
+    }
+
+    th {
+      text-align: left;
+      padding: 0.6rem 1rem;
+      font-weight: 600;
+      color: var(--accent);
+      border: 1px solid var(--border);
+    }
+
+    td {
+      padding: 0.55rem 1rem;
+      border: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    tr:nth-child(even) td {
+      background: #f8fafc;
+    }
+
+    /* Method badges */
+    .badge {
+      display: inline-block;
+      padding: 0.15rem 0.55rem;
+      border-radius: 4px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      font-family: monospace;
+    }
+
+    .badge-post   { background: #dcfce7; color: #166534; }
+    .badge-get    { background: #dbeafe; color: #1e40af; }
+    .badge-put    { background: #fef9c3; color: #854d0e; }
+    .badge-delete { background: #fee2e2; color: #991b1b; }
+
+    /* Code blocks */
+    pre {
+      background: var(--code-bg);
+      color: var(--code-text);
+      padding: 1.25rem 1.5rem;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-family: "Fira Code", "Cascadia Code", Consolas, monospace;
+      font-size: 0.83rem;
+      line-height: 1.65;
+      margin: 1rem 0 1.5rem;
+    }
+
+    code {
+      font-family: "Fira Code", "Cascadia Code", Consolas, monospace;
+      background: #f1f5f9;
+      color: #0f172a;
+      padding: 0.15em 0.4em;
+      border-radius: 4px;
+      font-size: 0.88em;
+    }
+
+    pre code {
+      background: transparent;
+      color: inherit;
+      padding: 0;
+      font-size: inherit;
+    }
+
+    /* Key behavior note */
+    .note {
+      background: var(--accent-light);
+      border-left: 4px solid var(--accent);
+      padding: 0.75rem 1rem;
+      border-radius: 0 6px 6px 0;
+      margin: 0.5rem 0 1.5rem;
+      font-size: 0.93rem;
+    }
+
+    .note strong { color: var(--accent); }
+
+    /* Section cards */
+    .fn-card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem 1.75rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .fn-card h3 {
+      margin-top: 0;
+      font-size: 1.05rem;
+      color: var(--accent);
+    }
+
+    /* Status flow */
+    .status-list {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin: 1rem 0;
+      padding: 0;
+    }
+
+    .status-list li {
+      background: #f1f5f9;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.4rem 1rem;
+      font-weight: 600;
+      font-size: 0.9rem;
+      font-family: monospace;
+    }
+
+    /* Error table row highlight */
+    .err-info  td:first-child { color: #2563eb; font-weight: 600; }
+    .err-warn  td:first-child { color: #ca8a04; font-weight: 600; }
+    .err-error td:first-child { color: #dc2626; font-weight: 600; }
+
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <h1>Dynamic Scheduler Controller — Code Flow Document</h1>
+
+  <h2>Overview</h2>
+  <p>
+    The Dynamic Scheduler Controller manages the lifecycle of dynamic regression test schedules.
+    It allows scheduling jobs across multiple DUTs (Devices Under Test) paired with client devices,
+    tracks their execution state, and integrates with the regression and execution pipeline.
+  </p>
+
+  <hr />
+
+  <h2>Dependencies</h2>
+  <table>
+    <thead>
+      <tr><th>Dependency</th><th>Purpose</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>../errors</code></td><td>Standardized error codes (<code>SCHEDULE_ERROR</code>, <code>FETCH_ERROR</code>, <code>UPDATE_ERROR</code>)</td></tr>
+      <tr><td><code>../utils/logger</code></td><td>Info/debug logging</td></tr>
+      <tr><td><code>../utils/errorLogger</code></td><td>Error-level logging</td></tr>
+      <tr><td><code>../model/dynamicSchedulerModel</code></td><td>DB operations: insert, fetch, update, cancel schedules</td></tr>
+      <tr><td><code>../model/regressionModel</code></td><td><code>testbedDetailsForCheckTestbed</code> — fetches testbed node layout</td></tr>
+      <tr><td><code>./regression.controllers</code></td><td><code>checkTestbedAvailibility</code>, <code>getTestCase</code> — pre-execution checks</td></tr>
+      <tr><td><code>./execution.controller</code></td><td><code>startExecution</code> — triggers actual test run</td></tr>
+      <tr><td><code>../utils/mongodb</code></td><td>MongoDB client reference</td></tr>
+    </tbody>
+  </table>
+
+  <hr />
+
+  <h2>Route → Controller Mapping</h2>
+  <p>
+    Defined in <code>server/routes/dynamicScheduler.js</code>. All routes are prefixed with
+    <code>/:teamName/dynamicScheduler/</code> and require <code>authAPI.verifyAuthToken</code>.
+  </p>
+  <table>
+    <thead>
+      <tr><th>Method</th><th>Route</th><th>Controller Function</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="badge badge-post">POST</span></td>
+        <td><code>/schedule/</code></td>
+        <td><code>scheduleDynamic</code></td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-get">GET</span></td>
+        <td><code>/all/</code></td>
+        <td><code>getAllDynamicSchedules</code></td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-get">GET</span></td>
+        <td><code>/:id</code></td>
+        <td><code>getDynamicScheduleById</code></td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-put">PUT</span></td>
+        <td><code>/status/:id</code></td>
+        <td><code>updateDynamicScheduleStatus</code></td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-delete">DELETE</span></td>
+        <td><code>/cancel/:id</code></td>
+        <td><code>cancelDynamicSchedule</code></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <hr />
+
+  <h2>Function-by-Function Code Flow</h2>
+
+  <!-- scheduleDynamic -->
+  <div class="fn-card">
+    <h3>1. scheduleDynamic — POST /schedule/</h3>
+    <pre>
+Request received
+    │
+    ├─ Build collection name: `{teamName}_DynamicScheduler`
+    ├─ Generate unique ID: `DYNSCHED_{timestamp}`
+    ├─ Generate tag name: `{profileName}_dyn_{timestamp}` (spaces → underscores)
+    │
+    ├─ Build schedule document:
+    │       dynamicSchedulerRequestId, dynamicRegressionTagName
+    │       dynamicTestbedId, dynamicTestbedProfileId/Name
+    │       duts[]    → { deviceId, deviceName, modelName, nodeId, run_id, runStatus: "inqueue" }
+    │       clients[] → { deviceId, deviceName, nodeId }
+    │       job[], userId, run_id, tagName
+    │       startTime, dynamicScheduleStartTime
+    │       dynamicScheduleStatus: "Scheduled"
+    │       createdAt
+    │
+    ├─ insertSchedule() → persists document to DB
+    │
+    ├─ If duts.length > 0 AND clients.length > 0:
+    │       For each (duts[i], clients[i]) pair:
+    │           └─ buildDynamicJobRequest() → construct req-like object
+    │
+    │       Promise.all over all pairedRequests:
+    │           └─ regression.checkTestbedAvailibility()
+    │               └─ regression.getTestCase()
+    │                   └─ execution.startExecution()
+    │                       └─ log: "execution started"
+    │
+    └─ Response 200: { status, _id, dynamicSchedulerRequestId,
+                       dynamicRegressionTagName, dynamicScheduleStatus,
+                       message }
+
+    On error → Response 500: SCHEDULE_ERROR</pre>
+    <div class="note">
+      <strong>Key behavior:</strong> DUTs and clients are paired by index
+      (<code>duts[0]↔clients[0]</code>, <code>duts[1]↔clients[1]</code>, etc.).
+      All pairs are launched in parallel via <code>Promise.all</code>.
+    </div>
+  </div>
+
+  <!-- getAllDynamicSchedules -->
+  <div class="fn-card">
+    <h3>2. getAllDynamicSchedules — GET /all/</h3>
+    <pre>
+Request received
+    │
+    ├─ Build collection name: `{teamName}_DynamicScheduler`
+    ├─ getAllSchedules() → fetches all documents from collection
+    ├─ Log count of fetched schedules
+    └─ Response 200: array of schedule documents
+
+    On error → Response 500: FETCH_ERROR</pre>
+  </div>
+
+  <!-- getDynamicScheduleById -->
+  <div class="fn-card">
+    <h3>3. getDynamicScheduleById — GET /:id</h3>
+    <pre>
+Request received
+    │
+    ├─ Build collection name: `{teamName}_DynamicScheduler`
+    ├─ getScheduleById(id) → fetch single document
+    │
+    ├─ If not found → Response 404: "Dynamic Schedule not found."
+    └─ Response 200: schedule document
+
+    On error → Response 500: FETCH_ERROR</pre>
+  </div>
+
+  <!-- updateDynamicScheduleStatus -->
+  <div class="fn-card">
+    <h3>4. updateDynamicScheduleStatus — PUT /status/:id</h3>
+    <pre>
+Request received
+    │
+    ├─ Validate req.body.dynamicScheduleStatus
+    │   Valid values: ["Scheduled", "InProgress", "Completed", "Cancelled"]
+    │   If invalid → Response 400: "Invalid status..."
+    │
+    ├─ updateScheduleStatus(id, newStatus) → updates DB document
+    ├─ Log: "status updated to {newStatus}"
+    └─ Response 200: { status: true, message }
+
+    On error → Response 500: UPDATE_ERROR</pre>
+  </div>
+
+  <!-- cancelDynamicSchedule -->
+  <div class="fn-card">
+    <h3>5. cancelDynamicSchedule — DELETE /cancel/:id</h3>
+    <pre>
+Request received
+    │
+    ├─ Build collection name: `{teamName}_DynamicScheduler`
+    ├─ cancelSchedule(id) → marks schedule as cancelled in DB
+    ├─ Log: "Schedule {id} cancelled"
+    └─ Response 200: { status: true, message }
+
+    On error → Response 500: UPDATE_ERROR</pre>
+  </div>
+
+  <!-- fetchNextDutDetails -->
+  <div class="fn-card">
+    <h3>6. fetchNextDutDetails — Internal (called by execution callback)</h3>
+    <p>This is the <strong>re-scheduling engine</strong> that assigns the next available DUT to a client after the previous run completes.</p>
+    <pre>
+Called with: (teamName, username, dbType, client, collectionName, tagName, clientId)
+    │
+    ├─ getScheduleByTagName(tagName) → fetch schedule document
+    │   If not found → return { status: false, message }
+    │
+    ├─ Filter pendingDuts: duts where run_id == null AND runStatus == "inqueue"
+    │
+    ├─ If pendingDuts is empty:
+    │   └─ Log: "All DUTs already have run_id" → (no-op, all done)
+    │
+    └─ Else:
+        ├─ Check if this client already has a DUT in "processing" or "inqueue"
+        │   (clientPendingDut = duts.find where clientId matches AND
+        │    runStatus is "processing" or "inqueue")
+        │
+        ├─ If clientPendingDut exists:
+        │   └─ Log: "Client already has DUT in progress" → return (skip)
+        │
+        └─ Else (client is free):
+            ├─ Pick first pending DUT: pendingDuts[0]
+            ├─ updateDutRunId(tagName, dut.deviceId, null, "processing", clientId)
+            │   → marks DUT as being processed by this client
+            │
+            └─ setTimeout(5000ms delay):
+                ├─ buildDynamicJobRequest(null, schedule, dut, clientDetails,
+                │                          teamName, username, dbType, client)
+                └─ regression.checkTestbedAvailibility()
+                    └─ regression.getTestCase()
+                        └─ execution.startExecution()
+                            └─ Log: "execution started for DUT: {deviceId}"</pre>
+    <div class="note">
+      <strong>Key behavior:</strong> The 5-second delay ensures the <code>run_id</code> update is
+      persisted before the next execution begins. A no-op <code>res</code> object is used since
+      this is an internal (non-HTTP) invocation.
+    </div>
+  </div>
+
+  <!-- buildDynamicJobRequest -->
+  <div class="fn-card">
+    <h3>7. buildDynamicJobRequest — Private Helper</h3>
+    <p>
+      Constructs a synthetic <code>req</code>-like object that mimics an HTTP request,
+      so it can be passed directly into <code>regression.checkTestbedAvailibility</code>,
+      <code>regression.getTestCase</code>, and <code>execution.startExecution</code>.
+    </p>
+    <pre>
+Inputs: (reqOriginal | null, document, dutDetails, clientDetails,
+          teamName, username, dbType, client)
+    │
+    ├─ Clone req (or build from scratch if null)
+    ├─ Remove duts[] and clients[] arrays from document (prevent circular data)
+    ├─ Populate req.params.teamName, req.query.username
+    ├─ Populate req.app.locals.dbType, req.app.locals.client
+    │
+    ├─ Attach dynamic context to req.body:
+    │       dynamicTagName, dynamicRegressionTagName
+    │       dynamicDutDeviceId, dynamicClientDeviceId
+    │       dut, client, username, userId
+    │
+    ├─ Generate per-DUT tagName:
+    │       format: {deviceName}_{fwVersion}_{modulePrefix}_DYN
+    │       (spaces → underscores, fwVersion defaults to "_NA")
+    │
+    ├─ Set job[0].numOfIteration = 1
+    ├─ Compute job[0].estimatedEndTime = now + timeRequired(mins) * 60000ms
+    │
+    ├─ Deep-clone req → reqCopy
+    │
+    ├─ testbedDetailsForCheckTestbed() → fetch testbed node layout from DB
+    ├─ Find dutNodeIndex  by dutDetails.nodeId  in testbed.nodes[]
+    ├─ Find clientNodeIndex by clientDetails.nodeId in testbed.nodes[]
+    ├─ Assign dutDetails.deviceId    → testbed.nodes[dutNodeIndex].deviceId
+    ├─ Assign clientDetails.deviceId → testbed.nodes[clientNodeIndex].deviceId
+    ├─ Set testbed.dutId = dutDetails.deviceId
+    ├─ Set job[0].modelName = dutDetails.modelName
+    ├─ Set job[0].clientId  = clientDetails.deviceId
+    ├─ Attach reqCopy.body.job[0].testbedDyn = testbed
+    │
+    └─ Return reqCopy</pre>
+  </div>
+
+  <hr />
+
+  <h2>State Machine — dynamicScheduleStatus</h2>
+  <ul class="status-list">
+    <li>Scheduled</li>
+    <li>→ InProgress</li>
+    <li>→ Completed</li>
+    <li>→ Cancelled</li>
+  </ul>
+  <pre>
+               ┌──────────────┐
+    POST /     │              │
+  schedule/ ──►│  Scheduled   │
+               │              │
+               └──────┬───────┘
+                       │  PUT /status/:id
+                       ▼
+               ┌──────────────┐
+               │  InProgress  │
+               └──────┬───────┘
+                       │
+              ┌────────┴────────┐
+              ▼                 ▼
+     ┌──────────────┐   ┌──────────────┐
+     │  Completed   │   │  Cancelled   │◄── DELETE /cancel/:id
+     └──────────────┘   └──────────────┘</pre>
+
+  <hr />
+
+  <h2>DUT Run Status Flow (per device)</h2>
+  <pre>
+"inqueue"  →  (assigned to client)  →  "processing"  →  (completion callback)  →  "inqueue" (next DUT)
+                                                                                or schedule complete</pre>
+
+  <hr />
+
+  <h2>Execution Pipeline</h2>
+  <p>Shared across <code>scheduleDynamic</code> and <code>fetchNextDutDetails</code>:</p>
+  <pre>
+buildDynamicJobRequest()
+        │
+        ▼
+regression.checkTestbedAvailibility()   ← verifies testbed is free
+        │
+        ▼
+regression.getTestCase()                ← resolves test cases for the job
+        │
+        ▼
+execution.startExecution()              ← triggers actual test execution
+        │
+        ▼
+    [log success]</pre>
+
+  <hr />
+
+  <h2>Error Handling Summary</h2>
+  <table>
+    <thead>
+      <tr><th>HTTP Status</th><th>Trigger</th><th>Error Code</th></tr>
+    </thead>
+    <tbody>
+      <tr class="err-info">
+        <td>200</td>
+        <td>Successful operation</td>
+        <td>—</td>
+      </tr>
+      <tr class="err-warn">
+        <td>400</td>
+        <td>Invalid <code>dynamicScheduleStatus</code> value</td>
+        <td>—</td>
+      </tr>
+      <tr class="err-warn">
+        <td>404</td>
+        <td>Schedule not found by ID</td>
+        <td>—</td>
+      </tr>
+      <tr class="err-error">
+        <td>500</td>
+        <td>Unexpected exception in <code>scheduleDynamic</code></td>
+        <td><code>SCHEDULE_ERROR</code></td>
+      </tr>
+      <tr class="err-error">
+        <td>500</td>
+        <td>Unexpected exception in fetch operations</td>
+        <td><code>FETCH_ERROR</code></td>
+      </tr>
+      <tr class="err-error">
+        <td>500</td>
+        <td>Unexpected exception in update/cancel operations</td>
+        <td><code>UPDATE_ERROR</code></td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    All 500 responses follow the structure:
+    <code>{ status, errorCode, message, errorDetail, type: "problems/error" }</code>
+  </p>
+  <p>
+    Internal function <code>fetchNextDutDetails</code> returns a plain object
+    <code>{ status: false, message }</code> on logical failures (no <code>res</code> object available).
+  </p>
+
+  <footer>
+    Generated: May 26, 2026 &mdash; Dynamic Scheduler Controller &mdash; Rogers Framework Backend
+  </footer>
+
+</div>
+</body>
+</html>
