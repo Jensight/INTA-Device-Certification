@@ -1,0 +1,22 @@
+{
+    "DASHBOARD": {
+        "DASHBOARD": "Dashboard",
+        "TEST LAB": "Test Lab",
+        "INVENTORY": "Voorraad",
+        "TEST BED": "Proefbank",
+        "VIEW REGRESSION": "Bekijk Regressie",
+        "SETTINGS": "Instellingen",
+        "STATS": "Statistieken",
+        "ABOUT US": "Over ons",
+        "LOG OUT" : "Uitloggen",
+        "CHANGE TEAM" : "Van Team wisselen",
+        "DEVICE INVENTORY" : "Apparaatinventaris",
+        "API INVENTORY": "API-inventaris",
+        "TC INVENTORY": "TC-inventaris",
+        "RESERVE DEVICES": "Reserveer apparaten",
+        "USER" : "Gebruikers",
+        "TEAM" : "Teams",
+        "ADD" : "Toevoegen",
+        "VIEW" : "Visie"
+    }
+}

@@ -1,0 +1,22 @@
+{
+    "DASHBOARD": {
+        "DASHBOARD": "Dashboard",
+        "TEST LAB": "Test Lab",
+        "INVENTORY": "Inventory",
+        "TEST BED": "Test Bed",
+        "VIEW REGRESSION": "View Regression",
+        "SETTINGS": "Settings",
+        "STATS": "Stats",
+        "ABOUT US": "About Us",
+        "LOG OUT" : "Log Out",
+        "CHANGE TEAM" : "Change Teams",
+        "DEVICE INVENTORY" : "Device Inventory",
+        "API INVENTORY": "API Inventory",
+        "TC INVENTORY": "TC Inventory",
+        "RESERVE DEVICES": "Reserve Devices",
+        "USER" : "User",
+        "TEAM" : "Team",
+        "ADD" : "Add",
+        "VIEW" : "View"
+    }
+}
