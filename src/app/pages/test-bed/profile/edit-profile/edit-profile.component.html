@@ -1,0 +1,252 @@
+<div class="row">
+    <nav  class="col-md-5" aria-label="breadcrumb">
+   <ol class="breadcrumb" style="background-color:#fafafa; padding-top:0px;">
+     <li class="breadcrumb-item"><a href="#/pages/dashboard" style="color:red;text-decoration: none;font-size: medium;">Dashboard</a></li>
+     <li class="breadcrumb-item"><a href="#/pages/test-bed/testbed-profile" style="color:red;text-decoration: none;font-size: medium;">Test Bed Profile</a></li>
+     <li class="breadcrumb-item active" style="color:rgba(0, 0, 0, 0.87);text-decoration: none;font-size: medium;">Edit TestBed Profile</li>
+   </ol>
+  </nav>
+  <!-- <app-title-display style="margin-top:12px;" titleName="Edit Testbed"></app-title-display> -->
+</div>
+  <mat-card>
+    <div >
+      <div class="row" style="margin-left :13px; margin-top:12px;margin-right: 13px;">
+        <div class="col-md-12 d-font ">
+          <form [formGroup]="testBedProfileForm">
+            <div class="row" style="margin-left:10%">
+              <i class="fa fa-cogs" style="font-size:39px;margin-left:10px"></i>
+              <mat-form-field style="width: 350px;margin-left:20px">
+                <mat-label>Testbed Profile Name</mat-label>
+                <input matInput formControlName="testBedProfileName" required>
+                <mat-error *ngIf="testBedProfileForm.get('testBedProfileName').hasError('required')">
+                  Please Enter a valid Testbed Profile Name
+                </mat-error>
+                <mat-error *ngIf="testBedProfileForm.get('testBedProfileName').hasError('duplicate')">
+                  Testbed Profile Name Already Registered
+                </mat-error>
+              </mat-form-field>
+  
+              <div class="col text-right" style="margin-top:10px">
+                <button [disabled]="disableUpdateButton()" class="ibutton"
+                 style="margin-right: 15px;" (click)="updateTestBed()">Update Testbed Profile</button>
+                <button routerLink="../" class="ibutton"style="width: 70px;">Cancel</button>
+              </div>
+            </div>
+            <hr style="border-top: 1px solid #c8c2c2;">
+            <div style="padding-top: 20px;">
+              <h4 style="width:100%;text-align: center">Map Network Elements</h4>
+            </div>
+            <div class="row">
+              <div class="col-md-5 offset-md-1">
+                <div class="row">
+                  <div class="col-md-11 " id="border">
+                    <div class="row header">
+                      <div class="col-md-11 text-center">Available Network Element</div>
+                    </div>
+                    <div cdkDropList #allNodesList="cdkDropList" [cdkDropListData]="allNodes"
+                      [cdkDropListConnectedTo]="[selectedNodeList]" class="example-list"
+                      style="min-height: inherit;height: 330px;overflow: auto;border:none"
+                      (cdkDropListDropped)="drop($event)">
+                      <div style="margin:7px;padding:0px" class="example-box hvr-glow hvr-wobble-vertical"
+                        *ngFor="let node of allNodes;let i = index" cdkDrag>
+                        <mat-card style="width: 100%">
+                          <div style="overflow: hidden" class="row">
+                            <div [ngClass]="className[i%4]" class="circle">
+                              {{node.nodeName.slice(0,1).toUpperCase()}}
+                            </div>
+                            <div style="margin: auto" class="col">
+                              <span>{{node.nodeName}}</span>
+                              <br>
+                              <span *ngIf="node.profileId!=null"
+                                style="font-weight: normal;font-size: 11px;">{{node.profileName}}</span>
+                            </div>
+                            <div style="margin: auto" class="col-sm-3 view-details">
+                              <button (click)="selectANode(i)" class="btn btn-info btn-icon fixed-button"
+                                style="margin-top: 4px;padding:5px 12px;font-size:15px; float:right" title="Add">
+                                <b class=" fa fa-arrow-right"></b>
+                              </button>
+                            </div>
+                          </div>
+                        </mat-card>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-5 " style="margin-left:20px">
+                <div class="row">
+                  <div class="col-md-11" id="border">
+                    <div class="row header">
+                      <div class="col-md-11 text-center">Selected Network Element</div>
+                    </div>
+                    <div cdkDropList #selectedNodeList="cdkDropList" [cdkDropListData]="selectedNodes"
+                      [cdkDropListConnectedTo]="[allNodesList]" class="example-list"
+                      style="min-height: inherit;height: 330px;overflow: auto;border:none"
+                      (cdkDropListDropped)="drop($event)">
+                      <div style="margin:7px;padding:0px" class="example-box hvr-glow hvr-wobble-vertical"
+                        *ngFor="let node of selectedNodes;let i = index" cdkDrag>
+                        <mat-card style="width: 100%">
+                          <div style="overflow: hidden" class="row">
+                            <div [ngClass]="classNameDuplicate[i%4]" class="circle">
+                              {{node.nodeName.slice(0,1).toUpperCase()}}
+                            </div>
+                            <div style="margin: auto" class="col">
+                              <span>{{node.nodeName}}</span>
+                              <br>
+                              <span *ngIf="node.profileId!=null"
+                                style="font-weight: normal;font-size: 11px;">{{node.profileName}}</span>
+                            </div>
+                            <div style="margin: auto" class="col-sm-3 view-details">
+                              <button style="float:right;cursor:pointer;padding:5px 12px;font-size:15px;margin-top: 4px;"
+                                (click)="removeANode(i,node)" class="btn btn-info btn-icon fixed-button" disable="true"
+                                title="Remove">
+                                <b class=" fa fa-arrow-left "></b>
+                              </button>
+                            </div>
+                          </div>
+                        </mat-card>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- <div style="padding:15px" *ngIf="flag" class="row">
+              <button nbButton status="info" size="tiny" (click)="addNewVariable()">Add Variable</button>
+            </div> -->
+  
+            <div class="row">
+              <div class="main-card col-sm-5"
+                *ngFor="let item of testBedProfileForm['controls'].variables['controls'];let k = index"
+                style=" margin-top:30px;margin-bottom:20px;margin-left:5%;">
+                <div class="row card-header">
+                  <div class="col-sm-8 text-center">
+                    <h6 style="padding-top:7px"> Variable {{k+1}} </h6>
+                  </div>
+                  <div class="col">
+                    <i style="float:right; cursor: pointer;" title="Add Variable" (click)="addNewVariable() "
+                      *ngIf="allVariablesNames.length-1>k">
+                      <button class="ibutton2">
+                        <i class="fa fa-plus-circle"></i>
+                      </button>
+                    </i>
+                    <i style="float:right; cursor: pointer; padding-right:5px;" title="Delete Variable"
+                      (click)="deleteVarible(k)">
+                      <button class="ibutton2">
+                         <i class="fa fa-trash-o fa-lg"></i>
+                      </button>
+                    </i>
+                  </div>
+                </div>
+                <div class="row border card-body">
+                  <form [formGroup]="item">
+                    <mat-form-field class="col-md-6" style="width: 70%;max-width:80%;margin-left:11%">
+                      <mat-label>Variable</mat-label>
+                      <mat-select formControlName="variableId">
+                        <mat-option
+                          *ngFor="let variable of (allVariablesNames|variableDisable:allTestbedSelectedVariables:k);"
+                          [disabled]="variable.invalid" [value]="variable.value">
+                          {{ variable.value| nameFromId:allVariables: "_id": "variableName" }}
+                        </mat-option>
+                      </mat-select>
+                      <mat-error> Please Select a Variable Name </mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="col-md-6" style="max-width:80%;margin-left:11%;width:70%">
+                      <mat-label>Variable Value</mat-label>
+                      <input matInput formControlName="variableValue" required>
+                    </mat-form-field>
+                    <br>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <div style="padding-top: 20px;">
+              <h4 style="width:100%;text-align: center">Map Test Sets</h4>
+            </div>
+            <div class="row">
+              <div class="col-md-5 offset-md-1">
+                <div class="row">
+                  <div class="col-md-11 " id="border">
+                    <div class="row header">
+                      <div class="col-md-11 text-center">Available Test Sets</div>
+                      <section class="col-md-11 text-center">
+                        <mat-slide-toggle color="primary" formControlName="toggle" unchecked>View Un-Mapped Test Sets</mat-slide-toggle>
+                      </section>
+                    </div>
+                    <input type="text" class="form-control" placeholder="Search Test Set" (keyup)="searchTestSet($event)" (keydown)="handleInput($event)"
+                      style="margin-left: 10px; width: 95%; margin-top: 10px; margin-bottom: 10px;">
+                    <div cdkDropList #allTCList="cdkDropList" [cdkDropListData]="allTestSets"
+                      [cdkDropListConnectedTo]="[selectedTCList]" (cdkDropListDropped)="drop($event)"
+                      class="example-list" style="min-height: inherit;height: 330px;overflow: auto;border:none">
+                      <div style="margin:7px;padding:0px" class="example-box hvr-glow hvr-wobble-vertical"
+                        *ngFor="let node of allTestSets;let i = index" cdkDrag [cdkDragDisabled]="node.disabled">
+                        <mat-card style="width: 100%;" [ngStyle]="{'cursor': node.disabled ? 'not-allowed' : 'pointer', 'background-color': node.disabled ? '#dee0e3' : 'white'}">
+                          <div class="row">
+                            <div [ngClass]="className[i%4]" class="circle">
+                              {{node.moduleName.slice(0,1).toUpperCase()}}
+                            </div>
+                            <div [matTooltip]="node.moduleName" style="margin: auto" class="col text-limited">
+                              <span>{{node.moduleName  }}</span>
+                              <br>
+                              <span *ngIf="node.testBedProfileName" style="font-weight: normal;font-size: 11px;">Mapped Test Bed: {{node.testBedProfileName}}</span>
+                            </div>
+                            <div style="margin:0px" class="col-sm-3 view-details" *ngIf="!node.disabled">
+                              <button (click)="selectANodeForTC(i)" class="btn btn-info btn-icon fixed-button"
+                                style="margin-top: 4px;padding:5px 12px;font-size:15px; float:right" title="Add">
+                                <b class=" fa fa-arrow-right"></b>
+                              </button>
+                            </div>
+                            <!--div style="margin:0px;" class="col-sm-3 view-details" *ngIf="node.disabled">
+                              <button (click)="selectANodeForTC(i)" class="notallowedbtn notallowedbtn-alreadyused btn-icon fixed-button"
+                                style="margin-top: 4px;padding:5px 12px;font-size:15px; float:right" title="Used">
+                                <mat-icon>clear</mat-icon>
+                              </button>
+                            </div-->
+                          </div>
+                        </mat-card>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-5 " style="margin-left:20px">
+                <div class="row">
+                  <div class="col-md-11" id="border">
+                    <div class="row header">
+                      <div class="col-md-11 text-center" style="height: 45px; padding-top: 15px;">Selected Test Sets</div>
+                    </div>
+                    <div cdkDropList #selectedTCList="cdkDropList" [cdkDropListData]="selectedTestSets"
+                      [cdkDropListConnectedTo]="[allTCList]" (cdkDropListDropped)="drop($event)" class="example-list"
+                      style="min-height: inherit;height: 330px;overflow: auto;border:none">
+                      <div style="margin:7px;padding:0px" class="example-box hvr-glow hvr-wobble-vertical"
+                        *ngFor="let node of selectedTestSets;let i = index" cdkDrag>
+                        <mat-card style="width: 100%">
+                          <div style="overflow: hidden" class="row">
+                            <div [ngClass]="classNameDuplicate[i%4]" class="circle">
+                              {{node.moduleName.slice(0,1).toUpperCase()}}
+                            </div>
+                            <div [matTooltip]="node.moduleName" style="margin: auto" class="col text-limited">
+                              <span>{{node.moduleName}}</span>
+                            </div>
+                            <div style="margin:0px" class="col-sm-3 view-details">
+                              <button style="float:right;cursor:pointer;padding:5px 12px;font-size:12px;margin-top: 4px;"
+                                (click)="removeANodeForTC(i)" class="btn btn-info btn-icon fixed-button" disable="true"
+                                title="Remove">
+                                <b class=" fa fa-arrow-left "></b>
+                              </button>
+                            </div>
+                          </div>
+                        </mat-card>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </mat-card>
+  

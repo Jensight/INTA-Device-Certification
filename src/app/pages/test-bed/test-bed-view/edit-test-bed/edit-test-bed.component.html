@@ -1,0 +1,163 @@
+<div class="row">
+  <nav  class="col-md-5" aria-label="breadcrumb">
+ <ol class="breadcrumb" style="background-color:#fafafa; padding-top:0px;">
+   <li class="breadcrumb-item"><a href="#/pages/dashboard" style="color:red;text-decoration: none;font-size: medium;">Dashboard</a></li>
+   <li class="breadcrumb-item"><a href="#/pages/test-bed/view" style="color:red;text-decoration: none;font-size: medium;">Test Bed</a></li>
+   <li class="breadcrumb-item active" style="color:rgba(0, 0, 0, 0.87);text-decoration: none;font-size: medium;">Edit TestBed</li>
+ </ol>
+</nav>
+<app-title-display style="margin-top:12px;" titleName="Edit Testbed"></app-title-display></div>
+<mat-card>
+  <div style="border:1px solid ; border-radius:30px;">
+    <div class="row" style="margin-left :13px; margin-top:30px;margin-right: 13px;">
+      <div class="col-md-12 d-font ">
+        <form [formGroup]="testBedForm">
+          <div class="row" style="margin-left:10%">
+            <i class="fa fa-cogs" style="font-size:39px;margin-left:10px"></i>
+            <mat-form-field style="width: 350px;margin-left:20px">
+              <mat-label>Enter Testbed Name</mat-label>
+              <input matInput formControlName="testBedName" required>
+              <mat-error *ngIf="testBedForm.get('testBedName').hasError('required')">
+                Please Enter a valid Testbed name
+              </mat-error>
+              <mat-error *ngIf="testBedForm.get('testBedName').hasError('duplicate')">
+                Testbed Name Already Registered
+              </mat-error>
+            </mat-form-field>
+
+            <div class="col text-right" style="margin-top:10px">
+              <button [disabled]="testBedForm.invalid || selectedNodes.length <= 0" class="ibutton"
+                size="small" style="margin-right: 15px; width:100px;" (click)="updateTestBed()">Update Testbed</button>
+              <button routerLink="../" class="ibutton" style="width: 70px;">Cancel</button>
+            </div>
+          </div>
+          <hr style="border-top: 2px solid #c8c2c2;">
+          <div class="row">
+            <div class="col-md-5 offset-md-1">
+              <div class="row">
+                <div class="col-md-11 " id="border">
+                  <div class="row header">
+                    <div class="col-md-11 text-center">Available Nodes</div>
+                  </div>
+                  <div cdkDropList #allNodesList="cdkDropList" [cdkDropListData]="allNodes"
+                    [cdkDropListConnectedTo]="[selectedNodeList]" class="example-list"
+                    style="min-height: inherit;max-height: 300px;overflow: auto;border:none"
+                    (cdkDropListDropped)="drop($event)">
+                    <div style="margin:7px;padding:0px" class="example-box hvr-glow hvr-wobble-vertical"
+                      *ngFor="let node of allNodes;let i = index" cdkDrag>
+                      <mat-card style="width: 100%">
+                        <div style="overflow: hidden" class="row">
+                          <div [ngClass]="className[i%4]" class="circle">
+                            {{node.nodeName.slice(0,1).toUpperCase()}}
+                          </div>
+                          <div style="margin: auto" class="col">
+                            <span>{{node.nodeName  | limitTo : 18}}</span>
+                            <br>
+                            <span
+                              style="font-weight: normal;font-size: 11px;">{{node.profileName  | limitTo : 22}}</span>
+                          </div>
+                          <div style="margin: auto" class="col-sm-3 view-details">
+                            <button (click)="selectANode(i)" class="btn btn-info btn-icon fixed-button"
+                              style="margin-top: 4px;padding:5px 12px;font-size:15px; float:right" title="Add">
+                              <b class=" fa fa-arrow-right"></b>
+                            </button>
+                          </div>
+                        </div>
+                      </mat-card>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-5 " style="margin-left:20px">
+              <div class="row">
+                <div class="col-md-11" id="border">
+                  <div class="row header">
+                    <div class="col-md-11 text-center">Selected Nodes</div>
+                  </div>
+                  <div cdkDropList #selectedNodeList="cdkDropList" [cdkDropListData]="selectedNodes"
+                    [cdkDropListConnectedTo]="[allNodesList]" class="example-list"
+                    style="min-height: inherit;max-height: 300px;overflow: auto;border:none"
+                    (cdkDropListDropped)="drop($event)">
+                    <div style="margin:7px;padding:0px" class="example-box hvr-glow hvr-wobble-vertical"
+                      *ngFor="let node of selectedNodes;let i = index" cdkDrag>
+                      <mat-card style="width: 100%">
+                        <div style="overflow: hidden" class="row">
+                          <div [ngClass]="classNameDuplicate[i%4]" class="circle">
+                            {{node.nodeName.slice(0,1).toUpperCase()}}
+                          </div>
+                          <div style="margin: auto" class="col">
+                            <span>{{node.nodeName  | limitTo : 18}}</span>
+                            <br>
+                            <span
+                              style="font-weight: normal;font-size: 11px;">{{node.profileName  | limitTo : 22}}</span>
+                          </div>
+                          <div style="margin: auto" class="col-sm-3 view-details">
+                            <button style="float:right;cursor:pointer;padding:5px 12px;font-size:15px;margin-top: 4px;"
+                              (click)="removeANode(i)" class="btn btn-info btn-icon fixed-button" disable="true"
+                              title="Remove">
+                              <b class=" fa fa-arrow-left "></b>
+                            </button>
+                          </div>
+                        </div>
+                      </mat-card>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="padding:15px" *ngIf="flag" class="row">
+            <button class="ibutton" size="tiny" (click)="addNewVariable()">Add Variable</button>
+          </div>
+
+          <div class="row">
+            <div class="main-card col-sm-5"
+              *ngFor="let item of testBedForm['controls'].variables['controls'];let k = index"
+              style=" margin-top:30px;margin-bottom:20px;margin-left:5%;">
+              <div class="row card-header">
+                <div class="col-sm-8 text-center">
+                  <h6 style="padding-top:7px"> Variable {{k+1}} </h6>
+                </div>
+                <div class="col">
+                  <i style="float:right; cursor: pointer;" title="Add Variable" (click)="addNewVariable() "
+                    *ngIf="allVariablesNames.length-1>k">
+                    <button class="ibutton2">
+                      <i class="fa fa-plus-circle"></i>
+                    </button>
+                  </i>
+                  <i style="float:right; cursor: pointer; padding-right:5px;" title="Delete Variable"
+                    (click)="deleteVarible(k)">
+                    <button class="ibutton2">
+                       <i class="fa fa-trash-o fa-lg"></i>
+                    </button>
+                  </i>
+                </div>
+              </div>
+              <div class="row border card-body">
+                <form [formGroup]="item">
+                  <mat-form-field class="col-md-6" style="width: 70%;max-width:80%;margin-left:11%">
+                    <mat-label>Variable</mat-label>
+                    <mat-select formControlName="variableId">
+                      <mat-option
+                        *ngFor="let variable of (allVariablesNames|variableDisable:allTestbedSelectedVariables:k);"
+                        [disabled]="variable.invalid" [value]="variable.value">
+                        {{ variable.value| nameFromId:allVariables: "_id": "variableName" }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error> Please Select a Variable Name </mat-error>
+                  </mat-form-field>
+                  <mat-form-field class="col-md-6" style="max-width:80%;margin-left:11%;width:70%">
+                    <mat-label>Variable Value</mat-label>
+                    <input matInput formControlName="variableValue" required>
+                  </mat-form-field>
+                  <br>
+                </form>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</mat-card>

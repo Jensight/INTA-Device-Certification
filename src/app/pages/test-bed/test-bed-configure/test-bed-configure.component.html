@@ -1,0 +1,196 @@
+<!-- <toaster-container [toasterconfig]="config"></toaster-container> -->
+<div class="row">
+  <nav  class="col-md-5" aria-label="breadcrumb">
+ <ol class="breadcrumb" style="background-color:#fafafa; padding-top:0px;">
+   <li class="breadcrumb-item"><a href="#/pages/dashboard" style="color:red;text-decoration: none;font-size: medium;">Dashboard</a></li>
+   <li class="breadcrumb-item"><a href="#/pages/test-bed/view" style="color:red;text-decoration: none;font-size: medium;">Test Bed</a></li>
+   <li class="breadcrumb-item active" style="color:rgba(0, 0, 0, 0.87);text-decoration: none;font-size: medium;">Configure TestBed</li>
+ </ol>
+</nav>
+<app-title-display style="margin-top:12px;" titleName="Configure Testbed"></app-title-display></div>
+<div>
+  <div style="border:1px solid ; border-radius:30px;">
+    <div style="padding-top: 15px" class="row">
+      <div class="col text-right">
+        <button [disabled]="!validData || !editVariableForm.valid" class="ibutton"
+        size="small" style="margin-right: 15px; width: 120px" (click)="editTestBed()">Update Testbed</button>
+        <button class="ibutton" (click)="cancel()" style="width: 70px;">Cancel</button>
+      </div>
+    </div>
+    <div class="row" style="margin-left :13px; margin-top:30px;margin-right: 13px;">
+      <div class="col-md-12 d-font ">
+        <div class="row list" style="margin-top: 15px">
+          <div class="col-md-2">
+            Vendors :
+          </div>
+          <div class="col-md-10">
+            <div style="font-size: 13px" class="row">
+              <div class="col-md-2" *ngFor="let item of allVendorName">
+                <mat-checkbox (change)="checkVendor($event,item)" [checked]="displayVendors.indexOf(item)!== -1"
+                  [matTooltip]="item">
+                  {{item|limitTo:15}}</mat-checkbox>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row list">
+          <div class="col-md-2">
+            Models :
+          </div>
+          <div class="col-md-10">
+            <div style="font-size: 13px" class="row">
+              <div class="col-md-2" *ngFor="let item of allModelNames">
+                <mat-checkbox (change)="checkModel($event,item)" [checked]="displayModels.indexOf(item)!== -1"
+                  [matTooltip]="item">
+                  {{item|limitTo:15}}</mat-checkbox>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr style="border-top: 2px solid #c8c2c2;">
+        <div class="row">
+          <div class="col-md-5 offset-md-1">
+            <div class="row" dnd-droppable (onDropSuccess)="removeDevice($event)">
+              <div class="col-md-11 " id="border">
+                <div class="row header">
+                  <div class="col-md-11 text-center">Available Device</div>
+                  <input [(ngModel)] = "searchTerm" type="text" class="form-control" id="filter" placeholder="Search Device" (input)="applyDevice()">
+                </div>
+                <div class="example-list" style="min-height: inherit;max-height: 300px;overflow: auto;border:none">
+                  <div dnd-draggable [dragData]="device" style="margin:7px;padding:0px;width:96%"
+                    class="example-box hvr-glow hvr-wobble-vertical"
+                    *ngFor=" let device of allDeviceUnused|deviceFilter:displayVendors:displayModels; let i = index;">
+                    <mat-card style="width: 100%">
+                      <div style="overflow: hidden" class="row">
+                        <div [ngClass]="className[i%4]" class="circle">
+                          {{device.deviceName.slice(0,1).toUpperCase()}}
+                        </div>
+                        <div style="margin: auto" class="col">
+                          <span [matTooltip]='device.deviceName'>
+                            {{device.deviceName| slice:0:18 }}{{ device.deviceName.length > 50 ? '...' : ''}}</span>
+                          <br>
+
+                          <span [matTooltip]='device.profileName'
+                            style="font-weight: normal;font-size: 11px;">{{device.profileName| slice:0:22 }}{{ device.profileName.length > 22 ? '...' : ''}}</span>
+                        </div>
+                        <div style="margin:0px" class="view-details">
+                      <button (click)="selectAProfile(device.deviceId)" class="btn btn-info btn-icon fixed-button"
+                        style="margin-top: 7px;
+                        font-size: 15px;
+                        width: 38px;
+                        height: 31px;
+                        float: right;
+                        margin-right: 3px;" title="Add">
+                        <b class=" fa fa-arrow-right"></b>
+                      </button>
+                    </div>
+                      </div>
+                    </mat-card>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="col-md-5 " style="margin-left:20px">
+            <div class="row">
+              <div class="col-md-11" id="border">
+                <div class="row header">
+                  <div class="col-md-11 text-center">Required Profile</div>
+                </div>
+                <div style="min-height: 335px;max-height: 335px;overflow: auto;border:none">
+                  <div [matTooltip]="profile.deviceId?'Configured': 'Needs Configuration'" dnd-droppable
+                    (onDropSuccess)="addDeviceToProfile($event,i)" style="margin:7px;padding:0px;width:96%"
+                    class="example-box hvr-glow hvr-wobble-vertical"
+                    *ngFor="let profile of allDeviceProfileValue; let i = index;">
+                    <mat-card [ngClass]="profile.deviceId !== null ?'profileInvalid':'profileOdd'" dnd-draggable
+                      [dragData]="i" style="width: 100%">
+                      <div style="overflow: hidden" class="row">
+                        <div [ngClass]="classNameDuplicate[i%4]" class="circle">
+                          {{((profile.profileId | nameFromId: allProfiles:'_id':'profileName')[0]).toUpperCase()}}
+                        </div>
+                        <div style="margin: auto" class="col">
+                          <span
+                            [matTooltip]="profile.deviceId ? (profile.deviceId | nameFromId: allDeviceDuplicate :'deviceId':'deviceName'): 'No Device'"
+                            [matTooltipPosition]='position[0]'>
+                            {{ (profile.deviceId ? (profile.deviceId | nameFromId: allDeviceDuplicate :'deviceId':'deviceName'): 'No Device')| slice:0:18}}
+                            {{ (profile.deviceId ? (profile.deviceId | nameFromId: allDeviceDuplicate :'deviceId':'deviceName'): 'No Device').length > 18 ? '...' : ''}}</span>
+                          <br>
+                          <span [matTooltip]="profile.profileId | nameFromId: allProfiles:'_id':'profileName'"
+                            style="font-weight: normal;font-size: 11px;">
+                            {{(profile.profileId | nameFromId: allProfiles:'_id':'profileName')| slice:0:22 }}
+                            {{(profile.profileId | nameFromId: allProfiles:'_id':'profileName').length > 22 ? '...' : ''}}</span>
+                        </div>
+                        <div style="margin:0px" class="view-details">
+                          <button style="margin-top: 7px;
+                          font-size: 15px;
+                          width: 38px;
+                          height: 31px;
+                          float: right;
+                          margin-right: 3px;"
+                            (click)="removeAProfile(i)" class="btn btn-info btn-icon fixed-button" disable="true"
+                            title="Remove">
+                            <b class=" fa fa-arrow-left "></b>
+                          </button>
+                        </div>
+                      </div>
+                    </mat-card>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="padding:15px" *ngIf="flag" class="row">
+          <button class="ibutton" (click)="addNewVariable()">Add Variable</button>
+        </div>
+        <div class="row">
+          <div class="main-card col-sm-5"
+            *ngFor="let item of editVariableForm['controls'].variables['controls'];let k = index"
+            style=" margin-top:30px;margin-bottom:20px;margin-left:5%;">
+            <div class="row card-header">
+              <div class="col-sm-8 text-center">
+                <h6 style="padding-top:7px"> Variable {{k+1}} </h6>
+              </div>
+              <div class="col">
+                <i style="float:right; cursor: pointer;" title="Add Variable" (click)="addNewVariable() ">
+                  <button class="ibutton2">
+                    <i class="fa fa-plus-circle"></i>
+                  </button>
+                </i>
+                <i style="float:right; cursor: pointer; padding-right:5px;" title="Delete Variable"
+                  (click)="deleteVariableValue(k)">
+                  <button class="ibutton2">
+                     <i class="fa fa-trash-o fa-lg"></i>
+                  </button>
+                </i>
+              </div>
+            </div>
+            <div class="row border card-body">
+              <form [formGroup]="item">
+                <mat-form-field class="col-md-6" style="width: 70%;max-width:80%;margin-left:11%">
+                  <mat-label>Variable</mat-label>
+                  <mat-select formControlName="variableId">
+                    <mat-option
+                      *ngFor="let variable of (allVariableNames|variableDisable:allTestbedSelectedVariables:k);"
+                      [disabled]="variable.invalid" [value]="variable.value">
+                      {{ variable.value| nameFromId:allVariables: "_id": "variableName" }}
+                    </mat-option>
+
+                  </mat-select>
+                  <mat-error> Please Select a Variable Name </mat-error>
+                </mat-form-field>
+                <mat-form-field class="col-md-6" style="max-width:80%;margin-left:11%;width:70%">
+                  <mat-label>Variable Value</mat-label>
+                  <input matInput formControlName="variableValue" required>
+                </mat-form-field>
+                <br>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

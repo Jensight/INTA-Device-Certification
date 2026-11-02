@@ -1,0 +1,343 @@
+.user-tb-matrix-container {
+  padding: 16px;
+}
+
+.active-toggle-row {
+  margin-bottom: 4px;
+}
+
+.team-badge {
+  margin-right: auto;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #424242;
+  background-color: #f5f5f5;
+  border: 1px solid #ebebeb;
+
+  strong {
+    color: #b71c1c;
+    font-weight: 600;
+  }
+}
+
+.filters-row {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.active-toggle {
+  margin-left: auto;
+  flex-shrink: 0;
+
+  ::ng-deep .mdc-label {
+    padding-top: 0 !important;
+    margin-bottom: 0;
+  }
+}
+
+.matrix-update-btn {
+  flex-shrink: 0;
+  height: 30px;
+  min-width: 80px;
+  padding: 0 12px;
+  font-size: 12px;
+  line-height: 28px;
+  border: 1.5px solid #b71c1c !important;
+  color: #b71c1c !important;
+  background-color: #fff !important;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  &:hover:not([disabled]) {
+    background-color: rgba(183, 28, 28, 0.06) !important;
+  }
+  &[disabled] {
+    opacity: 0.5;
+    border-color: rgba(0,0,0,0.26) !important;
+    color: rgba(0,0,0,0.26) !important;
+  }
+}
+
+.testbed-selector {
+  width: 379px;
+}
+
+.user-selector {
+  width: 300px;
+}
+
+.user-tb-matrix-table-wrapper {
+  overflow-x: auto;
+  overflow-y: auto;
+  margin-top: 12px;
+  width: 100%;
+  max-height: calc(100vh - 260px);
+
+  &::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
+  &::-webkit-scrollbar-track {
+    background: #fafafa;
+    border-radius: 6px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #d43c30;
+    border-radius: 6px;
+    border: 2px solid #fafafa;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: #b9635e;
+  }
+  scrollbar-width: thin;
+  scrollbar-color: #d43c30 #fafafa;
+}
+
+.user-tb-matrix-table {
+  width: max-content;
+  min-width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid #ebebeb;
+
+  thead tr {
+    th {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      background-image: linear-gradient(to right bottom, #da291c, #d43c30, #cd4b41, #c45750, #b9635e);
+      color: #ffffff;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 8px 12px;
+      border-right: 1px solid rgba(255, 255, 255, 0.2);
+      border-bottom: 1px solid #ebebeb;
+      white-space: nowrap;
+    }
+
+    th.tb-col {
+      min-width: 140px;
+    }
+  }
+
+  tbody {
+    tr td {
+      border: 1px solid #ebebeb;
+      padding: 8px 12px;
+      text-align: left;
+      vertical-align: middle;
+      font-size: 12px;
+    }
+
+    tr td.tb-cell {
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    tr:nth-child(even) {
+      background-color: #ebebeb;
+    }
+  }
+
+  // Pin UserName column
+  thead tr th:nth-child(1),
+  tbody tr td:nth-child(1) {
+    position: sticky;
+    left: 0;
+    min-width: 220px;
+    max-width: 220px;
+    width: 220px;
+  }
+  thead tr th:nth-child(1) {
+    z-index: 3;
+  }
+  tbody tr td:nth-child(1) {
+    z-index: 1;
+  }
+
+  tbody tr:nth-child(odd) td:nth-child(1) {
+    background-color: #ffffff;
+  }
+  tbody tr:nth-child(even) td:nth-child(1) {
+    background-color: #ebebeb;
+  }
+
+  thead tr th:nth-child(1),
+  tbody tr td:nth-child(1) {
+    box-shadow: 2px 0 0 0 #ebebeb;
+  }
+}
+
+.empty-state {
+  text-align: center;
+  color: #888;
+  padding: 24px;
+  font-style: italic;
+}
+
+.select-all-row {
+  padding: 6px 16px;
+  border-bottom: 1px solid #ebebeb;
+  background-color: #fafafa;
+
+  .select-all-checkbox {
+    font-weight: 600;
+
+    ::ng-deep .mdc-form-field {
+      margin-left: -10px;
+    }
+    ::ng-deep .mdc-label {
+      margin-left: -11px;
+    }
+  }
+}
+
+.tb-col-header {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  line-height: 1;
+
+  .tb-name {
+    line-height: 1;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+  }
+}
+
+// Pinned first column now holds the TestBed name + a row select-all checkbox.
+.tb-row-header-inner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  line-height: 1.3;
+  width: 100%;
+
+  .tb-name {
+    line-height: 1.3;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    // Wrap long testbed names inside the fixed-width pinned cell. Breaking on
+    // any character (incl. underscores) keeps names like
+    // "XGSPON_Comcast_Pre_Release_Replacement" contained in the same cell.
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+}
+
+// Native checkbox styling (matches the Model - TC Matrix screen)
+.tc-cell-checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  display: inline-block;
+  flex: 0 0 auto;
+  align-self: center;
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  padding: 0;
+  border: 2px solid #d43c30;
+  border-radius: 3px;
+  background-color: #ffffff;
+  cursor: pointer;
+  position: relative;
+  vertical-align: middle;
+  outline: none;
+  box-sizing: border-box;
+  transition: background-color 0.1s ease, border-color 0.1s ease;
+
+  &:hover { border-color: #b9635e; }
+
+  &:checked {
+    background-color: #d43c30;
+    border-color: #d43c30;
+  }
+  &:checked::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 4px;
+    height: 8px;
+    border: solid #ffffff;
+    border-width: 0 2px 2px 0;
+    transform: translate(-50%, -60%) rotate(45deg);
+  }
+
+  &:indeterminate {
+    background-color: #d43c30;
+    border-color: #d43c30;
+  }
+  &:indeterminate::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 10px;
+    height: 2px;
+    background-color: #ffffff;
+    border: none;
+    transform: translate(-50%, -50%);
+  }
+
+  // Disabled / read-only state (non-sysadmin users)
+  &:disabled {
+    cursor: not-allowed;
+    border-color: #b0b0b0;
+    background-color: #f0f0f0;
+    opacity: 0.55;
+  }
+  &:disabled:hover { border-color: #b0b0b0; }
+  &:disabled:checked {
+    background-color: #b0b0b0;
+    border-color: #b0b0b0;
+  }
+  &:disabled:checked::after { border-color: #ffffff; }
+  &:disabled:indeterminate {
+    background-color: #b0b0b0;
+    border-color: #b0b0b0;
+  }
+  &:disabled:indeterminate::after { background-color: #ffffff; }
+}
+
+.column-select-all.tc-cell-checkbox {
+  border-color: #ffffff;
+  background-color: #ffffff;
+  margin-top: -11px;
+
+  &:checked,
+  &:indeterminate {
+    background-color: #ffffff;
+    border-color: #ffffff;
+  }
+  &:checked::after {
+    border-color: #d43c30;
+  }
+  &:indeterminate::after {
+    background-color: #d43c30;
+  }
+
+  // Disabled column select-all keeps the header colour scheme but greyed
+  &:disabled {
+    background-color: rgba(255, 255, 255, 0.5);
+    border-color: rgba(255, 255, 255, 0.5);
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  &:disabled:checked,
+  &:disabled:indeterminate {
+    background-color: rgba(255, 255, 255, 0.5);
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+  &:disabled:checked::after { border-color: #ffffff; }
+  &:disabled:indeterminate::after { background-color: #ffffff; }
+}

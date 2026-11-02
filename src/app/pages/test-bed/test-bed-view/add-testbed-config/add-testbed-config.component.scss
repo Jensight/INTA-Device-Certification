@@ -1,0 +1,77 @@
+h3 {
+    font-size: 1.25rem !important;
+    font-family: Roboto, sans-serif !important;
+    font-weight: 500 !important;
+    line-height: 1.5rem !important;
+}
+.main-div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .restrict-section {
+    text-align: left;
+    padding: 8px 30px 0 30px;
+  }
+  .restrict-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 4px;
+  }
+  .restrict-hint {
+    display: block;
+    font-size: 11px;
+    color: #888;
+    line-height: 1.3;
+  }
+  .mat-card{
+      width: 365px !important;
+      box-shadow: 1px 1px 10px 0 grey !important;
+  }
+
+  ::ng-deep .mat-mdc-dialog-surface {
+    overflow-y: unset; 
+  }
+
+  ::ng-deep .mdc-floating-label--required:not(.mdc-floating-label--hide-required-marker)::after {
+    margin-left: 1px;
+    margin-right: 0;
+    content: "*";
+    color: white !important;
+  }
+
+::ng-deep .wide-dropdown-panel {
+  max-height: 250px !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+
+  .mat-option,
+  .mat-mdc-option {
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .mdc-list-item__primary-text {
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+}
+
+.dynamic-toggle.custom-switch {
+  .custom-control-label::before {
+    width: 2.5rem;
+    height: 1.4rem;
+    border-radius: 0.75rem;
+  }
+  .custom-control-label::after {
+    width: 1.15rem;
+    height: 1.15rem;
+    border-radius: 50%;
+    top: calc(0.25rem + 2px + 0.5px);
+  }
+  .custom-control-input:checked ~ .custom-control-label::after {
+    transform: translateX(1.1rem);
+  }
+}

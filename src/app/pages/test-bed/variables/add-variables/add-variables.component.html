@@ -1,0 +1,28 @@
+<div class="row text-center">
+    <div class="col-md-11 text-center" style="margin-bottom: 20px">
+        <h3>Add Variable</h3>
+    </div>
+    <span class="col-md-1">
+        <span (click)="dialogRef.close()" style="cursor: pointer" class="close" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </span>
+    </span>
+</div>
+<form [formGroup]="variableForm" class="text-center">
+    <mat-form-field style="width:300px">
+        <mat-label>Variable Name</mat-label>
+        <input matInput formControlName='variableName'>
+        <mat-error *ngIf="variableForm.get('variableName').hasError('required')">
+            Please Enter a Variable Name
+        </mat-error>
+        <mat-error *ngIf="variableForm.get('variableName').hasError('duplicate')">
+            Variable Already Registered
+        </mat-error>
+
+    </mat-form-field>
+
+    <div class="text-center">
+        <button [disabled]="!variableForm.valid" (click)="addVariable()" style="margin-right: 15px; height: 32px; width:50px;" class="ibutton">Add</button>
+        <button (click)="cancel()" class="ibutton" style="height: 32px; width:70px">Cancel</button>
+    </div>
+</form>

@@ -1,0 +1,4 @@
+<button *ngIf="configuredStatus" (click)="onClick($event)" class="ibutton">
+  Change</button>
+<button *ngIf="!configuredStatus" (click)="onClick($event)" class="ibutton">
+  Configure</button>

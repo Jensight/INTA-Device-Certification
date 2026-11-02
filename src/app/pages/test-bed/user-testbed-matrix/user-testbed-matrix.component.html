@@ -1,0 +1,114 @@
+<div class="user-tb-matrix-container">
+  <div class="filters-row">
+    <mat-form-field class="testbed-selector" *ngIf="availableTestbeds.length > 0">
+      <mat-label>Select Testbeds</mat-label>
+      <mat-select [(value)]="selectedTestbeds" multiple
+                  (selectionChange)="onTestbedsSelectionChange()">
+        <div class="input-group input-group-sm px-2 py-1">
+          <input type="text" class="form-control" placeholder="Search Testbed"
+                 (input)="filterTestbeds($any($event.target).value)"
+                 (keydown)="$event.stopPropagation()">
+        </div>
+        <div class="select-all-row">
+          <mat-checkbox class="select-all-checkbox"
+                        [checked]="isAllTestbedsSelected"
+                        [indeterminate]="isSomeTestbedsSelected"
+                        (change)="toggleSelectAllTestbeds()"
+                        (click)="$event.stopPropagation()">
+            Select All
+          </mat-checkbox>
+        </div>
+        <mat-option *ngFor="let tb of filteredAvailableTestbeds; trackBy: trackByTestbed" [value]="tb">
+          {{ tb }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="user-selector" *ngIf="availableUsers.length > 0">
+      <mat-label>Select Users</mat-label>
+      <mat-select [(value)]="selectedUsers" multiple
+                  (selectionChange)="onUsersSelectionChange()">
+        <div class="input-group input-group-sm px-2 py-1">
+          <input type="text" class="form-control" placeholder="Search User"
+                 (input)="filterUsers($any($event.target).value)"
+                 (keydown)="$event.stopPropagation()">
+        </div>
+        <div class="select-all-row">
+          <mat-checkbox class="select-all-checkbox"
+                        [checked]="isAllUsersSelected"
+                        [indeterminate]="isSomeUsersSelected"
+                        (change)="toggleSelectAllUsers()"
+                        (click)="$event.stopPropagation()">
+            Select All
+          </mat-checkbox>
+        </div>
+        <mat-option *ngFor="let u of filteredAvailableUsers; trackBy: trackByUserName" [value]="u">
+          {{ u }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-slide-toggle class="active-toggle" color="primary" [(ngModel)]="toggleFlag"
+                      (change)="toggleActiveTestbeds()" checked>Active-Testbeds</mat-slide-toggle>
+
+    <button mat-stroked-button class="matrix-update-btn"
+            *ngIf="isSysAdmin"
+            [disabled]="isSaving"
+            (click)="saveMatrix()">
+      {{ isSaving ? 'SAVING...' : 'UPDATE' }}
+    </button>
+  </div>
+
+  <div *ngIf="selectedTestbeds.length > 0 && selectedUsers.length > 0"
+       class="user-tb-matrix-table-wrapper">
+    <table class="user-tb-matrix-table">
+      <thead>
+        <tr>
+          <th>TestBed</th>
+          <th *ngFor="let uname of selectedUsers; trackBy: trackByUserName" class="tb-col">
+            <div class="tb-col-header">
+              <span class="tb-name">{{ uname }}</span>
+              <input type="checkbox" class="tc-cell-checkbox column-select-all"
+                     [checked]="userColAllChecked[uname]"
+                     [indeterminate]="userColIndeterminate[uname]"
+                     [disabled]="!isSysAdmin"
+                     (change)="toggleUserColumn(uname, $any($event.target).checked)"
+                     [attr.title]="'Select / Unselect all testbeds for ' + uname">
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let tb of selectedTestbeds; trackBy: trackByTestbed">
+          <td class="tb-row-header">
+            <div class="tb-row-header-inner">
+              <span class="tb-name">{{ tb }}</span>
+            </div>
+          </td>
+          <td *ngFor="let uname of selectedUsers; trackBy: trackByUserName" class="tb-cell">
+            <input type="checkbox" class="tc-cell-checkbox"
+                   [checked]="isCellCheckedByName(uname, tb)"
+                   [disabled]="!isSysAdmin"
+                   (change)="toggleCellByName(uname, tb, $any($event.target).checked)">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="availableTestbeds.length === 0" class="empty-state">
+    {{ toggleFlag ? 'No active testbeds available.' : 'No inactive testbeds available.' }}
+  </div>
+
+  <div *ngIf="availableTestbeds.length > 0 && selectedTestbeds.length === 0" class="empty-state">
+    Please select one or more testbeds to view the User - TestBed Access Matrix.
+  </div>
+
+  <div *ngIf="availableTestbeds.length > 0 && selectedTestbeds.length > 0 && availableUsers.length > 0 && selectedUsers.length === 0" class="empty-state">
+    Please select one or more users to view the User - TestBed Access Matrix.
+  </div>
+
+  <div *ngIf="availableUsers.length === 0" class="empty-state">
+    No users found.
+  </div>
+</div>

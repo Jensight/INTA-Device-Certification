@@ -1,0 +1,9 @@
+:host ::ng-deep tr.angular2-smart-row > td:nth-child(2) {
+    text-align : center;
+  }
+  :host ::ng-deep tr.angular2-smart-row > td:nth-child(1) {
+    text-align : left;
+  }
+  :host ::ng-deep th.ng-star-inserted.angular2-smart-actions {
+    width: 150px !important;
+}

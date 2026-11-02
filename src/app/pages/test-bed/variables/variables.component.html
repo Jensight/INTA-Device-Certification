@@ -1,0 +1,14 @@
+
+<div class="row">
+   <div class="col-lg-10" >
+   </div>
+   <div class="col-lg-2" style="margin-top: 10px;">
+    <button class="ibutton" style="padding:8px" (click)="addVariable()" class="ibutton"> Add Variable</button>
+   </div>
+</div>
+
+<div class="">
+    <div class=" text-center" style="padding:10px 15px 15px 15px;" >
+        <angular2-smart-table (edit)="editVariable($event)" (delete)="deleteVariableConfirmation($event)" (click)="setSortData()" [source]="source" [settings]="settings"></angular2-smart-table>
+    </div>
+</div>

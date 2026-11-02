@@ -1,0 +1,35 @@
+<div class="row text-center" style="margin-top: 22px;">
+    <div class="col-md-11 text-center" style="margin-bottom: 20px">
+        <h3>Edit Network Element</h3>
+    </div>
+    <span class="col-md-1" style="margin-left: -35px;">
+        <span (click)="dialogRef.close()" style="cursor: pointer" class="close" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </span>
+    </span>
+</div>
+<form [formGroup]="nodeForm" class="text-center" style="position: relative; bottom: 12px;">
+    <mat-form-field style="width:300px">
+        <mat-label>Network Element Name</mat-label>
+        <input matInput formControlName='nodeName'>
+        <mat-error *ngIf="nodeForm.get('nodeName').hasError('required')">
+            Please Enter a Network Element Name
+        </mat-error>
+        <mat-error *ngIf="nodeForm.get('nodeName').hasError('duplicate')">
+            Network Element Already Registered
+        </mat-error>
+    </mat-form-field>
+    <mat-form-field style="width:300px" *ngIf="isProfileIdHidden">
+        <ma-label>Device Profile</ma-label>
+        <mat-select formControlName="profileId">
+            <mat-option *ngFor="let item of allProfiles" [value]="item._id">{{item.profileName}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="nodeForm.get('profileId').hasError('required')">
+            Please selecte a Profile
+        </mat-error>
+    </mat-form-field>
+    <div class="text-center" style="padding-top: 12px;">
+        <button [disabled]="!nodeForm.valid" (click)="editNode()" class="ibutton" style="margin-right: 15px; width: 70px;">Update</button>
+        <button (click)="cancel()" class="ibutton" style="height: 32px; width:70px">Cancel</button>
+    </div>
+</form>

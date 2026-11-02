@@ -1,0 +1,55 @@
+
+
+:host ::ng-deep angular2-st-tbody-custom a.angular2-smart-action.angular2-smart-action-custom-custom {
+    display: inline-block;
+    width: 50px;
+    text-align: center;
+    font-size: 1.5em;
+    padding-right:5px !important;
+    padding-left:5px !important;
+    color: #424242;
+
+  }
+
+  :host ::ng-deep tr.angular2-smart-row > td:nth-child(1) {
+    text-align : left;
+  }
+  :host ::ng-deep tr.angular2-smart-row > td:nth-child(2) {
+    text-align : left !important;
+  }
+  :host ::ng-deep tr.angular2-smart-row > td:nth-child(3) {
+    text-align : center;
+  }
+
+  
+  :host ::ng-deep th.ng-star-inserted.angular2-smart-actions {
+    width: 150px !important;
+  }
+
+
+//   :host ::ng-deep .angular2-smart-actions angular2-st-tbody-edit-delete{
+//     display: none !important;
+//     }
+
+
+  :host ::ng-deep  angular2-smart-table table tbody tr td angular2-st-tbody-custom a:nth-child(3) :hover {
+    color: #ff6b83;
+  }
+
+  :host ::ng-deep  angular2-smart-table table tbody tr td angular2-st-tbody-custom a:nth-child(2) :hover {
+    color:  #5dcfe3;;
+  }
+
+  :host ::ng-deep  angular2-smart-table table tbody tr td angular2-st-tbody-custom a:nth-child(1) :hover {
+    color: #e68839;
+
+  }
+
+
+:host ::ng-deep td.angular2-smart-actions {
+    padding: 0px !important; 
+}
+
+:host ::ng-deep tr > td.angular2-smart-actions > angular2-st-tbody-custom > a:nth-child(1) > i {
+     font-size: 20px !important;
+ }
