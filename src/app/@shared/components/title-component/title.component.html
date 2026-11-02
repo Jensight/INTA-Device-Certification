@@ -1,0 +1,10 @@
+<div class="row">
+    <ul class="breadcrumb col-md-5" style="background: transparent; padding-left: 1.5%;;">
+        <li [title]="item.label" *ngFor="let item of breadcrumbs">
+            <a href="{{item.link}}">{{item.label}}</a>
+        </li>
+    </ul>
+    <div >
+        <h3 >{{titleName}}<ng-content></ng-content></h3>
+    </div>
+</div>

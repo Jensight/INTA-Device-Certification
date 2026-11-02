@@ -1,0 +1,145 @@
+:host ::ng-deep .mat-dialog-container {
+    padding: 0px !important;
+}
+
+.paginated-table-dialog {
+    position: relative;
+    padding: 25px 30px 20px;
+}
+
+.dialog-close-btn {
+    position: absolute;
+    top: 6px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 28px;
+    color: #333;
+    cursor: pointer;
+    z-index: 1;
+    line-height: 1;
+    padding: 0 6px;
+    font-weight: 700;
+
+    &:hover {
+        color: #da291c;
+    }
+}
+
+.paginated-table {
+    width: 100%;
+    border-collapse: collapse;
+
+    thead {
+        tr.header-row {
+            background-image: linear-gradient(to right bottom, #da291c, #d43c30, #cd4b41, #c45750, #b9635e);
+
+            th {
+                color: #ffffff;
+                text-align: center;
+                font-size: 13px;
+                font-weight: 600;
+                padding: 12px 15px;
+                border: none;
+            }
+        }
+
+        tr.filter-row {
+            background-color: #ffffff;
+
+            th {
+                padding: 12px 20px;
+                border: none;
+            }
+
+            .filter-input {
+                width: 100%;
+                border: 1px solid #ccc;
+                padding: 6px 10px;
+                font-size: 12px;
+                outline: none;
+                box-sizing: border-box;
+
+                &:focus {
+                    border-color: #da291c;
+                }
+            }
+        }
+    }
+
+    tbody {
+        tr {
+            border-bottom: 1px solid #ddd;
+
+            td {
+                text-align: center;
+                font-size: 13px;
+                padding: 14px 15px;
+                word-break: break-all;
+            }
+        }
+
+        tr:first-child {
+            border-top: 1px solid #ddd;
+        }
+
+        tr:last-child {
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr.alt-row {
+            background-color: #f7f7f7;
+        }
+    }
+}
+
+.paginated-table-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0 5px;
+
+    .page-buttons {
+        display: flex;
+        gap: 0;
+
+        button {
+            min-width: 36px;
+            height: 36px;
+            border: 1px solid #ddd;
+            background: #fff;
+            color: #da291c;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            padding: 0 8px;
+            margin-left: -1px;
+
+            &:first-child {
+                border-radius: 3px 0 0 3px;
+                margin-left: 0;
+            }
+
+            &:last-child {
+                border-radius: 0 3px 3px 0;
+            }
+
+            &:hover:not([disabled]):not(.active) {
+                background: #f5f5f5;
+            }
+
+            &.active {
+                background: #da291c;
+                color: #fff;
+                border-color: #da291c;
+                z-index: 1;
+                position: relative;
+            }
+
+            &[disabled] {
+                color: #ccc;
+                cursor: not-allowed;
+            }
+        }
+    }
+}

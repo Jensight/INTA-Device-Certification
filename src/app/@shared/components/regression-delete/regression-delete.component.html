@@ -1,0 +1,16 @@
+<div class="card">
+    <h6 class="card-header">
+        {{data.action}} {{data.name}}?
+    </h6>
+    <p style="font-size: .9375rem !important; padding-left: 20px; padding-top: 10px; padding-bottom: 10px; font-weight: 400; line-height: 1.25rem;"
+        [innerHTML]="data.successText">
+    </p>
+    <div class="card-footer text-right"  style="padding:15px; background-color: #fff;" *ngIf="!data.alert">
+        
+        <button  (click)="dialogRef.close()" class="ibutton">Cancel</button> &nbsp;
+        <button  [mat-dialog-close]="true" class="ibutton">Yes, Proceed</button>
+    </div>
+    <div class="card-footer text-right" style="padding:15px; background-color: #fff;" *ngIf="data.alert">
+        <button [mat-dialog-close]="true" class="ibutton">Okay</button>
+    </div>
+</div>

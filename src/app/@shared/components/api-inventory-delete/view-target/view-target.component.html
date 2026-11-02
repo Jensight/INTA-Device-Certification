@@ -1,0 +1,39 @@
+<div style="margin-right:0px; margin-left:0px" class="row text-center">
+    <div class="col-md-11 text-center" style="margin-bottom: 20px">
+        <h3 *ngIf="data.targetName && data.isTestbedView" style="margin-top: 10px; font-weight: 700; font-size: 24px;">{{ data.targetName }}</h3>
+    </div>
+    <span class="col-md-1">
+        <span (click)="dialogRef.close()" style="cursor: pointer" class="close" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </span>
+    </span>
+</div>
+
+<!-- Testbed Selector Row (only for testbed view) -->
+<div *ngIf="data.isTestbedView" class="row align-items-center" style="margin-bottom: 15px; margin-right: 0px; margin-left: 25px;">
+    <div style="display: flex; align-items: center; gap: 15px;">
+        <label for="testbedSelect" style="margin: 0; font-weight: 500; white-space: nowrap; padding-left: 16px;">Select Testbed:</label>
+        <select id="testbedSelect" 
+                class="form-control testbed-select" 
+                [(ngModel)]="selectedTestbed" 
+                (change)="onTestbedChange(selectedTestbed)"
+                style="width: 250px; display: inline-block;">
+            <option *ngFor="let testbed of testbedList" [ngValue]="testbed" class="testbed-option">
+                {{ testbed.testbedName }}
+            </option>
+        </select>
+    <button type="button"
+        class="btn btn-sm list-btn"
+        [ngClass]="{'active': showtestSuiteOnly}"
+        (click)="restoreView()"
+        title="Testsuites">
+            <i class="fa fa-list" aria-hidden="true"></i>
+        </button>
+    </div>
+</div>
+
+<div class="row" style="margin-bottom:10px;margin-right:0px; margin-left:0px">
+    <div style="margin-left:25px" class="col-md-11">
+        <angular2-smart-table [source]="source" [settings]="settings"></angular2-smart-table>
+    </div>
+</div>

@@ -1,0 +1,155 @@
+<div class="card" *ngIf="!data.isTable && !data.isCommonDeviceTable && !data.isPaginatedTable">
+    
+    <h6 class="card-header"  *ngIf = "!data.hideButtons && !data.showSingleButton">
+        {{data.action? data.action: 'Delete'}} {{data.name}}?
+    </h6>
+    <h6 class="card-header" *ngIf="data.showSingleButton">
+        {{data.name}}
+    </h6>
+    <p  *ngIf = "!data.hideButtons && !data.showSingleButton && !data.mappedSuiteNames && !data.isHtml" style="font-size: .9375rem !important; padding-left: 20px; padding-top: 10px; padding-bottom: 10px; font-weight: 400; line-height: 1.25rem;">
+        {{data.text}}
+    </p>
+    <div *ngIf="!data.hideButtons && !data.showSingleButton && data.isHtml" style="padding-left: 20px; padding-right: 20px; padding-top: 10px; padding-bottom: 10px;" [innerHTML]="safeHtml"></div>
+    <p *ngIf="!data.hideButtons && !data.showSingleButton && data.mappedSuiteNames" style="font-size: .9375rem !important; padding-left: 20px; padding-right: 20px; padding-top: 10px; padding-bottom: 10px; font-weight: 400; line-height: 1.25rem;">
+        {{data.text}} <span *ngFor="let suite of data.mappedSuiteNames; let last = last"><b>{{suite}}</b><span *ngIf="!last">, </span></span>. Unmap the Testcase from the Test Suite(s) to proceed.
+    </p>
+    <p *ngIf="data.showSingleButton && !data.isCommonDeviceTable && !data.isHtml" style="font-size: .9375rem !important; padding-left: 20px; padding-top: 10px; padding-bottom: 10px; font-weight: 400; line-height: 1.25rem;">
+        {{data.text}}
+    </p>
+    <div *ngIf="data.showSingleButton && !data.isCommonDeviceTable && data.isHtml" style="padding: 10px 20px;" [innerHTML]="safeHtml"></div>
+    <div *ngIf="data.hideButtons">
+    <p> {{data.txt}}</p>
+    <p><b>{{data.tcName}}</b> {{data.tcEror}}</p>
+    </div>
+    <div *ngIf="data.hideButtons">
+       <p><b>{{data.text}}</b> {{data.textMsg}}</p>
+        <p><b>{{data.apigroup}}</b> {{data.apiError}}</p>
+        <p><b>{{data.networkEle}}</b> {{data.networkEleError}}</p>
+    </div>
+    <div *ngIf="data.hideButtons">
+        <p><b>{{data.textMess}}</b> {{data.txtErrMsg}}</p>
+        <p><b>{{data.api}}</b> {{data.apisErr}}</p>
+        <p><b>{{data.testGroup}}</b> {{data.testError}}</p>
+    </div>
+    <div *ngIf="data.hideButtons">
+        <p><b>{{data.textMssg}}</b> {{data.txtMsg}}</p>
+        <p><b>{{data.deviceProp}}</b> {{data.deviceErr}}</p>
+       </div>
+    
+    <div class="text-right" style="padding:8px;" *ngIf = "!data.hideButtons && !data.showSingleButton">
+        <button *ngIf="!showCloseButton" (click)="close()" class="ibutton" style="margin-right: 15px;"><span *ngIf="!data.buttexthide || data.buttexthide == false">{{data.cancelButtonText || 'Cancel'}}</span></button> &nbsp;
+        <button *ngIf="!showCloseButton" [mat-dialog-close]="true" class="ibutton">{{data.confirmButtonText || 'Yes, Proceed'}}</button>
+         <button *ngIf="showCloseButton" class="ibutton" (click)="close()">Close </button>
+    </div>
+    <div class="text-right" style="padding:8px;" *ngIf="data.showSingleButton">
+        <button [mat-dialog-close]="true" class="ibutton">{{data.action || 'OKAY'}}</button>
+    </div>
+    <div class="text-center" style="padding:8px; " *ngIf="data.hideButtons">
+
+        <button [mat-dialog-close]="true" class="ibutton">Okay</button>
+
+    </div>
+</div>
+
+<!-- Paginated Table (e.g. Client Details) -->
+<div class="paginated-table-dialog" *ngIf="data.isPaginatedTable">
+    <button class="dialog-close-btn" (click)="close()">&times;</button>
+    <table class="paginated-table">
+        <thead>
+            <tr class="header-row">
+                <th *ngFor="let col of data.tableColumns">{{col}}</th>
+            </tr>
+            <tr class="filter-row">
+                <th *ngFor="let key of data.tableKeys">
+                    <input type="text" [placeholder]="key === 'name' ? data.tableColumns[0] : data.tableColumns[1]" (input)="applyTableFilter(key, $event)" class="filter-input">
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let row of pagedRows; let i = index" [class.alt-row]="i % 2 !== 0">
+                <td *ngFor="let col of data.tableKeys; let ci = index">
+                    <span *ngIf="data.tableStatusCol === ci" [style.color]="row[col] === 'In Use' ? '#007bff' : '#28a745'" style="font-weight:600;">{{row[col]}}</span>
+                    <span *ngIf="data.tableStatusCol !== ci">{{row[col]}}</span>
+                </td>
+            </tr>
+            <tr *ngIf="pagedRows.length === 0">
+                <td [attr.colspan]="data.tableColumns.length" style="text-align:center;color:#888;padding:12px;">No data found.</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="paginated-table-footer" *ngIf="totalPages > 1">
+        <div class="page-buttons">
+            <button (click)="goToPage(0)" [disabled]="currentPage === 0">&laquo;</button>
+            <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 0">&lsaquo;</button>
+            <button *ngFor="let p of pages" (click)="goToPage(p)" [class.active]="p === currentPage">{{p + 1}}</button>
+            <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages - 1">&rsaquo;</button>
+            <button (click)="goToPage(totalPages - 1)" [disabled]="currentPage === totalPages - 1">&raquo;</button>
+        </div>
+    </div>
+</div>
+
+<!-- Common Device Conflicts Table -->
+<div class="card" *ngIf="data.isCommonDeviceTable">
+    <h6 class="card-header">
+        {{data.name}}
+    </h6>
+    <div style="padding: 20px;">
+        <p style="font-size: 1rem; font-weight: 500; margin-bottom: 15px;">Selected Testbeds have common devices</p>
+        <table class="table table-bordered" style="margin-bottom: 0; width: 100%;">
+            <thead style="background-color: #f44336; color: white;">
+                <tr>
+                    <th style="text-align: left; padding: 12px; font-weight: 600; width: 30%;">Device Name</th>
+                    <th style="text-align: left; padding: 12px; font-weight: 600; width: 70%;">Common In Testbeds</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let conflict of data.commonDeviceConflicts">
+                    <td style="padding: 12px; vertical-align: middle; word-wrap: break-word;">
+                        <span *ngFor="let device of conflict.devices; let isLast = last">
+                            {{device}}<span *ngIf="!isLast">, </span>
+                        </span>
+                    </td>
+                    <td style="padding: 12px; vertical-align: middle; word-wrap: break-word;">
+                        <span *ngFor="let testbed of conflict.testbeds; let isLast = last">
+                            {{testbed}}<span *ngIf="!isLast"> and </span>
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="text-right" style="padding:8px;">
+        <button [mat-dialog-close]="true" class="ibutton">{{data.action || 'OKAY'}}</button>
+    </div>
+</div>
+
+<div class="card" *ngIf="data.isTable" style="width:900px">
+    <h6 class="card-header">
+        {{data.action? data.action: 'Delete'}} {{data.name}}?
+    </h6>
+    <div>
+        <table class="table table-bordered">
+            <thead style="background-color: #f44336; color: white; text-align: center;">
+                <tr>
+                    <th>Reservation Name</th>
+                    <th>Reservation Type</th>
+                    <th>Reservation Time</th>
+                    <th>Release At Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let reservation of data.usedReservations">
+                    <td>{{reservation.reservationName}}</td>
+                    <td>{{reservation.reservationType}}</td>
+                    <td>{{reservation.reserveTime}}</td>
+                    <td>{{reservation.releaseAt}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="text-right" style="padding:8px;">
+        <button (click)="close()" class="ibutton" style="margin-right: 15px;"><span
+                *ngIf="!data.buttexthide || data.buttexthide == false">Cancel</span></button> &nbsp;
+<button *ngIf="!showCloseButton" [mat-dialog-close]="true" class="ibutton">Yes, Proceed</button>    </div>
+</div>
+

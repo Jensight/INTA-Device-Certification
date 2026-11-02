@@ -1,0 +1,17 @@
+<div class="card">
+
+    <h6 class="card-header">
+        {{data.action}} {{data.name}}?
+    </h6>
+    <p class="card-text" style="font-size: .9375rem !important; padding-left: 20px; padding-top: 10px; padding-bottom: 10px; font-weight: 400; line-height: 1.25rem;" *ngIf="data['data'] && data['data']['count']  <1" [innerHTML]="data.successText">
+    </p>
+    <p class="card-text" style="font-size: .9375rem !important; padding-left: 20px; padding-top: 10px; padding-bottom: 10px; font-weight: 400; line-height: 1.25rem;" *ngIf="data['data'] && data['data']['count']  >0" [innerHTML]="data.errorText">
+    </p>
+    <div class="card-footer text-right"  style="padding:15px; background-color: #fff;">
+        <button *ngIf="data['data'] && data['data']['count'] >0" (click)="viewTarget()"  type="button" class="ibutton" style="height: 40px;font-size: 13px;" >View {{data['targetName']}} ({{data['data']['count']}})</button> &nbsp;
+        <button *ngIf="data['data'] && data['data']['count'] >0" (click)="dialogRef.close()"type="button" class="ibutton" style="height: 40px;font-size: 13px;">Close</button> &nbsp;
+        <button *ngIf="data['data'] && data['data']['count'] <1" (click)="dialogRef.close()" type="button" class="ibutton" style="height: 40px;font-size: 13px;">Cancel</button> &nbsp;
+        <button *ngIf="data['data'] && data['data']['count'] <1 ||data['data']['node']" [mat-dialog-close]="true" type="button" class="ibutton"
+        style="height: 40px;font-size: 13px;">Yes, Proceed</button>
+    </div>
+</div>

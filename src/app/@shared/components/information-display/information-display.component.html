@@ -1,0 +1,13 @@
+<div class="card">
+    <h6 class="card-header">
+        {{data.action}} {{data.name}}?
+    </h6>
+    <p style="font-size: .9375rem !important; padding-left: 20px; padding-top: 10px; padding-bottom: 10px; font-weight: 400; line-height: 1.25rem;">
+        {{data.text}}
+    </p>
+    <div class="card-footer text-right"  style="padding:15px; background-color: #fff;">
+        <button *ngIf="data['data'] && data['data']['count'] >0" (click)="viewTestCases()" class="btn btn-info "> View TC ({{data['data']['count']}})</button> &nbsp;
+        <button (click)="close()" class="btn btn-default ">Cancel</button> &nbsp;
+        <button [mat-dialog-close]="true" class="btn btn-danger">Yes, Proceed</button>
+    </div>
+</div>

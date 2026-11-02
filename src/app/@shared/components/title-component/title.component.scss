@@ -1,0 +1,95 @@
+.breadcrumb {
+    text-align: -webkit-left;
+    padding:0px;
+  }
+  .breadcrumb ul {
+    list-style: none;
+    display: inline-table;
+  }
+  .breadcrumb  li {
+    display: inline;
+  }
+  .breadcrumb  li a {
+    display: block;
+    float: left;
+    background: #d3d6dd;
+    text-align: center;
+    padding: 6px 0px 6px 16px;
+    position: relative;
+    margin: 0 4px 0 0;
+    font-size: 15px;
+    text-decoration: none;
+    color: #8093A7;
+  }
+  .breadcrumb  li a:after {
+
+    content: "";
+    border-top: 16px solid transparent;
+    border-bottom: 14px solid transparent;
+    border-left: 15px solid #d3d6dd;
+    position: absolute;
+
+    top: 0;
+    z-index: 1;
+  }
+  .breadcrumb  li a:before {
+    content: "";
+
+    content: "";
+    border-top: 16px solid transparent;
+    border-bottom: 14px solid transparent;
+    border-left: 13px solid #F3F5FA;
+    position: absolute;
+
+    top: 0;
+    left: -1px;
+  }
+
+  .breadcrumb  li:first-child a {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+  }
+
+  .breadcrumb  li:first-child a:before {
+    display: none;
+  }
+  .breadcrumb li:last-child a {
+      background: #c5c7cb;
+      color: #4f5b68;
+      pointer-events: none;
+      cursor: default;
+    }
+    .breadcrumb li:last-child a::after {
+      border: 0;
+      content: "";
+      border-top: 16px solid transparent;
+      border-bottom: 14px solid transparent;
+      border-left: 15px solid #c5c7cb;
+      position: absolute;
+
+      top: 0;
+      z-index: 1;
+
+    }
+    .hvr-shrink {
+      display: inline-block;
+      vertical-align: middle;
+      -webkit-transform: translateZ(0);
+      transform: translateZ(0);
+      box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      -moz-osx-font-smoothing: grayscale;
+      -webkit-transition-duration: 0.3s;
+      transition-duration: 0.3s;
+      -webkit-transition-property: transform;
+      transition-property: transform;
+    }
+    .hvr-shrink:hover, .hvr-shrink:focus, .hvr-shrink:active {
+      -webkit-transform: scale(0.9);
+      transform: scale(0.9);
+    }
+
+    ul {
+      margin-bottom: 0px !important;
+    }
