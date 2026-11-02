@@ -1,0 +1,112 @@
+<div class="sidebar-container">
+    <mat-toolbar style="background-color:#da291c; color:#ffff; height:52px; width: 100%; 
+    position: fixed; top: 0; z-index: 10;" class="sidebar-toolbar">
+        <div style="border-right: 1px solid #ffff; width: 50px;">
+      <button mat-icon-button (click)="onMenuToggle()">
+        <mat-icon>menu</mat-icon>
+      </button> 
+    </div>
+      &nbsp; &nbsp;
+     <a href="#" class="sidebar-app-name" style="color:#ffff; text-decoration: none; font-family: Roboto, sans-serif;
+     font-size: 20px !important; padding-left: 10px; 
+     font-weight: 400;"> <img src="../../../../assets/images/logo.png" width="110" height="25" alt="logo"/></a> 
+     <div class="col-md-1" *ngIf="showDiskUtilizationWarning && diskUtilizationValue > 0 && !(showJiraTokenWarning )"> <label style="font-family: Roboto, sans-serif; font-size: 0.9375rem; font-weight: 1000;
+     line-height: 1.25rem; padding-top: 7px; padding-left: 135px;" class="blink">
+    Disk Utilization has exceeded the threshold: {{diskUtilizationValue}}%
+    </label> </div>
+    <div class="col-md-1" *ngIf="showJiraTokenWarning && !(showDiskUtilizationWarning && diskUtilizationValue > 0)"> <label style="font-family: Roboto, sans-serif; font-size: 0.9375rem; font-weight: 1000;
+      line-height: 1.25rem; padding-top: 7px; padding-left: 135px;" class="blink">
+      {{jiraMessage}}
+     </label> </div>
+    <div *ngIf="showDiskUtilizationWarning && diskUtilizationValue > 0 && showJiraTokenWarning" id="scroll-container">
+      <div id="scroll-text"> <label style="font-family: Roboto, sans-serif; font-size: 0.9375rem; font-weight: 1000;
+            line-height: 1.25rem; padding-top: 7px; padding-left: 350px;">
+          Disk Utilization has exceeded the threshold: {{diskUtilizationValue}}% | {{jiraMessage}}
+          
+        </label> </div>
+    </div>
+       <span class="row w-100 justify-content-end"> <ngx-header></ngx-header> </span> 
+      
+    </mat-toolbar>
+    <mat-sidenav-container class="sidebar-sidenav-container" style="margin-top: 53px;">
+      <mat-sidenav #snav mode="side" opened fixedInViewport ="true" fixedTopGap="50"
+      [ngStyle]="{'width': isMenuOpened ? '247px' : '65px' }" autosize>
+        <mat-nav-list class="side-navnar" style="min-width:60px;">
+            <ng-container *ngFor="let menu of dataService?.getMenuList().value; index as i;">
+                <ng-container [ngTemplateOutlet]="menu.children ?  childMenu : parentMenu"
+                    [ngTemplateOutletContext]="{menu:menu}">
+                </ng-container>
+            </ng-container> 
+         
+      </mat-nav-list> 
+        <ng-template #parentMenu let-menu="menu">
+            <mat-list-item [routerLink]="menu?.link" routerLinkActive="is-active" (click)="sideBarService.addActiveClass(menu)" style="margin-top: 2px; right: 20px; margin-left: 20px;"
+             [class.active2]="menu.active" [ngStyle]="{'border-left': !isMenuOpened && menu.active  ? '4px solid #da291c' : 'none' }">
+              <mat-icon mat-list-icon style="font-size: 19px; font-weight: 320; position: relative; left: -6px; top: 8px;">{{menu?.icon}}</mat-icon> 
+                <span *ngIf="isMenuOpened" class="menu-title" [ngClass]="{'active-text': menu.active}"  style="font-family: Roboto,sans-serif;
+                font-size: .8125rem;
+                font-weight: 400;">{{menu?.title}}</span>
+            </mat-list-item>
+        </ng-template> 
+        <ng-template #childMenu let-menu="menu">
+            <mat-expansion-panel [class.mat-elevation-z0]="true" [hideToggle]="!isMenuOpened" (click)="isMenuOpened = true">
+                <mat-expansion-panel-header [class.is-active]="menu.active" routerLinkActive="is-active" 
+                [ngStyle]="{'border-left': !isMenuOpened && menu.active  ? '4px solid #da291c' : 'none' }">
+                    <mat-icon  mat-list-icon style="font-size: 19px; font-weight: 320; position: relative; top: 4px">{{menu?.icon}}</mat-icon> 
+                    <span *ngIf="isMenuOpened" style="font-family: Roboto,sans-serif;
+                    font-size: .8125rem;
+                    font-weight: 400; position: relative; bottom: -3px; left: 8px;">{{menu?.title}}</span>
+                </mat-expansion-panel-header>
+                <mat-nav-list *ngIf="isMenuOpened">
+                  <span *ngFor="let submenu of menu?.children">
+                    <mat-list-item [routerLink]="submenu?.link" *ngIf="!submenu.children" routerLinkActive="is-active" [routerLinkActiveOptions]="{exact:
+                      true}" (click)="sideBarService.addActiveClass(menu)" [class.active2]="submenu.active">
+                        <mat-icon  mat-list-icon style="font-size: 19px; font-weight: 320; position: relative; right: 6px;">{{submenu?.icon}}</mat-icon> 
+                      <span style="font-family: Roboto,sans-serif;
+                       font-size: .8125rem;
+                       font-weight: 400; position: relative; top: -8px; left: -10px;">{{submenu?.title}}</span> 
+                  </mat-list-item>
+                  <mat-expansion-panel [class.mat-elevation-z0]="true"  *ngIf="submenu.children" [hideToggle]="!isMenuOpened" (click)="isMenuOpened = true" >
+                    <mat-expansion-panel-header [class.is-active]="submenu.active" routerLinkActive="is-active" style="padding-left: 34px !important;">
+                        <mat-icon  mat-list-icon style="font-size: 19px; font-weight: 320;">{{submenu?.icon}}</mat-icon> 
+                        <span *ngIf="isMenuOpened" style="font-family: Roboto,sans-serif;
+                        font-size: .8125rem;
+                        font-weight: 400; position: relative; top: -1px; left: 5px;">{{submenu?.title}}</span>
+                    </mat-expansion-panel-header>
+                    <mat-nav-list *ngIf="isMenuOpened">
+                        <mat-list-item [routerLink]="item?.link" *ngFor="let item of submenu?.children" routerLinkActive="is-active" [routerLinkActiveOptions]="{exact:
+                          true}" (click)="sideBarService.addActiveClass(menu, true)" [class.is-active]="item.active">
+                          <mat-icon  mat-list-icon style="font-size: 19px; font-weight: 320;">{{item?.icon}}</mat-icon> 
+                          <span style="font-family: Roboto,sans-serif;
+                           font-size: .8125rem;
+                           font-weight: 400; position: relative; top: -8px; left: 5px;">{{item?.title}}</span> 
+                      </mat-list-item>
+                    </mat-nav-list>
+                  </mat-expansion-panel>
+                  </span>
+
+                </mat-nav-list>
+            </mat-expansion-panel>
+        </ng-template> 
+
+      </mat-sidenav>
+      <mat-sidenav-content [ngStyle]="{'margin-left': isMenuOpened ? '252px' : '68px' }" style="overflow-y: scroll; overflow-x: hidden;"  #mainContent>
+       <div *ngIf="showStuckRegressionWarning">
+        <div> <label style="font-family: Roboto, sans-serif; font-size: 0.9375rem; font-weight: 1000;
+            line-height: 1.25rem; padding-top: 7px; padding-left: 350px; color: #da291c;" class="blink">
+            On Going Regression(s) got stuck..Please check.
+        </label>
+        </div>
+       </div>
+        <div class="container-fluid" style="padding-top: 8px; width: 100%;  min-height: calc( 100vh - 40px );"  #main >
+          <div #mainContainer> 
+            <router-outlet></router-outlet>
+          </div> 
+        </div>
+       
+</mat-sidenav-content>  </mat-sidenav-container>
+<footer style="background-color: #ebebeb !important; text-align: center; padding: 13px; margin-top: 25px; height: 40px;">
+  <app-footer></app-footer>
+</footer>
+  </div> 
+
