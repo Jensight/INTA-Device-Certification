@@ -1,0 +1,399 @@
+<div class="row">
+  <nav class="col-md-5" aria-label="breadcrumb">
+    <ol class="breadcrumb" style="background-color:#fafafa; padding-top:0px;">
+      <li class="breadcrumb-item"><a href="#/pages/dashboard"
+          style="color:red;text-decoration: none;font-size: medium;">Dashboard</a></li>
+      <li class="breadcrumb-item"><a href="#/pages/testcase-inventory/testcase"
+          style="color:red;text-decoration: none;font-size: medium;">TestCase Inventory</a></li>
+      <li class="breadcrumb-item active" style="color:rgba(0, 0, 0, 0.87);text-decoration: none;font-size: medium;">
+        Clone Testcase</li>
+    </ol>
+
+  </nav>
+  <app-title-display style="margin-top:12px;" titleName="Clone Testcase"></app-title-display>
+</div>
+<div cdkDropListGroup class="row">
+  <div class="col-md-12">
+    <form [formGroup]="testCaseForm">
+
+      <div class="row">
+        <div class="col-md-12" style="margin-bottom: -15px;">
+          <div class="card" style="padding-top:7px;padding-left:20px; padding-right:20px; margin-bottom: 20px; min-height: 70px;">
+
+            <div class="row">
+              <div [class]="col1">
+                <mat-form-field style="width: 125px;">
+                  <mat-label>Testcase Id</mat-label>
+                  <input matInput formControlName="tcId" (change)="checkJiraDetail($event)" required>
+                  <mat-error *ngIf="testCaseForm.get('tcId').hasError('required')">
+                    Please Enter a Testcase ID
+                  </mat-error>
+                  <mat-error *ngIf="testCaseForm.get('tcId').hasError('duplicate')">
+                    TC Id is not unique
+                  </mat-error>
+                  <mat-error *ngIf="testCaseForm.get('tcId').hasError('jiraDuplicate')">
+                    TC already exists with this jira Key
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div [class]="col2">
+                <mat-form-field style="width: 300px;">
+                  <mat-label>Testcase Name</mat-label>
+                  <input matInput formControlName="tcName" required>
+                  <mat-error *ngIf="testCaseForm.get('tcName').hasError('required')">
+                    Please Enter Name
+                  </mat-error>
+                  <mat-error *ngIf="testCaseForm.get('tcName').hasError('pattern')">
+                    Follwing special Characters not allowed / \ <> : " * ? |
+                  </mat-error>
+                  <mat-error *ngIf="testCaseForm.get('tcName').hasError('maxlength')">
+                    Length can not exceed more than 128 characters
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-2" >
+                <mat-form-field floatLabel="always" style="width: 100%;">
+                  <mat-label>Testcase Group</mat-label>
+                  <mat-select formControlName="tcGroupId" panelClass="wide-dropdown-panel">
+                    <mat-option *ngFor="let tg of allTestGroup" [value]="tg._id">{{ tg.testGroupName }}</mat-option>
+                  </mat-select>
+                  <mat-error>Please select an API Test Group</mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="col-md-2">
+                <mat-form-field floatLabel="always" style="width: 100%;">
+                  <mat-label>Priority</mat-label>
+                  <mat-select formControlName="tcPriority">
+                    <mat-option value="High">High</mat-option>
+                    <mat-option value="Medium">Medium</mat-option>
+                    <mat-option value="Low">Low</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <div *ngIf="priority_flag2 == true" class="col-md-2" >
+                <mat-form-field floatLabel="always" style="width: 100%;">
+                  <mat-label>Second Priority</mat-label>
+                  <mat-select formControlName="tcPrioritytwo">
+                    <mat-option *ngFor="let sp of priority_value" [value]="sp" >{{sp}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <div class="col-md-2">
+                <mat-form-field floatLabel="always" style="width: 100%;">
+                  <mat-label>Manual Effort (mins)</mat-label>
+                  <input matInput type="number" min="1" formControlName="manualExectime" required>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-md-3" style="padding-right:0px">
+          <div class="card">
+            <div class="row" style="margin-top: 10px;">
+              <div class="col-md-12" style="padding: 0 15px;">
+                <mat-form-field style="width: 100%;">
+                  <mat-label>Select API Group</mat-label>
+                  <mat-select [(ngModel)]="selectedAPIGroup" [ngModelOptions]="{standalone: true}" panelClass="wide-dropdown-panel">
+                    <mat-option *ngFor="let group of allAPIGroup" [value]="group">{{group.name}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div style="width: 100%; height: 65vh;">
+              <div cdkDropList (cdkDropListDropped)="removeAPItoTC($event)"
+                [cdkDropListData]="testCaseForm.get('testSteps')['controls']" id="border" style="min-height: 57vh;margin-bottom: 2px;">
+                <div class="row header">
+                  <div class="col-md-12 text-center">API</div>
+                </div>
+                <div class="divBody" style="max-height: 50vh;min-height:50vh; overflow-x: hidden;">
+                  <div cdkDrag [cdkDragData]="item"
+                    *ngFor="let item of allAPI|extractAPI:selectedAPIGroup['_id']; let i = index"
+                    class="profileEven hvr-rectangle-out">
+                    <div [matTooltip]="item.apiName" style="font-size: 12px;cursor: all-scroll;">
+                      {{item.apiName | limitTo : 25}}
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="col-md-9">
+          <div class="card" style="padding:10px 10px 8px 10px;">
+            <div formArrayName="testSteps" class="row" style="width:100%;margin-left: 5px">
+              
+                <div class="teststep-scroll-container" cdkDropList cdkDropListAutoScroll (cdkDropListDropped)="addAPItoTC($event)"
+                [cdkDropListData]="testCaseForm.get('testSteps')['controls']" #divBodyTag class="col-md-12"
+                style="max-height:400px;overflow-y:auto;" id="border">
+                <div id="flip" class="flipper">
+                  <div class="front" style="width: 100%">
+                    <div class="row header p-1">
+                      <div class="col-md-9 text-center">Test Steps
+                      </div>
+                      <div (click)="flip()" class="col-md-3 text-center">
+                        <button type="button" [disabled]="testCaseForm.get('testSteps')['controls'].length <= 0"
+                          style="padding-top: 2px;padding-bottom: 2px;padding-right: 5px;padding-left: 5px;font-size: 12px;cursor:pointer"
+                          class="btn btn-info btn-demo"> Set Description </button>
+                      </div>
+                    </div>
+                    <div>
+                     
+
+                        <div [style.min-width.px]="maxWidth" style="border:0px; margin-top:12px;margin-bottom:12px;overflow-x: hidden"
+                          cdkDrag [cdkDragData]="i" [cdkDragDisabled]="isCommentStep(item)"
+                          *ngFor="let item of testCaseForm.get('testSteps')['controls']; let i = index"
+                          class="row profileEven text-left hvr-glow live__scroll">
+                          
+                          <!-- Regular Test Step -->
+                          <mat-card *ngIf="!isCommentStep(item)" [style.min-width.px]="maxWidth" class="live__scroll--box matCard test" [formGroupName]="i" (dblclick)="duplicateTestStep(i)">
+                            <div>
+
+                              <span [ngClass]="className[i%4]" class="circle" style="margin-right:5px" [title]="getAPIGroup(item)">
+                                {{item.get('step')?.value}}
+                              </span>
+                              <button mat-icon-button (click)="addCommentStep(i)" 
+                                      style="width: 24px; height: 24px; line-height: 24px; padding: 0; margin-left: 5px; margin-right: 10px;"
+                                      matTooltip="Add comment step"
+                                      type="button">
+                                <mat-icon style="top: 5px; font-size: 18px; width: 18px; height: 18px; line-height: 18px;">add_circle_outline</mat-icon>
+                              </button>
+
+
+                              <span style="padding-left: 5px; padding-right: 5px;padding-top: 0px;padding-bottom: 0px;">
+                                <mat-form-field style="width: 50px">
+                                  <mat-label>on Pass</mat-label>
+                                  <input formControlName="gotoOnPass" matInput>
+                                  <mat-error>Required</mat-error>
+                                </mat-form-field>
+                              </span>
+
+                              <span style="padding-left: 5px; padding-right: 5px;padding-top: 0px;padding-bottom: 0px;">
+                                <mat-form-field style="width: 50px">
+                                  <mat-label>on Fail</mat-label>
+                                  <input formControlName="gotoOnFail" matInput>
+                                  <mat-error>Required</mat-error>
+                                </mat-form-field>
+                              </span>
+
+                              <span style="padding-left: 5px; padding-right: 5px;padding-top: 0px;padding-bottom: 0px;" [title]="getAPIGroup(item)">
+                                <mat-form-field style="width: 200px; position: relative; bottom: 5px;">
+                                  <mat-label>API Name</mat-label>
+                                  <input matInput disabled="true" [value]=" getAPIName(item)">
+                                </mat-form-field>
+                              </span>
+
+                              <span *ngIf="getNodeDetails(item)"
+                                style="padding-left: 5px; padding-right: 5px;padding-top: 0px;padding-bottom: 0px;">
+                                <mat-form-field style="width: 200px">
+                                  <mat-label>Nodes</mat-label>
+                                  <mat-select formControlName="nodeList" multiple>
+                                    <mat-option *ngFor="let node of allNodes" [value]="node._id">{{node.nodeName}}
+                                    </mat-option>
+                                  </mat-select>
+                                  <mat-error>Required</mat-error>
+                                </mat-form-field>
+                              </span>
+
+
+                              <span formGroupName="doHttp">
+                                <span formGroupName="postBody">
+                                  <span formArrayName="bodyParameter">
+                                    <span
+                                      *ngFor="let item of testCaseForm.get('testSteps')['controls'][i]['controls']['doHttp']['controls']['postBody']['controls']['bodyParameter']['controls']; let j = index"
+                                      style="padding-left: 5px; padding-right: 5px;padding-top: 0px;padding-bottom: 0px;">
+
+                                      <mat-form-field [formGroupName]="j" style="width: 200px" floatLabel="always">
+                                        <mat-label>{{ item.get('argumentName').value }}</mat-label>
+                                        <mat-select *ngIf=" checkIfDropdown(i,item)" formControlName="argumentValue"
+                                          (selectionChange)="checkValues()">
+                                          <mat-option
+                                            *ngFor="let value of ((testCaseForm.get('testSteps')['controls'][i]['controls']['api_id']['value'])|extractArguments:allAPI:item.get('argumentName').value)"
+                                            [value]="value">
+                                            {{value.startsWith('MODEL')? (value|
+                                            modelVariableExtract:allNodes:allVariables ):
+                                            (value)|extractArgumentValue:allNodes:allTestBedVariable}}
+                                          </mat-option>
+                                        </mat-select>
+
+                                        <mat-select *ngIf="checkIfReturnValue(i,item)" formControlName="argumentValue">
+                                          <mat-option [value]="'RETURN_VAL:'+ (step)"
+                                            *ngFor="let step of getReturnValueStepOptions(i) ">
+                                            {{'Step-'+ step}}
+                                          </mat-option>
+                                        </mat-select>
+
+                                        <input matInput formControlName="argumentValue" *ngIf="checkIfTextValue(i,item)">
+                                        <input matInput readonly="true" formControlName="argumentValue"
+                                          *ngIf="checkIfEmpty(i,item)">
+                                      </mat-form-field>
+
+                                    </span>
+                                  </span>
+                                </span>
+                              </span>
+                            </div>
+                          </mat-card>
+
+                          <!-- Comment Step -->
+                          <mat-card *ngIf="isCommentStep(item)" [style.min-width.px]="maxWidth" class="live__scroll--box" [formGroupName]="i"
+                            style="cursor: pointer;padding: 6px;padding-bottom: 0px;border:2px solid;border-color:#9e9e9e; box-shadow:#b4b1b1 -2px 1px 13px;  border-width: thin; font-weight: 500;border-radius: 6px !important;border: 0px ;">
+                            <div>
+                              <span class="circle" style="margin-right:5px; background-color: #9e9e9e; color: #fff;">
+                                {{item.get('step')?.value}}
+                              </span>
+                              <mat-icon style="vertical-align: middle; margin-right: 5px; color: #9e9e9e; font-size: 20px; margin-top: 5px;">comment</mat-icon>
+                              <span style="padding-left: 5px; padding-right: 5px;padding-top: 0px;padding-bottom: 0px;">
+                                <mat-form-field style="width: 450px; position: relative; bottom: 8px;">
+                                  <mat-label>Comments</mat-label>
+                                  <textarea matInput formControlName="commentText" rows="1"></textarea>
+                                </mat-form-field>
+                              </span>
+                              <button mat-icon-button (click)="deleteCommentStep(i)" 
+                                      style="width: 24px; height: 24px; line-height: 24px; padding: 0; margin-left: 10px;"
+                                      matTooltip="Delete comment"
+                                      type="button">
+                                <mat-icon style="font-size: 18px; width: 18px; height: 18px; line-height: 18px; color: #f44336;">delete</mat-icon>
+                              </button>
+                            </div>
+                          </mat-card>
+                        </div>
+                    </div>
+                  </div>
+                  <div style="width:100%" class="back">
+                    <div class="row header ">
+                      <div class="col-md-9 text-center">Test Description
+                      </div>
+                      <div (click)="flip()" class="col-md-3 text-center">
+                        <button type="button"
+                          style="padding-top: 2px;padding-bottom: 2px;padding-right: 5px;padding-left: 5px;font-size: 12px;cursor:pointer"
+                          class="btn btn-info btn-demo"> Steps </button>
+                      </div>
+
+                    </div>
+
+                    <div id="mainDiv">
+                      <div id="myDiv" >
+                        <div style="border:0px;width:700px;margin-top:5px;margin-bottom:5px;"
+                          *ngFor="let item of testCaseForm.get('testSteps')['controls']; let i = index"
+                          class="row profileEven text-left hvr-glow">
+                          
+                          <!-- Regular Test Step Description -->
+                          <mat-card *ngIf="!isCommentStep(item)" class="live__scroll--box" [formGroupName]="i" [style.min-width.px]="maxWidth"
+                            style="cursor: pointer; padding: 1px;padding-bottom: 0px; box-shadow: grey -2px 1px 13px;  border-width: thin;width: 700px;font-weight: 500;border-radius: 0px !important;">
+                            <div class="row">
+                              <span
+                                style="padding-left: 25px;padding-right: 10px;padding-top: 0px;padding-bottom: 0px;">
+                                <mat-form-field style="width: 40px; position: relative; bottom: 5px;">
+                                  <mat-label>step</mat-label>
+                                  <input formControlName="step" [value]="i+1" matInput>
+                                </mat-form-field>
+                              </span>
+                              <span style="padding-left: 5px; padding-right: 5px;padding-top: 0px;padding-bottom: 0px;">
+                                <mat-form-field style="width: 200px; position: relative; bottom: 5px;">
+                                  <mat-label>API Name</mat-label>
+                                  <input matInput disabled="true"
+                                    value="{{item['controls']['doHttp']['controls']['url'].value?(item.controls.doHttp.controls.url.value).split('/').slice(-1).pop(): 'null'}}"
+                                    >
+                                </mat-form-field>
+                              </span>
+                              <span style="padding-left: 5px; padding-right: 5px;padding-top: 0px;padding-bottom: 0px;">
+                                <mat-form-field style="width: 250px; position: relative; bottom: 5px;" floatLabel="always">
+                                  <mat-label>Description</mat-label>
+                                  <textarea matInput formControlName="description" rows="1"></textarea>
+                                    <mat-error *ngIf="item.get('description').hasError('forbiddenChars')">
+                                      Quotes (") and semicolons (;) are not allowed.
+                                    </mat-error>
+                                </mat-form-field>
+                              </span>
+                               <span style="padding-left: 5px; padding-right: 5px;padding-top: 0px;padding-bottom: 0px;">
+                                <mat-form-field style="width: 250px; position: relative; bottom: 5px;" floatLabel="always">
+                                  <mat-label>Data</mat-label>
+                                  <textarea matInput formControlName="data" rows="1"></textarea>
+                                    <mat-error *ngIf="item.get('data').hasError('forbiddenChars')">
+                                      Quotes (") and semicolons (;) are not allowed.
+                                    </mat-error>
+                                </mat-form-field>
+                              </span>
+                                <span style="padding-left: 25px; padding-right: 5px;padding-top: 0px;padding-bottom: 0px;">
+                                <mat-form-field style="width: 350px; position: relative; bottom: 5px;" floatLabel="always">
+                                  <mat-label>Expected Result</mat-label>
+                                  <textarea matInput formControlName="expectedResult" rows="1"></textarea>
+                                    <mat-error *ngIf="item.get('expectedResult').hasError('forbiddenChars')">
+                                      Quotes (") and semicolons (;) are not allowed.
+                                    </mat-error>
+                                </mat-form-field>
+                              </span>
+                            </div>
+                          </mat-card>
+
+                          <!-- Comment Step Description -->
+                          <mat-card *ngIf="isCommentStep(item)" class="live__scroll--box" [formGroupName]="i" [style.min-width.px]="maxWidth"
+                            style="cursor: pointer; padding: 1px;padding-bottom: 0px; box-shadow: grey -2px 1px 13px; border: 2px solid #9e9e9e; border-width: thin;width: 700px;font-weight: 500;border-radius: 0px !important;">
+                            <div class="row">
+                              <span style="padding-left: 25px;padding-right: 10px;padding-top: 0px;padding-bottom: 0px;">
+                                <mat-form-field style="width: 40px">
+                                  <mat-label>step</mat-label>
+                                  <input formControlName="step" [value]="item.get('step')?.value" matInput>
+                                </mat-form-field>
+                              </span>
+                              <span style="padding-left: 5px; padding-right: 5px;padding-top: 0px;padding-bottom: 0px;">
+                                <mat-form-field style="width: 450px; margin-top: 0px;">
+                                  <mat-label>Comments</mat-label>
+                                  <textarea matInput formControlName="commentText" rows="1"></textarea>
+                                </mat-form-field>
+                              </span>
+                              <button mat-icon-button (click)="deleteCommentStep(i)" 
+                                      style="width: 24px; height: 24px; line-height: 24px; padding: 10px; margin-left: 10px;"
+                                      matTooltip="Delete comment"
+                                      type="button">
+                                <mat-icon style="font-size: 18px; width: 18px; height: 18px; line-height: 18px; color: #f44336;">delete</mat-icon>
+                              </button>
+                            </div>
+                          </mat-card>
+                        </div>
+                      </div>
+                    </div>
+
+
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 text-right">
+                <button class="ibutton" style="margin-right: 15px; width: 110px;"
+                  [disabled]="!testCaseForm.valid || disableUpdate" (click)="addTestcase()">Add testcase</button>
+                <button class="ibutton" routerLink="../" style="width: 70px;">Cancel</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+
+
+
+
+
+
+
+
+
+      </div>
+
+    </form>
+  </div>
+
+
+
+</div>

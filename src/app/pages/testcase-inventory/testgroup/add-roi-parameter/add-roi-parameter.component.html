@@ -1,0 +1,42 @@
+<div class="row text-center">
+    <div class="col-md-11 text-center" style="margin-bottom: 15px">
+        <h3>Add ROI Params</h3>
+    </div>
+    <span class="col-md-1">
+        <span (click)="dialogRef.close()" style="cursor: pointer" class="close" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </span>
+    </span>
+</div>
+<div style="text-align: center">
+    <div style="padding:10px">
+        <form [formGroup]="ROIParamsForm" class="text-left">
+            <div formArrayName="questions">
+                <div style="margin-bottom: 10px;margin-left: 12px" *ngFor="let ques of ROIParamsForm['controls']['questions']['controls']; let i = index;">
+                    <mat-form-field style="width:270px">
+                        <mat-label>Params Detail</mat-label>
+                        <input matInput [formControl]='ques.controls.question'>
+                        <mat-error *ngIf="ques.hasError('required')">
+                            Please Enter ROI Question
+                        </mat-error>
+                    </mat-form-field>
+                    <span style="margin-left:15px">
+                        <button (click)="addNewQuestion()" *ngIf="i == ROIParamsForm['controls']['questions']['length'] -1"
+                            style="padding:5px; border-radius: 5px;" class="btn btn-info btn-demo"><i class="fa fa-plus"
+                                aria-hidden="true"></i></button>
+                        <button (click)="deleteVariable(i)" *ngIf="ROIParamsForm['controls']['questions']['length']  > 1"
+                            style="padding:5px; border-radius: 5px;" class="btn btn-danger btn-demo">
+                            <i class="fa fa-times" aria-hidden="true"></i></button>
+                    </span>
+                </div>
+            </div>
+
+
+            <div class="text-center">
+                <button (click)="addQuestions()"
+                    class="btn btn-success btn-demo">Add</button>
+                <button (click)="dialogRef.close()" class="btn btn-warning btn-demo">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>

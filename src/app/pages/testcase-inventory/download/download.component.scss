@@ -1,0 +1,54 @@
+.teams-wrapper {
+    position: relative;
+}
+
+.background {
+  min-height: 92vh;
+  position: absolute;
+  background-color: #a4abb35e;
+  margin-top: 3rem;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.card {
+  width: 400px;
+  height: auto;
+  min-height: 100px;
+  border-radius: 10px;
+  margin-top: 5px;
+  align-items: center;
+  justify-content: center;
+  .content {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0.5rem;
+    .card-title {
+      width: 120px;
+      max-width: 120px;
+      line-height: normal;
+      margin-bottom: 0;
+      font-size: 1rem !important;
+      font-weight: 400;
+    }
+  }
+}
+
+.btn-round-info {
+  width: 80px;
+  height: 30px;
+  border-radius: 3px !important;
+  font-size: 14px;
+  font-weight: 400;
+  outline: none;
+  background: #fff !important;
+  border: 1px solid #fff !important;
+  color:  #da291c !important;
+}

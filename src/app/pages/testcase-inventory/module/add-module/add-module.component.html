@@ -1,0 +1,31 @@
+<div class="row text-center" style="margin-top: 27px;">
+    <div class="col-md-11 text-center" style="margin-bottom: 20px">
+        <h3>Add Test Set</h3>
+    </div>
+    <span class="col-md-1" style="margin-left: -35px;">
+        <span (click)="dialogRef.close()" style="cursor: pointer" class="close" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </span>
+    </span>
+</div>
+<form [formGroup]="moduleForm" class="text-center" style="padding-top: 25px; position: relative; bottom: 20px;">
+    <mat-form-field style="width:300px">
+        <mat-label>Test Set Name</mat-label>
+        <input matInput formControlName='moduleName'>
+        <mat-error *ngIf="moduleForm.get('moduleName').hasError('required')">
+            Please Enter a Testset Name
+        </mat-error>
+        <mat-error *ngIf="moduleForm.get('moduleName').hasError('duplicate')">
+            Testset Already Registered
+        </mat-error>
+        <mat-error *ngIf="moduleForm.get('moduleName').hasError('spaceAvailable')">
+            Testset Name should not have empty space
+        </mat-error>
+
+    </mat-form-field>
+
+    <div class="text-center">
+        <button [disabled]="!moduleForm.valid" (click)="addModule()" class="ibutton" style="margin-right: 15px;height: 32px; width:50px;">Add</button>
+        <button (click)="cancel()" class="ibutton"  style="height: 32px; width:70px">Cancel</button>
+    </div>
+</form>

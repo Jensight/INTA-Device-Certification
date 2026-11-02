@@ -1,0 +1,125 @@
+
+// :host ::ng-deep angular2-st-tbody-edit-delete {display: flex !important;
+//     height: 0 !important;
+//     display: inline-block;
+//     width: 50px;
+//     text-align: center;
+//     font-size: 1.1em;
+//   }
+
+:host ::ng-deep angular2-st-tbody-custom a.angular2-smart-action.angular2-smart-action-custom-custom {
+    display: inline-flex;
+    width: 50px;
+    text-align: center;
+    font-size: 1.5em;
+    padding-right:5px !important;
+    padding-left:5px !important;
+    color: #424242;
+
+  }
+  span.mat-tooltip-trigger {
+    word-break: break-all;
+}
+
+  ::ng-deep tr.angular2-smart-row > td:nth-child(1) {
+    text-align : left;
+    word-break: break-all !important;
+  }
+  :host ::ng-deep tr.angular2-smart-row > td:nth-child(2) {
+    text-align : left !important;
+    word-break: break-all !important;
+  }
+  :host ::ng-deep tr.angular2-smart-row > td:nth-child(3) {
+    text-align : left ;
+    word-break: break-all !important;
+  }
+  :host ::ng-deep tr.angular2-smart-row > td:nth-child(4) {
+    text-align : left ;
+    word-break: break-all;
+  }
+  :host ::ng-deep th.ng-star-inserted.angular2-smart-actions {
+    width: 20% !important;
+}
+
+
+  :host ::ng-deep .angular2-smart-actions angular2-st-tbody-edit-delete{
+    display: none !important;
+    }
+
+
+  :host ::ng-deep  angular2-smart-table table tbody tr td angular2-st-tbody-custom a:nth-child(3) :hover {
+    color: #ff6b83;
+  }
+
+  :host ::ng-deep  angular2-smart-table table tbody tr td angular2-st-tbody-custom a:nth-child(2) :hover {
+    color:  #5dcfe3;
+  }
+
+  :host ::ng-deep  angular2-smart-table table tbody tr td angular2-st-tbody-custom a:nth-child(1) :hover {
+    color: #e68839;
+
+  }
+
+  // :host ::ng-deep angular2-smart-table table tbody tr td angular2-st-tbody-custom a:nth-child(1).angular2-smart-action {
+  //   padding-top:0px !important;
+  // }
+//   :host ::ng-deep angular2-smart-table table tbody tr td angular2-st-tbody-custom a:nth-child(1) i.fa {
+//     font-size: smaller !important;
+//   }
+
+
+:host ::ng-deep td.angular2-smart-actions {
+    padding: 0px !important; 
+}
+
+:host ::ng-deep tr > td.angular2-smart-actions > angular2-st-tbody-custom > a:nth-child(1) > i {
+     font-size: 18px !important;
+ }
+
+ :host ::ng-deep tr > td.angular2-smart-actions > angular2-st-tbody-custom > a:nth-child(2) > i {
+  font-size: 18px !important;
+}
+
+// :host ::ng-deep angular2-smart-table > table > tbody > tr.angular2-smart-row > td {
+//   text-align: center;
+//   //font-size: .875em !important;
+//   margin: 0;
+//   padding: .5em 1em !important;
+// }
+:host ::ng-deep .angular2-smart-action-multiple-select > input{
+  width:15px;
+  height:15px;
+  display: unset;
+}
+@media screen and (max-width: 1300px) {
+
+  :host ::ng-deep angular2-st-tbody-custom a.angular2-smart-action.angular2-smart-action-custom-custom {
+
+    width: 40px;
+
+  }
+
+}
+
+:host ::ng-deep angular2-st-tbody-custom a.angular2-smart-action:not(:last-child) {
+  border-right: 1px solid #ebebeb !important;
+}
+
+@media screen and (max-width: 1020px) {
+
+  :host ::ng-deep angular2-st-tbody-custom a.angular2-smart-action.angular2-smart-action-custom-custom {
+
+    width: 30px;
+
+  }
+
+}
+:host ::ng-deep angular2-smart-table > table > tbody > tr.angular2-smart-row > td {
+
+   word-break: break-all;
+
+ }
+ :host ::ng-deep  angular2-smart-table table tbody tr td angular2-st-tbody-custom {
+  display: flex;
+  align-items: center;
+ }

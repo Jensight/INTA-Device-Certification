@@ -1,0 +1,28 @@
+<div class="row text-center" style="margin-top: 22px;">
+    <div class="col-md-11 text-center" style="margin-bottom: 20px">
+        <h3>Edit Test Group</h3>
+    </div>
+    <span class="col-md-1" style="margin-left: -35px;">
+        <span (click)="dialogRef.close()" style="cursor: pointer" class="close" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </span>
+    </span>
+</div>
+<form [formGroup]="testGroupForm" class="text-center" style="position: relative; bottom: 15px;" >
+    <mat-form-field style="width:300px">
+        <mat-label>Test Group Name</mat-label>
+        <input matInput formControlName='testGroupName'>
+        <mat-error *ngIf="testGroupForm.get('testGroupName').hasError('required')">
+            Please Enter a Testgroup Name
+        </mat-error>
+        <mat-error *ngIf="testGroupForm.get('testGroupName').hasError('duplicate')">
+            Testgroup Already Registered
+        </mat-error>
+    </mat-form-field>
+
+    <div class="text-center">
+        <button [disabled]="!testGroupForm.valid" (click)="updateTestGroup()"
+        class="ibutton" style="margin-right: 15px; width:70px">Update</button>
+        <button (click)="cancel()" class="ibutton" style="height: 32px; width:70px">Cancel</button>
+    </div>
+</form>

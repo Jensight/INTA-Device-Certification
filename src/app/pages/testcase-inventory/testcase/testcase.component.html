@@ -1,0 +1,11 @@
+<div class="d-flex justify-content-end align-items-center mt-2 mr-3" >
+    <button class="ibutton" (click)="onClick()" *ngIf="updateJiraFlag == true" style="margin-right: 10px;" matTooltip="Update For Jira UseCase"> Update UC 
+        <i *ngIf="loading == true" style="font-size: 12px;" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+        <span *ngIf="loading == true" class="sr-only">Loading...</span> </button>
+    <button routerLink="./add" class="ibutton" [disabled]="permissionDenied"> Add Testcase</button>
+</div>
+<div class="">
+    <div class=" text-center" style="padding:10px 15px 15px 15px;" >
+        <angular2-smart-table (edit)="editTestcase($event)" (custom)="onCustom($event)" (click)="setSortData()" (delete)="deleteTestcaseConfirmation($event)" [source]="source" [settings]="settings" (userRowSelect)="onRowSelect($event)"></angular2-smart-table>
+    </div>
+</div>

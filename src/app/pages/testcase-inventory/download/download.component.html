@@ -1,0 +1,12 @@
+<div class="teams-wrapper">
+    <div class="background" id="background">
+      <div class="card" *ngFor="let type of fileTypes">
+          <div class="content">
+              <p class="card-title">{{type}}</p>
+              <button (click)="downloadCSV(type)" type="submit" class="btn-round-info">
+                <i class="fa fa-download fa-lg" aria-hidden="true" ></i>
+              </button>
+          </div>
+      </div>
+    </div>
+  </div>

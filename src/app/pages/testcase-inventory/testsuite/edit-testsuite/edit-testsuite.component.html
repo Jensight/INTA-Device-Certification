@@ -1,0 +1,45 @@
+<div class="row text-center" style="margin-top: 22px;">
+    <div class="col-md-11 text-center" style="margin-bottom: 20px">
+        <h3>{{actionType == "Clone"? "Clone" : "Edit"}} Testsuite</h3>
+    </div>
+    <span class="col-md-1" style="margin-left: -35px;">
+        <span (click)="dialogRef.close()" style="cursor: pointer" class="close" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </span>
+    </span>
+</div>
+<form [formGroup]="testSuiteForm" class="text-center" style="position: relative; bottom: 15px;">
+    <mat-form-field style="width:300px">
+        <mat-label>Test Suite Name</mat-label>
+        <input matInput formControlName='testSuiteName'>
+        <mat-error *ngIf="testSuiteForm.get('testSuiteName').hasError('required')">
+            Please Enter a Testsuite Name
+        </mat-error>
+        <mat-error *ngIf="testSuiteForm.get('testSuiteName').hasError('duplicate')">
+            Testsuite Already Registered
+        </mat-error>
+        <mat-error *ngIf="testSuiteForm.get('testSuiteName').hasError('pattern')">
+            Following special Characters not allowed / \ < > : " * ?
+        </mat-error>
+    </mat-form-field>
+
+    <mat-error class="duplicate" *ngIf="duplicateClone">
+        Testsuite Already Registered
+    </mat-error>
+
+    <mat-form-field style="width:300px">
+        <mat-label>Test Set Name</mat-label>
+        <mat-select (openedChange)="openedChange($event)" formControlName="moduleId" multiple [disabled]="actionType == 'Clone'" (selectionChange)="clearFilter($event)">
+            <input type="text" (keydown)="handleInput($event)" class="form-control"  placeholder="Test Set Name"  [formControl]="searchTextboxControl">
+            <mat-option (onSelectionChange)="selectionChange($event)"*ngFor="let item of filteredOptions | async" [value]="item['_id']">{{item['moduleName']}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="testSuiteForm.get('moduleId').hasError('required')">
+            Please select a Test Set
+        </mat-error>
+    </mat-form-field>
+
+    <div class="text-center">
+        <button [disabled]="!testSuiteForm.valid || duplicateClone" (click)="editTestSuite()"class="ibutton" style="margin-right: 15px; width:80px">{{actionType == "Clone"?"Clone" : "Update"}}</button>
+        <button (click)="cancel()" class="ibutton" style="width: 70px;">Cancel</button>
+    </div>
+</form>

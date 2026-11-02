@@ -1,0 +1,166 @@
+<div class="row">
+  <nav  class="col-md-5" aria-label="breadcrumb">
+ <ol class="breadcrumb" style="background-color:#fafafa; padding-top:0px;">
+   <li class="breadcrumb-item"><a href="#/pages/dashboard" style="color:red;text-decoration: none;font-size: medium;">Dashboard</a></li>
+   <li class="breadcrumb-item"><a href="#/pages/testcase-inventory/testsuite" style="color:red;text-decoration: none;font-size: medium;">TestSuite Inventory</a></li>
+   <li class="breadcrumb-item active" style="color:rgba(0, 0, 0, 0.87);text-decoration: none;font-size: medium;">MAP Testcases</li>
+ </ol>
+</nav>
+
+<app-title-display style="margin-top:12px;" titleName="MAP Testcases"></app-title-display></div>
+<mat-card>
+  <br>
+  <div style="font-size:12px;height: 50px;" class="row">
+    <div class="col-md-1 offset-md-1 d-font" style="padding-left: 0px;padding-right: 0px;padding-top: 0px;">Add </div>
+    <div class="col-md-4">
+      <mat-radio-group [(ngModel)]="searchCreteria" class="row">
+        <mat-radio-button style="padding-left:0px" class="col-md-6" value="tc">Test Case</mat-radio-button>
+        <mat-radio-button style="padding-left:0px" class="col-md-6" value="tg">Test Group</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div *ngIf="searchCreteria=='tc'" class="col-md-1 offset-md-1 d-font"
+      style="padding-left: 0px;padding-right: 0px;padding-top: 10px;">Filter by</div>
+    <div *ngIf="searchCreteria=='tc'" style="padding-left: 0px;" class="col-md-3">
+      <mat-form-field>
+        <mat-label>Test Group</mat-label>
+        <mat-select [(value)]="testGroupSearch">
+          <mat-option value="">All</mat-option>
+          <mat-option [value]="tg._id" *ngFor="let tg of allTestGroup">{{tg.testGroupName | limitTo : 35}}</mat-option>
+
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="row" style="margin-top:15px;margin-bottom:15px">
+    <div [hidden]="searchCreteria!='tg'" class="col-md-5 offset-md-1" style="margin-left:20px">
+      <div style="width: 100%" class="row">
+        <div class="col-md-11 offset-md-2 example-list" id="border">
+          <div class="row header">
+            <div class="col-md-11 text-center p-2"> All Testgroup</div>
+            <input [(ngModel)]="searchTermTestGroup" type="text" class="form-control" id="filter1"
+              placeholder="Search TestGroup" (input)="applyFilterTestGroup()">
+          </div>
+          <div class="divBody" cdkDropList #allTestgroup="cdkDropList" [cdkDropListData]="allTestGroup"
+            [cdkDropListConnectedTo]="[allMappedTestCase]" (cdkDropListDropped)="remove($event, searchCreteria)"
+            style="max-height: 280px;min-height:280px;">
+            <div style="margin:7px;padding:0px" class="example-box hvr-glow hvr-wobble-vertical profileEven d-font"
+              *ngFor="let item of allTestGroup; let i = index" cdkDrag>
+
+              <mat-card style="width:100%">
+                <div class="row">
+                  <div class="col-md-12">
+
+                    <div style="margin-right:10px" [ngClass]="className[i%4]" class="circle">
+                      {{item.testGroupName[0].toUpperCase()}}
+                    </div>
+
+                    <div [matTooltip]="item.testGroupName" class="test-case-name">
+                      {{item.testGroupName | limitTo : 25}}</div>
+                      <div style="margin:0px" class="view-details">
+                        <button (click)="selectATestcase(item._id, searchCreteria)" class="btn btn-info btn-icon fixed-button"
+                          style="margin-top: 4px;font-size:12px; float:right" title="Add">
+                          <b class=" fa fa-arrow-right"></b>
+                        </button>
+                      </div>
+
+                  </div>
+                </div>
+              </mat-card>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div [hidden]="searchCreteria!='tc'" class="col-md-5 offset-md-1" style="margin-left:20px">
+      <div style="width: 100%" class="row">
+        <div class="col-md-11 offset-md-2" id="border">
+          <div class="row header">
+            <div class="col-md-11 text-center p-2"> All Testcase</div>
+            <input [(ngModel)]="searchTerm" type="text" class="form-control" id="filter" placeholder="Search TestCase"
+              (input)="applyFilter()">
+          </div>
+
+          <div cdkDropList #allTestCaseList="cdkDropList" cdkDropListSortingDisabled
+            [cdkDropListData]="allTestcaseDuplicate" (cdkDropListDropped)="remove($event, searchCreteria)"
+            [cdkDropListConnectedTo]="[allMappedTestCase]" class="divBody example-list"
+            style="max-height: 280px;min-height:280px;">
+            <div style="margin:7px;padding:0px" class="example-box hvr-glow hvr-wobble-vertical profileEven d-font"
+              *ngFor="let item of allTestcaseDuplicate|testCasePipeByGroup:testGroupSearch; let i = index" cdkDrag>
+              <mat-card style="width: 100%">
+                <div class="row">
+
+                  <div class="col-md-12">
+                    <div style="margin-right:10px" [ngClass]="className[i%4]" class="circle">
+                      {{item.tcName[0].toUpperCase()}}
+                    </div>
+
+                    <div [matTooltip]="item.tcName" class="test-case-name">
+                      {{item.tcName | limitTo : 25}}
+
+                    </div>
+                    <div style="margin:0px" class="view-details">
+                      <button (click)="selectATestcase(item._id, searchCreteria)" class="btn btn-info btn-icon fixed-button"
+                        style="margin-top: 4px;font-size:12px; float:right" title="Add">
+                        <b class=" fa fa-arrow-right"></b>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+              </mat-card>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-5 offset-md-1" style="margin-left:20px">
+      <div style="width: 100%" class="row">
+        <div class="col-md-11 offset-md-2" id="border">
+          <div class="row header">
+            <div class="col-md-11 text-center p-2" [matTooltip]="selectedTestSuite['testSuiteName']">
+              {{selectedTestSuite['testSuiteName'] | limitTo : 25}} - Testcases</div>
+
+          </div>
+
+          <div cdkDropList #allMappedTestCase="cdkDropList" cdkDropListSortingDisabled
+            [cdkDropListData]="mappedTestCase" [cdkDropListConnectedTo]="[allTestCaseList, allTestgroup]"
+            (cdkDropListDropped)="add($event,searchCreteria)" class="divBody example-list"
+            style="max-height: 280px;min-height:318px;">
+            <div style="margin:7px;padding:0px" class=" profileEven  d-font example-box hvr-glow hvr-wobble-vertical"
+              *ngFor="let item of mappedTestCase; let i = index" cdkDrag>
+              <mat-card style="width: 100%">
+                <div class="row">
+
+                  <div class="col-md-12">
+                    <div style="margin-right:10px" [ngClass]="className[i%4]" class="circle">
+                      {{(item | nameFromId:allTestCase:'_id':'tcName')[0].toUpperCase()}}
+                    </div>
+
+                    <div [matTooltip]="item | nameFromId:allTestCase:'_id':'tcName'"
+                      class="test-case-name">
+                      {{ (item | nameFromId:allTestCase:'_id':'tcName') | limitTo : 25}}
+                    </div>
+                    <div style="margin:0px" class="view-details">
+                      <button style="margin-top: 4px;font-size:12px; float:right"
+                        (click)="removeATestcase(i, searchCreteria)" class="btn btn-info btn-icon fixed-button" disable="true"
+                        title="Remove">
+                        <b class=" fa fa-arrow-left "></b>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </mat-card>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="text-center col-md-12">
+      <button (click)="mapTestCase()" class="ibutton" style="margin-right: 15px; width:70px">Update</button>
+      <button routerLink="../" class="ibutton" style="height: 32px; width:70px">Cancel</button>
+    </div>
+  </div>
+</mat-card>

@@ -1,0 +1,38 @@
+@import '../../../../../themes.scss';
+
+
+    .card-header {
+        margin-top: 0px;
+        padding-left: 0px;
+        padding-right: 0px;
+        // background:  nb-theme(form-control-placeholder-color) !important;
+        border-top-right-radius: 10px;
+        border-top-left-radius: 10px;
+        padding-top: 12px;
+        padding-bottom: 8px;
+    }
+
+
+    .main-card {
+        margin-right: 2px;
+        padding-left: 0px;
+        padding-right: 0px;
+
+
+    }
+
+
+    .card-body {
+        border-bottom-right-radius: 10px;
+        border-bottom-left-radius: 10px;
+        border-top-width: 0px !important;
+    }
+
+    td {
+        padding:8px
+    }
+
+    ::ng-deep .mat-mdc-dialog-surface {
+        overflow-y: unset; 
+      }
+    
