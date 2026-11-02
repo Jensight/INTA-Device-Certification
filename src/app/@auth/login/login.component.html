@@ -1,0 +1,63 @@
+    <div id="background">
+      <br>
+      <br>
+      <br>
+      <br>
+      <div class="col-md-4 login-box">
+        <h2  id="signIn" style="font-size: 2rem; font-weight: 700; line-height: 2.5rem;">Sign In</h2>
+       <small id="sentence">Hello! Sign in with your<span *ngIf="ENABLE_SSO == true && ENABLE_SSO_log == true"> Jira </span><span *ngIf="ENABLE_SSO == true && ENABLE_SSO_log == false"> DB </span> Credentials</small>
+        <br>
+        <img src="/assets/images/circle.png" class="avatar">
+        <form [formGroup]="loginForm" (ngSubmit)="login()">
+          <div class="inner-addon right-addon" *ngIf="ENABLE_SSO === true && ENABLE_SSO_log == true; else disabledsso">
+            <i class="glyphicon glyphicon-user"></i>
+            <input type="email" value="My text" style="margin-top:7px;" class="form-control" formControlName="XRAY_USERNAME"
+              placeholder="Email ID" required>
+              <span class="text-danger" style=" font-size:11px; float:left;margin-top:-19px;margin-left:3px"
+              *ngIf="loginForm.get('XRAY_USERNAME').hasError('required') && loginForm.get('XRAY_USERNAME').touched">
+                Please Enter Email Id
+          </span>
+          <span class="text-danger" style=" font-size:11px; float:left;margin-top:-19px;margin-left:3px"
+          *ngIf="loginForm.get('XRAY_USERNAME').hasError('email')">
+                Please Enter valid Email Id
+        </span>
+          </div>
+          <ng-template class="inner-addon right-addon" #disabledsso>
+            <i class="glyphicon glyphicon-user"></i>
+            <input type="text" value="My text" style="margin-top:7px;" class="form-control" formControlName="XRAY_USERNAME"
+              placeholder="Username" required>
+              <span class="text-danger" style=" font-size:11px; float:left;margin-top:-19px;margin-left:3px"
+              *ngIf="loginForm.get('XRAY_USERNAME').hasError('required') && loginForm.get('XRAY_USERNAME').touched">
+                Please Enter Username
+          </span>
+          </ng-template>
+          <div class="inner-addon right-addon" *ngIf="ENABLE_SSO === true && ENABLE_SSO_log == true">
+            <input #passwordInput type="password" class="form-control" formControlName="XRAY_PASSWORD" id="password-field"
+              placeholder="API Token" required>
+            <i class="fa fa-eye errspan" style="cursor:pointer" (mouseover)="passwordInput.type='text'"
+              (mouseleave)="passwordInput.type='password'"></i>
+            <span class="text-danger" style=" font-size:11px; float:left;margin-top:-19px;margin-left:3px"
+              *ngIf="loginForm.get('XRAY_PASSWORD').hasError('required') && loginForm.get('XRAY_PASSWORD').touched">API Token
+              is required
+            </span>
+          </div>
+          <div class="inner-addon right-addon" *ngIf="ENABLE_SSO_log === false">
+            <input #passwordInput type="password" class="form-control" formControlName="XRAY_PASSWORD" id="password-field"
+              placeholder="Password" required>
+            <i class="fa fa-eye errspan" style="cursor:pointer" (mouseover)="passwordInput.type='text'"
+              (mouseleave)="passwordInput.type='password'"></i>
+            <span class="text-danger" style=" font-size:11px; float:left;margin-top:-19px;margin-left:3px"
+              *ngIf="loginForm.get('XRAY_PASSWORD').hasError('required') && loginForm.get('XRAY_PASSWORD').touched">Password
+              is required
+            </span>
+          </div>
+          <br>
+          <div id="wrapper">
+            <button #loginButton [disabled]="!loginForm.valid" class="btn">Login</button>
+          </div>
+          <!-- <a style="cursor: pointer; font-size: 10px;" *ngIf="ENABLE_SSO == true && ENABLE_SSO_log == true" (click)="switchToDbLogin()">Switch to DB Login</a><a style="cursor: pointer; font-size: 10px;" *ngIf="ENABLE_SSO == true && ENABLE_SSO_log == false" (click)="switchToSSOLogin()">Switch to Jira Login</a> -->
+        </form>
+        <br>
+        <div class="login-footer"></div>
+      </div>
+    </div>

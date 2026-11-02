@@ -1,0 +1,106 @@
+#background {
+    min-width: 100vw;
+    min-height: 100vh;
+    background-color: #a4abb35e;
+    text-align: center;
+}
+
+#signIn {
+    color: black;
+    font-family: 'Exo', sans-serif;
+}
+
+#sentence {
+    font-family: 'Roboto', sans-serif;
+    color: #a4abb3
+}
+
+#loginDiv {
+    background-color: white;
+    border-radius: 10px;
+    display: inline-block;
+    padding-bottom: 60px;
+}
+
+#wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-round {
+    align-items: flex-start;
+    background-color: rgb(0, 217, 119);
+    border-bottom-color: rgba(0, 0, 0, 0);
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-style: solid;
+    border-bottom-width: 2px;
+    border-image-outset: 0px;
+    border-image-repeat: stretch;
+    border-image-slice: 100%;
+    border-image-source: none;
+    border-image-width: 1;
+    border-left-color: rgba(0, 0, 0, 0);
+    border-left-style: solid;
+    border-left-width: 2px;
+    border-right-color: rgba(0, 0, 0, 0);
+    border-right-style: solid;
+    border-right-width: 2px;
+    border-top-color: rgba(0, 0, 0, 0);
+ 
+    border-top-style: solid;
+    border-top-width: 2px;
+    box-sizing: border-box;
+    color: rgb(255, 255, 255);
+    cursor: pointer;
+    display: inline-block;
+    font-weight: 500;
+    height: 48px;
+    letter-spacing: 0.4px;
+    line-height: 20px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-top: 0px;
+    overflow-x: visible;
+    overflow-y: visible;
+    padding-bottom: 12px;
+    padding-left: 24px;
+    padding-right: 24px;
+    padding-top: 12px;
+    text-align: center;
+    text-indent: 0px;
+    text-rendering: auto;
+    text-shadow: none;
+    text-size-adjust: 100%;
+    text-transform: uppercase;
+    transition-delay: 0s;
+    transition-duration: 0s;
+    transition-property: none;
+    transition-timing-function: ease;
+    user-select: none;
+    vertical-align: middle;
+    white-space: nowrap;
+    width: 180px;
+    word-spacing: 0px;
+    writing-mode: horizontal-tb;
+    -webkit-appearance: none;
+    -webkit-box-direction: normal;
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -webkit-border-image: none;
+}
+
+.btn-round-info {
+    @extend .btn-round;
+    // background-image: linear-gradient(90deg, #4cc4ff, #4ca6ff);
+    box-shadow: 0 0 0 0 #419cdb, 0 0 0 0 #4cb5ff;
+    border-radius: 10px !important;
+    background: #ffa201 !important;
+    font-size: 14px;
+    font-weight: 400;
+    outline: none;
+}
