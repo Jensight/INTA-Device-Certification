@@ -1,0 +1,80 @@
+
+<div class="container" style="position: relative;">
+  <div *ngIf="!showDeviceDetails">
+  <div class="row col-md-12" style="margin-top: 12px;">
+  <div class="col-md-7" style="display: flex;">
+    <h4>{{data.element.testbed.testBedName}}</h4></div>
+  <div class="col-md-4 text-right">
+    <button type="button" class="btn btn-danger" (click)="displayDeviceDetails()">Details</button>
+  </div>
+  <span class="col-md-1" style="margin-left: 0px;">
+    <span (click)="onClose()" style="cursor: pointer" class="close" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </span>
+  </span>
+</div>
+    <br/>
+    <mat-divider></mat-divider>
+<mat-card>
+  <div class="items-grid">
+  <div class="item" *ngFor="let node of testbedDetails.nodes">
+     <div style="display: flex; align-items: center;">
+        <i [class]="getIconClass(node)" style="font-size: 24px; margin-right: 10px;"></i>
+        <span>{{ node.deviceDetails?.deviceName || node.deviceId }}</span>
+        <button type="button" class="btn btn-sm" title="Configure APIs"
+          (click)="configureDevice(node)" style="margin-left: auto;">
+          <i class="fa fa-wrench fa-sm" aria-hidden="true" style="color: grey"></i>
+        </button>
+        <button type="button" class="btn btn-sm" title="Refresh Status"
+          (click)="refreshDevice(node)" [disabled]="node.refreshing">
+          <i class="fa fa-refresh fa-sm" aria-hidden="true"
+            [ngClass]="{ 'fa-spin': node.refreshing }" style="color: grey"></i>
+        </button>
+      </div>
+      <div *ngIf="node.dut" style="font-size: 10px;">Device Under Test(DUT)</div>
+      <br/>
+      <div><strong>IP Address:</strong> {{ node.deviceDetails?.ipAddress || 'N/A' }}</div>
+      <div><strong>Status:</strong> {{ node.deviceDetails?.available ? 'Available' : 'Unavailable' }}</div>
+  </div>
+  </div>
+</mat-card>
+</div>
+<div *ngIf="showDeviceDetails">
+ <div class="row col-md-12" style="margin-top: 12px;">
+  <div class="col-md-7 text-center"><h4>Device Details</h4></div>
+  <div class="col-md-4 text-right">
+    <button type="button" class="btn btn-secondary" (click)="closeDeviceDetails()">Back</button> 
+  </div>
+  <span class="col-md-1" style="margin-left: 0px;">
+    <span (click)="onClose()" style="cursor: pointer" class="close" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </span>
+  </span>
+</div>
+<br/>
+<mat-card> 
+    <div *ngFor="let device of deviceDetails; let i = index;">
+      <span style="display: flex;">
+            <h6 style="color: red;">Device {{ i + 1 }} : {{ device.deviceName }}</h6>
+        <button type="button" class="btn btn-sm" *ngIf="!device.showContent"
+                (click)="device.showContent = !device.showContent" style="padding-bottom: 20px;">
+                <i class="fa fa-angle-down" aria-hidden="true" style="color: red"></i>
+            </button>
+            <button type="button" class="btn btn-sm" *ngIf="device.showContent"
+                (click)="device.showContent = !device.showContent" style="padding-bottom: 20px;">
+                <i class="fa fa-angle-up" aria-hidden="true" style="color: red"></i>
+            </button>
+      </span>
+      <span *ngIf="device.showContent">
+        <div *ngFor="let key of getDeviceKeys(device);">
+          <p><strong>{{ key }} :</strong> {{ device[key] }}</p>
+        </div>
+      </span>
+ 
+      <br/>
+      <mat-divider></mat-divider>
+      <br/>
+    </div>
+</mat-card>
+</div>
+</div>

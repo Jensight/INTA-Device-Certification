@@ -1,0 +1,28 @@
+<div class="row text-center" style="margin-top: 27px;">
+    <div class="col-md-11 text-center" style="margin-bottom: 20px">
+        <h3>Edit Vendor Name</h3>
+    </div>
+    <span class="col-md-1" style="margin-left: -35px;">
+        <span (click)="dialogRef.close()" style="cursor: pointer" class="close" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </span>
+    </span>
+</div>
+<form [formGroup]="editVendorForm" class="text-center">
+    <mat-form-field style="width:300px; position: relative; bottom: 15px; padding-top: 20px;">
+        <mat-label>Vendor Name</mat-label>
+        <input matInput formControlName='name'>
+        <mat-error *ngIf="editVendorForm.get('name').hasError('required')">
+            Please Enter a Vendor Name
+        </mat-error>
+        <mat-error *ngIf="editVendorForm.get('name').hasError('duplicate')">
+            Vendor Name Already Registered
+        </mat-error>
+
+    </mat-form-field>
+
+    <div class="text-center" style="position: relative; bottom: 12px;">
+        <button style="margin-right: 15px; width: 70px;" class="ibutton" [disabled]="!editVendorForm.valid" (click)="updateVendor()">Update</button>
+        <button class="ibutton"(click)="cancelEdit()" style="height: 32px; width:70px">Cancel</button>
+    </div>
+</form>

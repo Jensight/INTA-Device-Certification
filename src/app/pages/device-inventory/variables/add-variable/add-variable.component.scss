@@ -1,0 +1,34 @@
+h3 {
+    font-size: 1.25rem !important;
+    font-family: Roboto, sans-serif !important;
+    font-weight: 500 !important;
+    line-height: 1.5rem !important;
+}
+
+.buttonInfo{
+    transition-duration: 0.4s;
+    border: none; 
+    border-radius: 4px;
+    padding: 2px 4px;
+    color: #3b3a3a;
+    background-color: white;
+    height: 25px;
+    text-align: center;
+    text-decoration: none;
+}
+  
+.buttonInfo:hover {
+    color: #0495ee;
+}
+
+::ng-deep .mat-mdc-dialog-surface {
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.variables-scroll-container {
+    max-height: 250px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 5px;
+}

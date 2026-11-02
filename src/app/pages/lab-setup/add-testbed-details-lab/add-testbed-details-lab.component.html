@@ -1,0 +1,70 @@
+<div class="dialog-container">
+  <div class="row">
+    <div class="col-md-11" style="margin-bottom: 20px">
+      <b>{{ testbedEdit ? 'Paired Testbed' : 'Select Testbed' }}</b>
+    </div>
+    <span class="col-md-1">
+      <span (click)="onCancel()" style="cursor:pointer" class="close" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </span>
+    </span>
+  </div>
+  
+  <div class="row text-center">
+    <div class="col-md-12 text-center" style="margin-bottom: 20px">
+      <mat-form-field style="width:400px">
+        <mat-select placeholder="Please select Testbed" [(ngModel)]="selectedTestbed" [disabled]="loading">
+          <input type="text" class="form-control" placeholder="Search Testbed" (input)="filterTestbeds($event)" (keydown)="onSearchKeydown($event)">
+          <ng-container *ngFor="let testbed of testbedsList">
+            <mat-option [value]="testbed" [disabled]="isTestbedPaired(testbed)" [matTooltip]="getTestbedTooltip(testbed)" matTooltipPosition="below">
+              <span class="testbed-name-truncate" [ngClass]="{'paired-testbed': isTestbedPaired(testbed)}">
+                {{ testbed.testBedName }}
+                <span *ngIf="isTestbedPaired(testbed)" class="paired-indicator"> (Paired)</span>
+              </span>
+            </mat-option>
+          </ng-container>
+        </mat-select>
+        <mat-error *ngIf="!loading && allTestbeds.length === 0">
+          No testbeds available
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="row col-md-12" style="margin-top: 10px; display: flex; align-items: center;">
+    <section style="margin-left: 10px; display: flex;" class="col-md-5">
+        <mat-slide-toggle color="primary" [(ngModel)]=virtual (change)="toggleButtonChange()"
+            checked>Virtual Partition</mat-slide-toggle>
+    </section>
+    <div class="col-md-5">
+                <mat-form-field style="width:200px; padding-left: 25px;" *ngIf="virtual">
+        <mat-select placeholder="Please select Partition" [(ngModel)]="selectedColumn">
+          <ng-container *ngFor="let column of existingColumns">
+            <mat-option [value]="column">
+              <span class="testbed-name-truncate">
+                {{ column }}
+              </span>
+            </mat-option>
+          </ng-container>
+        </mat-select>
+        <!-- <mat-error *ngIf="virtual && !selectedColumn">
+          Please select a partition
+        </mat-error> -->
+      </mat-form-field>
+    </div>
+
+  </div>
+
+  <div class="row" *ngIf="virtual && !selectedColumn" style="margin-top: 10px;">
+    <div class="col-md-12" style="text-align: center;">
+      <span style="color: red; font-size: 12px;">* Virtual Partition is enabled. Please select a partition value.</span>
+    </div>
+  </div>
+
+  <div class="row" style="margin-top: 30px;">
+    <div class="col-md-12" style="text-align: right; padding-right: 40px;">
+      <button *ngIf="testbedEdit" mat-stroked-button class="unpair-button" (click)="onUnpair()" style="margin-right: 10px;">UNPAIR TESTBED</button>
+      <button mat-stroked-button class="submit-button" (click)="onConfirm()" [disabled]="!selectedTestbed || (virtual && !selectedColumn)">{{ testbedEdit ? 'UPDATE' : 'PAIR TESTBED' }}</button>
+    </div>
+  </div>
+</div>

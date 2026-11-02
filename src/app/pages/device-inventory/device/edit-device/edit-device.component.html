@@ -1,0 +1,247 @@
+<div class="row">
+  <nav  class="col-md-6" aria-label="breadcrumb">
+ <ol class="breadcrumb" style="background-color:#fafafa; padding-top:0px;">
+   <li class="breadcrumb-item"><a href="#/pages/dashboard" style="color:red;text-decoration: none;font-size: medium;">Dashboard</a></li>
+   <li class="breadcrumb-item"><a href="#/pages/device-inventory/" style="color:red;text-decoration: none;font-size: medium;">Device Inventory</a></li>
+   <li class="breadcrumb-item"><a href="#/pages/device-inventory/device/" style="color:red;text-decoration: none;font-size: medium;">Device</a></li>
+   <li class="breadcrumb-item active" style="color:rgba(0, 0, 0, 0.87);text-decoration: none;font-size: medium;">{{actionType == "Clone"?"Clone Device": "Edit Device"}}</li>
+ </ol>
+</nav>
+</div>
+<app-title-display ></app-title-display>
+<mat-card>
+  <mat-card-header>
+    <div class="col-md-11" style="margin-top:5px;">
+      <h4 style="width:100%;text-align: center">{{actionType == "Clone"?"Clone Device": "Edit Device"}}</h4>
+    </div>
+
+  </mat-card-header>
+  <div style="border:1px solid ; border-radius:30px;">
+    <div style="margin-left: 20px;">
+      <div class="text-right">
+        <button class="ibutton" *ngIf="selectedDevice.labIndex" style="margin-right: 15px;margin-bottom: 10px; margin-top: 15px" (click)="unpairedDevice(selectedDevice.columnName, selectedDevice.selfName, selectedDevice.rackName)">UnPair Device</button>
+      </div>
+      <form [formGroup]="deviceForm" class="row" style="width: 100%;">
+        <div class="col-md-4">
+          <mat-form-field style="padding-left: 20px; padding-top: 40px; width: 90%;">
+            <mat-label>Select Vendor</mat-label>
+            <mat-select formControlName="vendor">
+              <mat-option *ngFor="let vendor of allVendors" [value]="vendor">
+                {{ vendor }}
+              </mat-option>
+            </mat-select>
+            <mat-error>Please Select a Vendor</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field *ngIf="deviceForm.get('vendor').value"
+            style="padding-left: 20px; padding-top: 40px; width: 90%;">
+            <mat-label>Select Model</mat-label>
+            <mat-select (selectionChange)="loadForm()" formControlName="model">
+              <mat-option *ngFor="let model of allModels|modelList:deviceForm.get('vendor').value"
+                [value]="model.modelName">
+                {{ model.modelName }}
+              </mat-option>
+            </mat-select>
+            <mat-error>Please Select a Model</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-4" *ngIf="modelProfiles.length > 0">
+          <mat-form-field style="padding-left: 20px; padding-top: 40px; width: 90%;">
+            <mat-label>Select Device Profile</mat-label>
+            <mat-select formControlName="profileName" (selectionChange)="onProfileSelection($event.value)">
+              <div class="input-group input-group-sm px-2 py-1">
+                <input type="text" class="form-control" placeholder="Search" (input)="filterModelProfiles($event.target.value)" (keydown)="$event.stopPropagation()">
+              </div>
+              <mat-option *ngFor="let profile of filteredModelProfiles" [value]="profile.profileName">
+                {{ profile.profileName }}
+              </mat-option>
+            </mat-select>
+            <mat-error>Please Select a Device Profile</mat-error>
+          </mat-form-field>
+        </div>
+      </form>
+
+
+      <form style="width: 100%" [formGroup]="deviceForm" class="row" *ngIf="deviceForm.get('model').value">
+        <div class="col-md-6">
+          <mat-form-field style="width:80%; padding-left: 20px; padding-top: 20px;">
+            <mat-label>Device Name</mat-label>
+            <input matInput formControlName="deviceName">
+            <mat-error *ngIf="deviceForm.get('deviceName').hasError('required')">
+              Device Name is required
+            </mat-error>
+            <mat-error *ngIf="deviceForm.get('deviceName').hasError('duplicate')">
+              Device Already Registered
+            </mat-error>
+            <mat-error *ngIf="deviceForm.get('deviceName').hasError('pattern')">
+              Underscore (_) is not allowed in Device Name
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field style="width:80%; padding-left: 20px; padding-top: 20px;">
+            <mat-label>Device MAC</mat-label>
+            <input matInput formControlName="deviceMac">
+            <mat-error *ngIf="deviceForm.get('deviceMac').hasError('duplicate')">
+              Device Mac  Already Registered
+             </mat-error>
+            <mat-error *ngIf="deviceForm.get('deviceMac').hasError('required')">
+              Device MAC is required
+            </mat-error>
+            <mat-error *ngIf="deviceForm.get('deviceMac').hasError('pattern')">
+              Please enter a valid MAC pattern
+            </mat-error>
+
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field style="width:80%; padding-left: 20px; padding-top: 20px;">
+            <mat-label>Device IP</mat-label>
+            <input matInput formControlName="deviceIp">
+            <mat-error *ngIf="deviceForm.get('deviceIp').hasError('required')">
+              Device IP is required
+            </mat-error>
+            <mat-error *ngIf="deviceForm.get('deviceIp').hasError('pattern')">
+              Please enter a valid IP pattern
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field style="width:80%; padding-left: 20px; padding-top: 5px;">
+            <mat-label>Device FW Version</mat-label>
+            <input matInput formControlName="deviceFWVersion">
+            <mat-error *ngIf="deviceForm.get('deviceFWVersion').hasError('required')">
+              Device FW Version is required
+            </mat-error>
+            <mat-error *ngIf="deviceForm.get('deviceFWVersion').hasError('pattern')">
+              Please enter a valid Device FW Version
+            </mat-error>
+           <!--  <mat-error *ngIf="deviceForm.get('deviceName').hasError('duplicate')">
+              Device Already Registered
+            </mat-error> -->
+          </mat-form-field>
+        </div>
+        <div class="col-md-6" *ngIf="deviceForm.get('model').value && !selectedDevice.labIndex">
+          <mat-form-field style="width:80%; padding-left: 20px; padding-top: 20px;">
+            <mat-label>Select Rack</mat-label>
+            <mat-select formControlName="rackName" (selectionChange)="rackSelected($event)">
+              <mat-option *ngFor="let rk of lbSetUp"
+                [value]="rk.rackName">
+                {{ rk.rackName }} - {{rk.rackFor}}
+              </mat-option>
+            </mat-select>
+            <mat-error>Please Select a Model</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6" *ngIf="deviceForm.get('model').value && !selectedDevice.labIndex">
+          <mat-form-field style="width:80%; padding-left: 20px; padding-top: 5px;">
+            <mat-label>Select Shelf</mat-label>
+            <mat-select formControlName="selfName" (selectionChange)="ShelfSelection($event)">
+              <mat-option *ngFor="let sh of shelfArray"
+                [value]="sh">
+                {{ sh }}
+              </mat-option>
+            </mat-select>
+            <span style="color: red; font-size: small;" *ngIf="deviceForm.get('rackName').value && !deviceForm.get('selfName').value">Please Select Shelf</span>
+            <!-- <mat-error *ngIf="deviceForm.get('selfName').hasError('required')">
+             Please select Self Name
+            </mat-error> -->
+          </mat-form-field>
+        </div>
+        <div class="col-md-6" *ngIf="deviceForm.get('model').value && !selectedDevice.labIndex">
+          <mat-form-field style="width:80%; padding-left: 20px; padding-top: 5px;">
+            <mat-label>Select Row</mat-label>
+            <mat-select formControlName="columnName" (selectionChange)="columnSelection($event)">
+              <mat-option *ngFor="let cm of columnArray"
+                [value]="cm.name" [disabled]="!cm.available">
+                {{ cm.name }}
+              </mat-option>
+            </mat-select>
+            <span style="color: red; font-size: small;" *ngIf="deviceForm.get('selfName').value && !deviceForm.get('columnName').value">Please Select a columnName</span>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6" *ngIf="deviceForm.get('model').value && !selectedDevice.labIndex">
+          <mat-form-field style="width:80%; padding-left: 20px; padding-top: 5px;" >
+            <mat-label>Select Api For Availability Status of Device</mat-label>
+            <mat-select formControlName="apiName" (selectionChange)="apiAvailDevice($event)" >
+              <ng-container *ngFor="let item of allAPIGroup">
+                <mat-option  [value]="item['_id']"  >{{item['name']}}-{{item['primaryURL']}}</mat-option>
+              </ng-container>
+            </mat-select>
+            <span style="color: red; font-size: small;" *ngIf="deviceForm.get('columnName').value && !deviceForm.get('apiName').value">Please Select a api For Device Availability status</span>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6" *ngIf="deviceForm.get('model').value && !selectedDevice.labIndex">
+          <mat-form-field style="width:80%; padding-left: 20px; padding-top: 5px;" >
+            <mat-label>Select Api For Update Device Details</mat-label>
+            <mat-select formControlName="updateDevApiName" (selectionChange)="apiRebootDevice($event)" >
+              <ng-container *ngFor="let item of allAPIGroup">
+                <mat-option  [value]="item['_id']"  >{{item['name']}}-{{item['primaryURL']}}</mat-option>
+              </ng-container>
+            </mat-select>
+            <span style="color: red; font-size: small;" *ngIf="deviceForm.get('apiName').value && !deviceForm.get('updateDevApiName').value">Please Select a api For Reboot Device</span>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6" *ngIf="deviceForm.get('model').value && !selectedDevice.labIndex">
+          <mat-form-field style="width:80%; padding-left: 20px; padding-top: 5px;" >
+            <mat-label>Select Api For Reboot Device</mat-label>
+            <mat-select formControlName="rebootApiName" (selectionChange)="rebootApiName($event)">
+              <ng-container *ngFor="let item of allAPIGroup">
+                <mat-option  [value]="item['_id']"  >{{item['name']}}-{{item['primaryURL']}}</mat-option>
+              </ng-container>
+            </mat-select>
+            <span style="color: red; font-size: small;" *ngIf="deviceForm.get('updateDevApiName').value && !deviceForm.get('rebootApiName').value">Please Select a api For Reboot Device</span>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6" *ngFor="let item of (selectedProfile?.labels || [])">
+          <mat-form-field *ngIf="item.type=='text'" style="width:80%; padding-left: 20px;padding-top: 5px;">
+            <mat-label>{{item.name}}</mat-label>
+            <input matInput [formControlName]="item.name">
+            <mat-error *ngIf="deviceForm.get(item.name).hasError">
+              {{item.name}} is required
+            </mat-error>
+            <mat-error
+              *ngIf="deviceForm.get(item.name).hasError('pattern') && !deviceForm.get(item.name).hasError('required')">
+              Please enter a Valid {{item.textType}} pattern {{item.name}}
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field *ngIf="item.type=='date'" style="width:80%; padding-left: 20px;padding-top: 5px;">
+            <mat-label>{{item.name}}</mat-label>
+            <input [formControlName]="item.name" matInput [matDatepickerFilter]="myFilter" [matDatepicker]="picker">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error *ngIf="deviceForm.get(item.name).hasError('required')">
+              {{item.name}} is required
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field *ngIf="item.type=='dropdown'" style="width:80%; padding-left: 20px;padding-top:20px;">
+            <mat-label>{{item.name}}</mat-label>
+            <mat-select [formControlName]="item.name">
+              <mat-option *ngFor="let val of item.dropdownValue" [value]="val">{{val}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="deviceForm.get(item.name).hasError('required')">
+              {{item.name}} is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <!-- <div class="col-md-6" >
+    <mat-form-field  style="width:80%; padding-left: 20px;padding-top:5px;">
+            <mat-label>Reserve API</mat-label>
+            <mat-select formControlName="reservedAPI" multiple>
+              <mat-option *ngFor="let api of requiredAPIs" [value]="api._id">{{api['apiName']}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        </div> -->
+      </form>
+      <br>
+    </div>
+    <div style="text-align:center">
+      <button class="ibutton" style="margin-right: 15px;margin-bottom: 10px; width:80px;" [disabled]="!deviceForm.valid"
+        (click)="editDevice()">{{actionType == "Clone"?"Clone" : "Update"}}</button>
+      <button class="ibutton" style="margin-right: 15px;margin-bottom: 10px;height: 32px; width:70px;" routerLink="../">Cancel</button>
+    </div>
+  </div>
+</mat-card>

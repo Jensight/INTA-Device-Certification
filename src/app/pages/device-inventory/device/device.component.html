@@ -1,0 +1,11 @@
+<div class="d-flex justify-content-end align-items-center mt-2 mr-3" >
+    <button routerLink="/pages/device-inventory/device/add" class="ibutton" [disabled]="permissionDenied"> Add Device</button>
+</div>
+<div class="">
+    <div class=" text-center" style="padding:10px 15px 15px 15px;" >
+        <angular2-smart-table (edit)="editDevice($event)" (custom)="onCustom($event)" (delete)="deleteDeviceConfirmation($event)" (click)="setSortData()" [source]="source" [settings]="settings"></angular2-smart-table>
+    </div>
+</div>
+
+
+

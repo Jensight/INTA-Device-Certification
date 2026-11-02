@@ -1,0 +1,40 @@
+  .navbar {
+    display: flex;
+    position: sticky;
+    align-items: center;
+    justify-content: space-between;
+    top: 0px;
+    background: white;
+    background-blend-mode: darken;
+    background-size: cover;
+    color: #da291c;
+    padding-bottom: 0px;
+    padding-top: inherit;
+}
+
+.nav-list {
+    display: flex;
+    list-style: none;
+}
+
+.nav-list li {
+    margin-right: 20px;
+}
+
+.nav-list li:last-child {
+    margin-right: 0;
+}
+
+.nav-list li button{
+    text-decoration: underline;
+    color: black;
+    font-size: 18px;
+    transition: color 0.3s ease-in-out;
+    border: none;
+    border-radius: 0;
+    background: none;
+    cursor: pointer;
+}
+.nav-list li button:hover {
+    color: #da291c;
+}

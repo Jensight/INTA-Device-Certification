@@ -1,0 +1,154 @@
+// :host ::ng-deep {
+//   mat-mdc-tab-group > .mat-mdc-tab-header > .mat-mdc-tab-label-container > .mat-mdc-tab-list > .mat-mdc-ink-bar {
+//     display: block !important;
+//   }
+
+//   .mat-mdc-tab-label-active {
+//     border-bottom: none !important;
+//   }
+
+//   .mat-mdc-tab-labels {
+//     border-bottom: 2px solid #ef0000 !important;
+//     background-color: #ebebeb !important;
+//   }
+
+//   .mat-mdc-tab-group.mat-primary .mat-ink-bar {
+//     background-color: transparent !important;
+//     box-sizing: border-box !important;
+//     border-top: 2px solid #ef0000 !important;
+//     border-left: 2px solid #ef0000 !important;
+//     border-right: 2px solid #ef0000 !important;
+//     border-bottom: 2px solid #fafafa !important;
+//     border-top-left-radius: 3px !important;
+//     border-top-right-radius: 3px !important;
+//     height: 50px !important;
+//     width: 100px !important;
+//   }
+
+//   .mat-mdc-tab-nav-bar,
+//   .mat-mdc-tab-header {
+//     border-bottom: none !important;
+//   }
+
+//   mat-mdc-tab-group>.mat-mdc-tab-header>.mat-mdc-tab-label-container>.mat-mdc-tab-list>.mat-mdc-tab-labels>.mat-mdc-tab-label:hover {
+//     color: #ef0000 !important;
+//     border-bottom: none !important;
+//   }
+
+//   mat-mdc-tab-group>.mat-mdc-tab-header>.mat-mdc-tab-label-container>.mat-mdc-tab-list>.mat-mdc-tab-labels>.mat-mdc-tab-label {
+//     min-width: 100px !important;
+//     padding: 5px;
+//     position: relative;
+//   }
+// }
+
+:host ::ng-deep {
+  .mat-mdc-tab-group > .mat-mdc-tab-header > .mat-mdc-tab-label-container > .mat-mdc-tab-list > .mat-mdc-tab-labels .mdc-tab-indicator__content--underline {
+    display: block !important;
+  }
+ .mat-mdc-tab-label-active {
+      border-bottom: none !important;
+ }
+ .mat-mdc-tab-labels {
+  border-bottom: 2px solid #ef0000 !important;
+  background-color: #ebebeb !important;
+ }
+ .mat-mdc-tab.mdc-tab--active .mdc-tab-indicator {
+    background-color: transparent !important;
+    box-sizing: border-box !important;
+    border-top: 2px solid #ef0000 !important;
+    border-left: 2px solid #ef0000 !important;
+    border-right: 2px solid #ef0000 !important;
+    border-bottom: 3px solid #fafafa !important;
+    border-top-left-radius: 3px!important;
+    border-top-right-radius: 3px !important;
+    height: 50px !important;
+    // width: 100px !important;
+ }
+ .mat-mdc-tab-nav-bar, .mat-mdc-tab-header {
+   border-bottom: none !important;
+ }
+ .mat-mdc-tab-header > .mat-mdc-tab-label-container > .mat-mdc-tab-list > .mat-mdc-tab-labels > .mat-mdc-tab-label:hover {
+    color: #ef0000 !important;
+    border-bottom: none !important;
+ }
+ .mat-mdc-tab-header > .mat-mdc-tab-label-container > .mat-mdc-tab-list > .mat-mdc-tab-labels > .mat-mdc-tab-label{
+   min-width: 100px !important;
+   padding: 5px;
+ }
+}
+::ng-deep .mat-mdc-tab-group.mat-mdc-tab-group-stretch-tabs>.mat-mdc-tab-header .mat-mdc-tab {
+  flex-grow: 0 !important;
+  padding-top: 9px !important;
+}
+
+::ng-deep .mdc-tab{
+  padding: 0px 40px !important;
+  min-width: 0px !important;
+}
+
+::ng-deep .mat-mdc-tab .mdc-tab__content{
+bottom: 6px;
+// margin-left: -40px;
+}
+
+::ng-deep .mat-mdc-tab.mdc-tab--active .mdc-tab__text-label {
+  color: #ef0000 !important;
+  border-bottom: none !important;
+}
+
+::ng-deep .mat-mdc-tab .mdc-tab__text-label {
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.tab-label-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.rack-id-label {
+  font-weight: 600;
+  font-size: 12px;
+  color: #ef0000;
+  text-align: center;
+  margin-bottom: 2px;
+}
+
+.addButton {
+  transition-duration: 0.4s;
+  border: 1px solid #ef0000;
+  border-radius: 4px;
+  padding: 2px 4px;
+  color: white;
+  background-color: #ef0000;
+  height: 25px;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-family: Roboto, sans-serif;
+  font-weight: bold;
+  font-size: x-small;
+  width: 70px;
+}
+
+.badge {
+  font-size: 9px;
+  line-height: 13px;
+  width: 100%;
+  max-width: 90px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  text-transform: capitalize;
+  font-weight: 700;
+  display: block;
+  cursor: pointer;
+  color: #666;
+}

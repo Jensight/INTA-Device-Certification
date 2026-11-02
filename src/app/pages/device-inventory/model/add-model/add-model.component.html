@@ -1,0 +1,153 @@
+<div class="row">
+    <nav class="col-md-12" aria-label="breadcrumb">
+        <ol class="breadcrumb" style="background-color:#fafafa; padding-top:0px;">
+            <li class="breadcrumb-item"><a href="#/pages/dashboard" style="color:red;text-decoration: none;font-size: medium;">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="#/pages/device-inventory/" style="color:red;text-decoration: none;font-size: medium;">Device Inventory</a></li>
+            <li class="breadcrumb-item"><a href="#/pages/device-inventory/vendor-model/" style="color:red;text-decoration: none;font-size: medium;">Vendor Model</a></li>
+            <li class="breadcrumb-item active" style="color:rgba(0, 0, 0, 0.87);text-decoration: none;font-size: medium;">Add Model</li>
+        </ol>
+    </nav>
+</div>
+<app-title-display ></app-title-display>
+<mat-card>
+    <mat-card-header>
+        <div class="col-md-11" style="margin:0px;">
+            <h4 style="width:100%;text-align: center">Add Model</h4>
+        </div>
+    </mat-card-header>
+
+    <div style="border:1px solid ; border-radius:30px;padding-bottom: 25px;min-height:460px">
+        <div class="row" style="margin-left :13px; margin-top:30px;margin-right: 13px;">
+            <div class="col-md-12 d-font ">
+                <form [formGroup]="addModelForm" class="text-center row">
+                    <mat-form-field class="col-md-6">
+                        <mat-label>Model Name</mat-label>
+                        <input matInput formControlName='modelName'>
+                        <mat-error *ngIf="addModelForm.get('modelName').hasError('required')">
+                            Please Enter a Model Name
+                        </mat-error>
+                        <mat-error *ngIf="addModelForm.get('modelName').hasError('duplicate')">
+                            Model Already Registered
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-6">
+                        <mat-label>Vendor</mat-label>
+                        <mat-select formControlName="deviceVendor">
+                            <mat-option *ngFor="let item of allVendors" [value]="item">{{item}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="addModelForm.get('deviceVendor').hasError('required')">
+                            Please select a Vendor
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-6">
+                        <mat-label>Device Profile</mat-label>
+                        <mat-select formControlName="profileName" multiple>
+                            <div class="input-group input-group-sm px-2 py-1">
+                                <input type="text" class="form-control" placeholder="Search" (input)="filterProfiles($event.target.value)" (keydown)="$event.stopPropagation()">
+                            </div>
+                            <mat-option (click)="toggleSelectAll()" [value]="'__select_all__'">
+                                Select All
+                            </mat-option>
+                            <mat-option *ngFor="let item of filteredProfileName" [value]="item">{{item}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="addModelForm.get('profileName').hasError('required')">
+                            Please selecte a Device Profile
+                        </mat-error>
+                    </mat-form-field>
+                    
+                    <div class="col-md-6 text-left row">
+                        <span class="col-4">
+                            <mat-checkbox formControlName="shareDevice">Share Device</mat-checkbox>
+                        </span>
+                        <span class="col-4">
+                            <mat-checkbox formControlName="dut" (click)="goToCheckDut()">DUT</mat-checkbox>
+                        </span>
+                        <span class="col-4">
+                            <mat-checkbox formControlName="tfw">TFW</mat-checkbox>
+                        </span>
+                    </div>
+
+                    <mat-form-field *ngIf="addModelForm.get('dut').value == true" class="col-md-6">
+                        <mat-label>Firmware Test Version: (Default) *</mat-label>
+                        <input matInput formControlName='firmware_version_N_1'>
+                        <mat-error *ngIf="addModelForm.get('firmware_version_N_1').hasError('required')">
+                            Please Enter Firmware version
+                        </mat-error>
+                    </mat-form-field>
+                   
+                    <mat-form-field *ngIf="addModelForm.get('dut').value == true" class="col-md-6" >
+                        <mat-label>Firmware Test Version: (option1)</mat-label>
+                        <input matInput formControlName='firmware_version_N_2'>
+                        <mat-error *ngIf="addModelForm.get('firmware_version_N_2').hasError('required')">
+                            Please Enter Firmware version
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field *ngIf="addModelForm.get('dut').value == true" class="col-md-6">
+                        <mat-label>Firmware Test Version: (option2)</mat-label>
+                        <input matInput formControlName='firmware_version_N'>
+                        <mat-error *ngIf="addModelForm.get('firmware_version_N').hasError('required')">
+                            Please Enter Firmware version
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field *ngIf="addModelForm.get('dut').value == true" class="col-md-6">
+                        <mat-label>Firmware Production Version</mat-label>
+                        <input matInput formControlName='firmware_version_N_min_1'>
+                        <mat-error *ngIf="addModelForm.get('firmware_version_N_min_1').hasError('required')">
+                            Please Enter Firmware version
+                        </mat-error>
+                    </mat-form-field>
+                    
+                    <div class="col-md-12 text-center">
+                        <button (click)="addModel()" type="button" [disabled]="!addModelForm.valid"
+                          style="margin-right: 15px; height: 32px; width:50px;"  class="ibutton">Add</button>
+                        <button (click)="cancel()" style="height: 32px; width:70px"  class="ibutton">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <hr>
+        <form *ngIf="requiredVariables && requiredVariables.length > 0"
+            [formGroup]="requiredFormGroup">
+            <div>
+                <div class="row">
+                    <div class="col text-center">
+                        <h4>Model Variables</h4>
+                    </div>
+                </div>
+                <div formArrayName="variableGroups" style="margin-left :13px;margin-right: 13px;">
+                    <div *ngFor="let item of requiredFormGroup['controls']['variableGroups']['controls']; let i = index;"
+                        class="row">
+                        <div [formGroup]="item" class="main-card col-sm-11"
+                            style=" margin-top:30px;margin-bottom:20px;margin-left:5%;">
+                            <div class="row card-header" style="cursor:pointer" (click)="requiredVariables[i]['collapsed'] = !requiredVariables[i]['collapsed']">
+                                <div class="col-sm-9">
+                                    <h6 style="padding-top:7px"> {{requiredVariables[i]['groupName']}} ({{requiredVariables[i]['profileName']}}) </h6>
+                                </div>
+                                <div class="col-sm-3 text-right" style="padding-top:7px">
+                                    <i class="fa" [ngClass]="requiredVariables[i]['collapsed'] ? 'fa-chevron-down' : 'fa-chevron-up'"></i>
+                                </div>
+                            </div>
+                            <div formArrayName="variables" class="row border card-body" *ngIf="!requiredVariables[i]['collapsed']">
+                                <div *ngFor="let vars of item['controls']['variables']['controls'];let j = index"
+                                    class="col-sm-4">
+                                    <mat-form-field [formGroup]="vars" style="width:250px;margin-right:10px">
+                                        <mat-label>{{ requiredVariables[i]['variables'][j]['variableName'] }}</mat-label>
+                                        <input matInput formControlName="variableValue">
+                                    </mat-form-field>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div style="margin-top:50px" *ngIf="selectedProfiles.length > 0 && requiredVariables.length == 0"  class="text-center">
+            <h6>No Model Variables</h6>
+        </div>
+    </div>
+</mat-card>

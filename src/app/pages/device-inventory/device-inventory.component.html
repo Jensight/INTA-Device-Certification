@@ -1,0 +1,54 @@
+<div class="row">
+    <nav class="col-md-5 px-0" aria-label="breadcrumb">
+        <ol class="breadcrumb" style="background-color:#fafafa; padding-top:0px;">
+            <li class="breadcrumb-item"><a href="#/pages/dashboard"
+                    style="color:red;text-decoration: none;font-size: medium;">Dashboard</a></li>
+            <li class="breadcrumb-item active"
+                style="color:rgba(0, 0, 0, 0.87);text-decoration: none;font-size: medium;">Device Inventory</li>
+        </ol>
+    </nav>
+    <div class="col-md-6">
+        <div class="d-flex">
+            <app-title-display titleName="Device Inventory"></app-title-display>
+            <div style="padding-left: 25px; margin-top: -3px;">
+                <span>
+                    <i class="fa fa-question-circle-o"
+                        matTooltip="Before running the testcases, user has to configure the device using Device Inventory"
+                        style="font-size: 17px; color:#8e97a0; margin-left: -6px;"></i>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card">
+    <div class="row">
+        <div class="col-md-12">
+            <div>
+                <nav mat-tab-nav-bar>
+                    <a mat-tab-link style="min-width: 140px; flex-grow: 0;" *ngFor="let tab of tabs;" [href]="tab.route" (click)="onTabClick(tab.route)"
+                        [active]="activeLink == tab.route"> {{tab.title}} </a>
+                        <span class="row col-md-4" style="justify-content: flex-end; padding-right: 0px">
+                            <span class="col-md-7"></span>
+                            <span class="col-md-1" style="padding-top: 15px;padding-right: 8%;">                             
+                                       <span
+                                (click)="onSave()" title="Download CSV Report">
+                                <i class="fa fa-download fa-lg" aria-hidden="true" style="color: #da291c;
+                                background-color: white; border: none;"></i>
+                            </span></span>
+                            <span class="col-md-1" style="padding-top: 12px;">
+                                <app-help-display matTooltip="Download the device inventory report"
+                                [docName]="currentHelpDoc"></app-help-display>
+                            </span>
+
+                        </span>      
+                </nav>
+                
+                <mat-tab-nav-panel #tabPanel>
+                    <div>
+                        <router-outlet></router-outlet>
+                    </div>
+                </mat-tab-nav-panel>
+            </div>
+        </div>
+    </div>
+</div>

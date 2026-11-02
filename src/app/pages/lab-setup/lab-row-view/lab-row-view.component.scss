@@ -1,0 +1,65 @@
+.flex-container-wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap; /* Allows items to wrap to the next line */
+  gap: 10px; /* Adds spacing between items */
+  justify-content: center; /* Centers items horizontally */
+  align-items: center;
+  padding: 10px;
+ // background-color: rgb(148, 181, 182);
+  border: 1 px solid #121111;
+  width: 100%;
+}
+
+.flex-item {
+  background-color: #F5F7FA;
+  flex: 1 1 300px; /* flex-grow, flex-shrink, flex-basis */
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.top-right { 
+    top: 0; 
+    right: 0; 
+}   
+
+.flex-container-wrapper:nth-child(odd) {
+  background-color: #839ee2;
+}
+
+/* Alternate colors for even-positioned items */
+.flex-container-wrapper:nth-child(even) {
+  background-color: #F3797E;
+}
+
+.testBedName {
+  display: inline-block;
+  width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 700; 
+  font-size: 12px;
+}
+
+.badge {
+  font-size: 9px;
+  line-height: 13px;
+  width: 100%;
+  max-width: 90px;
+  white-space: nowrap;
+ // overflow: hidden;
+ //s text-overflow: ellipsis;
+  text-align: center;
+  text-transform: capitalize;
+  font-weight: 700;
+  display: block;
+  cursor: pointer;
+  color: #666;
+}

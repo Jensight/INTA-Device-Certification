@@ -1,0 +1,33 @@
+<div class="row">
+  <div class="col-md-12" style="text-align:center;padding:15px">
+    <h3>{{deviceProfileForm['controls']['profileName']['value'] + "'s Profile"}} </h3>
+  </div>
+</div>
+
+<div class="row" *ngFor="let item of deviceProfileForm['controls']['labels']['controls']">
+  <div class="col-md-11">
+    <mat-form-field style="margin-left: 11px; width:235px">
+      <mat-label>{{item.controls.name.value}}</mat-label>
+      <input *ngIf="item.controls.type.value=='text'" min="1" max="10" matInput>
+        <mat-label>{{item.controls.name.value}}</mat-label>
+      <mat-select *ngIf="item.controls.type.value=='dropdown'">
+        <mat-option *ngFor="let drop of (item.controls.dropdownValue.controls)">{{drop.value}}</mat-option>
+      </mat-select>
+      <span *ngIf="item.controls.type.value=='date'" >
+        <mat-label>{{item.controls.name.value}}</mat-label>
+        <input matInput [matDatepickerFilter]="myFilter" [matDatepicker]="picker">
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </span>
+    </mat-form-field>
+  </div>
+</div>
+
+
+<div class="col-md-12" style="text-align: center;">
+  <button class="ibutton" (click)="dialogRef.close()" style="cursor: pointer">
+    close
+  </button>
+
+</div>

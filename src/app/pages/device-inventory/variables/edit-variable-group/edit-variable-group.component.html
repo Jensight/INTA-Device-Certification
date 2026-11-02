@@ -1,0 +1,33 @@
+<div class="row text-center" style="margin-top: 27px;">
+    <div class="col-md-11 text-center" style="margin-bottom: 15px">
+        <h3>Edit Variable Group</h3>
+    </div>
+    <span class="col-md-1" style="margin-left: -35px;">
+        <span (click)="dialogRef.close()" style="cursor: pointer" class="close" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </span>
+    </span>
+</div>
+<div style="text-align: center">
+    <div style="padding:10px">
+        <form [formGroup]="variableGroupForm" class="text-center">
+            <mat-form-field style="width:300px">
+                <mat-label>Variable Group Name</mat-label>
+                <input matInput formControlName='groupName'>
+                <mat-error *ngIf="variableGroupForm.get('groupName').hasError('required')">
+                    Please Enter Variable Group Name
+                </mat-error>
+                <mat-error *ngIf="variableGroupForm.get('groupName').hasError('duplicate')">
+                    Variable Group Already Registered
+                </mat-error>
+            </mat-form-field>
+
+
+            <div class="text-center">
+                <button [disabled]="!variableGroupForm.valid" (click)="editVariableGroup()"
+                    class="ibutton" style="margin-right: 10px; width: 70px;">Update</button>
+                <button (click)="dialogRef.close()" class="ibutton" style="height: 32px; width:70px">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>

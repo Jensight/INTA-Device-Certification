@@ -1,0 +1,8 @@
+.mat-form-field{ width: 70%; }
+.mat-select-disabled .mat-select-value{
+    color: 000;
+}
+
+::ng-deep .mat-mdc-dialog-surface {
+    overflow-y: unset; 
+  }

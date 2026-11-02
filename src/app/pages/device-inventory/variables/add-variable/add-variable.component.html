@@ -1,0 +1,43 @@
+<div class="row text-center" style="margin-top: 27px;">
+    <div class="col-md-11 text-center" style="margin-bottom: 15px">
+        <h3>Add Variable</h3>
+    </div>
+    <span class="col-md-1" style="margin-left: -35px;">
+        <span (click)="dialogRef.close()" style="cursor: pointer" class="close" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </span>
+    </span>
+</div>
+<div style="text-align: center">
+    <div style="margin-left: 10px;">
+        <form [formGroup]="variableForm" class="text-left">
+            <div formArrayName="variables" class="variables-scroll-container">
+                <div style="margin-bottom: 10px;margin-left: 60px" *ngFor="let variable of variableForm['controls']['variables']['controls']; let i = index;">
+                    <mat-form-field style="width:270px">
+                        <mat-label>Variable Name</mat-label>
+                        <input matInput [formControl]='variable'>
+                        <mat-error *ngIf="variable.hasError('required')">
+                            Please Enter Variable Name
+                        </mat-error>
+                        <mat-error *ngIf="variable.hasError('duplicate') ||variable.hasError('oldDuplicate') ">
+                            Variable Name Already Registered
+                        </mat-error>
+
+                    </mat-form-field>
+                    <span style="margin-left:15px">
+                        <button title="Add Another Variable" style="margin-right: 5px;" (click)="addNewVariable()" *ngIf="i == variableForm['controls']['variables']['length'] -1"
+                        class="buttonInfo"><i class="fa fa-plus-circle"></i></button>
+                        <button title="Delete this Variable" (click)="deleteVariable(i)" *ngIf="variableForm['controls']['variables']['length'] > 1"
+                          class="ibutton2">
+                             <i class="fa fa-trash-o fa-lg"></i></button>
+                    </span>
+                </div>
+            </div>
+            <div class="text-center" style="margin-bottom: 20px;">
+                <button [disabled]="!variableForm.valid" (click)="addVariable()"
+                   class="ibutton" style="margin-right: 15px; height: 32px; width:50px;">Add</button>
+                <button (click)="dialogRef.close()" style="height: 32px; width:70px" class="ibutton" >Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>

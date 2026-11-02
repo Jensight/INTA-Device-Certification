@@ -1,0 +1,89 @@
+<div class="dialog-container">
+  <div class="row">
+    <div class="col-md-11" style="margin-bottom: 20px">
+      <b>Configure Testbed APIs</b>
+      <span *ngIf="data && data.element" style="color: grey; font-size: 13px;">&nbsp;- {{ data.element.name }}</span>
+    </div>
+    <span class="col-md-1">
+      <span (click)="onCancel()" style="cursor:pointer" class="close" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </span>
+    </span>
+  </div>
+
+  <!-- Ping -->
+  <div class="config-row">
+    <label class="config-label">Select API for Ping :</label>
+    <div class="config-dropdowns">
+      <mat-form-field class="group-field">
+        <mat-select placeholder="API Group" [(ngModel)]="config.ping.group" [disabled]="loading"
+          (selectionChange)="onGroupChange('ping')" (openedChange)="onGroupPanelToggle('ping', $event)">
+          <input type="text" class="dropdown-search" placeholder="Search Group" aria-label="Search API group for Ping" [(ngModel)]="groupSearch.ping"
+            [ngModelOptions]="{ standalone: true }" (keydown)="$event.stopPropagation()" (click)="$event.stopPropagation()">
+          <mat-option *ngFor="let group of getFilteredGroups('ping')" [value]="group">{{ group.name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="api-field">
+        <mat-select placeholder="API" [(ngModel)]="config.ping.api" [disabled]="!config.ping.group"
+          (openedChange)="onApiPanelToggle('ping', $event)">
+          <input type="text" class="dropdown-search" placeholder="Search API" aria-label="Search API for Ping" [(ngModel)]="apiSearch.ping"
+            [ngModelOptions]="{ standalone: true }" (keydown)="$event.stopPropagation()" (click)="$event.stopPropagation()">
+          <mat-option *ngFor="let api of getFilteredApis('ping')" [value]="api">{{ api.apiName }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <!-- SSH -->
+  <div class="config-row">
+    <label class="config-label">Select API for SSH :</label>
+    <div class="config-dropdowns">
+      <mat-form-field class="group-field">
+        <mat-select placeholder="API Group" [(ngModel)]="config.ssh.group" [disabled]="loading"
+          (selectionChange)="onGroupChange('ssh')" (openedChange)="onGroupPanelToggle('ssh', $event)">
+          <input type="text" class="dropdown-search" placeholder="Search Group" aria-label="Search API group for SSH" [(ngModel)]="groupSearch.ssh"
+            [ngModelOptions]="{ standalone: true }" (keydown)="$event.stopPropagation()" (click)="$event.stopPropagation()">
+          <mat-option *ngFor="let group of getFilteredGroups('ssh')" [value]="group">{{ group.name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="api-field">
+        <mat-select placeholder="API" [(ngModel)]="config.ssh.api" [disabled]="!config.ssh.group"
+          (openedChange)="onApiPanelToggle('ssh', $event)">
+          <input type="text" class="dropdown-search" placeholder="Search API" aria-label="Search API for SSH" [(ngModel)]="apiSearch.ssh"
+            [ngModelOptions]="{ standalone: true }" (keydown)="$event.stopPropagation()" (click)="$event.stopPropagation()">
+          <mat-option *ngFor="let api of getFilteredApis('ssh')" [value]="api">{{ api.apiName }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <!-- Status -->
+  <div class="config-row">
+    <label class="config-label">Select API for Internet :</label>
+    <div class="config-dropdowns">
+      <mat-form-field class="group-field">
+        <mat-select placeholder="API Group" [(ngModel)]="config.status.group" [disabled]="loading"
+          (selectionChange)="onGroupChange('status')" (openedChange)="onGroupPanelToggle('status', $event)">
+          <input type="text" class="dropdown-search" placeholder="Search Group" aria-label="Search API group for Status" [(ngModel)]="groupSearch.status"
+            [ngModelOptions]="{ standalone: true }" (keydown)="$event.stopPropagation()" (click)="$event.stopPropagation()">
+          <mat-option *ngFor="let group of getFilteredGroups('status')" [value]="group">{{ group.name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="api-field">
+        <mat-select placeholder="API" [(ngModel)]="config.status.api" [disabled]="!config.status.group"
+          (openedChange)="onApiPanelToggle('status', $event)">
+          <input type="text" class="dropdown-search" placeholder="Search API" aria-label="Search API for Status" [(ngModel)]="apiSearch.status"
+            [ngModelOptions]="{ standalone: true }" (keydown)="$event.stopPropagation()" (click)="$event.stopPropagation()">
+          <mat-option *ngFor="let api of getFilteredApis('status')" [value]="api">{{ api.apiName }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="row" style="margin-top: 30px;">
+    <div class="col-md-12" style="text-align: center;">
+      <button class="ibutton" (click)="onSave()" [disabled]="saving" style="margin-right: 15px; width: 70px;">Update</button>
+      <button class="ibutton" (click)="onCancel()" style="height: 32px; width:70px">Cancel</button>
+    </div>
+  </div>
+</div>

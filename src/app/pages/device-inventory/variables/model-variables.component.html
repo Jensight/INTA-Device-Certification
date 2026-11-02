@@ -1,0 +1,138 @@
+<div id="top-row" class="row">
+  <div class="col-md-1"></div>
+  <div class="col-md-5">
+    <div class="col-md-11" id="border" style="background-color: #ebebeb !important;">
+      <div style="padding: 10px" class="row header justify-content-between">
+        <div style="line-height: 2" class="">Variable Groups</div>
+        <div class="" style="margin-left:50px;">
+          <button (click)="addNewGroup()" class="ibutton" style= "font-size: 12px;
+          width: 90px; height: 30px;" [disabled]="role === 'user' || role === 'guest'">
+            Add Group
+          </button>
+        </div>
+          <!-- <nb-select placeholder="sorting">            
+            <nb-option (click)="ascending()" value="A to Z">A to Z</nb-option>
+            <nb-option (click)="descending()" value="Z to A">Z to A</nb-option>
+            <nb-option (click)="date()" value="Date">By Date</nb-option>         
+          </nb-select> -->
+          <div class="dropdown">
+            <div class="dropbtn "><i class="fa fa-fw fa-sort"></i></div>
+            <div class="dropdown-content">
+              <a><div style="cursor:pointer;" (click)="ascending()" value="A to Z">A to Z</div></a>
+              <a><div style="cursor:pointer;"  (click)="descending()" value="Z to A">Z to A</div></a>
+              <a> <div style="cursor:pointer;" (click)="date()" value="Date">By Date</div></a>
+            </div>
+          </div>
+      </div>
+      <div style="background-color: #ebebeb !important;" class="row pb-2">
+        <div class="col-md-12 px-2">
+          <input [(ngModel)] = "searchTerm" type="text" class="form-control" id="filter" placeholder="Search Variable Group" (input)="applyFilter()">
+        </div>         
+        <!-- <p><input type="text" (keyup)="applyFilter($event.value)"></p> -->
+      </div>
+      <div class="example-list" style="min-height: 350px;max-height: 350px;overflow: auto;border:none">
+        <div (click)="onSelect(group, i)" *ngFor="let group of allVariableGroup; let i = index"
+          style="margin:7px;padding:0px" class="example-box hvr-glow hvr-wobble-vertical">
+          <mat-card [ngClass]="selectedGroup && selectedGroup['groupName'] == group.groupName ? 'selected-group': ''"
+            style="width: 100%">
+            <div style="overflow: hidden" class="row">
+              <div [ngClass]="className[i%4]" class="circle">
+                {{group.groupName[0]}}
+              </div>
+              <div style="margin: auto;padding-right:0px;word-break: break-all;" class="col-sm-7"
+                [matTooltip]="group.groupName">
+                <span>{{group.groupName| limitTo : 30 }} </span>
+                <br>
+                <span
+                  style="font-weight: normal;font-size: 11px;">{{(group.variables.length ||0 )+ '  Variables'}}</span>
+              </div>
+              <div style="margin: auto;padding-right:0px;padding-left: 0px" class="col-sm-3 view-details">
+                <button *ngIf="role === 'admin' || role === 'lead'" (click)="deleteVariableGroup(i)" class="ibutton2" style="float:right"
+                  title="Delete">
+                   <i class="fa fa-trash-o fa-lg"></i>
+                </button>
+                <button *ngIf="role !== 'guest'" (click)="editVariableGroup(group)" class="editButton" style="float:right"
+                  title="Edit">
+                  <i class="fa fa-pencil fa-lg"></i>
+                </button>
+
+              </div>
+            </div>
+          </mat-card>
+        </div>
+
+        <div class="text-center" *ngIf="allVariableGroup && allVariableGroup.length == 0">
+          <div style="padding-top:0px" class="select-device text-center">
+            <span class="fa fa-exclamation-triangle fa-6"></span>
+          </div>
+          <h5 style="margin-top:10px">No Variables groups. </h5>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-left: 50px" class="col-md-5 ">
+    <div class="col-md-11" id="border" >
+      <div style="padding: 10px" class="row header" [ngStyle]="!selectedGroup ? {'height': '100px'} : {}" style="background-color: #ebebeb !important;">
+        <div style="line-height: 2" class="col-md-7 text-center"
+          [matTooltip]="selectedGroup && selectedGroup['groupName']?selectedGroup['groupName']  : 'Variables' ">
+          {{(selectedGroup && selectedGroup['groupName']?selectedGroup['groupName']  : 'Variables' ) | limitTo : 30}}
+        </div>
+        <div class="col-md-4 text-center">
+          <button [title]="selectedGroup?'Add Variables':'Select a group to Add Variables'" *ngIf="selectedGroup"
+            (click)="addNewVariables()" class="ibutton" style=" font-size: 12px; height: 30px; width: 115px;"
+            [disabled]="role === 'user' || role === 'guest'">
+            Add Variables</button>
+        </div>
+        <div style="margin-top:10px;" class="row col-md-12">
+
+          <input [(ngModel)]="searchTermVariable" *ngIf="selectedGroup" type="text" class="form-control" id="filter"
+            placeholder="Search Variable Name" (input)="applyFilterVariable()">
+          <!-- <p><input type="text" (keyup)="applyFilter($event.value)"></p> -->
+        </div>
+      </div>
+      <div class="example-list" style="min-height: 350px;max-height: 350px;overflow: auto;border:none">
+        <div *ngFor="let variable of (selectedGroup ? selectedGroup['variables'] : []);let i = index"
+          style="margin:7px;padding:0px" class="example-box hvr-glow hvr-wobble-vertical">
+          <mat-card style="width: 100%">
+            <div style="overflow: hidden" class="row">
+              <div [ngClass]="classNameDuplicate[i%4]" class="circle">
+                {{variable.variableName[0]}}
+              </div>
+              <div style="margin: auto;word-break: break-all;padding-right:0px" class="col-sm-7"
+                [matTooltip]="variable.variableName">
+                <span>{{variable.variableName| limitTo : 19 }} </span>
+                <br>
+
+              </div>
+              <div style="margin: auto;padding-left:0px;padding-right:0px" class="col-sm-3 view-details">
+
+                <button *ngIf="role === 'admin' || role === 'lead'" (click)="deleteVariable(variable,i)" class="ibutton2" style="float:right"
+                  title="Delete">
+                   <i class="fa fa-trash-o fa-lg"></i>
+                </button>
+                <button *ngIf="role !== 'guest'" (click)="editVariable(variable)" class="editButton" style="float:right" title="Edit">
+                  <i class="fa fa-pencil fa-lg"></i>
+                </button>
+              </div>
+            </div>
+          </mat-card>
+        </div>
+
+        <div *ngIf="selectedGroup == null" class="text-center">
+          <div class="select-device text-center">
+            <span class="fa fa-info fa-4"></span>
+          </div>
+          <h5 style="margin-top:10px">Please select a group to see its variables</h5>
+        </div>
+        <div class="text-center" *ngIf="selectedGroup && selectedGroup.variables.length == 0">
+          <div style="padding-top:0px" class="select-device text-center">
+            <span class="fa fa-exclamation-triangle fa-4"></span>
+          </div>
+          <h5 style="margin-top:10px">No Variables added for selected group. </h5>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

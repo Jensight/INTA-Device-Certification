@@ -1,0 +1,66 @@
+<div class="container-fluid" style="position: relative;">
+<div >
+
+    <div class="flex-container-wrapper" *ngFor="let chamber of chamberData; let r =index" style="padding-top: 10px; margin: 5px;">
+        <span style="display: flex;" class="row col-md-12 align-items-center justify-content-center">
+            <h2 style="text-align: center; color: white">{{chamber.chamberName}}</h2>
+            <button type="button" class="btn btn-sm" *ngIf="!chamber.showContent"
+                (click)="chamber.showContent = !chamber.showContent" style="padding-bottom: 20px;">
+                <i class="fa fa-angle-down" aria-hidden="true" style="color: white"></i>
+            </button>
+            <button type="button" class="btn btn-sm" *ngIf="chamber.showContent"
+                (click)="chamber.showContent = !chamber.showContent" style="padding-bottom: 20px;">
+                <i class="fa fa-angle-up" aria-hidden="true" style="color: white"></i>
+            </button>
+        </span>
+       <div *ngIf="chamber.showContent" style="padding-top: 10px;">
+            <div style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: center; padding-bottom: 20px;">
+            <span *ngFor="let element of chamber.chamber; let i = index" style="padding: 10px;">
+                <div class="flex-item" *ngIf ='teamAccess'>
+                    <span class="text-right" style="display: flex;">
+                            <h3>{{ element.name }}</h3> &nbsp;&nbsp;
+                       
+                         <button type="button" class="btn btn-sm"(click)="addTestBed(element, chamber.chamberName)" 
+                         [disabled]="element.teamName && element.teamName !== selectTeam">
+                         <i class="fa fa-cog fa-sm" style="padding-bottom: 25px; top : 0 !important; color: grey"></i></button>
+                      <button type="button" class="btn btn-sm" (click)="viewTestBed(element)" 
+                      [disabled]="!element.testbed || (element.teamName && element.teamName !== selectTeam)">
+                        <i class="fa fa-eye" aria-hidden="true" style="padding-bottom: 25px; top : 0 !important; color: grey"></i>
+                      </button>
+
+                    </span>
+                <span style="display: flex; align-items: center; flex-wrap: wrap; justify-content: left;">
+                     <span class="badge"  *ngIf="element.virtual"  style="display: block; color: black; font-size: 10px; flex-basis: 100%; width: 100%; text-align: center;">
+                            [Virtual] - {{ element.originalColumn }}</span>
+                     <span style="display: flex; align-items: center; justify-content: left; flex-basis: 100%; width: 100%; margin-left: -7px;">
+                     <!-- Show testbed name if testbed exists AND (no teamName OR teamName matches selected team) -->
+                     <span class="testBedName" *ngIf="element.testbed && !element.virtual && (!element.teamName || element.teamName === selectTeam)" style="color: green;margin-bottom: 15px;"
+                     [matTooltip]="element.testbed.testBedName">{{ element.testbed.testBedName }}</span>
+                    <span class="testBedName" *ngIf="element.testbed && element.virtual && (!element.teamName || element.teamName === selectTeam)" style="color: rgb(54, 30, 207);"
+                     [matTooltip]="element.testbed.testBedName">{{ element.testbed.testBedName }}</span>
+                     <!-- Show Occupied by teamName if testbed exists but teamName doesn't match -->
+                     <span class="testBedName" *ngIf="element.testbed && element.teamName && element.teamName !== selectTeam"
+                     style="color: red; margin-bottom: 15px;" [matTooltip]="'Testbed: ' + element.testbed.testBedName">Occupied by {{element.teamName}}</span>
+                     <!-- Show Empty if slot is available -->
+                     <span style="color: red; margin-bottom: 15px;" class="testBedName" *ngIf="element.available && !element.testbed">Empty</span>
+                     <!-- Show Occupied if not available, no testbed, but different team -->
+                     <span class="testBedName" *ngIf="!element.available && !element.testbed && element.teamName && element.teamName !== selectTeam"
+                     style="color: red; margin-bottom: 15px;">Occupied by {{element.teamName}}</span>
+                     </span>
+                </span>
+                <!-- <span> {{element.teamName}} - {{selectTeam}}</span> -->
+                </div>
+                <div class="flex-item" *ngIf="!teamAccess">
+                     <span class="text-right" style="display: flex;">
+                            <h3>{{ element.name }}</h3> &nbsp;&nbsp;
+                    </span>
+                    <span  class ="testBedName"
+                     style=" color: red; "> No Access </span>
+                </div>
+            </span>
+            </div>
+       </div>
+    </div>
+
+</div>
+</div>

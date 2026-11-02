@@ -1,0 +1,73 @@
+<div class="card">
+<div class="row">
+
+  <div class="col-sm-3" style="padding:20px;">
+    <div class="card" (click)="showDetails('Online')">
+      <div class="card-body" style="background-color: cornflowerblue;">
+        <h4 class="card-title" style="color: white;">XX</h4>
+        <p class="card-text" style="color: white;">Online Devices</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-3" style="padding:20px">
+    <div class="card" (click)="showDetails('Offline')">
+      <div class="card-body" style="background-color: sandybrown;">
+        <h4 class="card-title" style="color: white;">XX</h4>
+        <p class="card-text" style="color: white;">Offline Devices</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-3" style="padding:20px">
+    <div class="card" (click)="showDetails('Unknown')">
+      <div class="card-body" style="background-color: blueviolet;">
+        <h4 class="card-title" style="color: white;">XX</h4>
+        <p class="card-text" style="color: white;">Status Unknown</p>
+      </div>
+    </div>
+  </div>
+</div>
+<br/>
+<mat-divider></mat-divider>
+<br/>
+<mat-card>
+    <h3 class="text-center" style="color: #da291c; font-size: 20px; font-weight: bold;">{{selectedStatus}} Devices</h3>
+    <nav mat-tab-nav-bar>
+        <a mat-tab-link  style="min-width:140px;"(click)="setView('dut')" [active]="selectedConfig == 'dut'"> DUTs </a>
+        <a mat-tab-link  style="min-width:140px;"(click)="setView('clients')" [active]="selectedConfig == 'clients'"> Clients </a>
+    </nav>
+
+ <div>
+  <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+    <!-- Device Name Column -->
+    <ng-container matColumnDef="deviceName">
+      <mat-header-cell *matHeaderCellDef> Device Name </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.deviceName}} </mat-cell>
+    </ng-container>
+
+    <!-- Partition Column -->
+    <ng-container matColumnDef="partition">
+      <mat-header-cell *matHeaderCellDef> Partition </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.partition}} </mat-cell>
+    </ng-container>
+
+    <!-- Status Column -->
+    <ng-container matColumnDef="status">
+      <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.status}} </mat-cell>
+    </ng-container>
+
+    <!-- Comments Column -->
+    <ng-container matColumnDef="comments">
+      <mat-header-cell *matHeaderCellDef> Comments </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.comments}} </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+</div>
+
+</mat-card>
+</div>

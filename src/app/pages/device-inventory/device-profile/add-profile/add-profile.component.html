@@ -1,0 +1,183 @@
+<div class="row">
+  <nav class="" aria-label="breadcrumb">
+    <ol class="breadcrumb" style="background-color:#fafafa; padding-top:0px;">
+      <li class="breadcrumb-item"><a href="#/pages/dashboard" style="color:red;text-decoration: none;font-size: medium;">Dashboard</a></li>
+      <li class="breadcrumb-item"><a href="#/pages/device-inventory/" style="color:red;text-decoration: none;font-size: medium;">Device Inventory</a></li>
+      <li class="breadcrumb-item"><a href="#/pages/device-inventory/device-profile/" style="color:red;text-decoration: none;font-size: medium;">Device Profile</a></li>
+      <li class="breadcrumb-item active" style="color:rgba(0, 0, 0, 0.87);text-decoration: none;font-size: medium;">Add Profile</li>
+    </ol>
+  </nav>
+</div>
+<app-title-display></app-title-display>
+<mat-card>
+  <mat-card-header>
+    <div class="col-md-12">
+      <h4 style="text-align: center">Add Profile</h4>
+    </div>
+  </mat-card-header>
+  <div style="border:1px solid ; border-radius:30px;">
+    <div class="row p-3">
+      <div class="col-md-12">
+        <form [formGroup]="deviceProfileForm">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <span class="fa fa-cog fa-spin" style="font-size:24px"></span>
+            </div>
+            <mat-form-field class="offset-md-0">
+              <mat-label>Profile Name</mat-label>
+              <input formControlName="profileName" matInput>
+              <mat-error *ngIf="deviceProfileForm.get('profileName').hasError('required')">
+                Please enter a Valid Profile Name
+              </mat-error>
+              <mat-error *ngIf="deviceProfileForm.get('profileName').hasError('duplicate')">
+                Profile Already Registered
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="offset-md-0">
+              <mat-label>Variable Groups</mat-label>
+              <mat-select formControlName="variableGroups" multiple>
+                <mat-option style="padding: 9px;" *ngFor="let group of allVariableGroup" [value]="group._id">{{group['groupName']}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-checkbox formControlName="connected_clients" style="margin-left: 10px; top: 5px;">Connected Clients</mat-checkbox>
+            <button routerLink="../" class="ibutton" style="width: 80px;">Cancel</button>
+            <button class="ibutton" style="width: 110px;"
+              (click)="showPreviewDialog()" [disabled] ="!deviceProfileForm.valid">Show Preview</button>
+            <button class="ibutton" style="width: 110px;"
+              [disabled]="!deviceProfileForm.valid" (click)="addDeviceProfile()">Add Profile</button>
+          </div>
+          <hr class="my-0">
+          <div formArrayName="labels" class="row">
+            <div class="main-card col-sm-5"
+              style=" margin-top:30px;margin-bottom:20px;margin-left:40px;margin-right: 40px;"
+              *ngFor="let label of deviceProfileForm['controls']['labels']['controls']; index as i">
+              <div class="row card-header">
+                <div class="col-sm-8 text-center">
+                  <h6 style="padding-top:7px">Label {{i+1}} </h6>
+                </div>
+                <div class="col">
+                  <i style="float:right; cursor: pointer;" title="add label"
+                    *ngIf="(i==deviceProfileForm['controls']['labels']['value']['length']-1)" (click)="getNewLabel()">
+                    <button class="ibutton2">
+                      <i class="fa fa-plus-circle"></i>
+                    </button>
+
+                  </i>
+
+                  <i style="float:right; cursor: pointer; padding-right:5px;" title="Delete label"
+                    *ngIf="(1!=deviceProfileForm['controls']['labels']['value']['length'])" (click)="removeLabel(i);">
+                    <button class="ibutton2">
+                       <i class="fa fa-trash-o fa-lg"></i>
+                    </button>
+                  </i>
+                </div>
+              </div>
+              <div class="row border card-body">
+                <div [formGroupName]="i">
+                  <mat-form-field class="offset-md-2" style="width: 70%">
+                    <mat-label>Label Name</mat-label>
+                    <input formControlName="name" matInput>
+                    <mat-error *ngIf="label.get('name').hasError('required')">
+                      Please enter a Valid Label Name
+                    </mat-error>
+                    <mat-error *ngIf="label.get('name').hasError('noDot')">
+                      Label Name cannot contain dot (.) character
+                    </mat-error>
+                    <mat-error *ngIf="label.get('name').hasError('duplicateName')">
+                      Label Name already exists
+                    </mat-error>
+                  </mat-form-field>
+
+                  <mat-form-field class="offset-md-2" style="width: 70%">
+                    <mat-label>Data Type</mat-label>
+                    <mat-select (selectionChange)="addRemoveDropdown(label)" 
+                      formControlName="type">
+                      <mat-option value="text">Text Field</mat-option>
+                      <mat-option value="dropdown">Dropdown</mat-option>
+                      <mat-option value="date">Date</mat-option>
+                    </mat-select>
+                    <mat-error>Please select a data type</mat-error>
+                  </mat-form-field>
+
+                  <div *ngIf="deviceProfileForm['controls']['labels']['value'][i].type==='dropdown'">
+                    <mat-form-field class="offset-md-2" style="width: 70%">
+                      <mat-label>No of Dropdown value</mat-label>
+                      <input min="1"  (change)="addDropDown(label)" (keyup)="addDropDown(label)" type="number"
+                        formControlName="no" matInput>
+                      <mat-error>Please select the number of Dropdown Value</mat-error>
+                    </mat-form-field>
+                  </div>
+
+                  <div *ngIf="deviceProfileForm['controls']['labels']['value'][i].type==='date'">
+                    <mat-form-field class="offset-md-2" style="width: 70% ">
+                      <input formControlName="value" matInput [matDatepickerFilter]="myFilter" [matDatepicker]="picker">
+                      <mat-hint>MM/DD/YYYY</mat-hint>
+                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                      <mat-datepicker #picker></mat-datepicker>
+                      <mat-error>Please select date and time</mat-error>
+                    </mat-form-field>
+                  </div>
+
+                  <div formArrayName="dropdownValue"
+                    *ngIf="deviceProfileForm['controls']['labels']['value'][i].type==='dropdown'">
+                    <mat-form-field class="offset-md-2" style="width: 29%"
+                      *ngFor="let item of (label.controls.dropdownValue.controls); index as j">
+                      <mat-label>Dropdown Value {{j+1}}</mat-label>
+                      <input [formControlName]="j" matInput>
+                      <mat-error>Please Enter the Value</mat-error>
+                    </mat-form-field>
+                  </div>
+
+                  <div *ngIf="deviceProfileForm['controls']['labels']['value'][i].type==='dropdown' && deviceProfileForm['controls']['labels']['value'][i].dropdownValue">
+                    <mat-form-field class="offset-md-2" style="width: 70%">
+                      <mat-label>Value</mat-label>
+                      <mat-select 
+                        formControlName="value">
+                        <span *ngFor="let d of deviceProfileForm['controls']['labels']['value'][i].dropdownValue">
+                          <mat-option [value]="d">{{d}}</mat-option>
+                        </span>
+                      </mat-select>
+                      <mat-error>Please select a data type</mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div *ngIf="deviceProfileForm['controls']['labels']['value'][i].type==='text'">
+                    <mat-form-field class="offset-md-2" style="width: 70% ">
+                      <mat-label>Text Field Type</mat-label>
+                      <mat-select formControlName="textType" (selectionChange)="changeInputType(label, i)">
+                        <mat-option value="ip">IP Address</mat-option>
+                        <mat-option value="text">String</mat-option>
+                        <mat-option value="mac">MAC Address</mat-option>
+                      </mat-select>
+                      <mat-error>Please select text type</mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div *ngIf="deviceProfileForm['controls']['labels']['value'][i].type ==='text' && deviceProfileForm['controls']['labels']['value'][i].textType">
+                    <mat-form-field class="offset-md-2" style="width: 70%" *ngIf="deviceProfileForm.getRawValue().labels[i].textType == 'ip'" >
+                      <mat-label>iP</mat-label>
+                      <input formControlName="value" matInput >
+                      <mat-error *ngIf="label.get('value').hasError('pattern')">
+                        Please enter a Valid IP pattern
+                      </mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="offset-md-2" style="width: 70%" *ngIf="deviceProfileForm.getRawValue().labels[i].textType == 'mac'" >
+                      <mat-label>Mac id</mat-label>
+                      <input formControlName="value" matInput>
+                      <mat-error *ngIf="label.get('value').hasError('pattern')">
+                        Please enter a Valid Mac Address
+                      </mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="offset-md-2" style="width: 70%" *ngIf="deviceProfileForm.getRawValue().labels[i].textType == 'text'">
+                      <mat-label>String</mat-label>
+                      <input formControlName="value" matInput>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</mat-card>
