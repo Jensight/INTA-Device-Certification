@@ -1,0 +1,41 @@
+@mixin ngx-layout() {
+  @include media-breakpoint-down(is) {
+    .row {
+      margin-left: -10px;
+      margin-right: -10px;
+    }
+  }
+}
+// button {
+//   background: #fff !important;
+//   border:1px solid #da291c !important;
+//   color: #da291c !important;
+// }
+// button:hover {
+//   color: #fff !important;
+//   border:1px solid #da291c !important;
+//   background: #da291c !important;
+// }
+// button:disabled,
+// button[disabled]{
+//   border: 1px solid hsla(0,0%,51.4%,.24) !important;
+//   background-color: hsla(0,0%,51.4%,.24) !important;
+//   color: hsla(0,0%,51.4%,.48) !important;
+// }
+
+button.appearance-filled {
+  background: #fff !important;
+  border:1px solid #da291c !important;
+  color: #da291c !important;
+}
+button.appearance-filled:hover {
+  color: #fff !important;
+  border:1px solid #da291c !important;
+  background: #da291c !important;
+}
+button.appearance-filled:disabled,
+button.appearance-filled[disabled]{
+  border: 1px solid hsla(0,0%,51.4%,.24) !important;
+  background-color: hsla(0,0%,51.4%,.24) !important;
+  color: hsla(0,0%,51.4%,.48) !important;
+}

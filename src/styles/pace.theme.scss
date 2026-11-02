@@ -1,0 +1,20 @@
+/**
+ * @license
+ * Copyright Akveo. All Rights Reserved.
+ * Licensed under the MIT License. See License.txt in the project root for license information.
+ */
+
+ @mixin ngx-pace-theme() {
+
+  .pace .pace-progress {
+    background: #ef0000;
+  }
+
+  .pace .pace-progress-inner {
+    box-shadow: 0 0 10px #ef0000, 0 0 5px #ef0000;
+  }
+
+  .pace .pace-activity {
+    display: none;
+  }
+}
